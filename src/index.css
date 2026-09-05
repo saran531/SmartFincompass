@@ -1,0 +1,206 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+
+  --color-navy-950: #0a1f3d;
+  --color-navy-900: #0d2549;
+  --color-navy-800: #14315e;
+  --color-navy-700: #1c3f73;
+
+  --color-brand-green-50: #eafbf3;
+  --color-brand-green-100: #d1f5e3;
+  --color-brand-green-400: #22b573;
+  --color-brand-green-500: #189a63;
+  --color-brand-green-600: #128052;
+  --color-brand-green-700: #0e6941;
+
+  --color-amber-accent: #f5a623;
+
+  --shadow-soft: 0 4px 24px rgba(13, 37, 73, 0.06);
+  --shadow-card: 0 8px 30px rgba(13, 37, 73, 0.08);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--color-navy-950);
+  background-color: #ffffff;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.section-eyebrow {
+  letter-spacing: 0.14em;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+/* ── Standardized Typography Classes ── */
+.heading-hero {
+  font-size: clamp(2.25rem, 4.5vw, 3.75rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--color-navy-950);
+}
+
+.heading-section {
+  font-size: clamp(1.625rem, 3vw, 2.375rem);
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+  color: var(--color-navy-950);
+}
+
+.heading-card {
+  font-size: clamp(1.125rem, 1.5vw, 1.25rem);
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--color-navy-950);
+}
+
+.text-body {
+  font-size: clamp(0.9375rem, 1vw, 1.0625rem);
+  line-height: 1.6;
+  color: rgba(13, 37, 73, 0.72);
+}
+
+.text-body-sm {
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: rgba(13, 37, 73, 0.65);
+}
+
+.btn-text {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+/* Smooth focus styles for accessibility */
+*:focus-visible {
+  outline: 2px solid var(--color-brand-green-500);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Currency input visibility improvements */
+input[type="number"],
+input[type="text"][inputmode="numeric"] {
+  font-variant-numeric: tabular-nums;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* Selection box visibility improvements */
+.assessment-option {
+  padding: 1rem 1.25rem;
+  border: 2px solid rgba(13, 37, 73, 0.1);
+  border-radius: 0.75rem;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.assessment-option:hover {
+  border-color: rgba(34, 181, 115, 0.4);
+  background-color: rgba(234, 251, 243, 0.3);
+}
+
+.assessment-option.selected {
+  border-color: #22b573;
+  background-color: rgba(234, 251, 243, 0.5);
+  box-shadow: 0 0 0 3px rgba(34, 181, 115, 0.15);
+}
+
+/* Improve radio/checkbox selection boxes globally */
+button[class*="rounded-xl"][class*="border-2"][class*="p-4"],
+button[class*="rounded-2xl"][class*="border-2"][class*="p-5"] {
+  min-height: 4rem;
+  min-width: 6rem;
+}
+
+/* Make radio buttons larger and more visible */
+span[class*="h-4"][class*="w-4"][class*="rounded-full"][class*="border-2"] {
+  width: 1.25rem !important;
+  height: 1.25rem !important;
+}
+
+/* Make checkboxes larger */
+span[class*="h-5"][class*="w-5"][class*="rounded-md"][class*="border-2"] {
+  width: 1.375rem !important;
+  height: 1.375rem !important;
+}
+
+/* Improve selection box border visibility */
+button[class*="border-navy-950/8"] {
+  border-color: rgba(13, 37, 73, 0.12) !important;
+}
+
+button[class*="border-navy-950/8"]:hover {
+  border-color: rgba(13, 37, 73, 0.2) !important;
+}
+
+/* Selected state with subtle shadow */
+button[class*="border-brand-green-500"][class*="bg-brand-green-50"] {
+  box-shadow: 0 0 0 3px rgba(34, 181, 115, 0.12);
+}
+
+/* Currency symbol visibility */
+.currency-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.currency-input-wrapper .currency-symbol {
+  position: absolute;
+  left: 0.75rem;
+  font-weight: 600;
+  color: #0a1f3d;
+  font-size: 0.95rem;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.currency-input-wrapper input {
+  padding-left: 2rem;
+  height: 3rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+/* Improve currency input visibility globally */
+[class*="pl-7"][class*="pr-10"],
+[class*="pl-8"][class*="pr-12"] {
+  min-height: 2.75rem;
+}
+
+/* Make ₹ symbol more visible in currency inputs */
+.relative span[class*="text-navy-900/30"] {
+  color: rgba(13, 37, 73, 0.55) !important;
+  font-weight: 600;
+}
+
+/* Improve placeholder visibility */
+input::placeholder {
+  color: rgba(13, 37, 73, 0.45) !important;
+}
+
+/* Make .00 suffix more visible */
+.relative span[class*="text-navy-900/30"]:last-child {
+  color: rgba(13, 37, 73, 0.45) !important;
+  font-weight: 500;
+}
