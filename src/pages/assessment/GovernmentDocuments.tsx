@@ -79,13 +79,16 @@ const FOOTER_COLUMNS = [
 const PROGRESS_STEPS = [
   { label: "Personal Info", completed: true },
   { label: "Employment", completed: true },
-  { label: "Income Sources", completed: true },
+  { label: "Income", completed: true },
   { label: "Expenses", completed: true },
   { label: "Assets", completed: true },
   { label: "Liabilities", completed: true },
+  { label: "Savings", completed: true },
+  { label: "Insurance", completed: true },
   { label: "Investment", completed: true },
-  { label: "Financial Goals", completed: true },
+  { label: "Goals", completed: true },
   { label: "Documents", active: true },
+  { label: "Review", completed: false },
 ];
 
 interface DocumentDef {
@@ -104,7 +107,7 @@ const DOCUMENTS: DocumentDef[] = [
     desc: "Proof of Identity & Address",
     icon: <FingerprintIcon sx={{ fontSize: 22 }} />,
     iconColor: "bg-amber-50 text-amber-600",
-    initialStatus: "uploaded",
+    initialStatus: "pending",
   },
   {
     key: "pan",
@@ -112,7 +115,7 @@ const DOCUMENTS: DocumentDef[] = [
     desc: "Permanent Account Number",
     icon: <CreditCardIcon sx={{ fontSize: 22 }} />,
     iconColor: "bg-sky-50 text-sky-600",
-    initialStatus: "uploaded",
+    initialStatus: "pending",
   },
   {
     key: "passport",
@@ -120,7 +123,7 @@ const DOCUMENTS: DocumentDef[] = [
     desc: "Identity for International Use",
     icon: <MenuBookIcon sx={{ fontSize: 22 }} />,
     iconColor: "bg-purple-50 text-purple-600",
-    initialStatus: "uploaded",
+    initialStatus: "pending",
   },
   {
     key: "driving",
@@ -136,7 +139,7 @@ const DOCUMENTS: DocumentDef[] = [
     desc: "Life / Health / General Insurance",
     icon: <HealthAndSafetyIcon sx={{ fontSize: 22 }} />,
     iconColor: "bg-blue-50 text-blue-600",
-    initialStatus: "uploaded",
+    initialStatus: "pending",
   },
   {
     key: "property",
@@ -144,7 +147,7 @@ const DOCUMENTS: DocumentDef[] = [
     desc: "Property Ownership Documents",
     icon: <HomeWorkIcon sx={{ fontSize: 22 }} />,
     iconColor: "bg-emerald-50 text-emerald-600",
-    initialStatus: "uploaded",
+    initialStatus: "pending",
   },
   {
     key: "will",
@@ -160,9 +163,18 @@ const DOCUMENTS: DocumentDef[] = [
     desc: "Nominee Details / Declarations",
     icon: <GroupsIcon sx={{ fontSize: 22 }} />,
     iconColor: "bg-orange-50 text-orange-600",
-    initialStatus: "uploaded",
+    initialStatus: "pending",
   },
 ];
+
+const ALLOWED_TYPES = ["application/pdf", "image/jpeg", "image/png", "image/jpg"];
+const ALLOWED_EXTS = [".pdf", ".jpg", ".jpeg", ".png"];
+const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10 MB
+
+interface UploadedFileInfo {
+  name: string;
+  size: number;
+}
 
 function UploadStatusDonut({
   uploaded,
@@ -191,36 +203,40 @@ function UploadStatusDonut({
           cy="80"
           r={radius}
           fill="none"
-          stroke="#eef1f6"
+          stroke="#cbd5e1"
           strokeWidth={strokeWidth}
         />
-        <circle
-          cx="80"
-          cy="80"
-          r={radius}
-          fill="none"
-          stroke="#22b573"
-          strokeWidth={strokeWidth}
-          strokeDasharray={`${uploadedDash - gap} ${circumference - uploadedDash + gap}`}
-          strokeDashoffset={0}
-          strokeLinecap="round"
-        />
-        <circle
-          cx="80"
-          cy="80"
-          r={radius}
-          fill="none"
-          stroke="#f59e0b"
-          strokeWidth={strokeWidth}
-          strokeDasharray={`${pendingDash - gap} ${circumference - pendingDash + gap}`}
-          strokeDashoffset={-(uploadedDash + gap)}
-          strokeLinecap="round"
-        />
+        {uploaded > 0 && (
+          <circle
+            cx="80"
+            cy="80"
+            r={radius}
+            fill="none"
+            stroke="#22b573"
+            strokeWidth={strokeWidth}
+            strokeDasharray={`${Math.max(0, uploadedDash - gap)} ${circumference - uploadedDash + gap}`}
+            strokeDashoffset={0}
+            strokeLinecap="round"
+          />
+        )}
+        {pending > 0 && (
+          <circle
+            cx="80"
+            cy="80"
+            r={radius}
+            fill="none"
+            stroke="#f59e0b"
+            strokeWidth={strokeWidth}
+            strokeDasharray={`${Math.max(0, pendingDash - gap)} ${circumference - pendingDash + gap}`}
+            strokeDashoffset={-(uploadedDash + gap)}
+            strokeLinecap="round"
+          />
+        )}
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
         <InsertDriveFileIcon
           sx={{ fontSize: 28 }}
-          className="text-brand-green-500"
+          className="text-brand-green-600"
         />
       </div>
     </div>
@@ -241,7 +257,7 @@ function ReadinessRing({ pct }: { pct: number }) {
           cy="36"
           r={radius}
           fill="none"
-          stroke="#eef1f6"
+          stroke="#cbd5e1"
           strokeWidth={strokeWidth}
         />
         <circle
@@ -256,7 +272,7 @@ function ReadinessRing({ pct }: { pct: number }) {
           strokeLinecap="round"
         />
       </svg>
-      <span className="absolute text-xs font-bold text-brand-green-600">
+      <span className="absolute text-xs font-extrabold text-brand-green-700">
         {pct}%
       </span>
     </div>
@@ -272,12 +288,13 @@ export default function GovernmentDocuments() {
   const [statuses, setStatuses] = useState<Record<string, "uploaded" | "pending">>(() => {
     const initial: Record<string, "uploaded" | "pending"> = {};
     DOCUMENTS.forEach((d) => {
-      initial[d.key] = (savedDocs as any)[d.key] === "uploaded" || (savedDocs as any)[d.key] === "pending"
-        ? (savedDocs as any)[d.key]
-        : d.initialStatus;
+      initial[d.key] = (savedDocs as any)[d.key] === "uploaded" ? "uploaded" : "pending";
     });
     return initial;
   });
+
+  const [uploadedFiles, setUploadedFiles] = useState<Record<string, UploadedFileInfo>>({});
+  const [fileErrors, setFileErrors] = useState<Record<string, string>>({});
 
   const [docNumbers, setDocNumbers] = useState<Record<string, string>>(() => ({
     pan: typeof savedDocs.pan === "string" && !["uploaded", "pending"].includes(savedDocs.pan) ? savedDocs.pan : "",
@@ -291,8 +308,59 @@ export default function GovernmentDocuments() {
   const toggleExpand = (key: string) =>
     setExpanded((prev) => (prev === key ? null : key));
 
-  const uploadDoc = (key: string) => {
+  const formatFileSize = (bytes: number): string => {
+    if (bytes < 1024) return `${bytes} B`;
+    if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+    return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+  };
+
+  const handleFileSelect = (key: string, file: File | null) => {
+    if (!file) return;
+
+    const ext = "." + file.name.split(".").pop()?.toLowerCase();
+    const isValidType = ALLOWED_TYPES.includes(file.type.toLowerCase()) || ALLOWED_EXTS.includes(ext);
+
+    if (!isValidType) {
+      setFileErrors((prev) => ({
+        ...prev,
+        [key]: "Please upload a PDF, JPG, JPEG or PNG file.",
+      }));
+      return;
+    }
+
+    if (file.size > MAX_FILE_SIZE) {
+      setFileErrors((prev) => ({
+        ...prev,
+        [key]: "File size must be 10 MB or less.",
+      }));
+      return;
+    }
+
+    setFileErrors((prev) => {
+      const next = { ...prev };
+      delete next[key];
+      return next;
+    });
+
+    setUploadedFiles((prev) => ({
+      ...prev,
+      [key]: { name: file.name, size: file.size },
+    }));
     setStatuses((prev) => ({ ...prev, [key]: "uploaded" }));
+  };
+
+  const handleRemoveFile = (key: string) => {
+    setUploadedFiles((prev) => {
+      const next = { ...prev };
+      delete next[key];
+      return next;
+    });
+    setStatuses((prev) => ({ ...prev, [key]: "pending" }));
+    setFileErrors((prev) => {
+      const next = { ...prev };
+      delete next[key];
+      return next;
+    });
   };
 
   const uploadedCount = useMemo(
@@ -398,48 +466,44 @@ export default function GovernmentDocuments() {
         <div className="mb-8 flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
           <div className="max-w-xl">
             <h1 className="text-3xl font-extrabold text-navy-950 sm:text-4xl">
-              Financial Document
-              <br />
-              Readiness
+              Financial Document Readiness
             </h1>
-            <p className="mt-3 text-[15px] leading-relaxed text-navy-900/55">
-              Ensure you have all the important documents
-              <br />
-              in place for a secure financial future.
+            <p className="mt-3 text-[15px] font-medium leading-relaxed text-slate-700">
+              Ensure you have all the important documents in place for a secure financial future.
             </p>
           </div>
 
           {/* Assessment Progress */}
-          <div className="w-full max-w-2xl rounded-2xl border border-navy-950/5 bg-white p-6 shadow-[0_2px_12px_rgba(13,37,73,0.04)]">
+          <div className="w-full max-w-2xl rounded-2xl border border-slate-200 bg-white p-6 shadow-[0_2px_12px_rgba(13,37,73,0.06)]">
             <div className="mb-5 flex items-center justify-between">
               <p className="text-sm font-bold text-navy-950">
                 Assessment Progress
               </p>
-              <span className="rounded-full bg-brand-green-50 px-3 py-1 text-xs font-semibold text-brand-green-600">
-                Step 9 of 9
+              <span className="rounded-full bg-brand-green-100 px-3 py-1 text-xs font-bold text-brand-green-700">
+                Step 11 of 12
               </span>
             </div>
             <div className="relative">
-              <div className="absolute left-[28px] top-5 h-0.5 w-[calc(100%-56px)] bg-navy-950/8" />
-              <div className="absolute left-[28px] top-5 h-0.5 w-[calc(100%-56px)] bg-brand-green-500" />
-              <div className="flex items-start justify-between">
+              <div className="absolute left-[20px] top-4 h-0.5 w-[calc(100%-40px)] bg-slate-200" />
+              <div className="absolute left-[20px] top-4 h-0.5 w-[calc(100%-40px)] bg-brand-green-500" style={{ width: "91.66%" }} />
+              <div className="flex items-start justify-between overflow-x-auto pb-2">
                 {PROGRESS_STEPS.map((step, i) => (
                   <div
                     key={step.label}
-                    className="flex flex-col items-center text-center"
-                    style={{ width: `${100 / 9}%` }}
+                    className="flex shrink-0 flex-col items-center text-center px-1"
+                    style={{ minWidth: "48px" }}
                   >
                     <span
-                      className={`relative z-10 flex h-9 w-9 items-center justify-center rounded-full text-xs font-bold transition-all ${
+                      className={`relative z-10 flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold transition-all ${
                         step.completed
-                          ? "bg-brand-green-500 text-white shadow-[0_0_10px_rgba(34,181,115,0.25)]"
+                          ? "bg-brand-green-500 text-white shadow-sm"
                           : step.active
-                          ? "bg-brand-green-500 text-white shadow-[0_0_10px_rgba(34,181,115,0.25)]"
-                          : "border-2 border-navy-950/10 bg-white text-navy-900/40"
+                          ? "bg-brand-green-500 text-white shadow-sm ring-4 ring-brand-green-100"
+                          : "border-2 border-slate-300 bg-white text-slate-500"
                       }`}
                     >
                       {step.completed ? (
-                        <CheckCircleIcon sx={{ fontSize: 18 }} />
+                        <CheckCircleIcon sx={{ fontSize: 16 }} />
                       ) : (
                         i + 1
                       )}
@@ -447,10 +511,10 @@ export default function GovernmentDocuments() {
                     <p
                       className={`mt-2 text-[10px] font-semibold leading-tight ${
                         step.active
-                          ? "text-brand-green-600"
+                          ? "text-brand-green-700 font-bold"
                           : step.completed
-                          ? "text-navy-900/60"
-                          : "text-navy-900/45"
+                          ? "text-slate-700"
+                          : "text-slate-500"
                       }`}
                     >
                       {step.label}
@@ -465,12 +529,12 @@ export default function GovernmentDocuments() {
         {/* ─── MAIN CONTENT: Two Columns ─── */}
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1fr_360px]">
           {/* LEFT — Document Checklist */}
-          <div className="rounded-2xl border border-navy-950/5 bg-white p-7 shadow-[0_2px_12px_rgba(13,37,73,0.04)] sm:p-8">
+          <div className="rounded-2xl border border-slate-200 bg-white p-7 shadow-[0_2px_12px_rgba(13,37,73,0.06)] sm:p-8">
             <div className="mb-6">
               <p className="text-base font-bold text-navy-950">
                 Document Checklist
               </p>
-              <p className="mt-1 text-sm text-navy-900/50">
+              <p className="mt-1 text-sm font-medium text-slate-600">
                 Review and upload your important documents
               </p>
             </div>
@@ -481,11 +545,13 @@ export default function GovernmentDocuments() {
                 const status = statuses[doc.key];
                 const isUploaded = status === "uploaded";
                 const isExpanded = expanded === doc.key;
+                const uploadedFile = uploadedFiles[doc.key];
+                const fileError = fileErrors[doc.key];
 
                 return (
                   <div
                     key={doc.key}
-                    className="rounded-xl border border-navy-950/5 bg-white transition-all hover:shadow-sm"
+                    className="rounded-xl border border-slate-200 bg-white transition-all hover:border-slate-300 hover:shadow-sm"
                   >
                     <button
                       type="button"
@@ -502,13 +568,13 @@ export default function GovernmentDocuments() {
                         <p className="text-sm font-bold text-navy-950">
                           {doc.name}
                         </p>
-                        <p className="text-xs text-navy-900/50">{doc.desc}</p>
+                        <p className="text-xs font-medium text-slate-600">{doc.desc}</p>
                       </div>
                       <span
-                        className={`flex shrink-0 items-center gap-1.5 rounded-lg px-3 py-1 text-xs font-semibold ${
+                        className={`flex shrink-0 items-center gap-1.5 rounded-lg px-3 py-1 text-xs font-bold ${
                           isUploaded
-                            ? "bg-brand-green-50 text-brand-green-600"
-                            : "bg-orange-50 text-orange-500"
+                            ? "bg-brand-green-100 text-brand-green-700"
+                            : "bg-amber-100 text-amber-700"
                         }`}
                       >
                         {isUploaded ? "Uploaded" : "Pending"}
@@ -521,21 +587,21 @@ export default function GovernmentDocuments() {
                       {isExpanded ? (
                         <ExpandLessIcon
                           sx={{ fontSize: 20 }}
-                          className="shrink-0 text-navy-900/40"
+                          className="shrink-0 text-slate-500"
                         />
                       ) : (
                         <ExpandMoreIcon
                           sx={{ fontSize: 20 }}
-                          className="shrink-0 text-navy-900/40"
+                          className="shrink-0 text-slate-500"
                         />
                       )}
                     </button>
 
                     {isExpanded && (
-                      <div className="border-t border-navy-950/5 px-4 py-4 space-y-3">
+                      <div className="border-t border-slate-200 px-4 py-4 space-y-4">
                         {["pan", "aadhaar", "passport", "driving"].includes(doc.key) && (
                           <div>
-                            <label className="block text-xs font-semibold text-navy-950 mb-1">
+                            <label className="block text-xs font-bold text-navy-950 mb-1">
                               {doc.name} Number / Details
                             </label>
                             <input
@@ -556,49 +622,90 @@ export default function GovernmentDocuments() {
                                 }));
                               }}
                               placeholder={`Enter your ${doc.name} number`}
-                              className="h-10 w-full rounded-xl border border-navy-950/10 bg-white px-3 text-sm text-navy-950 placeholder:text-navy-900/40 focus:border-brand-green-500 focus:outline-none focus:ring-2 focus:ring-brand-green-500/20"
+                              className="h-10 w-full rounded-xl border border-slate-300 bg-white px-3 text-sm font-bold text-navy-950 placeholder:text-slate-400 focus:border-brand-green-500 focus:outline-none focus:ring-2 focus:ring-brand-green-500/20"
                             />
                           </div>
                         )}
-                        {isUploaded ? (
-                          <div className="flex items-center gap-3 rounded-lg bg-brand-green-50/50 p-3">
-                            <CheckCircleIcon
-                              sx={{ fontSize: 20 }}
-                              className="text-brand-green-500"
-                            />
-                            <span className="text-sm text-brand-green-600">
-                              Document uploaded successfully
+
+                        {/* File Upload Area */}
+                        <div className="space-y-2">
+                          <div className="flex items-center justify-between">
+                            <p className="text-xs font-bold text-navy-950">
+                              Upload {doc.name} Document
+                            </p>
+                            <span className="text-[11px] font-semibold text-slate-500">
+                              PDF, JPG, JPEG or PNG • Max 10 MB
                             </span>
                           </div>
-                        ) : (
-                          <div className="flex flex-col gap-3">
-                            <p className="text-xs text-navy-900/50">
-                              Upload your {doc.name} document
-                            </p>
-                            <label className="flex cursor-pointer items-center gap-2 rounded-lg border-2 border-dashed border-navy-950/15 bg-slate-50 p-4 text-center transition-all hover:border-brand-green-500 hover:bg-brand-green-50/30">
+
+                          {uploadedFile ? (
+                            <div className="flex items-center justify-between rounded-xl border border-brand-green-300 bg-brand-green-50/70 p-3.5">
+                              <div className="flex items-center gap-3 min-w-0">
+                                <InsertDriveFileIcon
+                                  className="text-brand-green-600 shrink-0"
+                                  sx={{ fontSize: 24 }}
+                                />
+                                <div className="min-w-0">
+                                  <p className="text-xs font-bold text-navy-950 truncate max-w-[200px] sm:max-w-[300px]">
+                                    {uploadedFile.name}
+                                  </p>
+                                  <p className="text-[11px] font-medium text-slate-600">
+                                    {formatFileSize(uploadedFile.size)} • Uploaded
+                                  </p>
+                                </div>
+                              </div>
+                              <div className="flex items-center gap-3 shrink-0">
+                                <label className="cursor-pointer text-xs font-bold text-brand-green-700 hover:text-brand-green-800 hover:underline">
+                                  Replace File
+                                  <input
+                                    type="file"
+                                    className="hidden"
+                                    accept=".pdf,.jpg,.jpeg,.png"
+                                    onChange={(e) => {
+                                      const file = e.target.files?.[0] || null;
+                                      handleFileSelect(doc.key, file);
+                                      e.target.value = "";
+                                    }}
+                                  />
+                                </label>
+                                <button
+                                  type="button"
+                                  onClick={() => handleRemoveFile(doc.key)}
+                                  className="text-xs font-bold text-red-600 hover:text-red-700 hover:underline"
+                                >
+                                  Remove File
+                                </button>
+                              </div>
+                            </div>
+                          ) : (
+                            <label className="flex cursor-pointer items-center justify-center gap-2.5 rounded-xl border-2 border-dashed border-slate-300 bg-slate-50/80 p-4 text-center transition-all hover:border-brand-green-500 hover:bg-brand-green-50/40">
                               <UploadFileIcon
-                                sx={{ fontSize: 20 }}
-                                className="text-navy-900/40"
+                                sx={{ fontSize: 22 }}
+                                className="text-slate-500"
                               />
-                              <span className="text-xs font-medium text-navy-900/60">
-                                Click to upload or drag and drop
+                              <span className="text-xs font-semibold text-slate-700">
+                                Click to select file (PDF, JPG, PNG • Max 10 MB)
                               </span>
                               <input
                                 type="file"
                                 className="hidden"
                                 accept=".pdf,.jpg,.jpeg,.png"
-                                onChange={() => uploadDoc(doc.key)}
+                                onChange={(e) => {
+                                  const file = e.target.files?.[0] || null;
+                                  handleFileSelect(doc.key, file);
+                                  e.target.value = "";
+                                }}
                               />
                             </label>
-                            <button
-                              type="button"
-                              onClick={() => uploadDoc(doc.key)}
-                              className="self-start rounded-lg bg-brand-green-500 px-4 py-2 text-xs font-semibold text-white transition-all hover:bg-brand-green-600"
-                            >
-                              Mark as Uploaded
-                            </button>
-                          </div>
-                        )}
+                          )}
+
+                          {fileError && (
+                            <p className="mt-1 flex items-center gap-1 text-xs font-semibold text-red-600">
+                              <span>⚠️</span>
+                              <span>{fileError}</span>
+                            </p>
+                          )}
+                        </div>
                       </div>
                     )}
                   </div>
@@ -607,20 +714,20 @@ export default function GovernmentDocuments() {
             </div>
 
             {/* Document Readiness Card */}
-            <div className="mt-6 rounded-xl border border-brand-green-500/20 bg-brand-green-50/30 p-5">
+            <div className="mt-6 rounded-xl border border-brand-green-300 bg-brand-green-50/60 p-5">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <span className="flex h-10 w-10 items-center justify-center rounded-full bg-brand-green-100">
                     <ShieldIcon
                       sx={{ fontSize: 20 }}
-                      className="text-brand-green-600"
+                      className="text-brand-green-700"
                     />
                   </span>
                   <div>
                     <p className="text-sm font-bold text-navy-950">
                       Your Document Readiness
                     </p>
-                    <p className="text-xs text-navy-900/50">
+                    <p className="text-xs font-medium text-slate-700">
                       Keep your documents updated for a secure financial journey.
                     </p>
                   </div>
@@ -634,7 +741,7 @@ export default function GovernmentDocuments() {
               <button
                 type="button"
                 onClick={() => navigate("/financial-goals")}
-                className="flex h-12 items-center gap-2 rounded-xl border-2 border-brand-green-500 bg-white px-6 text-sm font-semibold text-brand-green-600 transition-all duration-250 hover:bg-brand-green-50 active:scale-[0.98]"
+                className="flex h-12 items-center gap-2 rounded-xl border-2 border-brand-green-500 bg-white px-6 text-sm font-bold text-brand-green-600 transition-all duration-250 hover:bg-brand-green-50 active:scale-[0.98]"
               >
                 <ArrowBackIcon sx={{ fontSize: 18 }} />
                 Back
@@ -652,7 +759,7 @@ export default function GovernmentDocuments() {
                   updateAssessment("documents", finalDocs as any);
                   navigate("/review-submit");
                 }}
-                className="flex h-12 items-center gap-2 rounded-xl bg-brand-green-500 px-8 text-[15px] font-semibold text-white shadow-soft transition-all duration-250 hover:bg-brand-green-600 hover:shadow-md active:scale-[0.98]"
+                className="flex h-12 items-center gap-2 rounded-xl bg-brand-green-500 px-8 text-[15px] font-bold text-white shadow-soft transition-all duration-250 hover:bg-brand-green-600 hover:shadow-md active:scale-[0.98]"
               >
                 Review & Finish
                 <ArrowForwardIcon sx={{ fontSize: 18 }} />
@@ -660,8 +767,8 @@ export default function GovernmentDocuments() {
             </div>
 
             {/* Security Message */}
-            <p className="mt-5 flex items-center justify-center gap-2 text-sm text-navy-900/50">
-              <LockIcon sx={{ fontSize: 16 }} className="text-brand-green-500" />
+            <p className="mt-5 flex items-center justify-center gap-2 text-sm font-medium text-slate-700">
+              <LockIcon sx={{ fontSize: 16 }} className="text-brand-green-600" />
               Your information is secure and encrypted
             </p>
           </div>
@@ -669,7 +776,7 @@ export default function GovernmentDocuments() {
           {/* RIGHT — Sidebar */}
           <div className="flex flex-col gap-6">
             {/* Card 1: Upload Status */}
-            <div className="rounded-2xl border border-navy-950/5 bg-white p-7 shadow-[0_2px_12px_rgba(13,37,73,0.04)]">
+            <div className="rounded-2xl border border-slate-200 bg-white p-7 shadow-[0_2px_12px_rgba(13,37,73,0.06)]">
               <h3 className="mb-5 text-base font-bold text-navy-950">
                 Upload Status
               </h3>
@@ -684,13 +791,13 @@ export default function GovernmentDocuments() {
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <span className="h-3 w-3 rounded-full bg-brand-green-500" />
-                      <span className="text-xs text-navy-900/60">Uploaded</span>
+                      <span className="text-xs font-medium text-slate-700">Uploaded</span>
                     </div>
                     <div className="flex items-center gap-3">
                       <span className="text-xs font-bold text-navy-950">
                         {uploadedCount}
                       </span>
-                      <span className="text-xs text-navy-900/45">
+                      <span className="text-xs font-bold text-slate-600">
                         {total > 0
                           ? Math.round((uploadedCount / total) * 100)
                           : 0}
@@ -701,13 +808,13 @@ export default function GovernmentDocuments() {
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <span className="h-3 w-3 rounded-full bg-amber-500" />
-                      <span className="text-xs text-navy-900/60">Pending</span>
+                      <span className="text-xs font-medium text-slate-700">Pending</span>
                     </div>
                     <div className="flex items-center gap-3">
                       <span className="text-xs font-bold text-navy-950">
                         {pendingCount}
                       </span>
-                      <span className="text-xs text-navy-900/45">
+                      <span className="text-xs font-bold text-slate-600">
                         {total > 0
                           ? Math.round((pendingCount / total) * 100)
                           : 0}
@@ -717,95 +824,94 @@ export default function GovernmentDocuments() {
                   </div>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      <span className="h-3 w-3 rounded-full bg-navy-950/15" />
-                      <span className="text-xs text-navy-900/60">
+                      <span className="h-3 w-3 rounded-full bg-slate-300" />
+                      <span className="text-xs font-medium text-slate-700">
                         Not Uploaded
                       </span>
                     </div>
                     <div className="flex items-center gap-3">
-                      <span className="text-xs font-bold text-navy-950">0</span>
-                      <span className="text-xs text-navy-900/45">0%</span>
+                      <span className="text-xs font-bold text-navy-950">
+                        {total - uploadedCount}
+                      </span>
+                      <span className="text-xs font-bold text-slate-600">
+                        {total > 0
+                          ? Math.round(((total - uploadedCount) / total) * 100)
+                          : 0}
+                        %
+                      </span>
                     </div>
                   </div>
                 </div>
               </div>
 
               {/* Summary Panel */}
-              <div className="mt-5 flex items-start gap-3 rounded-xl bg-brand-green-50/50 p-4">
+              <div className="mt-5 flex items-start gap-3 rounded-xl bg-brand-green-50/80 p-4">
                 <CheckCircleIcon
                   sx={{ fontSize: 22 }}
-                  className="mt-0.5 shrink-0 text-brand-green-500"
+                  className="mt-0.5 shrink-0 text-brand-green-600"
                 />
                 <div>
-                  <p className="text-sm font-bold text-brand-green-600">
+                  <p className="text-sm font-bold text-brand-green-700">
                     {uploadedCount} of {total} Documents Uploaded
                   </p>
-                  <p className="mt-0.5 text-xs leading-relaxed text-navy-900/55">
-                    You're almost there! Complete the pending
-                    <br />
-                    documents to improve your readiness.
+                  <p className="mt-0.5 text-xs font-medium leading-relaxed text-slate-700">
+                    {uploadedCount === total
+                      ? "Great job! All documents have been uploaded."
+                      : "Keep going! Complete the pending documents to improve your readiness."}
                   </p>
                 </div>
               </div>
             </div>
 
             {/* Card 2: Why Documents Matter? */}
-            <div className="rounded-2xl border border-navy-950/5 bg-brand-green-50/30 p-7">
+            <div className="rounded-2xl border border-brand-green-200/70 bg-brand-green-50/60 p-7">
               <div className="mb-3 flex items-center gap-2.5">
-                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-green-100 text-brand-green-600">
+                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-green-100 text-brand-green-700">
                   <VerifiedUserIcon sx={{ fontSize: 18 }} />
                 </span>
                 <h3 className="text-base font-bold text-navy-950">
                   Why Documents Matter?
                 </h3>
               </div>
-              <p className="text-sm leading-relaxed text-navy-900/55">
-                Complete and updated documents help in
-                <br />
-                faster verification, smooth loan approvals, claim
-                <br />
-                settlements, and secure your financial future.
+              <p className="text-sm font-medium leading-relaxed text-slate-700">
+                Complete and updated documents help in faster verification, smooth loan approvals, claim settlements, and secure your financial future.
               </p>
             </div>
 
             {/* Card 3: Your Data is Safe */}
-            <div className="rounded-2xl border border-navy-950/5 bg-sky-50/40 p-7">
+            <div className="rounded-2xl border border-sky-200 bg-sky-50/70 p-7">
               <div className="mb-3 flex items-center gap-2.5">
-                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-sky-100 text-sky-500">
+                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-sky-100 text-sky-600">
                   <LockIcon sx={{ fontSize: 18 }} />
                 </span>
                 <h3 className="text-base font-bold text-navy-950">
                   Your Data is Safe
                 </h3>
               </div>
-              <p className="text-sm leading-relaxed text-navy-900/55">
-                We use bank-level encryption to protect your
-                <br />
-                documents and personal information. Your
-                <br />
-                privacy is our priority.
+              <p className="text-sm font-medium leading-relaxed text-slate-700">
+                We use bank-level encryption to protect your documents and personal information. Your privacy is our priority.
               </p>
             </div>
 
             {/* Card 4: Tips */}
-            <div className="rounded-2xl border border-navy-950/5 bg-amber-50/40 p-7">
+            <div className="rounded-2xl border border-amber-200 bg-amber-50/70 p-7">
               <div className="mb-3 flex items-center gap-2.5">
-                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-amber-100 text-amber-500">
+                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-amber-100 text-amber-600">
                   <LightbulbIcon sx={{ fontSize: 18 }} />
                 </span>
                 <h3 className="text-base font-bold text-navy-950">Tips</h3>
               </div>
-              <ul className="space-y-2 text-sm text-navy-900/55">
+              <ul className="space-y-2 text-sm font-medium text-slate-700">
                 <li className="flex items-start gap-2">
-                  <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-navy-900/30" />
+                  <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-slate-600" />
                   Ensure documents are clear and valid
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-navy-900/30" />
+                  <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-slate-600" />
                   Upload colored scans or high-quality photos
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-navy-900/30" />
+                  <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-slate-600" />
                   Keep documents updated regularly
                 </li>
               </ul>
@@ -815,7 +921,7 @@ export default function GovernmentDocuments() {
       </main>
 
       {/* ─── FOOTER ─── */}
-      <footer className="bg-navy-950 pt-20 text-white/70">
+      <footer className="bg-navy-950 pt-20 text-slate-300">
         <div className="mx-auto max-w-7xl px-6 lg:px-10">
           <div className="grid grid-cols-1 gap-12 pb-14 sm:grid-cols-2 lg:grid-cols-5">
             <div className="lg:col-span-2">
@@ -830,7 +936,7 @@ export default function GovernmentDocuments() {
                   </span>
                 </span>
               </Link>
-              <p className="mt-5 max-w-xs text-sm leading-relaxed">
+              <p className="mt-5 max-w-xs text-sm font-normal leading-relaxed text-slate-300">
                 AI-powered financial wellness platform that helps you make
                 smarter financial decisions.
               </p>
@@ -840,7 +946,7 @@ export default function GovernmentDocuments() {
                     <a
                       key={i}
                       href="#"
-                      className="grid h-10 w-10 place-items-center rounded-full bg-white/10 transition-all duration-200 hover:scale-110 hover:bg-brand-green-500 hover:text-white"
+                      className="grid h-10 w-10 place-items-center rounded-full bg-white/10 text-white transition-all duration-200 hover:scale-110 hover:bg-brand-green-500 hover:text-white"
                     >
                       <Icon sx={{ fontSize: 18 }} />
                     </a>
@@ -857,7 +963,7 @@ export default function GovernmentDocuments() {
                     <li key={l.label}>
                       <a
                         href={l.href}
-                        className="text-sm transition-colors duration-200 hover:text-brand-green-400"
+                        className="text-sm text-slate-300 transition-colors duration-200 hover:text-brand-green-400"
                       >
                         {l.label}
                       </a>
@@ -869,7 +975,7 @@ export default function GovernmentDocuments() {
 
             <div>
               <p className="text-sm font-bold text-white">Contact Us</p>
-              <ul className="mt-5 space-y-4 text-sm">
+              <ul className="mt-5 space-y-4 text-sm text-slate-300">
                 <li className="flex items-center gap-2.5">
                   <EmailIcon sx={{ fontSize: 16 }} />
                   support@smartfincompass.com
@@ -886,7 +992,7 @@ export default function GovernmentDocuments() {
             </div>
           </div>
 
-          <div className="flex flex-col items-center justify-between gap-3 border-t border-white/10 py-7 text-xs sm:flex-row">
+          <div className="flex flex-col items-center justify-between gap-3 border-t border-white/10 py-7 text-xs text-slate-400 sm:flex-row">
             <p>© 2025 SmartFin Compass. All rights reserved.</p>
             <div className="flex gap-5">
               <a

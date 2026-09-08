@@ -80,11 +80,14 @@ const FOOTER_COLUMNS = [
 const PROGRESS_STEPS = [
   { label: "Personal Info", completed: true },
   { label: "Employment", completed: true },
-  { label: "Income Sources", completed: true },
+  { label: "Income", completed: true },
   { label: "Expenses", completed: true },
   { label: "Assets", completed: true },
   { label: "Liabilities", completed: true },
+  { label: "Savings", completed: true },
+  { label: "Insurance", completed: true },
   { label: "Investment", completed: true },
+  { label: "Goals", completed: true },
   { label: "Documents", completed: true },
   { label: "Review", active: true },
 ];
@@ -112,7 +115,7 @@ export default function ReviewSubmit() {
       key: "personal",
       title: "Personal Information",
       icon: <PersonIcon sx={{ fontSize: 22 }} />,
-      iconColor: "bg-brand-green-50 text-brand-green-600",
+      iconColor: "bg-brand-green-50 text-brand-green-700",
       bulletColor: "bg-brand-green-500",
       editRoute: "/personal-information",
       items: [
@@ -125,7 +128,7 @@ export default function ReviewSubmit() {
       key: "employment",
       title: "Employment Details",
       icon: <WorkIcon sx={{ fontSize: 22 }} />,
-      iconColor: "bg-sky-50 text-sky-600",
+      iconColor: "bg-sky-50 text-sky-700",
       bulletColor: "bg-sky-500",
       editRoute: "/employment-details",
       items: [
@@ -138,7 +141,7 @@ export default function ReviewSubmit() {
       key: "income",
       title: "Income Sources",
       icon: <AccountBalanceWalletIcon sx={{ fontSize: 22 }} />,
-      iconColor: "bg-purple-50 text-purple-600",
+      iconColor: "bg-purple-50 text-purple-700",
       bulletColor: "bg-purple-500",
       editRoute: "/income-details",
       items: [
@@ -151,7 +154,7 @@ export default function ReviewSubmit() {
       key: "expenses",
       title: "Monthly Expenses",
       icon: <ShoppingCartIcon sx={{ fontSize: 22 }} />,
-      iconColor: "bg-orange-50 text-orange-600",
+      iconColor: "bg-orange-50 text-orange-700",
       bulletColor: "bg-orange-500",
       editRoute: "/monthly-expenses",
       items: [
@@ -167,7 +170,7 @@ export default function ReviewSubmit() {
       key: "assets",
       title: "Assets",
       icon: <SavingsIcon sx={{ fontSize: 22 }} />,
-      iconColor: "bg-brand-green-50 text-brand-green-600",
+      iconColor: "bg-brand-green-50 text-brand-green-700",
       bulletColor: "bg-brand-green-500",
       editRoute: "/assets",
       items: [
@@ -183,7 +186,7 @@ export default function ReviewSubmit() {
       key: "liabilities",
       title: "Liabilities",
       icon: <CreditCardIcon sx={{ fontSize: 22 }} />,
-      iconColor: "bg-pink-50 text-pink-600",
+      iconColor: "bg-pink-50 text-pink-700",
       bulletColor: "bg-pink-500",
       editRoute: "/liabilities",
       items: [
@@ -199,7 +202,7 @@ export default function ReviewSubmit() {
       key: "savings",
       title: "Savings & Investments",
       icon: <SavingsIcon sx={{ fontSize: 22 }} />,
-      iconColor: "bg-brand-green-50 text-brand-green-600",
+      iconColor: "bg-brand-green-50 text-brand-green-700",
       bulletColor: "bg-brand-green-500",
       editRoute: "/savings",
       items: [
@@ -212,7 +215,7 @@ export default function ReviewSubmit() {
       key: "insurance",
       title: "Insurance Details",
       icon: <HealthAndSafetyIcon sx={{ fontSize: 22 }} />,
-      iconColor: "bg-purple-50 text-purple-600",
+      iconColor: "bg-purple-50 text-purple-700",
       bulletColor: "bg-purple-500",
       editRoute: "/insurance",
       items: [
@@ -225,7 +228,7 @@ export default function ReviewSubmit() {
       key: "investment",
       title: "Investment Experience",
       icon: <TrendingUpIcon sx={{ fontSize: 22 }} />,
-      iconColor: "bg-amber-50 text-amber-600",
+      iconColor: "bg-amber-50 text-amber-700",
       bulletColor: "bg-amber-500",
       editRoute: "/investment-experience",
       items: [
@@ -238,7 +241,7 @@ export default function ReviewSubmit() {
       key: "goals",
       title: "Financial Goals",
       icon: <FlagIcon sx={{ fontSize: 22 }} />,
-      iconColor: "bg-emerald-50 text-emerald-600",
+      iconColor: "bg-emerald-50 text-emerald-700",
       bulletColor: "bg-emerald-500",
       editRoute: "/financial-goals",
       items: [
@@ -250,7 +253,7 @@ export default function ReviewSubmit() {
       key: "documents",
       title: "Document Readiness",
       icon: <DescriptionIcon sx={{ fontSize: 22 }} />,
-      iconColor: "bg-pink-50 text-pink-600",
+      iconColor: "bg-pink-50 text-pink-700",
       bulletColor: "bg-pink-500",
       editRoute: "/government-documents",
       items: [
@@ -262,7 +265,7 @@ export default function ReviewSubmit() {
       key: "checklist",
       title: "Review Checklist",
       icon: <ChecklistIcon sx={{ fontSize: 22 }} />,
-      iconColor: "bg-sky-50 text-sky-600",
+      iconColor: "bg-sky-50 text-sky-700",
       bulletColor: "bg-sky-500",
       editRoute: "/review-submit",
       items: [
@@ -285,7 +288,7 @@ export default function ReviewSubmit() {
   return (
     <div className="min-h-screen bg-slate-50">
       {/* ─── NAVBAR ─── */}
-      <header className="sticky top-0 z-50 border-b border-navy-950/5 bg-white/95 backdrop-blur-md">
+      <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/95 backdrop-blur-md">
         <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6 py-3 lg:px-10">
           <Link to="/" className="flex items-center gap-3">
             <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand-green-500 text-white">
@@ -302,10 +305,10 @@ export default function ReviewSubmit() {
               <a
                 key={link.label}
                 href={link.href}
-                className={`group/nav relative text-[15px] font-medium transition-colors duration-250 ${
+                className={`group/nav relative text-[15px] font-semibold transition-colors duration-250 ${
                   i === 0
                     ? "text-navy-950"
-                    : "text-navy-900/70 hover:text-brand-green-600"
+                    : "text-slate-700 hover:text-brand-green-600"
                 }`}
               >
                 {link.label}
@@ -319,7 +322,7 @@ export default function ReviewSubmit() {
           </nav>
 
           <div className="hidden items-center gap-4 lg:flex">
-            <button className="relative grid h-10 w-10 place-items-center rounded-full text-navy-900/60 transition-colors hover:bg-slate-100 hover:text-navy-950">
+            <button className="relative grid h-10 w-10 place-items-center rounded-full text-slate-600 transition-colors hover:bg-slate-100 hover:text-navy-950">
               <NotificationsNoneIcon sx={{ fontSize: 22 }} />
               <span className="absolute right-2 top-2 h-2.5 w-2.5 rounded-full border-2 border-white bg-brand-green-500" />
             </button>
@@ -329,7 +332,7 @@ export default function ReviewSubmit() {
               </span>
               <KeyboardArrowDownIcon
                 sx={{ fontSize: 18 }}
-                className="text-navy-900/50"
+                className="text-slate-600"
               />
             </div>
           </div>
@@ -344,13 +347,13 @@ export default function ReviewSubmit() {
         </div>
 
         {mobileMenuOpen && (
-          <div className="border-t border-navy-950/5 bg-white px-6 py-4 lg:hidden">
+          <div className="border-t border-slate-200 bg-white px-6 py-4 lg:hidden">
             <nav className="flex flex-col gap-4">
               {NAV_LINKS.map((link) => (
                 <a
                   key={link.label}
                   href={link.href}
-                  className="text-sm font-medium text-navy-900/80"
+                  className="text-sm font-semibold text-slate-700 hover:text-brand-green-600"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   {link.label}
@@ -358,7 +361,7 @@ export default function ReviewSubmit() {
               ))}
             </nav>
             <div className="mt-4 flex items-center gap-3">
-              <button className="relative grid h-10 w-10 place-items-center rounded-full text-navy-900/60">
+              <button className="relative grid h-10 w-10 place-items-center rounded-full text-slate-600">
                 <NotificationsNoneIcon sx={{ fontSize: 22 }} />
               </button>
               <span className="flex h-9 w-9 items-center justify-center rounded-full bg-navy-950 text-sm font-bold text-white">
@@ -374,50 +377,44 @@ export default function ReviewSubmit() {
         <div className="mb-8 flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
           <div className="max-w-xl">
             <h1 className="text-3xl font-extrabold text-navy-950 sm:text-4xl">
-              Review Your
-              <br />
-              Information
+              Review Your Information
             </h1>
-            <p className="mt-3 text-[15px] leading-relaxed text-navy-900/55">
-              Please review all the information you've
-              <br />
-              provided before submitting your
-              <br />
-              assessment.
+            <p className="mt-3 text-[15px] leading-relaxed text-slate-600 font-medium">
+              Please review all the information you've provided before submitting your assessment.
             </p>
           </div>
 
           {/* Assessment Progress */}
-          <div className="w-full max-w-2xl rounded-2xl border border-navy-950/5 bg-white p-6 shadow-[0_2px_12px_rgba(13,37,73,0.04)]">
+          <div className="w-full max-w-2xl rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
             <div className="mb-5 flex items-center justify-between">
               <p className="text-sm font-bold text-navy-950">
                 Assessment Progress
               </p>
-              <span className="rounded-full bg-brand-green-50 px-3 py-1 text-xs font-semibold text-brand-green-600">
-                Step 9 of 9
+              <span className="rounded-full bg-brand-green-100 px-3 py-1 text-xs font-bold text-brand-green-700">
+                Step 12 of 12
               </span>
             </div>
             <div className="relative">
-              <div className="absolute left-[28px] top-5 h-0.5 w-[calc(100%-56px)] bg-navy-950/8" />
-              <div className="absolute left-[28px] top-5 h-0.5 w-[calc(100%-56px)] bg-brand-green-500" />
-              <div className="flex items-start justify-between">
+              <div className="absolute left-[20px] top-4 h-0.5 w-[calc(100%-40px)] bg-slate-200" />
+              <div className="absolute left-[20px] top-4 h-0.5 w-[calc(100%-40px)] bg-brand-green-500" />
+              <div className="flex items-start justify-between overflow-x-auto pb-2">
                 {PROGRESS_STEPS.map((step, i) => (
                   <div
                     key={step.label}
-                    className="flex flex-col items-center text-center"
-                    style={{ width: `${100 / 9}%` }}
+                    className="flex shrink-0 flex-col items-center text-center px-1"
+                    style={{ minWidth: "48px" }}
                   >
                     <span
-                      className={`relative z-10 flex h-9 w-9 items-center justify-center rounded-full text-xs font-bold transition-all ${
+                      className={`relative z-10 flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold transition-all ${
                         step.completed
-                          ? "bg-brand-green-500 text-white shadow-[0_0_10px_rgba(34,181,115,0.25)]"
+                          ? "bg-brand-green-500 text-white shadow-sm"
                           : step.active
-                          ? "bg-brand-green-500 text-white shadow-[0_0_10px_rgba(34,181,115,0.25)]"
-                          : "border-2 border-navy-950/10 bg-white text-navy-900/40"
+                          ? "bg-brand-green-500 text-white shadow-sm ring-4 ring-brand-green-100"
+                          : "border-2 border-slate-300 bg-white text-slate-500"
                       }`}
                     >
                       {step.completed ? (
-                        <CheckCircleIcon sx={{ fontSize: 18 }} />
+                        <CheckCircleIcon sx={{ fontSize: 16 }} />
                       ) : (
                         i + 1
                       )}
@@ -425,10 +422,10 @@ export default function ReviewSubmit() {
                     <p
                       className={`mt-2 text-[10px] font-semibold leading-tight ${
                         step.active
-                          ? "text-brand-green-600"
+                          ? "text-brand-green-700 font-bold"
                           : step.completed
-                          ? "text-navy-900/60"
-                          : "text-navy-900/45"
+                          ? "text-slate-700"
+                          : "text-slate-500"
                       }`}
                     >
                       {step.label}
@@ -446,14 +443,14 @@ export default function ReviewSubmit() {
             <p className="text-lg font-bold text-navy-950">
               Summary of Your Information
             </p>
-            <p className="mt-1 text-sm text-navy-900/50">
+            <p className="mt-1 text-sm font-medium text-slate-600">
               Here's a quick overview of the details you've provided.
             </p>
           </div>
           <button
             type="button"
             onClick={() => setExpanded((v) => !v)}
-            className="flex h-10 items-center gap-2 self-start rounded-xl border-2 border-brand-green-500 bg-white px-4 text-sm font-semibold text-brand-green-600 transition-all duration-250 hover:bg-brand-green-50 active:scale-[0.98]"
+            className="flex h-10 items-center gap-2 self-start rounded-xl border-2 border-brand-green-600 bg-white px-4 text-sm font-bold text-brand-green-700 transition-all duration-250 hover:bg-brand-green-50 active:scale-[0.98]"
           >
             <ListIcon sx={{ fontSize: 18 }} />
             {expanded ? "Collapse All" : "Expand All"}
@@ -465,7 +462,7 @@ export default function ReviewSubmit() {
           {summaryCards.map((card) => (
             <div
               key={card.key}
-              className="rounded-2xl border border-navy-950/5 bg-white p-6 shadow-[0_2px_12px_rgba(13,37,73,0.04)]"
+              className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md transition-shadow"
             >
               <div className="mb-4 flex items-start justify-between">
                 <div className="flex items-center gap-3">
@@ -481,7 +478,7 @@ export default function ReviewSubmit() {
                 <button
                   type="button"
                   onClick={() => navigate(card.editRoute)}
-                  className="flex items-center gap-1.5 rounded-lg border border-brand-green-500 bg-white px-3 py-1.5 text-xs font-semibold text-brand-green-600 transition-all hover:bg-brand-green-50"
+                  className="flex items-center gap-1.5 rounded-lg border-2 border-brand-green-600 bg-white px-3 py-1.5 text-xs font-bold text-brand-green-700 transition-all hover:bg-brand-green-50"
                 >
                   <EditIcon sx={{ fontSize: 14 }} />
                   Edit
@@ -495,18 +492,18 @@ export default function ReviewSubmit() {
                   >
                     <div className="flex items-center gap-2">
                       <span
-                        className={`h-1.5 w-1.5 shrink-0 rounded-full ${card.bulletColor}`}
+                        className={`h-2 w-2 shrink-0 rounded-full ${card.bulletColor}`}
                       />
-                      <span className="text-navy-900/60">{item.label}:</span>
+                      <span className="text-slate-600 font-medium">{item.label}:</span>
                     </div>
                     <div className="flex items-center gap-1.5">
-                      <span className="font-semibold text-navy-950">
+                      <span className="font-bold text-navy-950">
                         {item.value}
                       </span>
                       {item.check && (
                         <CheckCircleIcon
                           sx={{ fontSize: 16 }}
-                          className="text-brand-green-500"
+                          className="text-brand-green-600"
                         />
                       )}
                     </div>
@@ -518,22 +515,20 @@ export default function ReviewSubmit() {
         </div>
 
         {/* ─── Declaration Section ─── */}
-        <div className="mt-8 rounded-2xl border border-brand-green-500/20 bg-brand-green-50/30 p-7">
+        <div className="mt-8 rounded-2xl border border-brand-green-300 bg-brand-green-50/60 p-7">
           <div className="flex items-start gap-4">
             <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-brand-green-100">
               <VerifiedUserIcon
                 sx={{ fontSize: 24 }}
-                className="text-brand-green-600"
+                className="text-brand-green-700"
               />
             </span>
             <div className="flex-1">
-              <p className="text-base font-bold text-navy-950">Declaration</p>
-              <p className="mt-2 text-sm leading-relaxed text-navy-900/60">
-                I hereby declare that all the information provided above is
-                true, accurate, and complete to the best of my knowledge.
+              <p className="text-base font-extrabold text-navy-950">Declaration</p>
+              <p className="mt-2 text-sm leading-relaxed text-slate-700 font-medium">
+                I hereby declare that all the information provided above is true, accurate, and complete to the best of my knowledge.
                 <br />
-                I understand that this information will be used to generate my
-                financial wellness assessment and recommendations.
+                I understand that this information will be used to generate my financial wellness assessment and recommendations.
               </p>
               <button
                 type="button"
@@ -541,23 +536,23 @@ export default function ReviewSubmit() {
                   setAgreed((v) => !v);
                   setSubmitAttempted(false);
                 }}
-                className="mt-4 flex items-center gap-2 text-sm font-medium text-navy-950"
+                className="mt-4 flex items-center gap-2.5 text-sm font-bold text-navy-950"
               >
                 {agreed ? (
                   <CheckBoxIcon
-                    sx={{ fontSize: 20 }}
-                    className="text-brand-green-500"
+                    sx={{ fontSize: 22 }}
+                    className="text-brand-green-600"
                   />
                 ) : (
                   <CheckBoxOutlineBlankIcon
-                    sx={{ fontSize: 20 }}
-                    className="text-navy-900/30"
+                    sx={{ fontSize: 22 }}
+                    className="text-slate-500"
                   />
                 )}
                 I agree to the above declaration
               </button>
               {submitAttempted && !agreed && (
-                <p className="mt-2 text-xs text-red-500">
+                <p className="mt-2 text-xs font-semibold text-red-600">
                   Please agree to the declaration before submitting.
                 </p>
               )}
@@ -570,7 +565,7 @@ export default function ReviewSubmit() {
           <button
             type="button"
             onClick={() => navigate("/government-documents")}
-            className="flex h-12 items-center gap-2 rounded-xl border-2 border-brand-green-500 bg-white px-6 text-sm font-semibold text-brand-green-600 transition-all duration-250 hover:bg-brand-green-50 active:scale-[0.98]"
+            className="flex h-12 items-center gap-2 rounded-xl border-2 border-brand-green-600 bg-white px-6 text-sm font-bold text-brand-green-700 transition-all duration-250 hover:bg-brand-green-50 active:scale-[0.98]"
           >
             <ArrowBackIcon sx={{ fontSize: 18 }} />
             Back
@@ -578,7 +573,7 @@ export default function ReviewSubmit() {
           <button
             type="button"
             onClick={() => window.print()}
-            className="flex h-12 items-center gap-2 rounded-xl border-2 border-brand-green-500 bg-white px-6 text-sm font-semibold text-brand-green-600 transition-all duration-250 hover:bg-brand-green-50 active:scale-[0.98]"
+            className="flex h-12 items-center gap-2 rounded-xl border-2 border-brand-green-600 bg-white px-6 text-sm font-bold text-brand-green-700 transition-all duration-250 hover:bg-brand-green-50 active:scale-[0.98]"
           >
             <DownloadIcon sx={{ fontSize: 18 }} />
             Download Summary
@@ -586,7 +581,7 @@ export default function ReviewSubmit() {
           <button
             type="button"
             onClick={handleSubmit}
-            className="flex h-12 items-center gap-2 rounded-xl bg-brand-green-500 px-8 text-[15px] font-semibold text-white shadow-soft transition-all duration-250 hover:bg-brand-green-600 hover:shadow-md active:scale-[0.98]"
+            className="flex h-12 items-center gap-2 rounded-xl bg-brand-green-500 px-8 text-[15px] font-bold text-white shadow-soft transition-all duration-250 hover:bg-brand-green-600 hover:shadow-md active:scale-[0.98]"
           >
             Submit Assessment
             <ArrowForwardIcon sx={{ fontSize: 18 }} />
@@ -594,14 +589,14 @@ export default function ReviewSubmit() {
         </div>
 
         {/* Security Message */}
-        <p className="mt-5 flex items-center justify-center gap-2 text-sm text-navy-900/50">
-          <LockIcon sx={{ fontSize: 16 }} className="text-brand-green-500" />
+        <p className="mt-5 flex items-center justify-center gap-2 text-sm font-semibold text-slate-600">
+          <LockIcon sx={{ fontSize: 16 }} className="text-brand-green-600" />
           Your information is secure and encrypted
         </p>
       </main>
 
       {/* ─── FOOTER ─── */}
-      <footer className="bg-navy-950 pt-20 text-white/70">
+      <footer className="bg-navy-950 pt-20 text-slate-300">
         <div className="mx-auto max-w-7xl px-6 lg:px-10">
           <div className="grid grid-cols-1 gap-12 pb-14 sm:grid-cols-2 lg:grid-cols-5">
             <div className="lg:col-span-2">
@@ -616,7 +611,7 @@ export default function ReviewSubmit() {
                   </span>
                 </span>
               </Link>
-              <p className="mt-5 max-w-xs text-sm leading-relaxed">
+              <p className="mt-5 max-w-xs text-sm font-normal leading-relaxed text-slate-300">
                 AI-powered financial wellness platform that helps you make
                 smarter financial decisions.
               </p>
@@ -626,7 +621,7 @@ export default function ReviewSubmit() {
                     <a
                       key={i}
                       href="#"
-                      className="grid h-10 w-10 place-items-center rounded-full bg-white/10 transition-all duration-200 hover:scale-110 hover:bg-brand-green-500 hover:text-white"
+                      className="grid h-10 w-10 place-items-center rounded-full bg-white/10 text-white transition-all duration-200 hover:scale-110 hover:bg-brand-green-500 hover:text-white"
                     >
                       <Icon sx={{ fontSize: 18 }} />
                     </a>
@@ -643,7 +638,7 @@ export default function ReviewSubmit() {
                     <li key={l.label}>
                       <a
                         href={l.href}
-                        className="text-sm transition-colors duration-200 hover:text-brand-green-400"
+                        className="text-sm font-normal text-slate-300 transition-colors duration-200 hover:text-brand-green-400"
                       >
                         {l.label}
                       </a>
@@ -655,24 +650,24 @@ export default function ReviewSubmit() {
 
             <div>
               <p className="text-sm font-bold text-white">Contact Us</p>
-              <ul className="mt-5 space-y-4 text-sm">
+              <ul className="mt-5 space-y-4 text-sm font-normal text-slate-300">
                 <li className="flex items-center gap-2.5">
-                  <EmailIcon sx={{ fontSize: 16 }} />
+                  <EmailIcon sx={{ fontSize: 16 }} className="text-slate-300" />
                   support@smartfincompass.com
                 </li>
                 <li className="flex items-center gap-2.5">
-                  <CallIcon sx={{ fontSize: 16 }} />
+                  <CallIcon sx={{ fontSize: 16 }} className="text-slate-300" />
                   +91 98765 43210
                 </li>
                 <li className="flex items-center gap-2.5">
-                  <PlaceIcon sx={{ fontSize: 16 }} />
+                  <PlaceIcon sx={{ fontSize: 16 }} className="text-slate-300" />
                   Bangalore, Karnataka, India
                 </li>
               </ul>
             </div>
           </div>
 
-          <div className="flex flex-col items-center justify-between gap-3 border-t border-white/10 py-7 text-xs sm:flex-row">
+          <div className="flex flex-col items-center justify-between gap-3 border-t border-white/10 py-7 text-xs font-normal text-slate-300 sm:flex-row">
             <p>© 2025 SmartFin Compass. All rights reserved.</p>
             <div className="flex gap-5">
               <a

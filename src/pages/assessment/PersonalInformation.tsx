@@ -74,10 +74,10 @@ const FOOTER_COLUMNS = [
 ];
 
 const PROGRESS_STEPS = [
-  { label: "Personal Info", icon: PersonIcon, active: true },
-  { label: "Income & Expenses", icon: FormatListBulletedIcon, active: false },
-  { label: "Goals & Preferences", icon: FlagIcon, active: false },
-  { label: "Review & Insights", icon: ReviewIcon, active: false },
+  { label: "Personal Info", icon: PersonIcon, active: true, completed: false },
+  { label: "Income & Expenses", icon: FormatListBulletedIcon, active: false, completed: false },
+  { label: "Goals & Preferences", icon: FlagIcon, active: false, completed: false },
+  { label: "Review & Insights", icon: ReviewIcon, active: false, completed: false },
 ];
 
 const GENDER_OPTIONS = [
@@ -106,19 +106,19 @@ const EDUCATION_OPTIONS = [
 const WHY_WE_ASK = [
   {
     icon: LightbulbIcon,
-    color: "text-brand-green-600 bg-brand-green-50",
+    color: "text-brand-green-600 bg-brand-green-50 border border-brand-green-100",
     title: "Personalized Insights",
     desc: "Helps us provide insights tailored to your profile",
   },
   {
     icon: AnalyticsIcon,
-    color: "text-sky-500 bg-sky-50",
+    color: "text-sky-600 bg-sky-50 border border-sky-100",
     title: "Accurate Recommendations",
     desc: "Enables better financial recommendations",
   },
   {
     icon: CompareArrowsIcon,
-    color: "text-violet-500 bg-violet-50",
+    color: "text-violet-600 bg-violet-50 border border-violet-100",
     title: "Benchmarking",
     desc: "Compare your financial health with relevant peers",
   },
@@ -146,37 +146,29 @@ export default function PersonalInformation() {
 
   const validate = useCallback(() => {
     const e: Record<string, string> = {};
-    if (!fullName.trim()) {
-      e.fullName = "Please enter your full name.";
-    } else if (fullName.trim().length < 2) {
+    if (fullName.trim() && fullName.trim().length < 2) {
       e.fullName = "Full name must be at least 2 characters long.";
     }
 
-    if (!email.trim()) {
-      e.email = "Please enter your email address.";
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
+    if (email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
       e.email = "Please enter a valid email address.";
     }
 
-    if (phone && phone.length !== 10) {
-      e.phone = "Phone number must contain exactly 10 digits.";
-    }
-
-    if (education === "Other" && !educationOther.trim()) {
-      e.educationOther = "Please specify your education level.";
+    if (phone.trim() && phone.trim().length < 7) {
+      e.phone = "Please enter a valid phone number.";
     }
 
     setErrors(e);
     return Object.keys(e).length === 0;
-  }, [fullName, email, phone, education, educationOther]);
+  }, [fullName, email, phone]);
 
   return (
     <div className="min-h-screen bg-slate-50">
       {/* ─── NAVBAR ─── */}
-      <header className="sticky top-0 z-50 border-b border-navy-950/5 bg-white/95 backdrop-blur-md">
+      <header className="sticky top-0 z-50 border-b border-slate-200/80 bg-white/95 backdrop-blur-md">
         <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6 py-3 lg:px-10">
           <Link to="/" className="flex items-center gap-3">
-            <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand-green-500 text-white">
+            <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand-green-500 text-white shadow-sm">
               <ExploreIcon fontSize="small" />
             </span>
             <span className="text-xl font-bold leading-tight text-navy-950">
@@ -190,10 +182,10 @@ export default function PersonalInformation() {
               <a
                 key={link.label}
                 href={link.href}
-                className={`group/nav relative text-[15px] font-medium transition-colors duration-250 ${
+                className={`group/nav relative text-[15px] font-semibold transition-colors duration-250 ${
                   i === 0
                     ? "text-navy-950"
-                    : "text-navy-900/70 hover:text-brand-green-600"
+                    : "text-slate-700 hover:text-brand-green-600"
                 }`}
               >
                 {link.label}
@@ -207,7 +199,7 @@ export default function PersonalInformation() {
           </nav>
 
           <div className="hidden items-center gap-4 lg:flex">
-            <button className="relative grid h-10 w-10 place-items-center rounded-full text-navy-900/60 transition-colors hover:bg-slate-100 hover:text-navy-950">
+            <button className="relative grid h-10 w-10 place-items-center rounded-full text-slate-600 transition-colors hover:bg-slate-100 hover:text-navy-950">
               <NotificationsNoneIcon sx={{ fontSize: 22 }} />
               <span className="absolute right-2 top-2 h-2.5 w-2.5 rounded-full border-2 border-white bg-brand-green-500" />
             </button>
@@ -217,7 +209,7 @@ export default function PersonalInformation() {
               </span>
               <KeyboardArrowDownIcon
                 sx={{ fontSize: 18 }}
-                className="text-navy-900/50"
+                className="text-slate-600"
               />
             </div>
           </div>
@@ -232,13 +224,13 @@ export default function PersonalInformation() {
         </div>
 
         {mobileMenuOpen && (
-          <div className="border-t border-navy-950/5 bg-white px-6 py-4 lg:hidden">
+          <div className="border-t border-slate-200 bg-white px-6 py-4 lg:hidden">
             <nav className="flex flex-col gap-4">
               {NAV_LINKS.map((link) => (
                 <a
                   key={link.label}
                   href={link.href}
-                  className="text-sm font-medium text-navy-900/80"
+                  className="text-sm font-semibold text-slate-700 hover:text-brand-green-600"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   {link.label}
@@ -246,7 +238,7 @@ export default function PersonalInformation() {
               ))}
             </nav>
             <div className="mt-4 flex items-center gap-3">
-              <button className="relative grid h-10 w-10 place-items-center rounded-full text-navy-900/60">
+              <button className="relative grid h-10 w-10 place-items-center rounded-full text-slate-600">
                 <NotificationsNoneIcon sx={{ fontSize: 22 }} />
               </button>
               <span className="flex h-9 w-9 items-center justify-center rounded-full bg-navy-950 text-sm font-bold text-white">
@@ -264,48 +256,53 @@ export default function PersonalInformation() {
             <h1 className="text-3xl font-extrabold text-navy-950 sm:text-4xl">
               Personal Information
             </h1>
-            <p className="mt-3 text-sm sm:text-base leading-relaxed text-navy-900/70">
-              Help us understand you better. This information is secure and
-              used to create your personalized roadmap.
+            <p className="mt-3 text-[15px] leading-relaxed text-slate-600 font-medium">
+              Please enter your personal details below to begin your financial wellness assessment.
             </p>
           </div>
 
-          {/* Assessment Progress */}
-          <div className="w-full max-w-lg rounded-2xl border border-navy-950/5 bg-white p-6 shadow-[0_2px_12px_rgba(13,37,73,0.04)]">
+          {/* Assessment Progress Card */}
+          <div className="w-full max-w-2xl rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
             <div className="mb-5 flex items-center justify-between">
-              <p className="text-sm sm:text-base font-bold text-navy-950">
+              <p className="text-sm font-bold text-navy-950">
                 Assessment Progress
               </p>
-              <span className="rounded-full bg-brand-green-50 px-3 py-1 text-xs font-semibold text-brand-green-600">
-                Step 1 of 4
+              <span className="rounded-full bg-brand-green-100 px-3 py-1 text-xs font-bold text-brand-green-700">
+                Step 1 of 12
               </span>
             </div>
             <div className="relative">
-              {/* Connector line */}
-              <div className="absolute left-6 top-5 h-0.5 w-[calc(100%-48px)] bg-navy-950/8" />
-              <div className="flex items-start justify-between">
-                {PROGRESS_STEPS.map((step) => (
+              <div className="absolute left-[20px] top-4 h-0.5 w-[calc(100%-40px)] bg-slate-200" />
+              <div className="absolute left-[20px] top-4 h-0.5 w-[calc(100%-40px)] bg-brand-green-500" style={{ width: "8.33%" }} />
+              <div className="flex items-start justify-between overflow-x-auto pb-2">
+                {PROGRESS_STEPS.map((step, i) => (
                   <div
                     key={step.label}
-                    className="flex flex-col items-center text-center"
-                    style={{ width: "25%" }}
+                    className="flex shrink-0 flex-col items-center text-center px-1"
+                    style={{ minWidth: "48px" }}
                   >
                     <span
-                      className={`relative z-10 flex h-10 w-10 items-center justify-center rounded-full text-sm font-bold transition-all ${
+                      className={`relative z-10 flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold transition-all ${
                         step.active
-                          ? "bg-brand-green-500 text-white shadow-[0_0_12px_rgba(34,181,115,0.25)]"
-                          : "border-2 border-navy-950/10 bg-white text-navy-900/40"
+                          ? "bg-brand-green-500 text-white shadow-sm ring-4 ring-brand-green-100"
+                          : step.completed
+                          ? "bg-brand-green-500 text-white shadow-sm"
+                          : "border-2 border-slate-300 bg-white text-slate-500"
                       }`}
                     >
-                      {step.active ? (
-                        <CheckCircleIcon sx={{ fontSize: 20 }} />
+                      {step.completed ? (
+                        <CheckCircleIcon sx={{ fontSize: 16 }} />
                       ) : (
-                        PROGRESS_STEPS.indexOf(step) + 1
+                        i + 1
                       )}
                     </span>
                     <p
-                      className={`mt-2.5 text-xs sm:text-sm font-semibold ${
-                        step.active ? "text-brand-green-600" : "text-navy-900/60"
+                      className={`mt-2 text-[10px] font-semibold leading-tight ${
+                        step.active
+                          ? "text-brand-green-700 font-bold"
+                          : step.completed
+                          ? "text-slate-700"
+                          : "text-slate-500"
                       }`}
                     >
                       {step.label}
@@ -317,68 +314,56 @@ export default function PersonalInformation() {
           </div>
         </div>
 
-        {/* ─── MAIN CONTENT: Two Columns ─── */}
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1fr_360px]">
-          {/* LEFT — Form Card */}
-          <div className="rounded-2xl border border-navy-950/5 bg-white p-7 shadow-[0_2px_12px_rgba(13,37,73,0.04)] sm:p-8">
-            {/* Section Heading */}
-            <div className="mb-8 flex items-center gap-3.5">
-              <span className="flex h-11 w-11 items-center justify-center rounded-full bg-brand-green-50 text-brand-green-600">
-                <PersonIcon sx={{ fontSize: 22 }} />
-              </span>
-              <div>
-                <p className="text-base sm:text-lg font-bold text-navy-950">
-                  Basic Details
-                </p>
-                <p className="text-xs sm:text-sm font-medium text-navy-900/60">
-                  Your basic information helps us personalize your experience.
-                </p>
+        {/* ─── MAIN CONTENT: Form + Sidebar ─── */}
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
+          {/* Left Column: Form */}
+          <div className="lg:col-span-8">
+            {/* Basic Details Section */}
+            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+              <h2 className="mb-6 text-lg font-bold text-navy-950 border-b border-slate-100 pb-3">
+                Basic Details
+              </h2>
+
+              <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+                <AssessmentInput
+                  label="Full Name"
+                  value={fullName}
+                  onChange={(v) => {
+                    setFullName(v);
+                    if (errors.fullName) setErrors((p) => { const n = { ...p }; delete n.fullName; return n; });
+                  }}
+                  mode="text-only"
+                  placeholder="Enter your full name"
+                  icon={<PersonIcon sx={{ fontSize: 20 }} />}
+                  error={errors.fullName}
+                />
+                <AssessmentInput
+                  label="Email Address"
+                  value={email}
+                  onChange={(v) => {
+                    setEmail(v);
+                    if (errors.email) setErrors((p) => { const n = { ...p }; delete n.email; return n; });
+                  }}
+                  type="email"
+                  placeholder="Enter your email address"
+                  icon={<EmailIcon sx={{ fontSize: 20 }} />}
+                  error={errors.email}
+                />
               </div>
-            </div>
 
-            {/* Full Name + Email — side by side */}
-            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-              <AssessmentInput
-                label="Full Name"
-                value={fullName}
-                onChange={(v) => {
-                  setFullName(v);
-                  if (errors.fullName) setErrors((p) => { const n = { ...p }; delete n.fullName; return n; });
-                }}
-                mode="text-only"
-                placeholder="Enter your full name"
-                icon={<PersonIcon sx={{ fontSize: 20 }} />}
-                required
-                error={errors.fullName}
-              />
-              <AssessmentInput
-                label="Email Address"
-                value={email}
-                onChange={(v) => {
-                  setEmail(v);
-                  if (errors.email) setErrors((p) => { const n = { ...p }; delete n.email; return n; });
-                }}
-                type="email"
-                placeholder="Enter your email address"
-                icon={<EmailIcon sx={{ fontSize: 20 }} />}
-                required
-                error={errors.email}
-              />
-            </div>
-
-            {/* Phone Number */}
-            <div className="mt-5">
-              <PhoneInput
-                label="Phone Number"
-                value={phone}
-                onChange={(v) => {
-                  setPhone(v);
-                  if (errors.phone) setErrors((p) => { const n = { ...p }; delete n.phone; return n; });
-                }}
-                placeholder="Enter 10-digit mobile number"
-                error={errors.phone}
-              />
-            </div>
+              {/* Phone Number */}
+              <div className="mt-5">
+                <PhoneInput
+                  label="Phone Number"
+                  value={phone}
+                  onChange={(v) => {
+                    setPhone(v);
+                    if (errors.phone) setErrors((p) => { const n = { ...p }; delete n.phone; return n; });
+                  }}
+                  placeholder="Enter 10-digit mobile number"
+                  error={errors.phone}
+                />
+              </div>
 
             {/* Date of Birth */}
             <div className="mt-5">
@@ -394,7 +379,7 @@ export default function PersonalInformation() {
 
             {/* Gender */}
             <div className="mt-5">
-              <label className="mb-3 block text-sm sm:text-base font-semibold text-navy-950">
+              <label className="mb-3 block text-sm sm:text-base font-bold text-navy-950">
                 Gender
               </label>
               <div className="grid grid-cols-3 gap-4">
@@ -405,27 +390,27 @@ export default function PersonalInformation() {
                     onClick={() => setGender(opt.label)}
                     className={`flex items-center gap-3 rounded-xl border-2 px-4 py-3.5 text-left transition-all duration-200 ${
                       gender === opt.label
-                        ? "border-brand-green-500 bg-brand-green-50/50"
-                        : "border-navy-950/8 bg-white hover:border-navy-950/15"
+                        ? "border-brand-green-500 bg-brand-green-50/80 shadow-xs"
+                        : "border-slate-300 bg-white hover:border-slate-400"
                     }`}
                   >
                     <span
                       className={`flex h-9 w-9 items-center justify-center rounded-full ${
                         gender === opt.label
-                          ? "bg-brand-green-100 text-brand-green-600"
-                          : "bg-slate-100 text-navy-900/40"
+                          ? "bg-brand-green-100 text-brand-green-700"
+                          : "bg-slate-100 text-slate-600"
                       }`}
                     >
                       <opt.icon sx={{ fontSize: 20 }} />
                     </span>
-                    <span className="text-sm sm:text-base font-semibold text-navy-950">
+                    <span className="text-sm sm:text-base font-bold text-navy-950">
                       {opt.label}
                     </span>
                     <span
                       className={`ml-auto h-5 w-5 rounded-full border-2 flex items-center justify-center ${
                         gender === opt.label
                           ? "border-brand-green-500"
-                          : "border-navy-950/15"
+                          : "border-slate-300"
                       }`}
                     >
                       {gender === opt.label && (
@@ -451,23 +436,23 @@ export default function PersonalInformation() {
             {/* Dependents + Education — side by side */}
             <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2">
               <div>
-                <label className="mb-2 block text-sm sm:text-base font-semibold text-navy-950">
+                <label className="mb-2 block text-sm sm:text-base font-bold text-navy-950">
                   Dependents
                 </label>
                 <div className="flex items-center gap-0">
-                  <span className="flex h-12 items-center pl-3.5 text-navy-900/40">
-                    <GroupsIcon sx={{ fontSize: 20 }} />
+                  <span className="flex h-12 items-center pl-3.5 text-slate-600 pr-1">
+                    <GroupsIcon sx={{ fontSize: 22 }} />
                   </span>
                   <button
                     type="button"
                     onClick={() =>
                       setDependents((d) => Math.max(0, d - 1))
                     }
-                    className="flex h-12 w-12 items-center justify-center rounded-l-xl border border-r-0 border-navy-950/10 bg-slate-50 text-lg font-bold text-navy-900/50 transition-colors hover:bg-slate-100 active:bg-slate-200"
+                    className="flex h-12 w-12 items-center justify-center rounded-l-xl border border-r-0 border-slate-300 bg-slate-100 text-xl font-extrabold text-navy-950 transition-colors hover:bg-slate-200 active:bg-slate-300"
                   >
                     −
                   </button>
-                  <span className="flex h-12 w-14 items-center justify-center border-y border-navy-950/10 bg-white text-sm sm:text-base font-semibold text-navy-950">
+                  <span className="flex h-12 w-14 items-center justify-center border-y border-slate-300 bg-white text-base font-extrabold text-navy-950">
                     {dependents}
                   </span>
                   <button
@@ -475,12 +460,12 @@ export default function PersonalInformation() {
                     onClick={() =>
                       setDependents((d) => Math.min(20, d + 1))
                     }
-                    className="flex h-12 w-12 items-center justify-center rounded-r-xl border border-l-0 border-navy-950/10 bg-slate-50 text-lg font-bold text-navy-900/50 transition-colors hover:bg-slate-100 active:bg-slate-200"
+                    className="flex h-12 w-12 items-center justify-center rounded-r-xl border border-l-0 border-slate-300 bg-slate-100 text-xl font-extrabold text-navy-950 transition-colors hover:bg-slate-200 active:bg-slate-300"
                   >
                     +
                   </button>
                 </div>
-                <p className="mt-1.5 text-xs text-navy-900/40">
+                <p className="mt-1.5 text-xs sm:text-sm font-semibold text-slate-600">
                   Include children, parents or other dependents
                 </p>
               </div>
@@ -504,6 +489,7 @@ export default function PersonalInformation() {
                 />
               </div>
             </div>
+          </div>
 
             {/* Next Button */}
             <div className="mt-8 flex flex-col items-center">
@@ -514,14 +500,14 @@ export default function PersonalInformation() {
                   updateAssessment("personalInfo", { fullName, email, phone, dateOfBirth: dob, gender, maritalStatus, dependents: String(dependents), education: education === "Other" ? educationOther : education });
                   navigate("/employment-details");
                 }}
-                className="flex h-12 w-full max-w-sm items-center justify-center gap-2 rounded-xl bg-brand-green-500 text-[15px] font-semibold text-white shadow-soft transition-all duration-250 hover:bg-brand-green-600 hover:shadow-md active:scale-[0.98]"
+                className="flex h-12 w-full max-w-sm items-center justify-center gap-2 rounded-xl bg-brand-green-500 text-base font-bold text-white shadow-md transition-all duration-250 hover:bg-brand-green-600 hover:shadow-lg active:scale-[0.98]"
               >
                 Next
-                <ArrowForwardIcon sx={{ fontSize: 18 }} />
+                <ArrowForwardIcon sx={{ fontSize: 20 }} />
               </button>
-              <p className="mt-4 flex items-center gap-2 text-sm text-navy-900/50">
-                <span className="text-brand-green-500">
-                  <CheckCircleIcon sx={{ fontSize: 16 }} />
+              <p className="mt-4 flex items-center gap-2 text-xs sm:text-sm font-semibold text-slate-700">
+                <span className="text-brand-green-600">
+                  <CheckCircleIcon sx={{ fontSize: 18 }} />
                 </span>
                 Your information is safe with us and 100% secure
               </p>
@@ -529,57 +515,38 @@ export default function PersonalInformation() {
           </div>
 
           {/* RIGHT — Sidebar */}
-          <div className="flex flex-col gap-6">
+          <div className="lg:col-span-4 flex flex-col gap-6">
             {/* Card 1: Your Information is Safe */}
-            <div className="rounded-2xl border border-navy-950/5 bg-white p-7 shadow-[0_2px_12px_rgba(13,37,73,0.04)]">
+            <div className="rounded-2xl border border-slate-200/90 bg-white p-7 shadow-sm">
               {/* Illustration placeholder */}
-              <div className="relative mb-5 flex items-center justify-center overflow-hidden rounded-xl bg-gradient-to-br from-sky-50 to-brand-green-50/50 px-4 py-8">
+              <div className="relative mb-5 flex items-center justify-center overflow-hidden rounded-xl bg-gradient-to-br from-sky-50 to-brand-green-50/70 px-4 py-8 border border-slate-100">
                 <div className="relative">
                   {/* Shield icon */}
-                  <span className="flex h-20 w-20 items-center justify-center rounded-full bg-white shadow-lg">
+                  <span className="flex h-20 w-20 items-center justify-center rounded-full bg-white shadow-md border border-brand-green-100">
                     <ShieldIcon
-                      sx={{ fontSize: 40 }}
-                      className="text-brand-green-500"
+                      sx={{ fontSize: 42 }}
+                      className="text-brand-green-600"
                     />
                   </span>
-                  {/* Person silhouette */}
-                  <span className="absolute -bottom-1 left-1/2 flex h-10 w-10 -translate-x-1/2 items-center justify-center rounded-full bg-navy-950/5">
-                    <PersonIcon
-                      sx={{ fontSize: 20 }}
-                      className="text-navy-900/30"
-                    />
-                  </span>
-                </div>
-                {/* Decorative dots */}
-                <div className="absolute right-6 top-4 flex gap-1.5">
-                  <span className="h-1.5 w-1.5 rounded-full bg-brand-green-400/40" />
-                  <span className="h-1.5 w-1.5 rounded-full bg-sky-400/40" />
-                  <span className="h-1.5 w-1.5 rounded-full bg-brand-green-400/40" />
-                </div>
-                <div className="absolute bottom-4 left-6">
-                  <span className="h-2 w-2 rounded-full bg-brand-green-300/30" />
-                </div>
-                <div className="absolute right-10 bottom-6">
-                  <span className="h-1 w-1 rounded-full bg-sky-300/40" />
                 </div>
                 {/* Checkmark badge */}
-                <span className="absolute -bottom-2 right-8 flex h-8 w-8 items-center justify-center rounded-full bg-brand-green-500 text-white shadow-md">
-                  <CheckCircleIcon sx={{ fontSize: 16 }} />
+                <span className="absolute bottom-6 right-10 flex h-8 w-8 items-center justify-center rounded-full bg-brand-green-500 text-white shadow-md">
+                  <CheckCircleIcon sx={{ fontSize: 18 }} />
                 </span>
               </div>
 
-              <h3 className="text-center text-base font-bold text-navy-950">
+              <h3 className="text-center text-base sm:text-lg font-extrabold text-navy-950">
                 Your Information is Safe
               </h3>
-              <p className="mt-2 text-center text-sm leading-relaxed text-navy-900/50">
+              <p className="mt-2 text-center text-sm font-medium leading-relaxed text-slate-600">
                 We use bank-level encryption to protect your data and ensure
                 your privacy.
               </p>
             </div>
 
             {/* Card 2: Why We Ask This */}
-            <div className="rounded-2xl border border-navy-950/5 bg-white p-7 shadow-[0_2px_12px_rgba(13,37,73,0.04)]">
-              <h3 className="mb-5 text-base font-bold text-navy-950">
+            <div className="rounded-2xl border border-slate-200/90 bg-white p-7 shadow-sm">
+              <h3 className="mb-5 text-base sm:text-lg font-extrabold text-navy-950">
                 Why We Ask This
               </h3>
               <div className="space-y-5">
@@ -591,10 +558,10 @@ export default function PersonalInformation() {
                       <item.icon sx={{ fontSize: 20 }} />
                     </span>
                     <div>
-                      <p className="text-sm font-bold text-navy-950">
+                      <p className="text-sm sm:text-base font-extrabold text-navy-950">
                         {item.title}
                       </p>
-                      <p className="mt-0.5 text-xs leading-relaxed text-navy-900/50">
+                      <p className="mt-0.5 text-xs sm:text-sm font-medium leading-relaxed text-slate-600">
                         {item.desc}
                       </p>
                     </div>
@@ -604,21 +571,21 @@ export default function PersonalInformation() {
             </div>
 
             {/* Card 3: Need Help? */}
-            <div className="rounded-2xl border border-navy-950/5 bg-white p-7 shadow-[0_2px_12px_rgba(13,37,73,0.04)]">
+            <div className="rounded-2xl border border-slate-200/90 bg-white p-7 shadow-sm">
               <div className="mb-3 flex items-center gap-2.5">
-                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-green-50 text-brand-green-600">
+                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-green-50 text-brand-green-700 border border-brand-green-100">
                   <CallIcon sx={{ fontSize: 18 }} />
                 </span>
-                <h3 className="text-base font-bold text-navy-950">
+                <h3 className="text-base sm:text-lg font-extrabold text-navy-950">
                   Need Help?
                 </h3>
               </div>
-              <p className="text-sm text-navy-900/50">
+              <p className="text-sm font-medium text-slate-600">
                 If you have any questions, we're here to help.
               </p>
               <a
                 href="#"
-                className="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-brand-green-600 transition-colors hover:text-brand-green-700"
+                className="mt-3 inline-flex items-center gap-1.5 text-sm font-bold text-brand-green-700 transition-colors hover:text-brand-green-800 hover:underline"
               >
                 Contact Support
                 <ArrowForwardIcon sx={{ fontSize: 16 }} />
@@ -628,16 +595,16 @@ export default function PersonalInformation() {
         </div>
 
         {/* ─── PRIVACY BANNER ─── */}
-        <div className="mt-10 rounded-2xl border border-navy-950/5 bg-brand-green-50/40 px-7 py-6">
+        <div className="mt-10 rounded-2xl border border-brand-green-200/80 bg-brand-green-50/60 px-7 py-6 shadow-xs">
           <div className="flex items-start gap-4">
-            <span className="mt-0.5 flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-brand-green-100 text-brand-green-600">
+            <span className="mt-0.5 flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-brand-green-100 text-brand-green-700 border border-brand-green-200/80">
               <LockIcon sx={{ fontSize: 20 }} />
             </span>
             <div>
-              <p className="text-base font-bold text-navy-950">
+              <p className="text-base font-extrabold text-navy-950">
                 We respect your privacy.
               </p>
-              <p className="mt-1 text-sm leading-relaxed text-navy-900/50">
+              <p className="mt-1 text-sm font-medium leading-relaxed text-slate-600">
                 Your data is never shared with third parties and used only for
                 improving your financial wellness.
               </p>
@@ -647,7 +614,7 @@ export default function PersonalInformation() {
       </main>
 
       {/* ─── FOOTER ─── */}
-      <footer className="bg-navy-950 pt-20 text-white/70">
+      <footer className="bg-navy-950 pt-20 text-slate-300">
         <div className="mx-auto max-w-7xl px-6 lg:px-10">
           <div className="grid grid-cols-1 gap-12 pb-14 sm:grid-cols-2 lg:grid-cols-5">
             <div className="lg:col-span-2">
@@ -662,7 +629,7 @@ export default function PersonalInformation() {
                   </span>
                 </span>
               </Link>
-              <p className="mt-5 max-w-xs text-sm leading-relaxed">
+              <p className="mt-5 max-w-xs text-sm font-medium leading-relaxed text-slate-300">
                 AI-powered financial wellness platform that helps you make
                 smarter financial decisions.
               </p>
@@ -672,7 +639,7 @@ export default function PersonalInformation() {
                     <a
                       key={i}
                       href="#"
-                      className="grid h-10 w-10 place-items-center rounded-full bg-white/10 transition-all duration-200 hover:scale-110 hover:bg-brand-green-500 hover:text-white"
+                      className="grid h-10 w-10 place-items-center rounded-full bg-white/10 text-white transition-all duration-200 hover:scale-110 hover:bg-brand-green-500 hover:text-white"
                     >
                       <Icon sx={{ fontSize: 18 }} />
                     </a>
@@ -683,13 +650,13 @@ export default function PersonalInformation() {
 
             {FOOTER_COLUMNS.map((col) => (
               <div key={col.title}>
-                <p className="text-sm font-bold text-white">{col.title}</p>
+                <p className="text-sm font-bold text-white uppercase tracking-wider">{col.title}</p>
                 <ul className="mt-5 space-y-3">
                   {col.links.map((l) => (
                     <li key={l.label}>
                       <a
                         href={l.href}
-                        className="text-sm transition-colors duration-200 hover:text-brand-green-400"
+                        className="text-sm font-medium text-slate-300 transition-colors duration-200 hover:text-brand-green-400"
                       >
                         {l.label}
                       </a>
@@ -700,25 +667,25 @@ export default function PersonalInformation() {
             ))}
 
             <div>
-              <p className="text-sm font-bold text-white">Contact Us</p>
-              <ul className="mt-5 space-y-4 text-sm">
+              <p className="text-sm font-bold text-white uppercase tracking-wider">Contact Us</p>
+              <ul className="mt-5 space-y-4 text-sm font-medium text-slate-300">
                 <li className="flex items-center gap-2.5">
-                  <EmailIcon sx={{ fontSize: 16 }} />
+                  <EmailIcon className="text-brand-green-400" sx={{ fontSize: 16 }} />
                   support@smartfincompass.com
                 </li>
                 <li className="flex items-center gap-2.5">
-                  <CallIcon sx={{ fontSize: 16 }} />
+                  <CallIcon className="text-brand-green-400" sx={{ fontSize: 16 }} />
                   +91 98765 43210
                 </li>
                 <li className="flex items-center gap-2.5">
-                  <PlaceIcon sx={{ fontSize: 16 }} />
+                  <PlaceIcon className="text-brand-green-400" sx={{ fontSize: 16 }} />
                   Bangalore, Karnataka, India
                 </li>
               </ul>
             </div>
           </div>
 
-          <div className="flex flex-col items-center justify-between gap-3 border-t border-white/10 py-7 text-xs sm:flex-row">
+          <div className="flex flex-col items-center justify-between gap-3 border-t border-white/10 py-7 text-xs font-medium text-slate-400 sm:flex-row">
             <p>© 2025 SmartFin Compass. All rights reserved.</p>
             <div className="flex gap-5">
               <a
@@ -740,3 +707,4 @@ export default function PersonalInformation() {
     </div>
   );
 }
+

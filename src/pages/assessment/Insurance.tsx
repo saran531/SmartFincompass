@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useApp } from "../../context/AppContext";
 import ExploreIcon from "@mui/icons-material/Explore";
@@ -133,6 +133,19 @@ export default function Insurance() {
   const [contactNumber, setContactNumber] = useState(ins.nomineeContact || "");
   const [errors, setErrors] = useState<Record<string, string>>({});
 
+  const numericAmounts = useMemo(
+    () =>
+      Object.fromEntries(
+        Object.entries(amounts).map(([k, v]) => [k, parseFloat(v) || 0])
+      ) as Record<string, number>,
+    [amounts]
+  );
+
+  const totalCoverage = useMemo(
+    () => Object.values(numericAmounts).reduce((a: number, b: number) => a + b, 0),
+    [numericAmounts]
+  );
+
   const handleAmountChange = (key: string, value: string) => {
     let cleaned = value.replace(/[^0-9.]/g, "");
     const parts = cleaned.split(".");
@@ -143,16 +156,8 @@ export default function Insurance() {
 
   const validate = (): boolean => {
     const errs: Record<string, string> = {};
-    if (nomineeName.trim() || relationship || dob || contactNumber) {
-      if (!nomineeName.trim()) errs.nomineeName = "Please enter nominee full name.";
-      if (!relationship) errs.relationship = "Please select relationship.";
-      if ((relationship === "Other" || relationship === "Others") && !relationshipOther.trim()) {
-        errs.relationshipOther = "Please specify relationship.";
-      }
-      if (!dob) errs.dob = "Please select nominee date of birth.";
-      if (contactNumber && contactNumber.length > 0 && contactNumber.length !== 10) {
-        errs.contactNumber = "Phone number must contain exactly 10 digits.";
-      }
+    if (contactNumber && contactNumber.length > 0 && contactNumber.length < 7) {
+      errs.contactNumber = "Please enter a valid phone number.";
     }
     setErrors(errs);
     return Object.keys(errs).length === 0;
@@ -253,48 +258,50 @@ export default function Insurance() {
               Insurance Details
             </h1>
             <p className="mt-3 text-[15px] leading-relaxed text-navy-900/55">
-              Provide your insurance information to ensure better protection
-              planning.
+              Please enter details of your insurance policies and nominee information.
             </p>
           </div>
 
           {/* Assessment Progress */}
-          <div className="w-full max-w-lg rounded-2xl border border-navy-950/5 bg-white p-6 shadow-[0_2px_12px_rgba(13,37,73,0.04)]">
+          <div className="w-full max-w-2xl rounded-2xl border border-navy-950/5 bg-white p-6 shadow-[0_2px_12px_rgba(13,37,73,0.04)]">
             <div className="mb-5 flex items-center justify-between">
               <p className="text-sm font-bold text-navy-950">
                 Assessment Progress
               </p>
               <span className="rounded-full bg-brand-green-50 px-3 py-1 text-xs font-semibold text-brand-green-600">
-                Step 6 of 6
+                Step 8 of 12
               </span>
             </div>
             <div className="relative">
-              <div className="absolute left-[40px] top-5 h-0.5 w-[calc(100%-80px)] bg-navy-950/8" />
-              <div className="absolute left-[40px] top-5 h-0.5 w-[calc(100%-80px)] bg-brand-green-500" />
+              <div className="absolute left-[28px] top-5 h-0.5 w-[calc(100%-56px)] bg-navy-950/8" />
+              <div
+                className="absolute left-[28px] top-5 h-0.5 bg-brand-green-500 transition-all duration-300"
+                style={{ width: `${(7 / 11) * 100}%` }}
+              />
               <div className="flex items-start justify-between">
                 {PROGRESS_STEPS.map((step, i) => (
                   <div
                     key={step.label}
                     className="flex flex-col items-center text-center"
-                    style={{ width: `${100 / 6}%` }}
+                    style={{ width: `${100 / PROGRESS_STEPS.length}%` }}
                   >
                     <span
-                      className={`relative z-10 flex h-10 w-10 items-center justify-center rounded-full text-sm font-bold transition-all ${
+                      className={`relative z-10 flex h-9 w-9 items-center justify-center rounded-full text-xs font-bold transition-all ${
                         step.completed
-                          ? "bg-brand-green-500 text-white shadow-[0_0_12px_rgba(34,181,115,0.25)]"
+                          ? "bg-brand-green-500 text-white shadow-[0_0_10px_rgba(34,181,115,0.25)]"
                           : step.active
-                          ? "bg-brand-green-500 text-white shadow-[0_0_12px_rgba(34,181,115,0.25)]"
+                          ? "bg-brand-green-500 text-white shadow-[0_0_10px_rgba(34,181,115,0.25)] ring-4 ring-brand-green-500/20"
                           : "border-2 border-navy-950/10 bg-white text-navy-900/40"
                       }`}
                     >
                       {step.completed ? (
-                        <CheckCircleIcon sx={{ fontSize: 20 }} />
+                        <CheckCircleIcon sx={{ fontSize: 18 }} />
                       ) : (
                         i + 1
                       )}
                     </span>
                     <p
-                      className={`mt-2.5 text-[11px] font-semibold leading-tight ${
+                      className={`mt-2 text-[10px] font-semibold leading-tight ${
                         step.active
                           ? "text-brand-green-600"
                           : step.completed
@@ -311,84 +318,101 @@ export default function Insurance() {
           </div>
         </div>
 
-        {/* ─── MAIN CONTENT: Two Columns ─── */}
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1fr_360px]">
-          {/* LEFT — Form Card */}
-          <div className="rounded-2xl border border-navy-950/5 bg-white p-7 shadow-[0_2px_12px_rgba(13,37,73,0.04)] sm:p-8">
-            <div className="mb-6">
-              <p className="text-base font-bold text-navy-950">
-                Add Your Insurance Details
-              </p>
-              <p className="mt-1 text-sm text-navy-900/50">
-                Enter details of your active insurance policies
-              </p>
-            </div>
-
-            {/* Insurance Items */}
-            <div className="space-y-5">
-              {INSURANCE_ITEMS.map((item) => (
-                <div
-                  key={item.key}
-                  className="rounded-xl border border-navy-950/5 bg-slate-50/50 p-5 transition-colors hover:bg-slate-50"
-                >
-                  <div className="flex items-start gap-4">
-                    <span
-                      className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl ${item.color}`}
-                    >
-                      <item.icon sx={{ fontSize: 22 }} />
-                    </span>
-                    <div className="min-w-0 flex-1">
-                      <p className="text-sm font-bold text-navy-950">
-                        {item.label}
-                      </p>
-                      <p className="mt-0.5 text-xs text-navy-900/45">
-                        {item.desc}
-                      </p>
-                    </div>
-                    {/* Provider Select */}
-                    <div className="w-full max-w-[200px] shrink-0">
-                      <AssessmentSelect
-                        label="Provider"
-                        value={providers[item.key] || ""}
-                        onChange={(val) => setProviders((prev) => ({ ...prev, [item.key]: val }))}
-                        options={PROVIDERS}
-                        placeholder="Select Provider"
-                      />
-                    </div>
-                  </div>
-                  {/* Amount Input */}
-                  <div className="relative mt-3 ml-16">
-                    <span className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-sm font-semibold text-navy-900/50">
-                      ₹
-                    </span>
-                    <input
-                      type="text"
-                      inputMode="decimal"
-                      value={amounts[item.key] || ""}
-                      onChange={(e) => handleAmountChange(item.key, e.target.value)}
-                      placeholder={item.amountLabel}
-                      className="h-11 w-full rounded-xl border border-navy-950/10 bg-white pl-7 pr-10 text-sm text-navy-950 placeholder:text-navy-900/40 transition-all hover:border-navy-950/20 focus:border-brand-green-500 focus:outline-none focus:ring-2 focus:ring-brand-green-500/20"
-                    />
-                    <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-sm text-navy-900/30">
-                      .00
-                    </span>
-                  </div>
+        {/* ─── MAIN CONTENT: Grid ─── */}
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
+          {/* Left Column: Forms */}
+          <div className="space-y-6 lg:col-span-2">
+            {/* Insurance Policies Section */}
+            <div className="rounded-2xl border border-navy-950/5 bg-white p-7 shadow-[0_2px_12px_rgba(13,37,73,0.04)]">
+              <div className="mb-6 flex items-center justify-between">
+                <div>
+                  <h2 className="text-lg font-bold text-navy-950">
+                    Insurance Policies
+                  </h2>
+                  <p className="mt-1 text-xs text-navy-900/50">
+                    Select your current active policies and values
+                  </p>
                 </div>
-              ))}
+                <ShieldIcon className="text-brand-green-500" />
+              </div>
+
+              <div className="space-y-4">
+                {INSURANCE_ITEMS.map((item) => {
+                  const IconComp = item.icon;
+                  const isSelected = !!providers[item.key];
+
+                  return (
+                    <div
+                      key={item.key}
+                      className={`rounded-xl border p-4 transition-all duration-200 ${
+                        isSelected
+                          ? "border-brand-green-500 bg-brand-green-50/20"
+                          : "border-navy-950/5 hover:border-navy-950/15"
+                      }`}
+                    >
+                      <div className="flex items-center justify-between gap-4">
+                        <div className="flex items-center gap-3">
+                          <span
+                            className={`flex h-10 w-10 items-center justify-center rounded-lg ${item.color}`}
+                          >
+                            <IconComp fontSize="small" />
+                          </span>
+                          <div>
+                            <p className="text-sm font-bold text-navy-950">
+                              {item.label}
+                            </p>
+                            <p className="text-xs text-navy-900/50">
+                              {item.desc}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+                        <AssessmentSelect
+                          label="Provider"
+                          value={providers[item.key] || ""}
+                          onChange={(val) =>
+                            setProviders((prev) => ({
+                              ...prev,
+                              [item.key]: val,
+                            }))
+                          }
+                          options={PROVIDERS}
+                          placeholder="Select provider"
+                        />
+                        <AssessmentInput
+                          label={item.amountLabel}
+                          value={amounts[item.key] || ""}
+                          onChange={(val) => handleAmountChange(item.key, val)}
+                          mode="number-only"
+                          placeholder="Enter amount"
+                          icon="₹"
+                        />
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
 
-            {/* Nominee Details */}
-            <div className="mt-8">
-              <p className="text-base sm:text-lg font-bold text-navy-950">
-                Nominee Details
-              </p>
-              <p className="mt-1 text-sm text-navy-900/50">
-                Provide nominee information for your policies
-              </p>
+            {/* Nominee Details Section */}
+            <div className="rounded-2xl border border-navy-950/5 bg-white p-7 shadow-[0_2px_12px_rgba(13,37,73,0.04)]">
+              <div className="mb-4 flex items-center justify-between">
+                <div>
+                  <h2 className="text-lg font-bold text-navy-950">
+                    Nominee Details
+                  </h2>
+                  <p className="mt-1 text-xs text-navy-900/50">
+                    Primary nominee details for insurance coverage
+                  </p>
+                </div>
+                <PersonIcon className="text-brand-green-500" />
+              </div>
 
-              <div className="mt-4 rounded-xl border border-navy-950/5 bg-slate-50/50 p-5">
+              <div className="mt-4 rounded-xl border border-slate-200 bg-slate-50/60 p-5">
                 <div className="flex items-start gap-4">
-                  <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-sky-50 text-sky-500">
+                  <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-sky-100 text-sky-600">
                     <PersonIcon sx={{ fontSize: 22 }} />
                   </span>
                   <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2">
@@ -401,7 +425,6 @@ export default function Insurance() {
                       }}
                       mode="text-only"
                       placeholder="Enter nominee full name"
-                      required
                       error={errors.nomineeName}
                     />
                     <AssessmentSelect
@@ -410,7 +433,6 @@ export default function Insurance() {
                       onChange={(v) => setRelationship(v)}
                       options={RELATIONSHIPS}
                       placeholder="Select relationship"
-                      required
                       error={errors.relationship}
                       otherValue={relationshipOther}
                       onOtherChange={(v) => setRelationshipOther(v)}
@@ -426,7 +448,6 @@ export default function Insurance() {
                       }}
                       placeholder="DD / MM / YYYY"
                       max={new Date().toISOString().split("T")[0]}
-                      required
                       error={errors.dob}
                     />
                     <PhoneInput
@@ -437,20 +458,19 @@ export default function Insurance() {
                         if (errors.contactNumber) setErrors((p) => { const n = { ...p }; delete n.contactNumber; return n; });
                       }}
                       placeholder="Enter 10-digit mobile number"
-                      required
                       error={errors.contactNumber}
                     />
                   </div>
                 </div>
               </div>
             </div>
-
+            
             {/* Buttons */}
             <div className="mt-8 flex items-center justify-between">
               <button
                 type="button"
                 onClick={() => navigate("/savings")}
-                className="flex h-12 items-center gap-2 rounded-xl border-2 border-brand-green-500 bg-white px-6 text-sm font-semibold text-brand-green-600 transition-all duration-250 hover:bg-brand-green-50 active:scale-[0.98]"
+                className="flex h-12 items-center gap-2 rounded-xl border-2 border-brand-green-500 bg-white px-6 text-sm font-bold text-brand-green-600 transition-all duration-250 hover:bg-brand-green-50 active:scale-[0.98]"
               >
                 <ArrowBackIcon sx={{ fontSize: 18 }} />
                 Back
@@ -462,16 +482,16 @@ export default function Insurance() {
                   updateAssessment("insurance", { nomineeName, nomineeRelationship: relationship, nomineeDob: dob, nomineeContact: contactNumber });
                   navigate("/investment-experience");
                 }}
-                className="flex h-12 items-center gap-2 rounded-xl bg-brand-green-500 px-8 text-[15px] font-semibold text-white shadow-soft transition-all duration-250 hover:bg-brand-green-600 hover:shadow-md active:scale-[0.98]"
+                className="flex h-12 items-center gap-2 rounded-xl bg-brand-green-500 px-8 text-[15px] font-bold text-white shadow-soft transition-all duration-250 hover:bg-brand-green-600 hover:shadow-md active:scale-[0.98]"
               >
-                Review & Finish
+                Next
                 <ArrowForwardIcon sx={{ fontSize: 18 }} />
               </button>
             </div>
 
             {/* Security Message */}
-            <p className="mt-5 flex items-center justify-center gap-2 text-sm text-navy-900/50">
-              <LockIcon sx={{ fontSize: 16 }} className="text-brand-green-500" />
+            <p className="mt-5 flex items-center justify-center gap-2 text-sm font-medium text-slate-700">
+              <LockIcon sx={{ fontSize: 16 }} className="text-brand-green-600" />
               Your information is secure and encrypted
             </p>
           </div>
@@ -479,15 +499,15 @@ export default function Insurance() {
           {/* RIGHT — Sidebar */}
           <div className="flex flex-col gap-6">
             {/* Card 1: Insurance Summary */}
-            <div className="rounded-2xl border border-navy-950/5 bg-white p-7 shadow-[0_2px_12px_rgba(13,37,73,0.04)]">
+            <div className="rounded-2xl border border-slate-200 bg-white p-7 shadow-[0_2px_12px_rgba(13,37,73,0.06)]">
               <h3 className="mb-2 text-base font-bold text-navy-950">
                 Insurance Summary
               </h3>
-              <p className="mb-4 text-sm text-navy-900/50">
+              <p className="mb-4 text-sm font-medium text-slate-700">
                 Total Insurance Coverage
               </p>
-              <p className="mb-5 text-2xl font-extrabold text-brand-green-600">
-                ₹ 0.00
+              <p className="mb-5 text-2xl font-black text-brand-green-700">
+                ₹ {totalCoverage.toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
               </p>
 
               {/* Shield Illustration */}
@@ -503,8 +523,8 @@ export default function Insurance() {
                       cy="80"
                       r="75"
                       fill="none"
-                      stroke="#e5e7eb"
-                      strokeWidth="1"
+                      stroke="#cbd5e1"
+                      strokeWidth="1.5"
                       strokeDasharray="6 4"
                     />
                   </svg>
@@ -516,75 +536,80 @@ export default function Insurance() {
                     />
                   </div>
                   {/* Dots */}
-                  <span className="absolute right-2 top-6 h-2 w-2 rounded-full bg-brand-green-300" />
-                  <span className="absolute bottom-8 left-2 h-1.5 w-1.5 rounded-full bg-sky-300" />
-                  <span className="absolute right-6 bottom-4 h-1 w-1 rounded-full bg-amber-300" />
+                  <span className="absolute right-2 top-6 h-2 w-2 rounded-full bg-brand-green-400" />
+                  <span className="absolute bottom-8 left-2 h-2 w-2 rounded-full bg-sky-400" />
+                  <span className="absolute right-6 bottom-4 h-1.5 w-1.5 rounded-full bg-amber-400" />
                 </div>
               </div>
 
               {/* Summary Items */}
               <div className="space-y-3">
-                {INSURANCE_ITEMS.map((item) => (
-                  <div
-                    key={item.key}
-                    className="flex items-center justify-between text-sm"
-                  >
-                    <div className="flex items-center gap-2.5">
-                      <span
-                        className={`flex h-6 w-6 items-center justify-center rounded-md ${item.color}`}
-                      >
-                        <item.icon sx={{ fontSize: 14 }} />
-                      </span>
-                      <span className="text-navy-900/60">{item.label}</span>
+                {INSURANCE_ITEMS.map((item) => {
+                  const amt = numericAmounts[item.key] || 0;
+                  return (
+                    <div
+                      key={item.key}
+                      className="flex items-center justify-between text-sm"
+                    >
+                      <div className="flex items-center gap-2.5">
+                        <span
+                          className={`flex h-6 w-6 items-center justify-center rounded-md ${item.color}`}
+                        >
+                          <item.icon sx={{ fontSize: 14 }} />
+                        </span>
+                        <span className="font-medium text-slate-700">{item.label}</span>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <span className="font-bold text-navy-950">
+                          ₹ {amt.toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                        </span>
+                        <span className={`text-xs font-bold ${amt > 0 ? "text-brand-green-700" : "text-slate-500"}`}>
+                          {amt > 0 ? "Added" : "Not Added"}
+                        </span>
+                      </div>
                     </div>
-                    <div className="flex items-center gap-3">
-                      <span className="font-semibold text-navy-950">
-                        ₹ 0.00
-                      </span>
-                      <span className="text-xs text-navy-900/40">Not Added</span>
-                    </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
 
               {/* Total */}
-              <div className="mt-4 flex items-center justify-between border-t border-navy-950/5 pt-4">
+              <div className="mt-4 flex items-center justify-between border-t border-slate-200 pt-4">
                 <span className="text-sm font-bold text-navy-950">
                   Total Coverage
                 </span>
-                <span className="text-lg font-extrabold text-brand-green-600">
-                  ₹ 0.00
+                <span className="text-lg font-black text-brand-green-700">
+                  ₹ {totalCoverage.toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                 </span>
               </div>
             </div>
 
             {/* Card 2: Why Insurance Matters? */}
-            <div className="rounded-2xl border border-navy-950/5 bg-brand-green-50/30 p-7">
+            <div className="rounded-2xl border border-brand-green-200/70 bg-brand-green-50/60 p-7">
               <div className="mb-3 flex items-center gap-2.5">
-                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-green-100 text-brand-green-600">
+                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-green-100 text-brand-green-700">
                   <TrendingUpIcon sx={{ fontSize: 18 }} />
                 </span>
                 <h3 className="text-base font-bold text-navy-950">
                   Why Insurance Matters?
                 </h3>
               </div>
-              <p className="text-sm leading-relaxed text-navy-900/55">
+              <p className="text-sm font-medium leading-relaxed text-slate-700">
                 Insurance safeguards you and your family from unexpected events
                 and helps maintain financial stability.
               </p>
             </div>
 
             {/* Card 3: 100% Secure */}
-            <div className="rounded-2xl border border-navy-950/5 bg-sky-50/40 p-7">
+            <div className="rounded-2xl border border-sky-200 bg-sky-50/70 p-7">
               <div className="mb-3 flex items-center gap-2.5">
-                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-sky-100 text-sky-500">
+                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-sky-100 text-sky-600">
                   <ShieldIcon sx={{ fontSize: 18 }} />
                 </span>
                 <h3 className="text-base font-bold text-navy-950">
                   100% Secure
                 </h3>
               </div>
-              <p className="text-sm leading-relaxed text-navy-900/55">
+              <p className="text-sm font-medium leading-relaxed text-slate-700">
                 We use bank-level encryption to protect your financial data.
                 <br />
                 Your privacy is our priority.
@@ -595,7 +620,7 @@ export default function Insurance() {
       </main>
 
       {/* ─── FOOTER ─── */}
-      <footer className="bg-navy-950 pt-20 text-white/70">
+      <footer className="bg-navy-950 pt-20 text-slate-300">
         <div className="mx-auto max-w-7xl px-6 lg:px-10">
           <div className="grid grid-cols-1 gap-12 pb-14 sm:grid-cols-2 lg:grid-cols-5">
             <div className="lg:col-span-2">
@@ -610,7 +635,7 @@ export default function Insurance() {
                   </span>
                 </span>
               </Link>
-              <p className="mt-5 max-w-xs text-sm leading-relaxed">
+              <p className="mt-5 max-w-xs text-sm font-normal leading-relaxed text-slate-300">
                 AI-powered financial wellness platform that helps you make
                 smarter financial decisions.
               </p>
@@ -620,7 +645,7 @@ export default function Insurance() {
                     <a
                       key={i}
                       href="#"
-                      className="grid h-10 w-10 place-items-center rounded-full bg-white/10 transition-all duration-200 hover:scale-110 hover:bg-brand-green-500 hover:text-white"
+                      className="grid h-10 w-10 place-items-center rounded-full bg-white/10 text-white transition-all duration-200 hover:scale-110 hover:bg-brand-green-500 hover:text-white"
                     >
                       <Icon sx={{ fontSize: 18 }} />
                     </a>
@@ -637,7 +662,7 @@ export default function Insurance() {
                     <li key={l.label}>
                       <a
                         href={l.href}
-                        className="text-sm transition-colors duration-200 hover:text-brand-green-400"
+                        className="text-sm text-slate-300 transition-colors duration-200 hover:text-brand-green-400"
                       >
                         {l.label}
                       </a>
@@ -649,7 +674,7 @@ export default function Insurance() {
 
             <div>
               <p className="text-sm font-bold text-white">Contact Us</p>
-              <ul className="mt-5 space-y-4 text-sm">
+              <ul className="mt-5 space-y-4 text-sm text-slate-300">
                 <li className="flex items-center gap-2.5">
                   <EmailIcon sx={{ fontSize: 16 }} />
                   support@smartfincompass.com
@@ -666,7 +691,7 @@ export default function Insurance() {
             </div>
           </div>
 
-          <div className="flex flex-col items-center justify-between gap-3 border-t border-white/10 py-7 text-xs sm:flex-row">
+          <div className="flex flex-col items-center justify-between gap-3 border-t border-white/10 py-7 text-xs text-slate-400 sm:flex-row">
             <p>© 2025 SmartFin Compass. All rights reserved.</p>
             <div className="flex gap-5">
               <a

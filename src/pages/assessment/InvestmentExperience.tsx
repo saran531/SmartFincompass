@@ -166,7 +166,7 @@ function ProfileDonutChart() {
           cy="90"
           r={radius}
           fill="none"
-          stroke="#eef1f6"
+          stroke="#cbd5e1"
           strokeWidth={strokeWidth}
         />
         {segments.map((seg, i) => (
@@ -185,10 +185,10 @@ function ProfileDonutChart() {
         ))}
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <span className="flex h-10 w-10 items-center justify-center rounded-full bg-navy-950/5">
-          <PersonIcon sx={{ fontSize: 22 }} className="text-navy-900/40" />
+        <span className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-100">
+          <PersonIcon sx={{ fontSize: 22 }} className="text-slate-600" />
         </span>
-        <span className="mt-1 text-xs font-semibold text-navy-950">
+        <span className="mt-1 text-xs font-bold text-navy-950">
           Your Profile
         </span>
       </div>
@@ -314,28 +314,26 @@ export default function InvestmentExperience() {
         <div className="mb-8 flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
           <div className="max-w-xl">
             <h1 className="text-3xl font-extrabold text-navy-950 sm:text-4xl">
-              Investment
-              <br />
-              Experience
+              Investment Experience
             </h1>
-            <p className="mt-3 text-[15px] leading-relaxed text-navy-900/55">
+            <p className="mt-3 text-[15px] font-medium leading-relaxed text-slate-700">
               Help us understand your investment experience to provide
               personalized insights.
             </p>
           </div>
 
           {/* Assessment Progress */}
-          <div className="w-full max-w-lg rounded-2xl border border-navy-950/5 bg-white p-6 shadow-[0_2px_12px_rgba(13,37,73,0.04)]">
+          <div className="w-full max-w-lg rounded-2xl border border-slate-200 bg-white p-6 shadow-[0_2px_12px_rgba(13,37,73,0.06)]">
             <div className="mb-5 flex items-center justify-between">
               <p className="text-sm font-bold text-navy-950">
                 Assessment Progress
               </p>
-              <span className="rounded-full bg-brand-green-50 px-3 py-1 text-xs font-semibold text-brand-green-600">
-                Step 7 of 7
+              <span className="rounded-full bg-brand-green-100 px-3 py-1 text-xs font-bold text-brand-green-700">
+                Step 9 of 12
               </span>
             </div>
             <div className="relative">
-              <div className="absolute left-[40px] top-5 h-0.5 w-[calc(100%-80px)] bg-navy-950/8" />
+              <div className="absolute left-[40px] top-5 h-0.5 w-[calc(100%-80px)] bg-slate-200" />
               <div className="absolute left-[40px] top-5 h-0.5 w-[calc(100%-80px)] bg-brand-green-500" />
               <div className="flex items-start justify-between">
                 {PROGRESS_STEPS.map((step, i) => (
@@ -350,7 +348,7 @@ export default function InvestmentExperience() {
                           ? "bg-brand-green-500 text-white shadow-[0_0_10px_rgba(34,181,115,0.25)]"
                           : step.active
                           ? "bg-brand-green-500 text-white shadow-[0_0_10px_rgba(34,181,115,0.25)]"
-                          : "border-2 border-navy-950/10 bg-white text-navy-900/40"
+                          : "border-2 border-slate-300 bg-white text-slate-600"
                       }`}
                     >
                       {step.completed ? (
@@ -360,12 +358,12 @@ export default function InvestmentExperience() {
                       )}
                     </span>
                     <p
-                      className={`mt-2 text-[10px] font-semibold leading-tight ${
+                      className={`mt-2 text-[10px] font-bold leading-tight ${
                         step.active
-                          ? "text-brand-green-600"
+                          ? "text-brand-green-700"
                           : step.completed
-                          ? "text-navy-900/60"
-                          : "text-navy-900/45"
+                          ? "text-brand-green-700"
+                          : "text-slate-600"
                       }`}
                     >
                       {step.label}
@@ -380,12 +378,12 @@ export default function InvestmentExperience() {
         {/* ─── MAIN CONTENT: Two Columns ─── */}
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1fr_360px]">
           {/* LEFT — Form Card */}
-          <div className="rounded-2xl border border-navy-950/5 bg-white p-7 shadow-[0_2px_12px_rgba(13,37,73,0.04)] sm:p-8">
+          <div className="rounded-2xl border border-slate-200 bg-white p-7 shadow-[0_2px_12px_rgba(13,37,73,0.06)] sm:p-8">
             <div className="mb-6">
               <p className="text-base font-bold text-navy-950">
                 Answer a Few Questions
               </p>
-              <p className="mt-1 text-sm text-navy-900/50">
+              <p className="mt-1 text-sm font-medium text-slate-600">
                 Your answers will help us build better recommendations
               </p>
             </div>
@@ -393,7 +391,7 @@ export default function InvestmentExperience() {
             {/* Question 1: Risk Appetite */}
             <div className="mb-8">
               <div className="mb-4 flex items-center gap-3">
-                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-brand-green-50 text-brand-green-600">
+                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-brand-green-50 text-brand-green-700">
                   <SpeedIcon sx={{ fontSize: 22 }} />
                 </span>
                 <div>
@@ -405,7 +403,7 @@ export default function InvestmentExperience() {
                       Risk Appetite
                     </p>
                   </div>
-                  <p className="mt-0.5 text-xs text-navy-900/50">
+                  <p className="mt-0.5 text-xs font-medium text-slate-600">
                     What is your comfort level with investment risk?
                   </p>
                 </div>
@@ -418,8 +416,8 @@ export default function InvestmentExperience() {
                     onClick={() => setRiskAppetite(opt.key)}
                     className={`flex flex-col items-center gap-2 rounded-xl border-2 p-4 text-center transition-all ${
                       riskAppetite === opt.key
-                        ? "border-brand-green-500 bg-brand-green-50/50"
-                        : "border-navy-950/8 bg-white hover:border-navy-950/15"
+                        ? "border-brand-green-500 bg-brand-green-50/70"
+                        : "border-slate-300 bg-white hover:border-slate-400"
                     }`}
                   >
                     <span
@@ -430,14 +428,14 @@ export default function InvestmentExperience() {
                     <span className="text-xs font-bold text-navy-950">
                       {opt.label}
                     </span>
-                    <span className="text-[10px] text-navy-900/45">
+                    <span className="text-[11px] font-bold text-slate-600">
                       {opt.sub}
                     </span>
                     <span
                       className={`mt-1 h-4 w-4 rounded-full border-2 flex items-center justify-center ${
                         riskAppetite === opt.key
                           ? "border-brand-green-500"
-                          : "border-navy-950/15"
+                          : "border-slate-300"
                       }`}
                     >
                       {riskAppetite === opt.key && (
@@ -452,7 +450,7 @@ export default function InvestmentExperience() {
             {/* Question 2: Investment Knowledge */}
             <div className="mb-8">
               <div className="mb-4 flex items-center gap-3">
-                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-sky-50 text-sky-500">
+                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-sky-100 text-sky-600">
                   <MenuBookIcon sx={{ fontSize: 22 }} />
                 </span>
                 <div>
@@ -464,7 +462,7 @@ export default function InvestmentExperience() {
                       Investment Knowledge
                     </p>
                   </div>
-                  <p className="mt-0.5 text-xs text-navy-900/50">
+                  <p className="mt-0.5 text-xs font-medium text-slate-600">
                     How would you rate your knowledge about investments?
                   </p>
                 </div>
@@ -477,21 +475,21 @@ export default function InvestmentExperience() {
                     onClick={() => setKnowledge(opt.key)}
                     className={`flex flex-col items-center gap-2 rounded-xl border-2 p-4 text-center transition-all ${
                       knowledge === opt.key
-                        ? "border-brand-green-500 bg-brand-green-50/50"
-                        : "border-navy-950/8 bg-white hover:border-navy-950/15"
+                        ? "border-brand-green-500 bg-brand-green-50/70"
+                        : "border-slate-300 bg-white hover:border-slate-400"
                     }`}
                   >
                     <span className="text-xs font-bold text-navy-950">
                       {opt.label}
                     </span>
-                    <span className="text-[10px] text-navy-900/45">
+                    <span className="text-[11px] font-bold text-slate-600">
                       {opt.sub}
                     </span>
                     <span
                       className={`mt-1 h-4 w-4 rounded-full border-2 flex items-center justify-center ${
                         knowledge === opt.key
                           ? "border-brand-green-500"
-                          : "border-navy-950/15"
+                          : "border-slate-300"
                       }`}
                     >
                       {knowledge === opt.key && (
@@ -506,7 +504,7 @@ export default function InvestmentExperience() {
             {/* Question 3: Investment Duration */}
             <div className="mb-8">
               <div className="mb-4 flex items-center gap-3">
-                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-violet-50 text-violet-500">
+                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-violet-100 text-violet-600">
                   <EventIcon sx={{ fontSize: 22 }} />
                 </span>
                 <div>
@@ -518,7 +516,7 @@ export default function InvestmentExperience() {
                       Investment Duration
                     </p>
                   </div>
-                  <p className="mt-0.5 text-xs text-navy-900/50">
+                  <p className="mt-0.5 text-xs font-medium text-slate-600">
                     What is your investment time horizon?
                   </p>
                 </div>
@@ -531,21 +529,21 @@ export default function InvestmentExperience() {
                     onClick={() => setDuration(opt.key)}
                     className={`flex flex-col items-center gap-2 rounded-xl border-2 p-4 text-center transition-all ${
                       duration === opt.key
-                        ? "border-violet-500 bg-violet-50/50"
-                        : "border-navy-950/8 bg-white hover:border-navy-950/15"
+                        ? "border-violet-500 bg-violet-50/70"
+                        : "border-slate-300 bg-white hover:border-slate-400"
                     }`}
                   >
                     <span className="text-xs font-bold text-navy-950">
                       {opt.label}
                     </span>
-                    <span className="text-[10px] text-navy-900/45">
+                    <span className="text-[11px] font-bold text-slate-600">
                       {opt.sub}
                     </span>
                     <span
                       className={`mt-1 h-4 w-4 rounded-full border-2 flex items-center justify-center ${
                         duration === opt.key
                           ? "border-violet-500"
-                          : "border-navy-950/15"
+                          : "border-slate-300"
                       }`}
                     >
                       {duration === opt.key && (
@@ -560,7 +558,7 @@ export default function InvestmentExperience() {
             {/* Question 4: Current Investments */}
             <div className="mb-8">
               <div className="mb-4 flex items-center gap-3">
-                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-amber-50 text-amber-500">
+                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-amber-100 text-amber-600">
                   <PieChartIcon sx={{ fontSize: 22 }} />
                 </span>
                 <div>
@@ -571,11 +569,11 @@ export default function InvestmentExperience() {
                     <p className="text-sm font-bold text-navy-950">
                       Current Investments
                     </p>
-                    <span className="text-xs text-navy-900/45">
+                    <span className="text-xs font-bold text-slate-600">
                       (Select all that apply)
                     </span>
                   </div>
-                  <p className="mt-0.5 text-xs text-navy-900/50">
+                  <p className="mt-0.5 text-xs font-medium text-slate-600">
                     Which of the following do you currently invest in?
                   </p>
                 </div>
@@ -590,15 +588,15 @@ export default function InvestmentExperience() {
                       onClick={() => toggleInvestment(opt)}
                       className={`flex items-center gap-3 rounded-xl border-2 px-4 py-3 text-left transition-all ${
                         checked
-                          ? "border-brand-green-500 bg-brand-green-50/50"
-                          : "border-navy-950/8 bg-white hover:border-navy-950/15"
+                          ? "border-brand-green-500 bg-brand-green-50/70"
+                          : "border-slate-300 bg-white hover:border-slate-400"
                       }`}
                     >
                       <span
                         className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-md border-2 transition-all ${
                           checked
                             ? "border-brand-green-500 bg-brand-green-500"
-                            : "border-navy-950/20 bg-white"
+                            : "border-slate-400 bg-white"
                         }`}
                       >
                         {checked && (
@@ -608,7 +606,7 @@ export default function InvestmentExperience() {
                           />
                         )}
                       </span>
-                      <span className="text-xs font-semibold text-navy-950">
+                      <span className="text-xs font-bold text-navy-950">
                         {opt}
                       </span>
                     </button>
@@ -622,7 +620,7 @@ export default function InvestmentExperience() {
                     value={otherInvestment}
                     onChange={(e) => setOtherInvestment(e.target.value)}
                     placeholder="Please specify your other investment"
-                    className="h-11 w-full rounded-xl border border-navy-950/10 bg-white px-4 text-sm text-navy-950 placeholder:text-navy-900/40 transition-all hover:border-navy-950/20 focus:border-brand-green-500 focus:outline-none focus:ring-2 focus:ring-brand-green-500/20"
+                    className="h-11 w-full rounded-xl border border-slate-300 bg-white px-4 text-sm font-bold text-navy-950 placeholder:text-slate-400 transition-all hover:border-slate-400 focus:border-brand-green-500 focus:outline-none focus:ring-2 focus:ring-brand-green-500/20"
                   />
                 </div>
               )}
@@ -633,7 +631,7 @@ export default function InvestmentExperience() {
               <button
                 type="button"
                 onClick={() => navigate("/insurance")}
-                className="flex h-12 items-center gap-2 rounded-xl border-2 border-brand-green-500 bg-white px-6 text-sm font-semibold text-brand-green-600 transition-all duration-250 hover:bg-brand-green-50 active:scale-[0.98]"
+                className="flex h-12 items-center gap-2 rounded-xl border-2 border-brand-green-500 bg-white px-6 text-sm font-bold text-brand-green-600 transition-all duration-250 hover:bg-brand-green-50 active:scale-[0.98]"
               >
                 <ArrowBackIcon sx={{ fontSize: 18 }} />
                 Back
@@ -645,7 +643,7 @@ export default function InvestmentExperience() {
                   updateAssessment("investment", { riskAppetite, investmentKnowledge: knowledge, investmentDuration: duration, currentInvestments: finalInvestments });
                   navigate("/financial-goals");
                 }}
-                className="flex h-12 items-center gap-2 rounded-xl bg-brand-green-500 px-8 text-[15px] font-semibold text-white shadow-soft transition-all duration-250 hover:bg-brand-green-600 hover:shadow-md active:scale-[0.98]"
+                className="flex h-12 items-center gap-2 rounded-xl bg-brand-green-500 px-8 text-[15px] font-bold text-white shadow-soft transition-all duration-250 hover:bg-brand-green-600 hover:shadow-md active:scale-[0.98]"
               >
                 Next
                 <ArrowForwardIcon sx={{ fontSize: 18 }} />
@@ -653,8 +651,8 @@ export default function InvestmentExperience() {
             </div>
 
             {/* Security Message */}
-            <p className="mt-5 flex items-center justify-center gap-2 text-sm text-navy-900/50">
-              <LockIcon sx={{ fontSize: 16 }} className="text-brand-green-500" />
+            <p className="mt-5 flex items-center justify-center gap-2 text-sm font-medium text-slate-700">
+              <LockIcon sx={{ fontSize: 16 }} className="text-brand-green-600" />
               Your information is secure and encrypted
             </p>
           </div>
@@ -662,54 +660,54 @@ export default function InvestmentExperience() {
           {/* RIGHT — Sidebar */}
           <div className="flex flex-col gap-6">
             {/* Card 1: Your Investment Profile */}
-            <div className="rounded-2xl border border-navy-950/5 bg-white p-7 shadow-[0_2px_12px_rgba(13,37,73,0.04)]">
+            <div className="rounded-2xl border border-slate-200 bg-white p-7 shadow-[0_2px_12px_rgba(13,37,73,0.06)]">
               <h3 className="mb-2 text-base font-bold text-navy-950">
                 Your Investment Profile
               </h3>
-              <p className="mb-4 text-sm text-navy-900/50">Profile Summary</p>
+              <p className="mb-4 text-sm font-medium text-slate-700">Profile Summary</p>
 
               <ProfileDonutChart />
 
               <div className="mt-5 space-y-3">
-                <div className="flex items-center justify-between border-b border-navy-950/5 pb-3">
+                <div className="flex items-center justify-between border-b border-slate-200 pb-3">
                   <div className="flex items-center gap-2">
                     <ShieldIcon
                       sx={{ fontSize: 16 }}
-                      className="text-brand-green-500"
+                      className="text-brand-green-600"
                     />
-                    <span className="text-sm text-navy-900/60">
+                    <span className="text-sm font-medium text-slate-700">
                       Risk Appetite
                     </span>
                   </div>
-                  <span className="text-sm font-semibold text-brand-green-600">
+                  <span className="text-sm font-bold text-brand-green-700">
                     {riskLabel}
                   </span>
                 </div>
-                <div className="flex items-center justify-between border-b border-navy-950/5 pb-3">
+                <div className="flex items-center justify-between border-b border-slate-200 pb-3">
                   <div className="flex items-center gap-2">
                     <MenuBookIcon
                       sx={{ fontSize: 16 }}
-                      className="text-brand-green-500"
+                      className="text-brand-green-600"
                     />
-                    <span className="text-sm text-navy-900/60">
+                    <span className="text-sm font-medium text-slate-700">
                       Knowledge Level
                     </span>
                   </div>
-                  <span className="text-sm font-semibold text-brand-green-600">
+                  <span className="text-sm font-bold text-brand-green-700">
                     {knowledgeLabel}
                   </span>
                 </div>
-                <div className="flex items-center justify-between border-b border-navy-950/5 pb-3">
+                <div className="flex items-center justify-between border-b border-slate-200 pb-3">
                   <div className="flex items-center gap-2">
                     <EventIcon
                       sx={{ fontSize: 16 }}
-                      className="text-brand-green-500"
+                      className="text-brand-green-600"
                     />
-                    <span className="text-sm text-navy-900/60">
+                    <span className="text-sm font-medium text-slate-700">
                       Investment Duration
                     </span>
                   </div>
-                  <span className="text-sm font-semibold text-brand-green-600">
+                  <span className="text-sm font-bold text-brand-green-700">
                     {durationLabel}
                   </span>
                 </div>
@@ -717,13 +715,13 @@ export default function InvestmentExperience() {
                   <div className="flex items-center gap-2">
                     <PieChartIcon
                       sx={{ fontSize: 16 }}
-                      className="text-brand-green-500"
+                      className="text-brand-green-600"
                     />
-                    <span className="text-sm text-navy-900/60">
+                    <span className="text-sm font-medium text-slate-700">
                       Current Investments
                     </span>
                   </div>
-                  <span className="text-sm font-semibold text-brand-green-600">
+                  <span className="text-sm font-bold text-brand-green-700">
                     {investments.length} Selected
                   </span>
                 </div>
@@ -731,16 +729,16 @@ export default function InvestmentExperience() {
             </div>
 
             {/* Card 2: Why We Ask These Questions? */}
-            <div className="rounded-2xl border border-navy-950/5 bg-brand-green-50/30 p-7">
+            <div className="rounded-2xl border border-brand-green-200/70 bg-brand-green-50/60 p-7">
               <div className="mb-3 flex items-center gap-2.5">
-                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-green-100 text-brand-green-600">
+                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-green-100 text-brand-green-700">
                   <TrendingUpIcon sx={{ fontSize: 18 }} />
                 </span>
                 <h3 className="text-base font-bold text-navy-950">
                   Why We Ask These Questions?
                 </h3>
               </div>
-              <p className="text-sm leading-relaxed text-navy-900/55">
+              <p className="text-sm font-medium leading-relaxed text-slate-700">
                 Understanding your investment experience helps us suggest
                 suitable products and strategies aligned with your goals and
                 comfort level.
@@ -748,16 +746,16 @@ export default function InvestmentExperience() {
             </div>
 
             {/* Card 3: 100% Secure */}
-            <div className="rounded-2xl border border-navy-950/5 bg-sky-50/40 p-7">
+            <div className="rounded-2xl border border-sky-200 bg-sky-50/70 p-7">
               <div className="mb-3 flex items-center gap-2.5">
-                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-sky-100 text-sky-500">
+                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-sky-100 text-sky-600">
                   <ShieldIcon sx={{ fontSize: 18 }} />
                 </span>
                 <h3 className="text-base font-bold text-navy-950">
                   100% Secure
                 </h3>
               </div>
-              <p className="text-sm leading-relaxed text-navy-900/55">
+              <p className="text-sm font-medium leading-relaxed text-slate-700">
                 We use bank-level encryption to protect your financial data.
                 <br />
                 Your privacy is our priority.
@@ -768,7 +766,7 @@ export default function InvestmentExperience() {
       </main>
 
       {/* ─── FOOTER ─── */}
-      <footer className="bg-navy-950 pt-20 text-white/70">
+      <footer className="bg-navy-950 pt-20 text-slate-300">
         <div className="mx-auto max-w-7xl px-6 lg:px-10">
           <div className="grid grid-cols-1 gap-12 pb-14 sm:grid-cols-2 lg:grid-cols-5">
             <div className="lg:col-span-2">
@@ -783,7 +781,7 @@ export default function InvestmentExperience() {
                   </span>
                 </span>
               </Link>
-              <p className="mt-5 max-w-xs text-sm leading-relaxed">
+              <p className="mt-5 max-w-xs text-sm font-normal leading-relaxed text-slate-300">
                 AI-powered financial wellness platform that helps you make
                 smarter financial decisions.
               </p>
@@ -793,7 +791,7 @@ export default function InvestmentExperience() {
                     <a
                       key={i}
                       href="#"
-                      className="grid h-10 w-10 place-items-center rounded-full bg-white/10 transition-all duration-200 hover:scale-110 hover:bg-brand-green-500 hover:text-white"
+                      className="grid h-10 w-10 place-items-center rounded-full bg-white/10 text-white transition-all duration-200 hover:scale-110 hover:bg-brand-green-500 hover:text-white"
                     >
                       <Icon sx={{ fontSize: 18 }} />
                     </a>
@@ -810,7 +808,7 @@ export default function InvestmentExperience() {
                     <li key={l.label}>
                       <a
                         href={l.href}
-                        className="text-sm transition-colors duration-200 hover:text-brand-green-400"
+                        className="text-sm text-slate-300 transition-colors duration-200 hover:text-brand-green-400"
                       >
                         {l.label}
                       </a>
@@ -822,7 +820,7 @@ export default function InvestmentExperience() {
 
             <div>
               <p className="text-sm font-bold text-white">Contact Us</p>
-              <ul className="mt-5 space-y-4 text-sm">
+              <ul className="mt-5 space-y-4 text-sm text-slate-300">
                 <li className="flex items-center gap-2.5">
                   <EmailIcon sx={{ fontSize: 16 }} />
                   support@smartfincompass.com
@@ -839,7 +837,7 @@ export default function InvestmentExperience() {
             </div>
           </div>
 
-          <div className="flex flex-col items-center justify-between gap-3 border-t border-white/10 py-7 text-xs sm:flex-row">
+          <div className="flex flex-col items-center justify-between gap-3 border-t border-white/10 py-7 text-xs text-slate-400 sm:flex-row">
             <p>© 2025 SmartFin Compass. All rights reserved.</p>
             <div className="flex gap-5">
               <a

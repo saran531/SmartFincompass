@@ -24,6 +24,7 @@ import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import InstagramIcon from "@mui/icons-material/Instagram";
+import featuresHeroImage from "../Assets/images/Features.png";
 
 const NAV_LINKS = [
   { label: "Home", href: "/" },
@@ -288,138 +289,8 @@ export default function Features() {
         <section className="relative overflow-hidden bg-white">
           <div className="pointer-events-none absolute inset-x-0 top-0 h-[700px] bg-gradient-to-br from-brand-green-50 via-white to-sky-50" />
 
-          <div className="relative mx-auto grid max-w-7xl gap-16 px-6 py-20 lg:grid-cols-2 lg:items-center lg:gap-12 lg:px-10 lg:py-28">
-            {/* ── LEFT: AI Intelligence Visual ── */}
-            <div className="relative flex items-center justify-center">
-              <style>{`
-                @keyframes sf-float-1{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
-                @keyframes sf-float-2{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
-                @keyframes sf-float-3{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
-                @keyframes sf-glow{0%,100%{opacity:.5;transform:scale(1)}50%{opacity:1;transform:scale(1.05)}}
-                @keyframes sf-orbit{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
-                @keyframes sf-pulse{0%,100%{box-shadow:0 0 30px rgba(34,181,115,.15)}50%{box-shadow:0 0 50px rgba(34,181,115,.3)}}
-              `}</style>
-
-              <div className="relative h-[350px] w-full max-w-[400px] sm:h-[420px] sm:max-w-[500px] lg:h-[440px] lg:max-w-[520px]">
-                {/* background glow effects */}
-                <div className="absolute -right-8 -top-8 h-[250px] w-[250px] rounded-full bg-brand-green-400/10 blur-[70px] sm:h-[300px] sm:w-[300px] sm:blur-[80px]" style={{ animation: "sf-glow 6s ease-in-out infinite" }} />
-                <div className="absolute -bottom-8 -left-8 h-[200px] w-[200px] rounded-full bg-sky-400/8 blur-[50px] sm:h-[250px] sm:w-[250px] sm:blur-[60px]" style={{ animation: "sf-glow 8s ease-in-out infinite 2s" }} />
-
-                {/* SVG orbit paths, connecting lines, orbit dots */}
-                <svg className="absolute inset-0 h-full w-full" viewBox="0 0 520 440" fill="none">
-                  <ellipse cx="260" cy="220" rx="220" ry="190" stroke="rgba(34,181,115,.12)" strokeWidth="1" strokeDasharray="6 4" />
-                  <ellipse cx="260" cy="220" rx="150" ry="130" stroke="rgba(34,181,115,.08)" strokeWidth="1" strokeDasharray="4 4" />
-                  <line x1="260" y1="220" x2="55" y2="60" stroke="rgba(34,181,115,.15)" strokeWidth="1" strokeDasharray="3 3" />
-                  <line x1="260" y1="220" x2="465" y2="80" stroke="rgba(34,181,115,.15)" strokeWidth="1" strokeDasharray="3 3" />
-                  <line x1="260" y1="220" x2="45" y2="360" stroke="rgba(34,181,115,.15)" strokeWidth="1" strokeDasharray="3 3" />
-                  <line x1="260" y1="220" x2="475" y2="370" stroke="rgba(34,181,115,.15)" strokeWidth="1" strokeDasharray="3 3" />
-                  <circle cx="480" cy="220" r="4" fill="#22b573" opacity=".35" style={{ animation: "sf-orbit 20s linear infinite", transformOrigin: "260px 220px" }} />
-                  <circle cx="260" cy="30" r="3" fill="#22b573" opacity=".25" style={{ animation: "sf-orbit 25s linear infinite reverse", transformOrigin: "260px 220px" }} />
-                  <circle cx="80" cy="310" r="3.5" fill="#22b573" opacity=".3" style={{ animation: "sf-orbit 18s linear infinite", transformOrigin: "260px 220px" }} />
-                </svg>
-
-                {/* central AI core */}
-                <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-                  <div className="absolute -inset-6 rounded-full bg-brand-green-400/15 blur-[25px]" style={{ animation: "sf-glow 4s ease-in-out infinite" }} />
-                  <div className="relative flex h-[150px] w-[150px] items-center justify-center rounded-full border-2 border-brand-green-400/25 bg-gradient-to-br from-navy-800 via-navy-900 to-navy-950 sm:h-[170px] sm:w-[170px] lg:h-[180px] lg:w-[180px]" style={{ animation: "sf-pulse 4s ease-in-out infinite" }}>
-                    <div className="absolute inset-3 rounded-full border border-brand-green-400/15" />
-                    <div className="absolute inset-6 rounded-full border border-brand-green-400/10" />
-                    <div className="flex flex-col items-center">
-                      <PsychologyIcon className="text-brand-green-400" sx={{ fontSize: 34 }} />
-                      <span className="mt-1.5 text-[10px] font-bold tracking-widest text-brand-green-400/90 sm:text-xs">AI ENGINE</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* floating card: AI Analysis */}
-                <div className="absolute left-0 top-4 sm:left-2 sm:top-6" style={{ animation: "sf-float-1 4s ease-in-out infinite" }}>
-                  <div className="flex items-center gap-2 rounded-xl border border-navy-950/5 bg-white/90 px-3 py-2.5 shadow-soft backdrop-blur-sm sm:px-4 sm:py-3">
-                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-violet-50 text-violet-500">
-                      <PsychologyIcon sx={{ fontSize: 16 }} />
-                    </span>
-                    <div className="min-w-0">
-                      <p className="text-[11px] font-bold text-navy-950 sm:text-xs">AI Analysis</p>
-                      <p className="text-[10px] font-medium text-brand-green-600">Processing</p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* floating card: Risk Assessment */}
-                <div className="absolute right-0 top-8 sm:right-2 sm:top-12" style={{ animation: "sf-float-2 5s ease-in-out infinite 1s" }}>
-                  <div className="flex items-center gap-2 rounded-xl border border-navy-950/5 bg-white/90 px-3 py-2.5 shadow-soft backdrop-blur-sm sm:px-4 sm:py-3">
-                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-amber-50 text-amber-accent">
-                      <ShieldIcon sx={{ fontSize: 16 }} />
-                    </span>
-                    <div className="min-w-0">
-                      <p className="text-[11px] font-bold text-navy-950 sm:text-xs">Risk Assessment</p>
-                      <p className="text-[10px] font-medium text-brand-green-600">Analyzing</p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* floating card: Smart Alerts */}
-                <div className="absolute bottom-12 left-0 sm:bottom-16 sm:left-2" style={{ animation: "sf-float-3 4.5s ease-in-out infinite 0.5s" }}>
-                  <div className="flex items-center gap-2 rounded-xl border border-navy-950/5 bg-white/90 px-3 py-2.5 shadow-soft backdrop-blur-sm sm:px-4 sm:py-3">
-                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-sky-50 text-sky-500">
-                      <CheckCircleIcon sx={{ fontSize: 16 }} />
-                    </span>
-                    <div className="min-w-0">
-                      <p className="text-[11px] font-bold text-navy-950 sm:text-xs">Smart Alerts</p>
-                      <p className="text-[10px] font-medium text-brand-green-600">Active</p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* floating card: Insights */}
-                <div className="absolute bottom-4 right-0 sm:bottom-6 sm:right-2" style={{ animation: "sf-float-1 5.5s ease-in-out infinite 1.5s" }}>
-                  <div className="flex items-center gap-2 rounded-xl border border-navy-950/5 bg-white/90 px-3 py-2.5 shadow-soft backdrop-blur-sm sm:px-4 sm:py-3">
-                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-brand-green-50 text-brand-green-600">
-                      <InsightsIcon sx={{ fontSize: 16 }} />
-                    </span>
-                    <div className="min-w-0">
-                      <p className="text-[11px] font-bold text-navy-950 sm:text-xs">Insights</p>
-                      <p className="text-[10px] font-medium text-brand-green-600">Ready</p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* mini bar chart */}
-                <div className="absolute bottom-20 left-10 hidden sm:block" style={{ animation: "sf-float-2 6s ease-in-out infinite 2s" }}>
-                  <div className="rounded-lg border border-navy-950/5 bg-white/85 p-2 shadow-soft backdrop-blur-sm">
-                    <div className="flex items-end gap-[3px] h-[36px]">
-                      <div className="w-[6px] rounded-t bg-brand-green-400/50" style={{ height: "50%" }} />
-                      <div className="w-[6px] rounded-t bg-brand-green-400/70" style={{ height: "75%" }} />
-                      <div className="w-[6px] rounded-t bg-brand-green-500" style={{ height: "100%" }} />
-                      <div className="w-[6px] rounded-t bg-brand-green-400/60" style={{ height: "60%" }} />
-                      <div className="w-[6px] rounded-t bg-brand-green-400/80" style={{ height: "85%" }} />
-                    </div>
-                  </div>
-                </div>
-
-                {/* circular score */}
-                <div className="absolute right-12 top-20 hidden sm:block" style={{ animation: "sf-float-3 5s ease-in-out infinite 1s" }}>
-                  <div className="rounded-lg border border-navy-950/5 bg-white/85 p-2 shadow-soft backdrop-blur-sm">
-                    <div className="relative h-[42px] w-[42px]">
-                      <svg viewBox="0 0 36 36" className="h-full w-full -rotate-90">
-                        <circle cx="18" cy="18" r="14" fill="none" stroke="#eef1f6" strokeWidth="3" />
-                        <circle cx="18" cy="18" r="14" fill="none" stroke="#22b573" strokeWidth="3" strokeDasharray="66 100" strokeLinecap="round" />
-                      </svg>
-                      <span className="absolute inset-0 flex items-center justify-center text-[10px] font-bold text-brand-green-600">78</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* trend indicator */}
-                <div className="absolute left-1/2 top-2 -translate-x-1/2 hidden sm:block" style={{ animation: "sf-float-1 7s ease-in-out infinite 3s" }}>
-                  <div className="flex items-center gap-1.5 rounded-full border border-navy-950/5 bg-white/85 px-2.5 py-1 shadow-soft backdrop-blur-sm">
-                    <TrendingUpIcon className="text-brand-green-500" sx={{ fontSize: 12 }} />
-                    <span className="text-[10px] font-bold text-navy-950">+24%</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* ── RIGHT: Hero Text Content ── */}
+          <div className="relative mx-auto grid max-w-7xl gap-12 px-6 py-16 sm:py-20 lg:grid-cols-2 lg:items-center lg:gap-16 lg:px-10 lg:py-28">
+            {/* ── LEFT: Hero Text Content ── */}
             <div>
               <p className="text-xs sm:text-sm font-bold uppercase tracking-wider text-brand-green-600">
                 Features
@@ -447,6 +318,15 @@ export default function Features() {
                   Explore How It Works
                 </a>
               </div>
+            </div>
+
+            {/* ── RIGHT: Hero Image ── */}
+            <div className="flex items-center justify-center">
+              <img
+                src={featuresHeroImage}
+                alt="SmartFin Compass Features - Financial Wellness"
+                className="w-full max-w-[620px] h-auto object-contain"
+              />
             </div>
           </div>
         </section>

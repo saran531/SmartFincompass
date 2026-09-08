@@ -19,13 +19,13 @@ import LoginIcon from "@mui/icons-material/Login";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import InsightsIcon from "@mui/icons-material/Insights";
 import WorkIcon from "@mui/icons-material/Work";
-import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutlineOutlined";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import LoadingIcon from "@mui/icons-material/Autorenew";
+import contactHeroImage from "../Assets/images/contact.png";
 
 const NAV_LINKS = [
   { label: "Home", href: "/" },
@@ -285,48 +285,21 @@ export default function Contact() {
                 Let's Talk About Your{" "}
                 <span className="text-brand-green-600">Financial Journey</span>
               </h1>
-              <p className="mt-6 max-w-lg text-base sm:text-lg leading-relaxed text-navy-900/70">
+              <p className="mt-6 max-w-lg text-base sm:text-lg leading-relaxed text-navy-900/75">
                 Have a question about SmartFin Compass, your financial assessment, pricing or how the platform works? Our team is here to help.
               </p>
-              <p className="mt-3 text-sm sm:text-base font-semibold text-navy-900/60">
+              <p className="mt-3 text-sm sm:text-base font-semibold text-navy-900/70">
                 We'd love to hear from you.
               </p>
             </div>
 
-            {/* Hero Visual */}
-            <div className="relative">
-              <div className="rounded-3xl border border-navy-950/5 bg-white p-7 shadow-card sm:p-8">
-                <div className="flex flex-col items-center">
-                  <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-brand-green-500 text-white shadow-[0_4px_16px_rgba(34,181,115,0.3)]">
-                    <ChatBubbleIcon sx={{ fontSize: 28 }} />
-                  </span>
-                  <p className="mt-3 text-sm font-bold text-navy-950">We're Here to Help</p>
-                </div>
-
-                <div className="mt-6 space-y-3">
-                  {[
-                    { icon: EmailIcon, label: "support@smartfincompass.com", color: "text-sky-500 bg-sky-50" },
-                    { icon: CallIcon, label: "+91 98765 43210", color: "text-brand-green-600 bg-brand-green-50" },
-                    { icon: PlaceIcon, label: "Bangalore, Karnataka, India", color: "text-violet-500 bg-violet-50" },
-                  ].map((item) => (
-                    <div
-                      key={item.label}
-                      className="flex items-center gap-3 rounded-xl border border-navy-950/5 bg-slate-50/60 px-4 py-3"
-                    >
-                      <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg ${item.color}`}>
-                        <item.icon sx={{ fontSize: 16 }} />
-                      </span>
-                      <span className="text-xs font-semibold text-navy-950">{item.label}</span>
-                    </div>
-                  ))}
-                </div>
-
-                <div className="mt-5 rounded-xl bg-brand-green-50/50 px-4 py-3 text-center">
-                  <p className="text-xs font-semibold text-brand-green-700">
-                    Typically respond within 24 hours
-                  </p>
-                </div>
-              </div>
+            {/* Hero Visual Image */}
+            <div className="relative flex items-center justify-center lg:justify-end">
+              <img
+                src={contactHeroImage}
+                alt="SmartFin Compass Contact Us"
+                className="h-auto max-h-[520px] w-full max-w-lg lg:max-w-xl object-contain drop-shadow-xl"
+              />
             </div>
           </div>
         </section>
@@ -336,61 +309,61 @@ export default function Contact() {
           <div className="grid grid-cols-1 gap-16 lg:grid-cols-2">
             {/* Left — Contact Info */}
             <div>
-              <h2 className="text-2xl font-extrabold text-navy-950 sm:text-3xl lg:text-4xl">
+              <h2 className="text-3xl font-extrabold text-navy-950 sm:text-4xl">
                 Get in Touch
               </h2>
-              <p className="mt-4 text-sm sm:text-base leading-relaxed text-navy-900/70">
+              <p className="mt-4 text-base sm:text-lg leading-relaxed text-navy-900/75">
                 Reach out to the SmartFin Compass team and we'll help you find the right information.
               </p>
 
               <div className="mt-10 space-y-5">
                 <a
                   href="mailto:support@smartfincompass.com"
-                  className="group flex items-start gap-4 rounded-2xl border border-navy-950/5 bg-white p-5 shadow-soft transition-all duration-300 hover:border-brand-green-200 hover:shadow-card"
+                  className="group flex items-start gap-4 rounded-2xl border border-navy-950/5 bg-white p-6 shadow-soft transition-all duration-300 hover:border-brand-green-200 hover:shadow-card"
                 >
                   <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-sky-50 text-sky-500 transition-transform duration-300 group-hover:scale-110">
-                    <EmailIcon sx={{ fontSize: 22 }} />
+                    <EmailIcon sx={{ fontSize: 24 }} />
                   </span>
                   <div>
-                    <p className="text-base font-bold text-navy-950 group-hover:text-brand-green-600 transition-colors duration-300">Email Us</p>
-                    <p className="mt-0.5 text-sm sm:text-base font-semibold text-brand-green-600">support@smartfincompass.com</p>
-                    <p className="mt-1 text-xs sm:text-sm font-medium text-navy-900/60">For general questions, support and assistance.</p>
+                    <p className="text-lg font-bold text-navy-950 group-hover:text-brand-green-600 transition-colors duration-300">Email Us</p>
+                    <p className="mt-0.5 text-base font-semibold text-brand-green-600">support@smartfincompass.com</p>
+                    <p className="mt-1 text-sm font-medium text-navy-900/70">For general questions, support and assistance.</p>
                   </div>
                 </a>
 
                 <a
                   href="tel:+919876543210"
-                  className="group flex items-start gap-4 rounded-2xl border border-navy-950/5 bg-white p-5 shadow-soft transition-all duration-300 hover:border-brand-green-200 hover:shadow-card"
+                  className="group flex items-start gap-4 rounded-2xl border border-navy-950/5 bg-white p-6 shadow-soft transition-all duration-300 hover:border-brand-green-200 hover:shadow-card"
                 >
                   <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-brand-green-50 text-brand-green-600 transition-transform duration-300 group-hover:scale-110">
-                    <CallIcon sx={{ fontSize: 22 }} />
+                    <CallIcon sx={{ fontSize: 24 }} />
                   </span>
                   <div>
-                    <p className="text-base font-bold text-navy-950 group-hover:text-brand-green-600 transition-colors duration-300">Call Us</p>
-                    <p className="mt-0.5 text-sm sm:text-base font-semibold text-brand-green-600">+91 98765 43210</p>
-                    <p className="mt-1 text-xs sm:text-sm font-medium text-navy-900/60">For assistance and general enquiries.</p>
+                    <p className="text-lg font-bold text-navy-950 group-hover:text-brand-green-600 transition-colors duration-300">Call Us</p>
+                    <p className="mt-0.5 text-base font-semibold text-brand-green-600">+91 98765 43210</p>
+                    <p className="mt-1 text-sm font-medium text-navy-900/70">For assistance and general enquiries.</p>
                   </div>
                 </a>
 
-                <div className="group flex items-start gap-4 rounded-2xl border border-navy-950/5 bg-white p-5 shadow-soft transition-all duration-300 hover:border-brand-green-200 hover:shadow-card">
+                <div className="group flex items-start gap-4 rounded-2xl border border-navy-950/5 bg-white p-6 shadow-soft transition-all duration-300 hover:border-brand-green-200 hover:shadow-card">
                   <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-violet-50 text-violet-500 transition-transform duration-300 group-hover:scale-110">
-                    <PlaceIcon sx={{ fontSize: 22 }} />
+                    <PlaceIcon sx={{ fontSize: 24 }} />
                   </span>
                   <div>
-                    <p className="text-base font-bold text-navy-950">Office</p>
-                    <p className="mt-0.5 text-sm sm:text-base font-medium text-navy-950">Bangalore, Karnataka, India</p>
-                    <p className="mt-1 text-xs sm:text-sm font-medium text-navy-900/60">Our base for building smarter financial experiences.</p>
+                    <p className="text-lg font-bold text-navy-950">Office</p>
+                    <p className="mt-0.5 text-base font-semibold text-navy-950">Bangalore, Karnataka, India</p>
+                    <p className="mt-1 text-sm font-medium text-navy-900/70">Our base for building smarter financial experiences.</p>
                   </div>
                 </div>
 
-                <div className="group flex items-start gap-4 rounded-2xl border border-navy-950/5 bg-white p-5 shadow-soft transition-all duration-300 hover:border-brand-green-200 hover:shadow-card">
+                <div className="group flex items-start gap-4 rounded-2xl border border-navy-950/5 bg-white p-6 shadow-soft transition-all duration-300 hover:border-brand-green-200 hover:shadow-card">
                   <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-rose-50 text-rose-500 transition-transform duration-300 group-hover:scale-110">
-                    <HeadsetMicIcon sx={{ fontSize: 22 }} />
+                    <HeadsetMicIcon sx={{ fontSize: 24 }} />
                   </span>
                   <div>
-                    <p className="text-base font-bold text-navy-950">Need Help?</p>
-                    <p className="mt-0.5 text-sm sm:text-base font-medium text-navy-950">Support Team</p>
-                    <p className="mt-1 text-xs sm:text-sm font-medium text-navy-900/60">Have an issue with your assessment or account? Contact our support team for assistance.</p>
+                    <p className="text-lg font-bold text-navy-950">Need Help?</p>
+                    <p className="mt-0.5 text-base font-semibold text-navy-950">Support Team</p>
+                    <p className="mt-1 text-sm font-medium text-navy-900/70">Have an issue with your assessment or account? Contact our support team for assistance.</p>
                   </div>
                 </div>
               </div>
@@ -398,10 +371,10 @@ export default function Contact() {
 
             {/* Right — Contact Form */}
             <div className="rounded-3xl border border-navy-950/5 bg-white p-8 shadow-card sm:p-10">
-              <h2 className="text-2xl font-extrabold text-navy-950">
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-navy-950">
                 Send Us a Message
               </h2>
-              <p className="mt-2 text-sm sm:text-base text-navy-900/70">
+              <p className="mt-2 text-base text-navy-900/75">
                 Fill in the details below and tell us how we can help.
               </p>
 
@@ -413,12 +386,12 @@ export default function Contact() {
                   <h3 className="mt-5 text-xl font-bold text-navy-950">
                     Message Sent Successfully
                   </h3>
-                  <p className="mt-3 max-w-sm text-sm leading-relaxed text-navy-900/55">
+                  <p className="mt-3 max-w-sm text-sm sm:text-base leading-relaxed text-navy-900/75">
                     Thank you for contacting SmartFin Compass. Our team will review your message and get back to you.
                   </p>
                   <button
                     onClick={resetForm}
-                    className="mt-8 inline-flex items-center gap-2 rounded-lg bg-brand-green-500 px-7 py-3 text-sm font-semibold text-white shadow-soft transition-all duration-250 hover:bg-brand-green-600 hover:shadow-md active:scale-[0.98]"
+                    className="mt-8 inline-flex items-center gap-2 rounded-lg bg-brand-green-500 px-7 py-3 text-sm sm:text-base font-semibold text-white shadow-soft transition-all duration-250 hover:bg-brand-green-600 hover:shadow-md active:scale-[0.98]"
                   >
                     Send Another Message
                   </button>
@@ -427,45 +400,45 @@ export default function Contact() {
                 <form onSubmit={handleSubmit} className="mt-8 space-y-5" noValidate>
                   {/* Name */}
                   <div>
-                    <label className="mb-1.5 block text-sm font-semibold text-navy-950">
-                      Full Name <span className="text-rose-500">*</span>
+                    <label className="mb-2 block text-sm sm:text-base font-semibold text-navy-950">
+                      Full Name <span className="text-rose-500 font-bold">*</span>
                     </label>
                     <input
                       type="text"
                       value={form.name}
                       onChange={(e) => handleChange("name", e.target.value)}
                       placeholder="Enter your full name"
-                      className={`h-12 w-full rounded-xl border bg-slate-50/60 px-4 text-sm text-navy-950 placeholder:text-navy-900/35 transition-all duration-200 focus:border-brand-green-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-green-500/20 ${
-                        errors.name ? "border-rose-400" : "border-navy-950/10"
+                      className={`h-12 w-full rounded-xl border bg-slate-50/60 px-4 text-sm sm:text-base text-navy-950 placeholder:text-navy-900/45 transition-all duration-200 focus:border-brand-green-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-green-500/20 ${
+                        errors.name ? "border-rose-400" : "border-navy-950/15"
                       }`}
                     />
                     {errors.name && (
-                      <p className="mt-1.5 text-xs text-rose-500">{errors.name}</p>
+                      <p className="mt-1.5 text-xs sm:text-sm text-rose-500 font-medium">{errors.name}</p>
                     )}
                   </div>
 
                   {/* Email */}
                   <div>
-                    <label className="mb-1.5 block text-sm font-semibold text-navy-950">
-                      Email Address <span className="text-rose-500">*</span>
+                    <label className="mb-2 block text-sm sm:text-base font-semibold text-navy-950">
+                      Email Address <span className="text-rose-500 font-bold">*</span>
                     </label>
                     <input
                       type="email"
                       value={form.email}
                       onChange={(e) => handleChange("email", e.target.value)}
                       placeholder="Enter your email address"
-                      className={`h-12 w-full rounded-xl border bg-slate-50/60 px-4 text-sm text-navy-950 placeholder:text-navy-900/35 transition-all duration-200 focus:border-brand-green-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-green-500/20 ${
-                        errors.email ? "border-rose-400" : "border-navy-950/10"
+                      className={`h-12 w-full rounded-xl border bg-slate-50/60 px-4 text-sm sm:text-base text-navy-950 placeholder:text-navy-900/45 transition-all duration-200 focus:border-brand-green-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-green-500/20 ${
+                        errors.email ? "border-rose-400" : "border-navy-950/15"
                       }`}
                     />
                     {errors.email && (
-                      <p className="mt-1.5 text-xs text-rose-500">{errors.email}</p>
+                      <p className="mt-1.5 text-xs sm:text-sm text-rose-500 font-medium">{errors.email}</p>
                     )}
                   </div>
 
                   {/* Phone */}
                   <div>
-                    <label className="mb-1.5 block text-sm font-semibold text-navy-950">
+                    <label className="mb-2 block text-sm sm:text-base font-semibold text-navy-950">
                       Phone Number
                     </label>
                     <input
@@ -476,68 +449,68 @@ export default function Contact() {
                         handleChange("phone", val);
                       }}
                       placeholder="Enter your phone number"
-                      className={`h-12 w-full rounded-xl border bg-slate-50/60 px-4 text-sm text-navy-950 placeholder:text-navy-900/35 transition-all duration-200 focus:border-brand-green-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-green-500/20 ${
-                        errors.phone ? "border-rose-400" : "border-navy-950/10"
+                      className={`h-12 w-full rounded-xl border bg-slate-50/60 px-4 text-sm sm:text-base text-navy-950 placeholder:text-navy-900/45 transition-all duration-200 focus:border-brand-green-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-green-500/20 ${
+                        errors.phone ? "border-rose-400" : "border-navy-950/15"
                       }`}
                     />
                     {errors.phone && (
-                      <p className="mt-1.5 text-xs text-rose-500">{errors.phone}</p>
+                      <p className="mt-1.5 text-xs sm:text-sm text-rose-500 font-medium">{errors.phone}</p>
                     )}
                   </div>
 
                   {/* Subject */}
                   <div>
-                    <label className="mb-1.5 block text-sm font-semibold text-navy-950">
-                      Subject <span className="text-rose-500">*</span>
+                    <label className="mb-2 block text-sm sm:text-base font-semibold text-navy-950">
+                      Subject <span className="text-rose-500 font-bold">*</span>
                     </label>
                     <select
                       value={form.subject}
                       onChange={(e) => handleChange("subject", e.target.value)}
-                      className={`h-12 w-full rounded-xl border bg-slate-50/60 px-4 text-sm text-navy-950 transition-all duration-200 focus:border-brand-green-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-green-500/20 ${
-                        errors.subject ? "border-rose-400" : "border-navy-950/10"
-                      } ${!form.subject ? "text-navy-900/35" : ""}`}
+                      className={`h-12 w-full rounded-xl border bg-slate-50/60 px-4 text-sm sm:text-base text-navy-950 transition-all duration-200 focus:border-brand-green-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-green-500/20 ${
+                        errors.subject ? "border-rose-400" : "border-navy-950/15"
+                      } ${!form.subject ? "text-navy-900/45" : ""}`}
                     >
-                      <option value="" disabled>What can we help you with?</option>
+                      <option value="" disabled className="text-navy-900/60">What can we help you with?</option>
                       {SUBJECTS.map((s) => (
-                        <option key={s} value={s}>{s}</option>
+                        <option key={s} value={s} className="text-navy-950 font-medium">{s}</option>
                       ))}
                     </select>
                     {errors.subject && (
-                      <p className="mt-1.5 text-xs text-rose-500">{errors.subject}</p>
+                      <p className="mt-1.5 text-xs sm:text-sm text-rose-500 font-medium">{errors.subject}</p>
                     )}
                   </div>
 
                   {/* Message */}
                   <div>
-                    <label className="mb-1.5 block text-sm font-semibold text-navy-950">
-                      Message <span className="text-rose-500">*</span>
+                    <label className="mb-2 block text-sm sm:text-base font-semibold text-navy-950">
+                      Message <span className="text-rose-500 font-bold">*</span>
                     </label>
                     <textarea
                       value={form.message}
                       onChange={(e) => handleChange("message", e.target.value)}
                       placeholder="Tell us how we can help..."
                       rows={5}
-                      className={`w-full rounded-xl border bg-slate-50/60 px-4 py-3 text-sm text-navy-950 placeholder:text-navy-900/35 transition-all duration-200 focus:border-brand-green-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-green-500/20 resize-none ${
-                        errors.message ? "border-rose-400" : "border-navy-950/10"
+                      className={`w-full rounded-xl border bg-slate-50/60 px-4 py-3 text-sm sm:text-base text-navy-950 placeholder:text-navy-900/45 transition-all duration-200 focus:border-brand-green-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-green-500/20 resize-none ${
+                        errors.message ? "border-rose-400" : "border-navy-950/15"
                       }`}
                     />
-                    <p className="mt-1 text-xs text-navy-900/35">
+                    <p className="mt-1.5 text-xs sm:text-sm font-medium text-navy-900/60">
                       Please provide as much detail as possible.
                     </p>
                     {errors.message && (
-                      <p className="mt-1 text-xs text-rose-500">{errors.message}</p>
+                      <p className="mt-1 text-xs sm:text-sm text-rose-500 font-medium">{errors.message}</p>
                     )}
                   </div>
 
                   {/* Agree */}
-                  <label className="flex items-start gap-3 cursor-pointer">
+                  <label className="flex items-start gap-3 cursor-pointer pt-1">
                     <input
                       type="checkbox"
                       checked={form.agree}
                       onChange={(e) => handleChange("agree", e.target.checked)}
-                      className="mt-0.5 h-4 w-4 rounded border-navy-950/15 text-brand-green-500 focus:ring-brand-green-500/30"
+                      className="mt-1 h-4 w-4 rounded border-navy-950/20 text-brand-green-500 focus:ring-brand-green-500/30"
                     />
-                    <span className="text-sm text-navy-900/55">
+                    <span className="text-sm sm:text-base font-medium text-navy-900/75">
                       I agree to be contacted regarding my enquiry.
                     </span>
                   </label>
@@ -546,17 +519,17 @@ export default function Contact() {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="flex h-13 w-full items-center justify-center gap-2.5 rounded-xl bg-brand-green-500 text-[15px] font-semibold text-white shadow-[0_4px_16px_rgba(34,181,115,0.25)] transition-all duration-250 hover:bg-brand-green-600 hover:shadow-[0_6px_24px_rgba(34,181,115,0.35)] active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed"
+                    className="flex h-13 w-full items-center justify-center gap-2.5 rounded-xl bg-brand-green-500 text-base font-semibold text-white shadow-[0_4px_16px_rgba(34,181,115,0.25)] transition-all duration-250 hover:bg-brand-green-600 hover:shadow-[0_6px_24px_rgba(34,181,115,0.35)] active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     {isSubmitting ? (
                       <>
-                        <LoadingIcon sx={{ fontSize: 18 }} className="animate-spin" />
+                        <LoadingIcon sx={{ fontSize: 20 }} className="animate-spin" />
                         Sending...
                       </>
                     ) : (
                       <>
                         Send Message
-                        <ArrowForwardIcon sx={{ fontSize: 18 }} />
+                        <ArrowForwardIcon sx={{ fontSize: 20 }} />
                       </>
                     )}
                   </button>
@@ -570,10 +543,10 @@ export default function Contact() {
         <section className="bg-slate-50/60 py-24">
           <div className="mx-auto max-w-7xl px-6 lg:px-10">
             <div className="mx-auto max-w-2xl text-center">
-              <p className="text-xs font-bold uppercase tracking-wide text-brand-green-600">
+              <p className="text-xs sm:text-sm font-bold uppercase tracking-wider text-brand-green-600">
                 How Can We Help?
               </p>
-              <h2 className="mt-4 text-3xl font-extrabold text-navy-950 sm:text-4xl">
+              <h2 className="mt-4 text-3xl font-extrabold text-navy-950 sm:text-4xl lg:text-[40px]">
                 Find the Right Support
               </h2>
             </div>
@@ -583,18 +556,18 @@ export default function Contact() {
                 <Link
                   key={c.title}
                   to={c.link}
-                  className="group rounded-2xl border border-navy-950/5 bg-white p-7 shadow-soft transition-all duration-300 hover:-translate-y-1 hover:shadow-card hover:border-brand-green-100"
+                  className="group rounded-2xl border border-navy-950/5 bg-white p-7 sm:p-8 shadow-soft transition-all duration-300 hover:-translate-y-1 hover:shadow-card hover:border-brand-green-100"
                 >
                   <span className={`mb-5 inline-flex h-14 w-14 items-center justify-center rounded-2xl transition-transform duration-300 group-hover:scale-110 ${c.color}`}>
                     <c.icon sx={{ fontSize: 28 }} />
                   </span>
-                  <h3 className="text-base font-bold text-navy-950 group-hover:text-brand-green-600 transition-colors duration-300">
+                  <h3 className="text-lg font-bold text-navy-950 group-hover:text-brand-green-600 transition-colors duration-300">
                     {c.title}
                   </h3>
-                  <p className="mt-2.5 text-sm leading-relaxed text-navy-900/55">
+                  <p className="mt-2.5 text-sm sm:text-base leading-relaxed text-navy-900/70">
                     {c.desc}
                   </p>
-                  <p className="mt-4 text-sm font-semibold text-brand-green-600">
+                  <p className="mt-5 text-sm sm:text-base font-semibold text-brand-green-600">
                     {c.cta}
                   </p>
                 </Link>
@@ -605,22 +578,22 @@ export default function Contact() {
 
         {/* ─── QUICK RESPONSE ─── */}
         <section className="mx-auto max-w-7xl px-6 py-16 lg:px-10">
-          <div className="rounded-3xl border border-navy-950/5 bg-gradient-to-br from-sky-50 via-brand-green-50/30 to-sky-50 px-8 py-12 text-center sm:px-16">
+          <div className="rounded-3xl border border-navy-950/5 bg-gradient-to-br from-sky-50 via-brand-green-50/30 to-sky-50 px-8 py-12 text-center sm:px-16 sm:py-16">
             <span className="mb-5 inline-flex h-14 w-14 items-center justify-center rounded-full bg-brand-green-100 text-brand-green-600">
               <HelpOutlineIcon sx={{ fontSize: 28 }} />
             </span>
-            <h2 className="text-2xl font-extrabold text-navy-950 sm:text-3xl">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-navy-950">
               Looking for Quick Answers?
             </h2>
-            <p className="mx-auto mt-4 max-w-xl text-[15px] leading-relaxed text-navy-900/55">
+            <p className="mx-auto mt-4 max-w-xl text-base sm:text-lg leading-relaxed text-navy-900/75">
               Check our frequently asked questions for answers to common questions about SmartFin Compass, assessments, accounts and financial insights.
             </p>
             <Link
               to="/pricing"
-              className="mt-8 inline-flex items-center gap-2 rounded-lg bg-brand-green-500 px-7 py-3 text-sm font-semibold text-white shadow-soft transition-all duration-250 hover:bg-brand-green-600 hover:shadow-md active:scale-[0.98]"
+              className="mt-8 inline-flex items-center gap-2 rounded-lg bg-brand-green-500 px-8 py-3.5 text-sm sm:text-base font-semibold text-white shadow-soft transition-all duration-250 hover:bg-brand-green-600 hover:shadow-md active:scale-[0.98]"
             >
               Visit FAQs
-              <ArrowForwardIcon sx={{ fontSize: 16 }} />
+              <ArrowForwardIcon sx={{ fontSize: 18 }} />
             </Link>
           </div>
         </section>
@@ -632,45 +605,45 @@ export default function Contact() {
               <span className="mb-5 inline-flex h-14 w-14 items-center justify-center rounded-full bg-brand-green-50 text-brand-green-600">
                 <ShieldIcon sx={{ fontSize: 28 }} />
               </span>
-              <h2 className="text-2xl font-extrabold text-navy-950 sm:text-3xl">
+              <h2 className="text-3xl font-extrabold text-navy-950 sm:text-4xl">
                 Your Privacy Matters
               </h2>
-              <p className="mt-4 text-[15px] leading-relaxed text-navy-900/55">
+              <p className="mt-4 text-base sm:text-lg leading-relaxed text-navy-900/75">
                 When you contact SmartFin Compass, your information should be handled responsibly. We are committed to protecting your personal information and maintaining a trustworthy experience.
               </p>
             </div>
 
             <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-3">
-              <div className="rounded-2xl border border-navy-950/5 bg-slate-50/60 p-6 text-center">
-                <LockIcon sx={{ fontSize: 28, color: "#22b573" }} />
-                <p className="mt-4 text-sm font-bold text-navy-950">Private</p>
-                <p className="mt-2 text-sm leading-relaxed text-navy-900/50">
+              <div className="rounded-2xl border border-navy-950/5 bg-slate-50/60 p-6 sm:p-8 text-center">
+                <LockIcon sx={{ fontSize: 32, color: "#22b573" }} />
+                <p className="mt-4 text-lg font-bold text-navy-950">Private</p>
+                <p className="mt-2 text-sm sm:text-base leading-relaxed text-navy-900/70">
                   Your contact information is treated with care.
                 </p>
               </div>
-              <div className="rounded-2xl border border-navy-950/5 bg-slate-50/60 p-6 text-center">
-                <VerifiedUserIcon sx={{ fontSize: 28, color: "#22b573" }} />
-                <p className="mt-4 text-sm font-bold text-navy-950">Secure</p>
-                <p className="mt-2 text-sm leading-relaxed text-navy-900/50">
+              <div className="rounded-2xl border border-navy-950/5 bg-slate-50/60 p-6 sm:p-8 text-center">
+                <VerifiedUserIcon sx={{ fontSize: 32, color: "#22b573" }} />
+                <p className="mt-4 text-lg font-bold text-navy-950">Secure</p>
+                <p className="mt-2 text-sm sm:text-base leading-relaxed text-navy-900/70">
                   We follow security-focused practices when handling information.
                 </p>
               </div>
-              <div className="rounded-2xl border border-navy-950/5 bg-slate-50/60 p-6 text-center">
-                <PrivacyTipIcon sx={{ fontSize: 28, color: "#22b573" }} />
-                <p className="mt-4 text-sm font-bold text-navy-950">Responsible</p>
-                <p className="mt-2 text-sm leading-relaxed text-navy-900/50">
+              <div className="rounded-2xl border border-navy-950/5 bg-slate-50/60 p-6 sm:p-8 text-center">
+                <PrivacyTipIcon sx={{ fontSize: 32, color: "#22b573" }} />
+                <p className="mt-4 text-lg font-bold text-navy-950">Responsible</p>
+                <p className="mt-2 text-sm sm:text-base leading-relaxed text-navy-900/70">
                   We use your information only for appropriate communication and support.
                 </p>
               </div>
             </div>
 
-            <div className="mt-8 text-center">
+            <div className="mt-10 text-center">
               <a
                 href="#"
-                className="inline-flex items-center gap-2 text-sm font-semibold text-brand-green-600 transition-colors duration-200 hover:text-brand-green-700"
+                className="inline-flex items-center gap-2 text-base font-semibold text-brand-green-600 transition-colors duration-200 hover:text-brand-green-700"
               >
                 Read Privacy Policy
-                <ArrowForwardIcon sx={{ fontSize: 16 }} />
+                <ArrowForwardIcon sx={{ fontSize: 18 }} />
               </a>
             </div>
           </div>
@@ -683,31 +656,31 @@ export default function Contact() {
           <div className="pointer-events-none absolute -right-32 bottom-0 h-96 w-96 rounded-full bg-sky-500/10 blur-3xl" />
 
           <div className="relative mx-auto max-w-7xl px-6 text-center lg:px-10">
-            <h2 className="text-3xl font-extrabold text-white sm:text-4xl">
+            <h2 className="text-3xl font-extrabold text-white sm:text-4xl lg:text-5xl">
               Ready to Take the{" "}
               <span className="text-brand-green-400">First Step?</span>
             </h2>
-            <p className="mx-auto mt-5 max-w-xl text-[15px] leading-relaxed text-white/55">
+            <p className="mx-auto mt-5 max-w-xl text-base sm:text-lg leading-relaxed text-white/80">
               If you're ready to understand your financial health and build a clearer financial roadmap, start your SmartFin Compass assessment.
             </p>
 
             <div className="mt-10 flex flex-wrap items-center justify-center gap-5">
               <Link
                 to="/login"
-                className="group/btn inline-flex items-center gap-2.5 rounded-lg bg-brand-green-500 px-10 py-4 text-[15px] font-semibold text-white shadow-soft transition-all duration-250 hover:bg-brand-green-600 hover:shadow-md hover:-translate-y-0.5 active:scale-[0.98]"
+                className="group/btn inline-flex items-center gap-2.5 rounded-lg bg-brand-green-500 px-10 py-4 text-base font-semibold text-white shadow-soft transition-all duration-250 hover:bg-brand-green-600 hover:shadow-md hover:-translate-y-0.5 active:scale-[0.98]"
               >
                 Start Your Assessment
                 <ArrowForwardIcon fontSize="small" className="transition-transform duration-250 group-hover/btn:translate-x-0.5" />
               </Link>
               <Link
                 to="/how-it-works"
-                className="group/btn inline-flex items-center gap-2.5 rounded-lg border border-white/20 px-10 py-4 text-[15px] font-semibold text-white transition-all duration-250 hover:border-white/40 hover:text-brand-green-400 active:scale-[0.98]"
+                className="group/btn inline-flex items-center gap-2.5 rounded-lg border border-white/20 px-10 py-4 text-base font-semibold text-white transition-all duration-250 hover:border-white/40 hover:text-brand-green-400 active:scale-[0.98]"
               >
                 How It Works
               </Link>
             </div>
 
-            <p className="mt-6 text-sm text-white/40">
+            <p className="mt-6 text-sm font-medium text-white/70">
               20–25 minutes &bull; Guided assessment &bull; Personalized financial insights
             </p>
           </div>

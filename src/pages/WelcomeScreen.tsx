@@ -63,25 +63,25 @@ const ASSESSMENT_STEPS = [
 const FEATURES = [
   {
     icon: InsightsIcon,
-    color: "text-brand-green-600 bg-brand-green-50",
+    color: "text-brand-green-600 bg-brand-green-50 border border-brand-green-100",
     title: "Financial Health Score",
     desc: "Get a comprehensive score that shows your overall financial wellness.",
   },
   {
     icon: TimelineIcon,
-    color: "text-sky-500 bg-sky-50",
+    color: "text-sky-600 bg-sky-50 border border-sky-100",
     title: "Personalized Insights",
     desc: "AI-powered insights based on your financial habits and behavior.",
   },
   {
     icon: CheckCircleIcon,
-    color: "text-violet-500 bg-violet-50",
+    color: "text-violet-600 bg-violet-50 border border-violet-100",
     title: "Custom Roadmap",
     desc: "A step-by-step financial plan tailored to your goals and priorities.",
   },
   {
     icon: NotificationsActiveIcon,
-    color: "text-amber-accent bg-amber-50",
+    color: "text-amber-600 bg-amber-50 border border-amber-100",
     title: "Smart Recommendations",
     desc: "Actionable tips and recommendations to improve your financial future.",
   },
@@ -126,10 +126,10 @@ export default function WelcomeScreen() {
   return (
     <div className="min-h-screen bg-white">
       {/* ─── NAVBAR ─── */}
-      <header className="sticky top-0 z-50 border-b border-navy-950/5 bg-white/95 backdrop-blur-md">
+      <header className="sticky top-0 z-50 border-b border-slate-200/80 bg-white/95 backdrop-blur-md">
         <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6 py-3 lg:px-10">
           <Link to="/" className="flex items-center gap-3">
-            <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand-green-500 text-white">
+            <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand-green-500 text-white shadow-sm">
               <ExploreIcon fontSize="small" />
             </span>
             <span className="text-xl font-bold leading-tight text-navy-950">
@@ -143,8 +143,8 @@ export default function WelcomeScreen() {
               <a
                 key={link.label}
                 href={link.href}
-                className={`group/nav relative text-[15px] font-medium transition-colors duration-250 ${
-                  i === 0 ? "text-navy-950" : "text-navy-900/70 hover:text-brand-green-600"
+                className={`group/nav relative text-[15px] font-semibold transition-colors duration-250 ${
+                  i === 0 ? "text-navy-950 font-bold" : "text-slate-700 hover:text-brand-green-600"
                 }`}
               >
                 {link.label}
@@ -158,13 +158,13 @@ export default function WelcomeScreen() {
           <div className="hidden items-center gap-4 lg:flex">
             <Link
               to="/login"
-              className="rounded-lg border border-navy-950/15 px-6 py-2.5 text-sm font-semibold text-navy-950 transition-all duration-250 hover:border-brand-green-500 hover:text-brand-green-600 active:scale-[0.98]"
+              className="rounded-lg border border-slate-300 px-6 py-2.5 text-sm font-bold text-navy-950 transition-all duration-250 hover:border-brand-green-500 hover:text-brand-green-600 active:scale-[0.98]"
             >
               Login
             </Link>
             <Link
               to="/create-account"
-              className="rounded-lg bg-brand-green-500 px-6 py-2.5 text-sm font-semibold text-white shadow-soft transition-all duration-250 hover:bg-brand-green-600 hover:shadow-md active:scale-[0.98]"
+              className="rounded-lg bg-brand-green-500 px-6 py-2.5 text-sm font-bold text-white shadow-sm transition-all duration-250 hover:bg-brand-green-600 hover:shadow-md active:scale-[0.98]"
             >
               Get Started
             </Link>
@@ -180,13 +180,13 @@ export default function WelcomeScreen() {
         </div>
 
         {mobileMenuOpen && (
-          <div className="border-t border-navy-950/5 bg-white px-6 py-4 lg:hidden">
+          <div className="border-t border-slate-200 bg-white px-6 py-4 lg:hidden">
             <nav className="flex flex-col gap-4">
               {NAV_LINKS.map((link) => (
                 <a
                   key={link.label}
                   href={link.href}
-                  className="text-sm font-medium text-navy-900/80"
+                  className="text-sm font-semibold text-slate-800"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   {link.label}
@@ -196,14 +196,14 @@ export default function WelcomeScreen() {
             <div className="mt-4 flex flex-col gap-3">
               <Link
                 to="/login"
-                className="w-full rounded-lg border border-navy-950/15 px-5 py-2.5 text-center text-sm font-semibold text-navy-950"
+                className="w-full rounded-lg border border-slate-300 px-5 py-2.5 text-center text-sm font-bold text-navy-950"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Login
               </Link>
               <Link
                 to="/create-account"
-                className="w-full rounded-lg bg-brand-green-500 px-5 py-2.5 text-center text-sm font-semibold text-white"
+                className="w-full rounded-lg bg-brand-green-500 px-5 py-2.5 text-center text-sm font-bold text-white"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Get Started
@@ -217,14 +217,14 @@ export default function WelcomeScreen() {
         {/* ─── HERO SECTION ─── */}
         <section className="relative overflow-hidden bg-white">
           <div className="pointer-events-none absolute inset-0">
-            <div className="absolute -left-40 top-0 h-[600px] w-[600px] rounded-full bg-brand-green-50/40 blur-3xl" />
-            <div className="absolute -right-40 top-10 h-[500px] w-[500px] rounded-full bg-sky-50/50 blur-3xl" />
+            <div className="absolute -left-40 top-0 h-[600px] w-[600px] rounded-full bg-brand-green-50/50 blur-3xl" />
+            <div className="absolute -right-40 top-10 h-[500px] w-[500px] rounded-full bg-sky-50/60 blur-3xl" />
           </div>
 
           <div className="relative mx-auto grid max-w-7xl gap-12 px-6 py-16 lg:grid-cols-2 lg:items-center lg:gap-16 lg:px-10 lg:py-20">
             {/* Left Content */}
             <div>
-              <span className="inline-flex items-center gap-2 rounded-full border border-brand-green-200 bg-brand-green-50 px-4 py-1.5 text-sm font-semibold text-brand-green-700">
+              <span className="inline-flex items-center gap-2.5 rounded-full border border-brand-green-300/80 bg-brand-green-50/90 px-4.5 py-1.5 text-sm font-bold text-brand-green-800 shadow-sm">
                 Welcome to SmartFin Compass 👋
               </span>
 
@@ -234,7 +234,7 @@ export default function WelcomeScreen() {
                 <span className="text-brand-green-600">Financial Readiness</span>
               </h1>
 
-              <p className="mt-6 max-w-lg text-base leading-relaxed text-navy-900/55">
+              <p className="mt-6 max-w-lg text-base sm:text-lg leading-relaxed font-medium text-slate-700">
                 Our AI-powered assessment will analyze your financial
                 health and create a personalized roadmap to help you
                 achieve your goals.
@@ -242,27 +242,27 @@ export default function WelcomeScreen() {
 
               <div className="mt-8 space-y-5">
                 <div className="flex items-start gap-3.5">
-                  <span className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand-green-50 text-brand-green-600">
+                  <span className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand-green-50 text-brand-green-600 border border-brand-green-100/80 shadow-xs">
                     <ShieldIcon sx={{ fontSize: 20 }} />
                   </span>
                   <div>
-                    <p className="text-sm font-bold text-navy-950">
+                    <p className="text-base font-bold text-navy-950">
                       100% Secure & Private
                     </p>
-                    <p className="mt-0.5 text-sm text-navy-900/50">
+                    <p className="mt-0.5 text-sm font-medium text-slate-600">
                       Your data is encrypted and never shared.
                     </p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3.5">
-                  <span className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand-green-50 text-brand-green-600">
+                  <span className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand-green-50 text-brand-green-600 border border-brand-green-100/80 shadow-xs">
                     <VerifiedUserIcon sx={{ fontSize: 20 }} />
                   </span>
                   <div>
-                    <p className="text-sm font-bold text-navy-950">
+                    <p className="text-base font-bold text-navy-950">
                       Personalized for You
                     </p>
-                    <p className="mt-0.5 text-sm text-navy-900/50">
+                    <p className="mt-0.5 text-sm font-medium text-slate-600">
                       Get insights that are tailored to your unique
                       financial profile.
                     </p>
@@ -276,24 +276,24 @@ export default function WelcomeScreen() {
               <img
                 src={welcomeImage}
                 alt="Financial dashboard laptop illustration"
-                className="h-auto max-h-[580px] w-full max-w-[700px] object-contain"
+                className="h-auto max-h-[580px] w-full max-w-[700px] object-contain drop-shadow-sm"
               />
             </div>
           </div>
         </section>
 
         {/* ─── ASSESSMENT OVERVIEW ─── */}
-        <section className="mx-auto max-w-7xl px-6 py-16 lg:px-10">
-          <div className="rounded-3xl border border-navy-950/5 bg-white p-8 shadow-[0_4px_24px_rgba(13,37,73,0.06)] sm:p-10">
+        <section className="mx-auto max-w-7xl px-6 py-12 sm:py-16 lg:px-10">
+          <div className="rounded-3xl border border-slate-200/90 bg-white p-8 shadow-[0_6px_28px_rgba(13,37,73,0.07)] sm:p-10">
             <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_auto_auto]">
               {/* Left — Steps */}
               <div>
-                <h2 className="text-xl font-extrabold text-navy-950">
+                <h2 className="text-2xl font-extrabold text-navy-950 tracking-tight">
                   Assessment Overview
                 </h2>
                 <div className="relative mt-8">
                   {/* Dashed connector line */}
-                  <div className="absolute left-[28px] top-6 hidden h-px w-[calc(100%-56px)] border-t-2 border-dashed border-navy-950/10 lg:block" />
+                  <div className="absolute left-[28px] top-7 hidden h-px w-[calc(100%-56px)] border-t-2 border-dashed border-slate-300 lg:block" />
 
                   <div className="grid grid-cols-2 gap-6 sm:grid-cols-4">
                     {ASSESSMENT_STEPS.map((step) => (
@@ -301,8 +301,8 @@ export default function WelcomeScreen() {
                         <span
                           className={`relative z-10 flex h-14 w-14 items-center justify-center rounded-full transition-all duration-300 ${
                             step.active
-                              ? "bg-brand-green-500 text-white shadow-[0_0_20px_rgba(34,181,115,0.3)]"
-                              : "bg-brand-green-50 text-brand-green-600"
+                              ? "bg-brand-green-500 text-white shadow-[0_0_20px_rgba(34,181,115,0.35)]"
+                              : "bg-brand-green-50 text-brand-green-700 border border-brand-green-200/80"
                           }`}
                         >
                           <step.icon sx={{ fontSize: 24 }} />
@@ -312,10 +312,10 @@ export default function WelcomeScreen() {
                             </span>
                           )}
                         </span>
-                        <p className="mt-3 text-sm font-bold text-navy-950">
+                        <p className="mt-3 text-sm sm:text-base font-extrabold text-navy-950">
                           {step.title}
                         </p>
-                        <p className="mt-0.5 text-xs text-navy-900/45">
+                        <p className="mt-1 text-xs sm:text-sm font-semibold text-slate-600">
                           {step.time}
                         </p>
                       </div>
@@ -324,27 +324,27 @@ export default function WelcomeScreen() {
                 </div>
               </div>
 
-              {/* Middle — Details */}
-              <div className="flex flex-col gap-5 border-l border-navy-950/5 pl-8">
-                <h3 className="text-base font-bold text-navy-950">
+              {/* Right — Details */}
+              <div className="flex flex-col gap-5 border-t pt-8 border-slate-200/80 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-8">
+                <h3 className="text-lg font-extrabold text-navy-950">
                   Assessment Details
                 </h3>
                 <div className="space-y-4">
-                  <div className="flex items-center gap-3">
-                    <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-slate-100 text-navy-900/50">
-                      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <div className="flex items-center gap-3.5">
+                    <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-green-50 text-brand-green-700 border border-brand-green-100">
+                      <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
                         <circle cx="12" cy="12" r="10" />
                         <polyline points="12 6 12 12 16 14" />
                       </svg>
                     </span>
                     <div>
-                      <p className="text-xs text-navy-900/45">Estimated Time</p>
-                      <p className="text-sm font-semibold text-navy-950">20–25 minutes</p>
+                      <p className="text-xs sm:text-sm font-semibold text-slate-600">Estimated Time</p>
+                      <p className="text-sm sm:text-base font-extrabold text-navy-950">20–25 minutes</p>
                     </div>
                   </div>
-                  <div className="flex items-center gap-3">
-                    <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-slate-100 text-navy-900/50">
-                      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <div className="flex items-center gap-3.5">
+                    <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-green-50 text-brand-green-700 border border-brand-green-100">
+                      <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
                         <line x1="8" y1="6" x2="21" y2="6" />
                         <line x1="8" y1="12" x2="21" y2="12" />
                         <line x1="8" y1="18" x2="21" y2="18" />
@@ -354,21 +354,21 @@ export default function WelcomeScreen() {
                       </svg>
                     </span>
                     <div>
-                      <p className="text-xs text-navy-900/45">Total Sections</p>
-                      <p className="text-sm font-semibold text-navy-950">4 Sections</p>
+                      <p className="text-xs sm:text-sm font-semibold text-slate-600">Total Sections</p>
+                      <p className="text-sm sm:text-base font-extrabold text-navy-950">4 Sections</p>
                     </div>
                   </div>
-                  <div className="flex items-center gap-3">
-                    <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-slate-100 text-navy-900/50">
-                      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <div className="flex items-center gap-3.5">
+                    <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-green-50 text-brand-green-700 border border-brand-green-100">
+                      <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M12 20V10" />
                         <path d="M18 20V4" />
                         <path d="M6 20v-4" />
                       </svg>
                     </span>
                     <div>
-                      <p className="text-xs text-navy-900/45">Questions</p>
-                      <p className="text-sm font-semibold text-navy-950">~30 Questions</p>
+                      <p className="text-xs sm:text-sm font-semibold text-slate-600">Questions</p>
+                      <p className="text-sm sm:text-base font-extrabold text-navy-950">~30 Questions</p>
                     </div>
                   </div>
                 </div>
@@ -377,54 +377,66 @@ export default function WelcomeScreen() {
           </div>
         </section>
 
-        {/* ─── START ASSESSMENT CTA ─── */}
+        {/* ─── START ASSESSMENT CTA SECTION ─── */}
         <section className="mx-auto max-w-7xl px-6 pb-16 lg:px-10">
-          <div className="flex flex-col items-center justify-center rounded-3xl border border-navy-950/5 bg-brand-green-50/40 px-8 py-14 text-center shadow-[0_4px_24px_rgba(34,181,115,0.08)]">
-            <span className="mb-5 flex h-14 w-14 items-center justify-center rounded-full bg-brand-green-100 text-brand-green-600">
-              <CheckCircleIcon sx={{ fontSize: 28 }} />
-            </span>
-            <h2 className="text-2xl font-extrabold text-navy-950 sm:text-3xl">
-              Ready to Begin?
-            </h2>
-            <p className="mt-3 max-w-md text-sm leading-relaxed text-navy-900/55">
-              Take the first step towards financial clarity and better decisions.
-              Your personalized assessment is just one click away.
-            </p>
-            <Link
-              to="/personal-information"
-              className="mt-8 inline-flex items-center gap-3 rounded-2xl bg-brand-green-500 px-14 py-6 text-xl font-bold text-white shadow-[0_8px_30px_rgba(34,181,115,0.35)] transition-all duration-250 hover:bg-brand-green-600 hover:shadow-[0_12px_40px_rgba(34,181,115,0.45)] hover:-translate-y-1 active:scale-[0.97]"
-            >
-              Start Assessment
-              <ArrowForwardIcon sx={{ fontSize: 24 }} />
-            </Link>
-            <p className="mt-4 flex items-center gap-1.5 text-xs text-navy-900/45">
-              <LockIcon sx={{ fontSize: 12 }} />
-              You can save and continue later
-            </p>
+          <div className="relative overflow-hidden rounded-3xl border-2 border-brand-green-200/90 bg-gradient-to-br from-brand-green-50/90 via-emerald-50/60 to-brand-green-50/90 px-8 py-14 sm:py-16 sm:px-12 text-center shadow-[0_12px_36px_rgba(24,154,99,0.12)]">
+            {/* Subtle background glow highlights */}
+            <div className="pointer-events-none absolute -left-20 -top-20 h-64 w-64 rounded-full bg-brand-green-200/30 blur-2xl" />
+            <div className="pointer-events-none absolute -right-20 -bottom-20 h-64 w-64 rounded-full bg-emerald-200/40 blur-2xl" />
+
+            <div className="relative z-10 flex flex-col items-center">
+              <span className="mb-5 flex h-14 w-14 items-center justify-center rounded-full bg-brand-green-100 text-brand-green-600 border border-brand-green-200/80 shadow-sm">
+                <CheckCircleIcon sx={{ fontSize: 30 }} />
+              </span>
+              <h2 className="text-3xl sm:text-4xl font-extrabold text-navy-950 tracking-tight">
+                Ready to Begin?
+              </h2>
+              <p className="mt-3.5 max-w-xl text-base sm:text-lg font-medium leading-relaxed text-slate-700">
+                Take the first step towards financial clarity and better decisions.
+                Your personalized assessment is just one click away.
+              </p>
+
+              {/* Start Assessment Button with visual focus effect */}
+              <div className="group relative mt-8">
+                <div className="absolute -inset-1 rounded-2xl bg-brand-green-400/30 blur-lg opacity-70 transition duration-300 group-hover:opacity-100 pointer-events-none" />
+                <Link
+                  to="/personal-information"
+                  className="relative inline-flex items-center gap-3 rounded-2xl bg-brand-green-500 px-10 py-4.5 sm:px-12 sm:py-5 text-lg sm:text-xl font-bold text-white shadow-[0_8px_30px_rgba(24,154,99,0.35)] transition-all duration-300 hover:bg-brand-green-600 hover:shadow-[0_12px_35px_rgba(24,154,99,0.45)] hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98]"
+                >
+                  Start Assessment
+                  <ArrowForwardIcon sx={{ fontSize: 24 }} />
+                </Link>
+              </div>
+
+              <p className="mt-5 flex items-center justify-center gap-2 text-xs sm:text-sm font-semibold text-slate-700">
+                <LockIcon className="text-brand-green-600" sx={{ fontSize: 16 }} />
+                You can save and continue later
+              </p>
+            </div>
           </div>
         </section>
 
         {/* ─── WHAT YOU'LL GET ─── */}
-        <section className="mx-auto max-w-7xl px-6 py-16 lg:px-10">
-          <h2 className="text-center text-3xl font-extrabold text-navy-950">
+        <section className="mx-auto max-w-7xl px-6 py-12 sm:py-16 lg:px-10">
+          <h2 className="text-center text-3xl sm:text-4xl font-extrabold text-navy-950 tracking-tight">
             What You'll Get
           </h2>
 
-          <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-10 sm:mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {FEATURES.map((f) => (
               <div
                 key={f.title}
-                className="group rounded-2xl border border-navy-950/5 bg-white p-7 shadow-soft transition-all duration-300 hover:-translate-y-1 hover:shadow-card hover:border-brand-green-100"
+                className="group rounded-2xl border border-slate-200/90 bg-white p-7 sm:p-8 shadow-soft transition-all duration-300 hover:-translate-y-1 hover:shadow-card hover:border-brand-green-200"
               >
                 <span
                   className={`mb-5 inline-flex h-14 w-14 items-center justify-center rounded-2xl transition-transform duration-300 group-hover:scale-110 ${f.color}`}
                 >
                   <f.icon sx={{ fontSize: 28 }} />
                 </span>
-                <h3 className="text-base font-bold text-navy-950">
+                <h3 className="text-lg font-extrabold text-navy-950">
                   {f.title}
                 </h3>
-                <p className="mt-2.5 text-sm leading-relaxed text-navy-900/55">
+                <p className="mt-2.5 text-sm font-medium leading-relaxed text-slate-600">
                   {f.desc}
                 </p>
               </div>
@@ -434,23 +446,23 @@ export default function WelcomeScreen() {
 
         {/* ─── SECURITY BAR ─── */}
         <section className="mx-auto max-w-7xl px-6 pb-20 lg:px-10">
-          <div className="flex flex-col items-start gap-5 rounded-2xl border border-navy-950/5 bg-sky-50/50 px-8 py-6 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex flex-col items-start gap-5 rounded-2xl border border-brand-green-200/80 bg-brand-green-50/40 px-8 py-6 shadow-xs sm:flex-row sm:items-center sm:justify-between">
             <div className="flex items-center gap-4">
-              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-brand-green-100 text-brand-green-600">
+              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-brand-green-100 text-brand-green-700 border border-brand-green-200/80">
                 <ShieldIcon sx={{ fontSize: 20 }} />
               </span>
               <div>
-                <p className="text-sm font-bold text-navy-950">
+                <p className="text-base font-extrabold text-navy-950">
                   Your financial data is safe with us
                 </p>
-                <p className="mt-0.5 text-xs text-navy-900/50">
+                <p className="mt-0.5 text-sm font-medium text-slate-600">
                   We use bank-level encryption and follow industry best practices to protect your information.
                 </p>
               </div>
             </div>
             <a
               href="#"
-              className="shrink-0 text-sm font-semibold text-brand-green-600 transition-colors hover:text-brand-green-700"
+              className="shrink-0 text-sm font-bold text-brand-green-700 transition-colors hover:text-brand-green-800 hover:underline"
             >
               Learn more about our security →
             </a>
@@ -459,7 +471,7 @@ export default function WelcomeScreen() {
       </main>
 
       {/* ─── FOOTER ─── */}
-      <footer className="bg-navy-950 pt-20 text-white/70">
+      <footer className="bg-navy-950 pt-20 text-slate-300">
         <div className="mx-auto max-w-7xl px-6 lg:px-10">
           <div className="grid grid-cols-1 gap-12 pb-14 sm:grid-cols-2 lg:grid-cols-5">
             <div className="lg:col-span-2">
@@ -474,7 +486,7 @@ export default function WelcomeScreen() {
                   </span>
                 </span>
               </Link>
-              <p className="mt-5 max-w-xs text-sm leading-relaxed">
+              <p className="mt-5 max-w-xs text-sm font-medium leading-relaxed text-slate-300">
                 AI-powered financial wellness platform that helps you make
                 smarter financial decisions.
               </p>
@@ -484,7 +496,7 @@ export default function WelcomeScreen() {
                     <a
                       key={i}
                       href="#"
-                      className="grid h-10 w-10 place-items-center rounded-full bg-white/10 transition-all duration-200 hover:scale-110 hover:bg-brand-green-500 hover:text-white"
+                      className="grid h-10 w-10 place-items-center rounded-full bg-white/10 text-white transition-all duration-200 hover:scale-110 hover:bg-brand-green-500 hover:text-white"
                     >
                       <Icon sx={{ fontSize: 18 }} />
                     </a>
@@ -495,13 +507,13 @@ export default function WelcomeScreen() {
 
             {FOOTER_COLUMNS.map((col) => (
               <div key={col.title}>
-                <p className="text-sm font-bold text-white">{col.title}</p>
+                <p className="text-sm font-bold text-white uppercase tracking-wider">{col.title}</p>
                 <ul className="mt-5 space-y-3">
                   {col.links.map((l) => (
                     <li key={l.label}>
                       <a
                         href={l.href}
-                        className="text-sm transition-colors duration-200 hover:text-brand-green-400"
+                        className="text-sm font-medium text-slate-300 transition-colors duration-200 hover:text-brand-green-400"
                       >
                         {l.label}
                       </a>
@@ -512,25 +524,25 @@ export default function WelcomeScreen() {
             ))}
 
             <div>
-              <p className="text-sm font-bold text-white">Contact Us</p>
-              <ul className="mt-5 space-y-4 text-sm">
+              <p className="text-sm font-bold text-white uppercase tracking-wider">Contact Us</p>
+              <ul className="mt-5 space-y-4 text-sm font-medium text-slate-300">
                 <li className="flex items-center gap-2.5">
-                  <EmailIcon sx={{ fontSize: 16 }} />
+                  <EmailIcon className="text-brand-green-400" sx={{ fontSize: 16 }} />
                   support@smartfincompass.com
                 </li>
                 <li className="flex items-center gap-2.5">
-                  <CallIcon sx={{ fontSize: 16 }} />
+                  <CallIcon className="text-brand-green-400" sx={{ fontSize: 16 }} />
                   +91 98765 43210
                 </li>
                 <li className="flex items-center gap-2.5">
-                  <PlaceIcon sx={{ fontSize: 16 }} />
+                  <PlaceIcon className="text-brand-green-400" sx={{ fontSize: 16 }} />
                   Bangalore, Karnataka, India
                 </li>
               </ul>
             </div>
           </div>
 
-          <div className="flex flex-col items-center justify-between gap-3 border-t border-white/10 py-7 text-xs sm:flex-row">
+          <div className="flex flex-col items-center justify-between gap-3 border-t border-white/10 py-7 text-xs font-medium text-slate-400 sm:flex-row">
             <p>© 2025 SmartFin Compass. All rights reserved.</p>
             <div className="flex gap-5">
               <a

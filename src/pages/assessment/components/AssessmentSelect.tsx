@@ -10,7 +10,6 @@ interface AssessmentSelectProps {
   placeholder?: string;
   icon?: ReactNode;
   error?: string;
-  required?: boolean;
   otherLabel?: string;
   otherValue?: string;
   onOtherChange?: (value: string) => void;
@@ -27,7 +26,6 @@ export default function AssessmentSelect({
   placeholder,
   icon,
   error,
-  required,
   otherLabel = "Other",
   otherValue = "",
   onOtherChange,
@@ -64,39 +62,38 @@ export default function AssessmentSelect({
 
   return (
     <div className={className}>
-      <label className="mb-2 block text-sm sm:text-base font-semibold text-navy-950">
+      <label className="mb-2 block text-sm sm:text-base font-bold text-navy-950">
         {label}
-        {required && <span className="ml-0.5 text-red-500">*</span>}
       </label>
       <div className="relative" ref={ref}>
         {icon && (
-          <span className="pointer-events-none absolute inset-y-0 left-0 z-10 flex items-center pl-3.5 text-navy-900/40">
+          <span className="pointer-events-none absolute inset-y-0 left-0 z-10 flex items-center pl-3.5 text-slate-600 font-medium">
             {icon}
           </span>
         )}
         <button
           type="button"
           onClick={() => setOpen((v) => !v)}
-          className={`flex h-12 w-full items-center justify-between rounded-xl border bg-white px-4 text-sm sm:text-base transition-all duration-250 hover:border-navy-950/20 focus:border-brand-green-500 focus:outline-none focus:ring-2 focus:ring-brand-green-500/20 ${
-            icon ? "pl-10" : ""
+          className={`flex h-12 w-full items-center justify-between rounded-xl border bg-white px-4 text-sm sm:text-base transition-all duration-250 hover:border-slate-400 focus:border-brand-green-500 focus:outline-none focus:ring-2 focus:ring-brand-green-500/20 ${
+            icon ? "pl-11" : ""
           } ${
             error
-              ? "border-red-400 focus:border-red-500 focus:ring-red-500/20"
-              : "border-navy-950/10"
+              ? "border-red-500 focus:border-red-600 focus:ring-red-500/20"
+              : "border-slate-300"
           }`}
         >
-          <span className={value ? "text-navy-950 font-medium" : "text-navy-900/40"}>
+          <span className={value ? "text-navy-950 font-bold" : "text-slate-400 font-medium"}>
             {value || placeholder || "Select an option"}
           </span>
           <KeyboardArrowDownIcon
-            sx={{ fontSize: 20 }}
-            className={`text-navy-900/40 transition-transform duration-200 ${
-              open ? "rotate-180" : ""
+            sx={{ fontSize: 22 }}
+            className={`text-slate-600 transition-transform duration-200 ${
+              open ? "rotate-180 text-brand-green-600" : ""
             }`}
           />
         </button>
         {open && (
-          <div className="absolute z-30 mt-1 max-h-60 w-full overflow-y-auto rounded-xl border border-navy-950/8 bg-white py-1 shadow-lg">
+          <div className="absolute z-50 mt-1.5 max-h-60 w-full overflow-y-auto rounded-xl border border-slate-300 bg-white py-1.5 shadow-xl">
             {options.map((opt) => (
               <button
                 key={opt}
@@ -105,10 +102,10 @@ export default function AssessmentSelect({
                   onChange(opt);
                   setOpen(false);
                 }}
-                className={`w-full px-4 py-2.5 text-left text-sm sm:text-base transition-colors hover:bg-brand-green-50 ${
+                className={`w-full px-4 py-2.5 text-left text-sm sm:text-base transition-colors ${
                   value === opt
-                    ? "font-semibold text-brand-green-600"
-                    : "text-navy-950"
+                    ? "font-bold text-brand-green-700 bg-brand-green-50/90"
+                    : "font-medium text-navy-950 hover:bg-slate-100"
                 }`}
               >
                 {opt}
@@ -118,17 +115,17 @@ export default function AssessmentSelect({
         )}
       </div>
       {isOther && hasOtherOption && onOtherChange && (
-        <div className="mt-2.5">
-          <label className="mb-1 block text-xs font-semibold text-navy-900/70">
-            Please specify <span className="text-red-500">*</span>
+        <div className="mt-3">
+          <label className="mb-1.5 block text-xs sm:text-sm font-bold text-slate-700">
+            Please specify
           </label>
           <input
             type="text"
             value={otherValue}
             onChange={(e) => onOtherChange(e.target.value.replace(/[^a-zA-Z0-9\s,-]/g, ""))}
             placeholder={otherPlaceholder}
-            className={`h-11 w-full rounded-xl border bg-white px-4 text-sm sm:text-base text-navy-950 placeholder:text-navy-900/40 transition-all duration-250 hover:border-navy-950/20 focus:border-brand-green-500 focus:outline-none focus:ring-2 focus:ring-brand-green-500/20 ${
-              otherError ? "border-red-400 focus:border-red-500" : "border-navy-950/10"
+            className={`h-11 w-full rounded-xl border bg-white px-4 text-sm sm:text-base font-semibold text-navy-950 placeholder:text-slate-400 transition-all duration-250 hover:border-slate-400 focus:border-brand-green-500 focus:outline-none focus:ring-2 focus:ring-brand-green-500/20 ${
+              otherError ? "border-red-500 focus:border-red-600" : "border-slate-300"
             }`}
           />
           <ValidationMessage message={otherError} />
@@ -138,3 +135,4 @@ export default function AssessmentSelect({
     </div>
   );
 }
+

@@ -283,11 +283,14 @@ export default function HowItWorks() {
             {/* Hero Visual — Journey Flow */}
             <div className="relative">
               <div className="rounded-3xl border border-navy-950/5 bg-white p-7 shadow-card sm:p-8">
-                <p className="mb-6 text-base font-bold text-navy-950">
+                <p className="mb-6 text-base sm:text-lg font-bold text-navy-950">
                   Your SmartFin Compass Journey
                 </p>
 
-                <div className="flex flex-col gap-3">
+                <div className="relative flex flex-col gap-2">
+                  {/* Vertical connector line passing behind icons */}
+                  <div className="absolute left-[36px] top-6 bottom-6 w-0.5 -translate-x-1/2 bg-navy-950/10" />
+
                   {[
                     { icon: PersonIcon, label: "Create Profile", color: "text-violet-500 bg-violet-50" },
                     { icon: DescriptionIcon, label: "Complete Assessment", color: "text-sky-500 bg-sky-50" },
@@ -295,22 +298,30 @@ export default function HowItWorks() {
                     { icon: SpeedIcon, label: "Health Score", color: "text-amber-accent bg-amber-50" },
                     { icon: MapIcon, label: "Personalized Roadmap", color: "text-rose-500 bg-rose-50" },
                     { icon: RocketLaunchIcon, label: "Financial Growth", color: "text-emerald-600 bg-emerald-50" },
-                  ].map((item, i) => (
-                    <div key={item.label} className="flex items-center gap-4">
-                      <div className="flex flex-col items-center">
-                        <span className={`flex h-10 w-10 items-center justify-center rounded-xl ${item.color}`}>
-                          <item.icon sx={{ fontSize: 20 }} />
-                        </span>
-                        {i < 5 && (
-                          <div className="my-1 h-4 w-0.5 rounded-full bg-navy-950/10" />
-                        )}
+                  ].map((item) => (
+                    <div
+                      key={item.label}
+                      className="group relative grid grid-cols-[48px_1fr_20px] items-center gap-4 rounded-2xl px-3 py-2.5 transition-all duration-200 hover:bg-slate-50/80 hover:translate-x-1"
+                    >
+                      {/* Fixed-width Icon Container */}
+                      <div className={`relative z-10 flex h-12 w-12 items-center justify-center rounded-xl transition-transform duration-200 group-hover:scale-105 ${item.color}`}>
+                        <item.icon sx={{ fontSize: 22 }} />
                       </div>
-                      <div className="flex-1">
-                        <p className="text-sm sm:text-base font-semibold text-navy-950">{item.label}</p>
+
+                      {/* Consistently Aligned Text Label */}
+                      <div className="min-w-0">
+                        <p className="text-sm sm:text-base font-semibold text-navy-950 transition-colors duration-200 group-hover:text-brand-green-600">
+                          {item.label}
+                        </p>
                       </div>
-                      {i < 5 && (
-                        <ArrowForwardIcon sx={{ fontSize: 16 }} className="text-navy-900/30" />
-                      )}
+
+                      {/* Right-Aligned Arrow */}
+                      <div className="flex items-center justify-end">
+                        <ArrowForwardIcon
+                          sx={{ fontSize: 16 }}
+                          className="text-navy-900/30 transition-all duration-200 group-hover:translate-x-0.5 group-hover:text-brand-green-600"
+                        />
+                      </div>
                     </div>
                   ))}
                 </div>

@@ -358,31 +358,25 @@ export default function FinancialGoals() {
         <div className="mb-8 flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
           <div className="max-w-xl">
             <h1 className="text-3xl font-extrabold text-navy-950 sm:text-4xl">
-              Financial
-              <br />
-              Goals
+              Financial Goals
             </h1>
-            <p className="mt-3 text-[15px] leading-relaxed text-navy-900/55">
-              Define your goals and priorities
-              <br />
-              so we can help you build the right
-              <br />
-              financial roadmap.
+            <p className="mt-3 text-[15px] font-medium leading-relaxed text-slate-700">
+              Define your goals and priorities so we can help you build the right financial roadmap.
             </p>
           </div>
 
           {/* Assessment Progress */}
-          <div className="w-full max-w-lg rounded-2xl border border-navy-950/5 bg-white p-6 shadow-[0_2px_12px_rgba(13,37,73,0.04)]">
+          <div className="w-full max-w-lg rounded-2xl border border-slate-200 bg-white p-6 shadow-[0_2px_12px_rgba(13,37,73,0.06)]">
             <div className="mb-5 flex items-center justify-between">
               <p className="text-sm font-bold text-navy-950">
                 Assessment Progress
               </p>
-              <span className="rounded-full bg-brand-green-50 px-3 py-1 text-xs font-semibold text-brand-green-600">
-                Step 7 of 8
+              <span className="rounded-full bg-brand-green-100 px-3 py-1 text-xs font-bold text-brand-green-700">
+                Step 10 of 12
               </span>
             </div>
             <div className="relative">
-              <div className="absolute left-[40px] top-5 h-0.5 w-[calc(100%-80px)] bg-navy-950/8" />
+              <div className="absolute left-[40px] top-5 h-0.5 w-[calc(100%-80px)] bg-slate-200" />
               <div className="absolute left-[40px] top-5 h-0.5 w-[calc(100%-80px)] bg-brand-green-500" />
               <div className="flex items-start justify-between">
                 {PROGRESS_STEPS.map((step, i) => (
@@ -397,7 +391,7 @@ export default function FinancialGoals() {
                           ? "bg-brand-green-500 text-white shadow-[0_0_10px_rgba(34,181,115,0.25)]"
                           : step.active
                           ? "bg-brand-green-500 text-white shadow-[0_0_10px_rgba(34,181,115,0.25)]"
-                          : "border-2 border-navy-950/10 bg-white text-navy-900/40"
+                          : "border-2 border-slate-300 bg-white text-slate-600"
                       }`}
                     >
                       {step.completed ? (
@@ -407,12 +401,12 @@ export default function FinancialGoals() {
                       )}
                     </span>
                     <p
-                      className={`mt-2 text-[10px] font-semibold leading-tight ${
+                      className={`mt-2 text-[10px] font-bold leading-tight ${
                         step.active
-                          ? "text-brand-green-600"
+                          ? "text-brand-green-700"
                           : step.completed
-                          ? "text-navy-900/60"
-                          : "text-navy-900/45"
+                          ? "text-brand-green-700"
+                          : "text-slate-600"
                       }`}
                     >
                       {step.label}
@@ -427,13 +421,13 @@ export default function FinancialGoals() {
         {/* ─── MAIN CONTENT: Two Columns ─── */}
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1fr_360px]">
           {/* LEFT — Form Card */}
-          <div className="rounded-2xl border border-navy-950/5 bg-white p-7 shadow-[0_2px_12px_rgba(13,37,73,0.04)] sm:p-8">
+          <div className="rounded-2xl border border-slate-200 bg-white p-7 shadow-[0_2px_12px_rgba(13,37,73,0.06)] sm:p-8">
             {/* ── Select Your Financial Goals ── */}
             <div className="mb-10">
               <p className="text-base font-bold text-navy-950">
                 Select Your Financial Goals
               </p>
-              <p className="mt-1 text-sm text-navy-900/50">
+              <p className="mt-1 text-sm font-medium text-slate-600">
                 Choose the goals that are important to you
               </p>
 
@@ -447,8 +441,8 @@ export default function FinancialGoals() {
                       onClick={() => toggleGoal(goal.key)}
                       className={`flex flex-col items-center gap-3 rounded-2xl border-2 p-5 text-center transition-all ${
                         selected
-                          ? "border-brand-green-500 bg-brand-green-50/40"
-                          : "border-navy-950/8 bg-white hover:border-navy-950/15"
+                          ? "border-brand-green-500 bg-brand-green-50/70 shadow-sm"
+                          : "border-slate-300 bg-white hover:border-slate-400"
                       }`}
                     >
                       <span
@@ -460,20 +454,20 @@ export default function FinancialGoals() {
                         <p className="text-sm font-bold text-navy-950">
                           {goal.label}
                         </p>
-                        <p className="mt-1 text-xs text-navy-900/50">
+                        <p className="mt-1 text-xs font-medium text-slate-600">
                           {goal.desc}
                         </p>
                       </div>
                       <span
-                        className={`flex items-center gap-1.5 text-xs font-semibold ${
-                          selected ? "text-brand-green-600" : "text-navy-900/45"
+                        className={`flex items-center gap-1.5 text-xs font-bold ${
+                          selected ? "text-brand-green-700" : "text-slate-600"
                         }`}
                       >
                         <span
                           className={`flex h-5 w-5 items-center justify-center rounded-md border-2 transition-all ${
                             selected
                               ? "border-brand-green-500 bg-brand-green-500"
-                              : "border-navy-950/20 bg-white"
+                              : "border-slate-400 bg-white"
                           }`}
                         >
                           {selected && (
@@ -496,7 +490,7 @@ export default function FinancialGoals() {
               <p className="text-base font-bold text-navy-950">
                 Set Your Goal Priorities
               </p>
-              <p className="mt-1 text-sm text-navy-900/50">
+              <p className="mt-1 text-sm font-medium text-slate-600">
                 Rank your selected goals in order of importance
               </p>
 
@@ -513,13 +507,13 @@ export default function FinancialGoals() {
                       onDragStart={() => handleDragStart(idx)}
                       onDragOver={(e) => handleDragOver(e, idx)}
                       onDragEnd={handleDragEnd}
-                      className={`flex items-center gap-4 rounded-xl border border-navy-950/5 bg-white p-4 transition-all ${
+                      className={`flex items-center gap-4 rounded-xl border border-slate-200/90 bg-white p-4 transition-all ${
                         dragIdx === idx
                           ? "opacity-50 shadow-md"
-                          : "hover:shadow-sm"
+                          : "hover:shadow-sm hover:border-slate-300"
                       }`}
                     >
-                      <span className="cursor-grab text-navy-900/30 active:cursor-grabbing">
+                      <span className="cursor-grab text-slate-400 hover:text-slate-600 active:cursor-grabbing">
                         <DragIndicatorIcon sx={{ fontSize: 20 }} />
                       </span>
                       <span
@@ -536,12 +530,12 @@ export default function FinancialGoals() {
                         <p className="text-sm font-bold text-navy-950">
                           {goal.label}
                         </p>
-                        <p className="text-xs text-navy-900/50">
+                        <p className="text-xs font-medium text-slate-600">
                           {goal.priorityDesc}
                         </p>
                       </div>
                       <span
-                        className={`shrink-0 rounded-lg px-3 py-1 text-xs font-semibold text-white ${badgeColor}`}
+                        className={`shrink-0 rounded-lg px-3 py-1 text-xs font-bold text-white ${badgeColor}`}
                       >
                         {pLabel}
                       </span>
@@ -556,7 +550,7 @@ export default function FinancialGoals() {
               <button
                 type="button"
                 onClick={() => navigate("/investment-experience")}
-                className="flex h-12 items-center gap-2 rounded-xl border-2 border-brand-green-500 bg-white px-6 text-sm font-semibold text-brand-green-600 transition-all duration-250 hover:bg-brand-green-50 active:scale-[0.98]"
+                className="flex h-12 items-center gap-2 rounded-xl border-2 border-brand-green-500 bg-white px-6 text-sm font-bold text-brand-green-600 transition-all duration-250 hover:bg-brand-green-50 active:scale-[0.98]"
               >
                 <ArrowBackIcon sx={{ fontSize: 18 }} />
                 Back
@@ -567,7 +561,7 @@ export default function FinancialGoals() {
                   updateAssessment("goals", { selectedGoals, goalPriorities: priorities });
                   navigate("/government-documents");
                 }}
-                className="flex h-12 items-center gap-2 rounded-xl bg-brand-green-500 px-8 text-[15px] font-semibold text-white shadow-soft transition-all duration-250 hover:bg-brand-green-600 hover:shadow-md active:scale-[0.98]"
+                className="flex h-12 items-center gap-2 rounded-xl bg-brand-green-500 px-8 text-[15px] font-bold text-white shadow-soft transition-all duration-250 hover:bg-brand-green-600 hover:shadow-md active:scale-[0.98]"
               >
                 Next
                 <ArrowForwardIcon sx={{ fontSize: 18 }} />
@@ -575,8 +569,8 @@ export default function FinancialGoals() {
             </div>
 
             {/* Security Message */}
-            <p className="mt-5 flex items-center justify-center gap-2 text-sm text-navy-900/50">
-              <LockIcon sx={{ fontSize: 16 }} className="text-brand-green-500" />
+            <p className="mt-5 flex items-center justify-center gap-2 text-sm font-medium text-slate-700">
+              <LockIcon sx={{ fontSize: 16 }} className="text-brand-green-600" />
               Your information is secure and encrypted
             </p>
           </div>
@@ -584,11 +578,11 @@ export default function FinancialGoals() {
           {/* RIGHT — Sidebar */}
           <div className="flex flex-col gap-6">
             {/* Card 1: Goal Timeline */}
-            <div className="rounded-2xl border border-navy-950/5 bg-white p-7 shadow-[0_2px_12px_rgba(13,37,73,0.04)]">
+            <div className="rounded-2xl border border-slate-200 bg-white p-7 shadow-[0_2px_12px_rgba(13,37,73,0.06)]">
               <h3 className="mb-1 text-base font-bold text-navy-950">
                 Goal Timeline
               </h3>
-              <p className="mb-5 text-sm text-navy-900/50">
+              <p className="mb-5 text-sm font-medium text-slate-700">
                 When do you plan to achieve these goals?
               </p>
 
@@ -607,7 +601,7 @@ export default function FinancialGoals() {
                           <span className="h-2 w-2 rounded-full bg-white" />
                         </span>
                         {idx < selectedGoals.length - 1 && (
-                          <div className="w-0.5 flex-1 bg-navy-950/10" />
+                          <div className="w-0.5 flex-1 bg-slate-200" />
                         )}
                       </div>
                       {/* Content */}
@@ -626,12 +620,12 @@ export default function FinancialGoals() {
                             <p className="text-sm font-bold text-navy-950">
                               {goal.label}
                             </p>
-                            <p className="text-xs text-navy-900/50">
+                            <p className="text-xs font-medium text-slate-600">
                               {goal.timeline}
                             </p>
                           </div>
                         </div>
-                        <span className="shrink-0 rounded-lg bg-navy-950/5 px-3 py-1 text-xs font-semibold text-navy-900/60">
+                        <span className="shrink-0 rounded-lg bg-slate-100 px-3 py-1 text-xs font-bold text-slate-700">
                           {goal.timelineRange}
                         </span>
                       </div>
@@ -640,54 +634,44 @@ export default function FinancialGoals() {
                 })}
               </div>
 
-              <div className="mt-5 flex items-start gap-2 rounded-xl bg-slate-50 p-4">
+              <div className="mt-5 flex items-start gap-2 rounded-xl bg-slate-100 p-4">
                 <CalendarTodayIcon
                   sx={{ fontSize: 18 }}
-                  className="mt-0.5 shrink-0 text-navy-900/40"
+                  className="mt-0.5 shrink-0 text-slate-600"
                 />
-                <p className="text-xs leading-relaxed text-navy-900/55">
-                  You can update or modify goal timelines
-                  <br />
-                  anytime in your dashboard.
+                <p className="text-xs font-medium leading-relaxed text-slate-700">
+                  You can update or modify goal timelines anytime in your dashboard.
                 </p>
               </div>
             </div>
 
             {/* Card 2: Why Set Financial Goals? */}
-            <div className="rounded-2xl border border-navy-950/5 bg-brand-green-50/30 p-7">
+            <div className="rounded-2xl border border-brand-green-200/70 bg-brand-green-50/60 p-7">
               <div className="mb-3 flex items-center gap-2.5">
-                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-green-100 text-brand-green-600">
+                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-green-100 text-brand-green-700">
                   <TrendingUpIcon sx={{ fontSize: 18 }} />
                 </span>
                 <h3 className="text-base font-bold text-navy-950">
                   Why Set Financial Goals?
                 </h3>
               </div>
-              <p className="text-sm leading-relaxed text-navy-900/55">
-                Clear goals give direction to your money,
-                <br />
-                help you stay focused, and achieve
-                <br />
-                financial freedom faster.
+              <p className="text-sm font-medium leading-relaxed text-slate-700">
+                Clear goals give direction to your money, help you stay focused, and achieve financial freedom faster.
               </p>
             </div>
 
             {/* Card 3: We're Here to Help */}
-            <div className="rounded-2xl border border-navy-950/5 bg-sky-50/40 p-7">
+            <div className="rounded-2xl border border-sky-200 bg-sky-50/70 p-7">
               <div className="mb-3 flex items-center gap-2.5">
-                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-sky-100 text-sky-500">
+                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-sky-100 text-sky-600">
                   <ShieldIcon sx={{ fontSize: 18 }} />
                 </span>
                 <h3 className="text-base font-bold text-navy-950">
                   We're Here to Help
                 </h3>
               </div>
-              <p className="text-sm leading-relaxed text-navy-900/55">
-                Our AI will analyze your goals and create
-                <br />
-                a personalized plan to help you achieve
-                <br />
-                them efficiently.
+              <p className="text-sm font-medium leading-relaxed text-slate-700">
+                Our AI will analyze your goals and create a personalized plan to help you achieve them efficiently.
               </p>
             </div>
           </div>
@@ -695,7 +679,7 @@ export default function FinancialGoals() {
       </main>
 
       {/* ─── FOOTER ─── */}
-      <footer className="bg-navy-950 pt-20 text-white/70">
+      <footer className="bg-navy-950 pt-20 text-slate-300">
         <div className="mx-auto max-w-7xl px-6 lg:px-10">
           <div className="grid grid-cols-1 gap-12 pb-14 sm:grid-cols-2 lg:grid-cols-5">
             <div className="lg:col-span-2">
@@ -710,7 +694,7 @@ export default function FinancialGoals() {
                   </span>
                 </span>
               </Link>
-              <p className="mt-5 max-w-xs text-sm leading-relaxed">
+              <p className="mt-5 max-w-xs text-sm font-normal leading-relaxed text-slate-300">
                 AI-powered financial wellness platform that helps you make
                 smarter financial decisions.
               </p>
@@ -720,7 +704,7 @@ export default function FinancialGoals() {
                     <a
                       key={i}
                       href="#"
-                      className="grid h-10 w-10 place-items-center rounded-full bg-white/10 transition-all duration-200 hover:scale-110 hover:bg-brand-green-500 hover:text-white"
+                      className="grid h-10 w-10 place-items-center rounded-full bg-white/10 text-white transition-all duration-200 hover:scale-110 hover:bg-brand-green-500 hover:text-white"
                     >
                       <Icon sx={{ fontSize: 18 }} />
                     </a>
@@ -737,7 +721,7 @@ export default function FinancialGoals() {
                     <li key={l.label}>
                       <a
                         href={l.href}
-                        className="text-sm transition-colors duration-200 hover:text-brand-green-400"
+                        className="text-sm text-slate-300 transition-colors duration-200 hover:text-brand-green-400"
                       >
                         {l.label}
                       </a>
@@ -749,7 +733,7 @@ export default function FinancialGoals() {
 
             <div>
               <p className="text-sm font-bold text-white">Contact Us</p>
-              <ul className="mt-5 space-y-4 text-sm">
+              <ul className="mt-5 space-y-4 text-sm text-slate-300">
                 <li className="flex items-center gap-2.5">
                   <EmailIcon sx={{ fontSize: 16 }} />
                   support@smartfincompass.com
@@ -766,7 +750,7 @@ export default function FinancialGoals() {
             </div>
           </div>
 
-          <div className="flex flex-col items-center justify-between gap-3 border-t border-white/10 py-7 text-xs sm:flex-row">
+          <div className="flex flex-col items-center justify-between gap-3 border-t border-white/10 py-7 text-xs text-slate-400 sm:flex-row">
             <p>© 2025 SmartFin Compass. All rights reserved.</p>
             <div className="flex gap-5">
               <a

@@ -40,7 +40,8 @@ const PLANS = [
     name: "Free",
     monthlyPrice: "₹0",
     yearlyPrice: "₹0",
-    billing: "Forever",
+    monthlyBilling: "Forever",
+    yearlyBilling: "Forever",
     desc: "Start understanding your financial health with the essentials.",
     cta: "Get Started",
     ctaLink: "/login",
@@ -59,8 +60,8 @@ const PLANS = [
     name: "Smart",
     monthlyPrice: "₹499",
     yearlyPrice: "₹4,999",
-    yearlyBilling: "₹4,999 / year",
-    billing: "/ month",
+    monthlyBilling: "/ month",
+    yearlyBilling: "/ year",
     desc: "Get deeper insights and personalized recommendations for your financial journey.",
     cta: "Start Smart Plan →",
     ctaLink: "/login",
@@ -87,8 +88,8 @@ const PLANS = [
     name: "Premium",
     monthlyPrice: "₹999",
     yearlyPrice: "₹9,999",
-    yearlyBilling: "₹9,999 / year",
-    billing: "/ month",
+    monthlyBilling: "/ month",
+    yearlyBilling: "/ year",
     desc: "Complete financial intelligence and continuous guidance for long-term wealth building.",
     cta: "Go Premium →",
     ctaLink: "/login",
@@ -191,7 +192,8 @@ const FOOTER_COLUMNS = [
 
 export default function Pricing() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [isYearly, setIsYearly] = useState(false);
+  const [billingPeriod, setBillingPeriod] = useState<"monthly" | "yearly">("monthly");
+  const [selectedPlan, setSelectedPlan] = useState<string>("Smart");
   const [faqOpenIndex, setFaqOpenIndex] = useState(0);
 
   return (
@@ -323,150 +325,205 @@ export default function Pricing() {
         </section>
 
         {/* ─── PRICING TOGGLE + CARDS ─── */}
-        <section className="mx-auto max-w-7xl px-6 py-16 lg:px-10">
-          {/* Toggle */}
-          <div className="flex items-center justify-center gap-4">
-            <span className={`text-sm sm:text-base font-semibold transition-colors duration-200 ${!isYearly ? "text-navy-950" : "text-navy-900/50"}`}>
-              Monthly
-            </span>
-            <button
-              onClick={() => setIsYearly((v) => !v)}
-              className={`relative h-7 w-14 rounded-full transition-colors duration-300 ${isYearly ? "bg-brand-green-500" : "bg-navy-950/15"}`}
-              aria-label="Toggle billing period"
-            >
-              <span
-                className={`absolute top-0.5 h-6 w-6 rounded-full bg-white shadow-md transition-transform duration-300 ${
-                  isYearly ? "translate-x-7" : "translate-x-0.5"
+        <section className="relative z-10 mx-auto max-w-7xl px-6 py-16 lg:px-10">
+          {/* Segmented Control Toggle */}
+          <div className="flex items-center justify-center gap-3 sm:gap-4">
+            <div className="inline-flex items-center gap-1 rounded-full border border-navy-950/10 bg-slate-100/90 p-1.5 shadow-inner">
+              <button
+                type="button"
+                onClick={() => setBillingPeriod("monthly")}
+                aria-pressed={billingPeriod === "monthly"}
+                className={`rounded-full px-6 py-2.5 text-sm sm:text-base font-semibold transition-all duration-200 cursor-pointer ${
+                  billingPeriod === "monthly"
+                    ? "bg-brand-green-500 text-white shadow-md"
+                    : "text-navy-900/60 hover:text-navy-950"
                 }`}
-              />
-            </button>
-            <span className={`text-sm sm:text-base font-semibold transition-colors duration-200 ${isYearly ? "text-navy-950" : "text-navy-900/50"}`}>
-              Yearly
+              >
+                Monthly
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setBillingPeriod("yearly")}
+                aria-pressed={billingPeriod === "yearly"}
+                className={`rounded-full px-6 py-2.5 text-sm sm:text-base font-semibold transition-all duration-200 cursor-pointer ${
+                  billingPeriod === "yearly"
+                    ? "bg-brand-green-500 text-white shadow-md"
+                    : "text-navy-900/60 hover:text-navy-950"
+                }`}
+              >
+                Yearly
+              </button>
+            </div>
+
+            <span
+              className={`rounded-full bg-brand-green-50 px-3.5 py-1.5 text-xs sm:text-sm font-bold text-brand-green-600 transition-all duration-200 ${
+                billingPeriod === "yearly"
+                  ? "opacity-100 scale-100"
+                  : "opacity-0 scale-95 pointer-events-none hidden sm:inline-block"
+              }`}
+            >
+              Save up to 20%
             </span>
-            {isYearly && (
-              <span className="rounded-full bg-brand-green-50 px-3 py-1 text-xs sm:text-sm font-bold text-brand-green-600">
-                Save up to 20%
-              </span>
-            )}
           </div>
 
           {/* Pricing Cards */}
           <div className="mt-14 grid grid-cols-1 items-start gap-8 lg:grid-cols-3">
-            {PLANS.map((plan) => (
-              <div
-                key={plan.name}
-                className={`relative rounded-3xl p-8 transition-all duration-300 ${
-                  plan.highlighted
-                    ? "border-2 border-brand-green-400 bg-white shadow-[0_8px_40px_rgba(34,181,115,0.15)] scale-[1.02] lg:scale-105"
-                    : "border border-navy-950/5 bg-white shadow-soft hover:shadow-card"
-                }`}
-              >
-                {plan.badge && (
-                  <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 rounded-full bg-brand-green-500 px-4 py-1 text-xs font-bold text-white shadow-[0_2px_12px_rgba(34,181,115,0.3)]">
-                    {plan.badge}
-                  </span>
-                )}
-
-                <p className={`text-xl font-bold ${plan.highlighted ? "text-brand-green-600" : "text-navy-950"}`}>
-                  {plan.name}
-                </p>
-
-                <div className="mt-5 flex items-baseline gap-1">
-                  <span className="text-4xl sm:text-5xl font-extrabold text-navy-950">
-                    {isYearly ? plan.yearlyPrice : plan.monthlyPrice}
-                  </span>
-                </div>
-                <p className="mt-1 text-sm font-medium text-navy-900/60">
-                  {isYearly && plan.yearlyBilling ? plan.yearlyBilling : plan.billing}
-                </p>
-
-                <p className="mt-4 text-sm sm:text-base leading-relaxed text-navy-900/70">
-                  {plan.desc}
-                </p>
-
-                <Link
-                  to={plan.ctaLink}
-                  className={`mt-6 flex h-12 w-full items-center justify-center rounded-xl text-sm sm:text-base font-semibold transition-all duration-250 active:scale-[0.98] ${
+            {PLANS.map((plan) => {
+              const isSelected = selectedPlan === plan.name;
+              return (
+                <div
+                  key={plan.name}
+                  tabIndex={0}
+                  role="button"
+                  aria-pressed={isSelected}
+                  onClick={() => setSelectedPlan(plan.name)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      setSelectedPlan(plan.name);
+                    }
+                  }}
+                  className={`relative flex flex-col rounded-3xl p-8 transition-all duration-300 cursor-pointer ${
                     plan.highlighted
-                      ? "bg-brand-green-500 text-white shadow-[0_4px_16px_rgba(34,181,115,0.25)] hover:bg-brand-green-600 hover:shadow-[0_6px_24px_rgba(34,181,115,0.35)]"
-                      : "border border-navy-950/15 text-navy-950 hover:border-brand-green-500 hover:text-brand-green-600"
+                      ? "border-2 border-brand-green-400 bg-white shadow-[0_8px_40px_rgba(34,181,115,0.15)] scale-[1.02] lg:scale-105 z-10"
+                      : isSelected
+                      ? "border-2 border-brand-green-500 bg-white shadow-card ring-2 ring-brand-green-500/20"
+                      : "border border-navy-950/10 bg-white shadow-soft hover:-translate-y-1 hover:shadow-card hover:border-brand-green-300"
                   }`}
                 >
-                  {plan.cta}
-                </Link>
+                  <div>
+                    {plan.badge && (
+                      <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 rounded-full bg-brand-green-500 px-4 py-1 text-xs font-bold text-white shadow-[0_2px_12px_rgba(34,181,115,0.3)]">
+                        {plan.badge}
+                      </span>
+                    )}
 
-                <div className="mt-7 border-t border-navy-950/5 pt-6">
-                  <p className="mb-4 text-xs font-bold uppercase tracking-wider text-navy-900/60">
-                    What's included
-                  </p>
-                  <ul className="space-y-3">
-                    {plan.features.map((f) => (
-                      <li key={f} className="flex items-start gap-2.5">
-                        <CheckCircleIcon sx={{ fontSize: 16, color: "#22b573", mt: 0.25 }} />
-                        <span className="text-sm sm:text-base text-navy-900/70">{f}</span>
-                      </li>
-                    ))}
-                  </ul>
+                    <div className="flex items-center justify-between">
+                      <p className={`text-xl font-bold ${plan.highlighted || isSelected ? "text-brand-green-600" : "text-navy-950"}`}>
+                        {plan.name}
+                      </p>
+                      {isSelected && !plan.highlighted && (
+                        <span className="rounded-full bg-brand-green-50 px-2.5 py-0.5 text-xs font-bold text-brand-green-600">
+                          Selected
+                        </span>
+                      )}
+                    </div>
+
+                    <div className="mt-5 flex items-baseline gap-1">
+                      <span className="text-4xl sm:text-5xl font-extrabold text-navy-950">
+                        {billingPeriod === "yearly" ? plan.yearlyPrice : plan.monthlyPrice}
+                      </span>
+                    </div>
+                    <p className="mt-1 text-sm font-medium text-navy-900/60">
+                      {billingPeriod === "yearly" ? plan.yearlyBilling : plan.monthlyBilling}
+                    </p>
+
+                    <p className="mt-4 text-sm sm:text-base leading-relaxed text-navy-900/70">
+                      {plan.desc}
+                    </p>
+
+                    <Link
+                      to={plan.ctaLink}
+                      onClick={(e) => e.stopPropagation()}
+                      className={`mt-6 flex h-12 w-full items-center justify-center rounded-xl text-sm sm:text-base font-semibold transition-all duration-250 active:scale-[0.98] ${
+                        plan.highlighted
+                          ? "bg-brand-green-500 text-white shadow-[0_4px_16px_rgba(34,181,115,0.25)] hover:bg-brand-green-600 hover:shadow-[0_6px_24px_rgba(34,181,115,0.35)]"
+                          : "border border-navy-950/15 text-navy-950 hover:border-brand-green-500 hover:text-brand-green-600"
+                      }`}
+                    >
+                      {plan.cta}
+                    </Link>
+                  </div>
+
+                  <div className="mt-7 border-t border-navy-950/5 pt-6">
+                    <p className="mb-4 text-xs font-bold uppercase tracking-wider text-navy-900/60">
+                      What's included
+                    </p>
+                    <ul className="space-y-3">
+                      {plan.features.map((f) => (
+                        <li key={f} className="flex items-start gap-2.5">
+                          <CheckCircleIcon sx={{ fontSize: 16, color: "#22b573", mt: 0.25 }} />
+                          <span className="text-sm sm:text-base text-navy-900/70">{f}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </section>
 
-        {/* ─── COMPARISON TABLE ─── */}
-        <section id="compare" className="bg-slate-50/60 py-24">
+        {/* ─── COMPARISON MATRIX ─── */}
+        <section id="compare" className="relative z-10 bg-slate-50/60 py-24">
           <div className="mx-auto max-w-7xl px-6 lg:px-10">
             <div className="mx-auto max-w-2xl text-center">
               <p className="text-xs sm:text-sm font-bold uppercase tracking-wider text-brand-green-600">
-                Compare Plans
+                COMPARE PLANS
               </p>
               <h2 className="mt-4 text-3xl sm:text-4xl lg:text-[40px] font-extrabold text-navy-950">
                 Everything You Need to Make Smarter Financial Decisions
               </h2>
+              <p className="mt-4 text-base sm:text-lg leading-relaxed text-navy-900/70">
+                Compare features across plans and choose the level of financial intelligence that fits your journey.
+              </p>
             </div>
 
-            <div className="mt-14 overflow-x-auto">
-              <table className="w-full min-w-[640px]">
-                <thead>
-                  <tr className="border-b border-navy-950/10">
-                    <th className="pb-4 text-left text-base font-bold text-navy-950">Feature</th>
-                    <th className="pb-4 text-center text-base font-bold text-navy-950">Free</th>
-                    <th className="pb-4 text-center text-base font-bold text-brand-green-600">Smart</th>
-                    <th className="pb-4 text-center text-base font-bold text-navy-950">Premium</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {COMPARISON_ROWS.map((row, i) => (
-                    <tr
-                      key={row.label}
-                      className={`border-b border-navy-950/5 ${i % 2 === 0 ? "bg-white" : "bg-slate-50/40"}`}
-                    >
-                      <td className="py-3.5 text-sm sm:text-base font-medium text-navy-900/75">{row.label}</td>
-                      <td className="py-3.5 text-center">
-                        {row.free ? (
-                          <CheckCircleIcon sx={{ fontSize: 20, color: "#22b573" }} />
-                        ) : (
-                          <RemoveIcon sx={{ fontSize: 20, color: "#d1d5db" }} />
-                        )}
-                      </td>
-                      <td className="py-3.5 text-center">
-                        {row.smart ? (
-                          <CheckCircleIcon sx={{ fontSize: 20, color: "#22b573" }} />
-                        ) : (
-                          <RemoveIcon sx={{ fontSize: 20, color: "#d1d5db" }} />
-                        )}
-                      </td>
-                      <td className="py-3.5 text-center">
-                        {row.premium ? (
-                          <CheckCircleIcon sx={{ fontSize: 20, color: "#22b573" }} />
-                        ) : (
-                          <RemoveIcon sx={{ fontSize: 20, color: "#d1d5db" }} />
-                        )}
-                      </td>
+            <div className="mt-14 overflow-hidden rounded-3xl border border-navy-950/10 bg-white p-4 sm:p-8 shadow-card">
+              <div className="overflow-x-auto">
+                <table className="w-full min-w-[640px] border-collapse">
+                  <thead>
+                    <tr className="border-b border-navy-950/10">
+                      <th className="w-2/5 pb-6 text-left text-base sm:text-lg font-bold text-navy-950">
+                        Feature
+                      </th>
+                      <th className="w-1/5 pb-6 text-center text-base sm:text-lg font-bold text-navy-950">
+                        Free
+                      </th>
+                      <th className="w-1/5 pb-6 text-center text-base sm:text-lg font-bold text-brand-green-600 bg-brand-green-50/40 rounded-t-xl py-3">
+                        Smart <span className="block text-xs font-semibold text-brand-green-700">(Recommended)</span>
+                      </th>
+                      <th className="w-1/5 pb-6 text-center text-base sm:text-lg font-bold text-navy-950">
+                        Premium
+                      </th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody className="divide-y divide-navy-950/5">
+                    {COMPARISON_ROWS.map((row) => (
+                      <tr
+                        key={row.label}
+                        className="group/row transition-colors duration-150 hover:bg-slate-50/80"
+                      >
+                        <td className="py-4 px-2 text-sm sm:text-base font-semibold text-navy-950">
+                          {row.label}
+                        </td>
+                        <td className="py-4 text-center">
+                          {row.free ? (
+                            <CheckCircleIcon sx={{ fontSize: 22, color: "#22b573" }} />
+                          ) : (
+                            <RemoveIcon sx={{ fontSize: 20, color: "#d1d5db" }} />
+                          )}
+                        </td>
+                        <td className="py-4 text-center bg-brand-green-50/30">
+                          {row.smart ? (
+                            <CheckCircleIcon sx={{ fontSize: 22, color: "#22b573" }} />
+                          ) : (
+                            <RemoveIcon sx={{ fontSize: 20, color: "#d1d5db" }} />
+                          )}
+                        </td>
+                        <td className="py-4 text-center">
+                          {row.premium ? (
+                            <CheckCircleIcon sx={{ fontSize: 22, color: "#22b573" }} />
+                          ) : (
+                            <RemoveIcon sx={{ fontSize: 20, color: "#d1d5db" }} />
+                          )}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </section>

@@ -10,7 +10,6 @@ interface AssessmentInputProps {
   type?: string;
   mode?: "text-only" | "number-only" | "alphanumeric" | "all";
   error?: string;
-  required?: boolean;
   maxLength?: number;
   disabled?: boolean;
   className?: string;
@@ -26,7 +25,6 @@ export default function AssessmentInput({
   type = "text",
   mode = "all",
   error,
-  required,
   maxLength,
   disabled,
   className = "",
@@ -34,11 +32,9 @@ export default function AssessmentInput({
 }: AssessmentInputProps) {
   const sanitizeValue = (val: string): string => {
     if (mode === "text-only") {
-      // Allow only alphabetic characters and spaces
       return val.replace(/[^a-zA-Z\s]/g, "");
     }
     if (mode === "number-only") {
-      // Allow digits only
       return val.replace(/[^0-9]/g, "");
     }
     return val;
@@ -66,13 +62,12 @@ export default function AssessmentInput({
 
   return (
     <div className={className}>
-      <label className="mb-2 block text-sm sm:text-base font-semibold text-navy-950">
+      <label className="mb-2 block text-sm sm:text-base font-bold text-navy-950">
         {label}
-        {required && <span className="ml-0.5 text-red-500">*</span>}
       </label>
       <div className="relative">
         {icon && (
-          <span className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-navy-900/40">
+          <span className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-600 font-medium">
             {icon}
           </span>
         )}
@@ -85,17 +80,18 @@ export default function AssessmentInput({
           placeholder={placeholder}
           maxLength={maxLength}
           disabled={disabled}
-          className={`h-12 w-full rounded-xl border bg-white pr-4 text-sm sm:text-base text-navy-950 placeholder:text-navy-900/40 transition-all duration-250 hover:border-navy-950/20 focus:border-brand-green-500 focus:outline-none focus:ring-2 focus:ring-brand-green-500/20 ${
-            icon ? "pl-10" : "pl-4"
+          className={`h-12 w-full rounded-xl border bg-white pr-4 text-sm sm:text-base font-semibold text-navy-950 placeholder:text-slate-400 transition-all duration-250 hover:border-slate-400 focus:border-brand-green-500 focus:outline-none focus:ring-2 focus:ring-brand-green-500/20 ${
+            icon ? "pl-11" : "pl-4"
           } ${
             error
-              ? "border-red-400 focus:border-red-500 focus:ring-red-500/20"
-              : "border-navy-950/10"
-          } ${disabled ? "opacity-60 cursor-not-allowed" : ""}`}
+              ? "border-red-500 focus:border-red-600 focus:ring-red-500/20"
+              : "border-slate-300"
+          } ${disabled ? "bg-slate-100 opacity-70 cursor-not-allowed text-slate-600" : ""}`}
         />
       </div>
       <ValidationMessage message={error} />
     </div>
   );
 }
+
 

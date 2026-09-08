@@ -352,24 +352,24 @@ export default function Assets() {
             <h1 className="text-3xl font-extrabold text-navy-950 sm:text-4xl">
               Assets
             </h1>
-            <p className="mt-3 text-[15px] leading-relaxed text-navy-900/55">
+            <p className="mt-3 text-[15px] font-medium leading-relaxed text-slate-700">
               Add details of your assets to get a complete picture of your net
               worth.
             </p>
           </div>
 
           {/* Assessment Progress */}
-          <div className="w-full max-w-lg rounded-2xl border border-navy-950/5 bg-white p-6 shadow-[0_2px_12px_rgba(13,37,73,0.04)]">
+          <div className="w-full max-w-lg rounded-2xl border border-slate-200 bg-white p-6 shadow-[0_2px_12px_rgba(13,37,73,0.06)]">
             <div className="mb-5 flex items-center justify-between">
               <p className="text-sm font-bold text-navy-950">
                 Assessment Progress
               </p>
-              <span className="rounded-full bg-brand-green-50 px-3 py-1 text-xs font-semibold text-brand-green-600">
-                Step 5 of 5
+              <span className="rounded-full bg-brand-green-100 px-3 py-1 text-xs font-bold text-brand-green-700">
+                Step 5 of 12
               </span>
             </div>
             <div className="relative">
-              <div className="absolute left-[40px] top-5 h-0.5 w-[calc(100%-80px)] bg-navy-950/8" />
+              <div className="absolute left-[40px] top-5 h-0.5 w-[calc(100%-80px)] bg-slate-200" />
               <div className="absolute left-[40px] top-5 h-0.5 w-[calc(100%-80px)] bg-brand-green-500" />
               <div className="flex items-start justify-between">
                 {PROGRESS_STEPS.map((step, i) => (
@@ -384,7 +384,7 @@ export default function Assets() {
                           ? "bg-brand-green-500 text-white shadow-[0_0_12px_rgba(34,181,115,0.25)]"
                           : step.active
                           ? "bg-brand-green-500 text-white shadow-[0_0_12px_rgba(34,181,115,0.25)]"
-                          : "border-2 border-navy-950/10 bg-white text-navy-900/40"
+                          : "border-2 border-slate-300 bg-white text-slate-600"
                       }`}
                     >
                       {step.completed ? (
@@ -394,12 +394,12 @@ export default function Assets() {
                       )}
                     </span>
                     <p
-                      className={`mt-2.5 text-[11px] font-semibold leading-tight ${
+                      className={`mt-2.5 text-[11px] font-bold leading-tight ${
                         step.active
-                          ? "text-brand-green-600"
+                          ? "text-brand-green-700"
                           : step.completed
-                          ? "text-navy-900/60"
-                          : "text-navy-900/45"
+                          ? "text-brand-green-700"
+                          : "text-slate-600"
                       }`}
                     >
                       {step.label}
@@ -414,12 +414,12 @@ export default function Assets() {
         {/* ─── MAIN CONTENT: Two Columns ─── */}
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1fr_360px]">
           {/* LEFT — Form Card */}
-          <div className="rounded-2xl border border-navy-950/5 bg-white p-7 shadow-[0_2px_12px_rgba(13,37,73,0.04)] sm:p-8">
+          <div className="rounded-2xl border border-slate-200 bg-white p-7 shadow-[0_2px_12px_rgba(13,37,73,0.06)] sm:p-8">
             <div className="mb-6">
               <p className="text-base font-bold text-navy-950">
                 Add Your Assets
               </p>
-              <p className="mt-1 text-sm text-navy-900/50">
+              <p className="mt-1 text-sm font-medium text-slate-600">
                 Enter the current value of your assets
               </p>
             </div>
@@ -429,7 +429,7 @@ export default function Assets() {
               {ASSET_CATEGORIES.map((cat) => (
                 <div
                   key={cat.key}
-                  className="flex items-center gap-4 rounded-xl border border-navy-950/5 bg-slate-50/50 p-4 transition-colors hover:bg-slate-50"
+                  className="flex items-center gap-4 rounded-xl border border-slate-200/90 bg-white p-4 transition-colors hover:bg-slate-50/80"
                 >
                   <span
                     className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl ${cat.color}`}
@@ -440,12 +440,12 @@ export default function Assets() {
                     <p className="text-sm font-bold text-navy-950">
                       {cat.label}
                     </p>
-                    <p className="mt-0.5 whitespace-pre-line text-xs text-navy-900/45">
+                    <p className="mt-0.5 whitespace-pre-line text-xs font-medium text-slate-600">
                       {cat.desc}
                     </p>
                   </div>
                   <div className="relative w-full max-w-[200px] shrink-0">
-                    <span className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-base font-bold text-navy-950">
+                    <span className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-base font-extrabold text-navy-950">
                       ₹
                     </span>
                     <input
@@ -454,9 +454,9 @@ export default function Assets() {
                       onChange={(e) => handleChange(cat.key, e.target.value)}
                       inputMode="decimal"
                       placeholder="Enter amount"
-                      className="h-11 w-full rounded-xl border border-navy-950/10 bg-white pl-8 pr-10 text-sm sm:text-base text-navy-950 placeholder:text-navy-900/40 transition-all duration-250 hover:border-navy-950/20 focus:border-brand-green-500 focus:outline-none focus:ring-2 focus:ring-brand-green-500/20"
+                      className="h-11 w-full rounded-xl border border-slate-300 bg-white pl-8 pr-10 text-sm font-bold text-navy-950 placeholder:text-slate-400 transition-all duration-250 hover:border-slate-400 focus:border-brand-green-500 focus:outline-none focus:ring-2 focus:ring-brand-green-500/20"
                     />
-                    <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-xs sm:text-sm font-medium text-navy-900/40">
+                    <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-xs sm:text-sm font-bold text-slate-500">
                       .00
                     </span>
                   </div>
@@ -465,21 +465,21 @@ export default function Assets() {
             </div>
 
             {/* Total Assets Value */}
-            <div className="mt-6 flex items-center justify-between rounded-xl border border-brand-green-200 bg-brand-green-50/50 px-5 py-4">
+            <div className="mt-6 flex items-center justify-between rounded-xl border-2 border-brand-green-300 bg-brand-green-50/80 px-5 py-4">
               <div className="flex items-center gap-3">
-                <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-green-100 text-brand-green-600">
+                <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-green-100 text-brand-green-700">
                   <AccountBalanceWalletIcon sx={{ fontSize: 20 }} />
                 </span>
                 <div>
                   <p className="text-sm font-bold text-navy-950">
                     Total Assets Value
                   </p>
-                  <p className="text-xs text-navy-900/45">
+                  <p className="text-xs font-medium text-slate-700">
                     Sum of all your assets
                   </p>
                 </div>
               </div>
-              <span className="text-xl font-extrabold text-brand-green-600">
+              <span className="text-xl font-black text-brand-green-700">
                 ₹
                 {total.toLocaleString("en-IN", {
                   minimumFractionDigits: 2,
@@ -493,7 +493,7 @@ export default function Assets() {
               <button
                 type="button"
                 onClick={() => navigate("/monthly-expenses")}
-                className="flex h-12 items-center gap-2 rounded-xl border-2 border-brand-green-500 bg-white px-6 text-sm font-semibold text-brand-green-600 transition-all duration-250 hover:bg-brand-green-50 active:scale-[0.98]"
+                className="flex h-12 items-center gap-2 rounded-xl border-2 border-brand-green-500 bg-white px-6 text-sm font-bold text-brand-green-600 transition-all duration-250 hover:bg-brand-green-50 active:scale-[0.98]"
               >
                 <ArrowBackIcon sx={{ fontSize: 18 }} />
                 Back
@@ -504,7 +504,7 @@ export default function Assets() {
                   updateAssessment("assets", amounts);
                   navigate("/liabilities");
                 }}
-                className="flex h-12 items-center gap-2 rounded-xl bg-brand-green-500 px-8 text-[15px] font-semibold text-white shadow-soft transition-all duration-250 hover:bg-brand-green-600 hover:shadow-md active:scale-[0.98]"
+                className="flex h-12 items-center gap-2 rounded-xl bg-brand-green-500 px-8 text-[15px] font-bold text-white shadow-soft transition-all duration-250 hover:bg-brand-green-600 hover:shadow-md active:scale-[0.98]"
               >
                 Next
                 <ArrowForwardIcon sx={{ fontSize: 18 }} />
@@ -512,8 +512,8 @@ export default function Assets() {
             </div>
 
             {/* Security Message */}
-            <p className="mt-5 flex items-center justify-center gap-2 text-sm text-navy-900/50">
-              <LockIcon sx={{ fontSize: 16 }} className="text-brand-green-500" />
+            <p className="mt-5 flex items-center justify-center gap-2 text-sm font-medium text-slate-700">
+              <LockIcon sx={{ fontSize: 16 }} className="text-brand-green-600" />
               Your information is secure and encrypted
             </p>
           </div>
@@ -521,14 +521,14 @@ export default function Assets() {
           {/* RIGHT — Sidebar */}
           <div className="flex flex-col gap-6">
             {/* Card 1: Assets Summary */}
-            <div className="rounded-2xl border border-navy-950/5 bg-brand-green-50/30 p-7">
+            <div className="rounded-2xl border border-brand-green-200/70 bg-brand-green-50/60 p-7">
               <h3 className="mb-2 text-base font-bold text-navy-950">
                 Assets Summary
               </h3>
-              <p className="mb-4 text-sm text-navy-900/50">
+              <p className="mb-4 text-sm font-medium text-slate-700">
                 Total Assets Value
               </p>
-              <p className="mb-5 text-2xl font-extrabold text-brand-green-600">
+              <p className="mb-5 text-2xl font-black text-brand-green-700">
                 ₹
                 {total.toLocaleString("en-IN", {
                   minimumFractionDigits: 2,
@@ -553,17 +553,17 @@ export default function Assets() {
                           className="h-2.5 w-2.5 rounded-full"
                           style={{ backgroundColor: cat.chartColor }}
                         />
-                        <span className="text-navy-900/60">{cat.label}</span>
+                        <span className="font-medium text-slate-700">{cat.label}</span>
                       </div>
                       <div className="flex items-center gap-4">
-                        <span className="font-semibold text-navy-950">
+                        <span className="font-bold text-navy-950">
                           ₹
                           {val.toLocaleString("en-IN", {
                             minimumFractionDigits: 2,
                             maximumFractionDigits: 2,
                           })}
                         </span>
-                        <span className="w-10 text-right text-xs text-navy-900/40">
+                        <span className="w-10 text-right text-xs font-bold text-slate-600">
                           {pct}%
                         </span>
                       </div>
@@ -574,32 +574,32 @@ export default function Assets() {
             </div>
 
             {/* Card 2: Why Track Your Assets? */}
-            <div className="rounded-2xl border border-navy-950/5 bg-brand-green-50/30 p-7">
+            <div className="rounded-2xl border border-brand-green-200/70 bg-brand-green-50/60 p-7">
               <div className="mb-3 flex items-center gap-2.5">
-                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-green-100 text-brand-green-600">
+                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-green-100 text-brand-green-700">
                   <TrendingUpIcon sx={{ fontSize: 18 }} />
                 </span>
                 <h3 className="text-base font-bold text-navy-950">
                   Why Track Your Assets?
                 </h3>
               </div>
-              <p className="text-sm leading-relaxed text-navy-900/55">
+              <p className="text-sm font-medium leading-relaxed text-slate-700">
                 Knowing your assets helps us calculate your net worth and build
                 a stronger financial plan for your future.
               </p>
             </div>
 
             {/* Card 3: 100% Secure */}
-            <div className="rounded-2xl border border-navy-950/5 bg-sky-50/40 p-7">
+            <div className="rounded-2xl border border-sky-200 bg-sky-50/70 p-7">
               <div className="mb-3 flex items-center gap-2.5">
-                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-sky-100 text-sky-500">
+                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-sky-100 text-sky-600">
                   <ShieldIcon sx={{ fontSize: 18 }} />
                 </span>
                 <h3 className="text-base font-bold text-navy-950">
                   100% Secure
                 </h3>
               </div>
-              <p className="text-sm leading-relaxed text-navy-900/55">
+              <p className="text-sm font-medium leading-relaxed text-slate-700">
                 We use bank-level encryption to protect your financial data.
                 <br />
                 Your privacy is our priority.
@@ -610,7 +610,7 @@ export default function Assets() {
       </main>
 
       {/* ─── FOOTER ─── */}
-      <footer className="bg-navy-950 pt-20 text-white/70">
+      <footer className="bg-navy-950 pt-20 text-slate-300">
         <div className="mx-auto max-w-7xl px-6 lg:px-10">
           <div className="grid grid-cols-1 gap-12 pb-14 sm:grid-cols-2 lg:grid-cols-5">
             <div className="lg:col-span-2">
@@ -625,7 +625,7 @@ export default function Assets() {
                   </span>
                 </span>
               </Link>
-              <p className="mt-5 max-w-xs text-sm leading-relaxed">
+              <p className="mt-5 max-w-xs text-sm font-normal leading-relaxed text-slate-300">
                 AI-powered financial wellness platform that helps you make
                 smarter financial decisions.
               </p>
@@ -635,7 +635,7 @@ export default function Assets() {
                     <a
                       key={i}
                       href="#"
-                      className="grid h-10 w-10 place-items-center rounded-full bg-white/10 transition-all duration-200 hover:scale-110 hover:bg-brand-green-500 hover:text-white"
+                      className="grid h-10 w-10 place-items-center rounded-full bg-white/10 text-white transition-all duration-200 hover:scale-110 hover:bg-brand-green-500 hover:text-white"
                     >
                       <Icon sx={{ fontSize: 18 }} />
                     </a>
@@ -652,7 +652,7 @@ export default function Assets() {
                     <li key={l.label}>
                       <a
                         href={l.href}
-                        className="text-sm transition-colors duration-200 hover:text-brand-green-400"
+                        className="text-sm text-slate-300 transition-colors duration-200 hover:text-brand-green-400"
                       >
                         {l.label}
                       </a>
@@ -664,7 +664,7 @@ export default function Assets() {
 
             <div>
               <p className="text-sm font-bold text-white">Contact Us</p>
-              <ul className="mt-5 space-y-4 text-sm">
+              <ul className="mt-5 space-y-4 text-sm text-slate-300">
                 <li className="flex items-center gap-2.5">
                   <EmailIcon sx={{ fontSize: 16 }} />
                   support@smartfincompass.com
@@ -681,7 +681,7 @@ export default function Assets() {
             </div>
           </div>
 
-          <div className="flex flex-col items-center justify-between gap-3 border-t border-white/10 py-7 text-xs sm:flex-row">
+          <div className="flex flex-col items-center justify-between gap-3 border-t border-white/10 py-7 text-xs text-slate-400 sm:flex-row">
             <p>© 2025 SmartFin Compass. All rights reserved.</p>
             <div className="flex gap-5">
               <a

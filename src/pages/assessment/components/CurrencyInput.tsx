@@ -8,7 +8,6 @@ interface CurrencyInputProps {
   placeholder?: string;
   icon?: ReactNode;
   error?: string;
-  required?: boolean;
   allowDecimals?: boolean;
   className?: string;
 }
@@ -20,7 +19,6 @@ export default function CurrencyInput({
   placeholder = "Enter amount",
   icon,
   error,
-  required,
   allowDecimals = true,
   className = "",
 }: CurrencyInputProps) {
@@ -54,17 +52,16 @@ export default function CurrencyInput({
 
   return (
     <div className={className}>
-      <label className="mb-2 block text-sm sm:text-base font-semibold text-navy-950">
+      <label className="mb-2 block text-sm sm:text-base font-bold text-navy-950">
         {label}
-        {required && <span className="ml-0.5 text-red-500">*</span>}
       </label>
       <div className="relative">
         {icon ? (
-          <span className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-navy-950 font-bold text-base">
+          <span className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-navy-950 font-bold text-base sm:text-lg">
             {icon}
           </span>
         ) : (
-          <span className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-base font-bold text-navy-950">
+          <span className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-base sm:text-lg font-black text-navy-950">
             ₹
           </span>
         )}
@@ -75,15 +72,15 @@ export default function CurrencyInput({
           onChange={(e) => handleChange(e.target.value)}
           onPaste={handlePaste}
           placeholder={placeholder}
-          className={`h-12 w-full rounded-xl border bg-white pr-10 text-sm sm:text-base text-navy-950 placeholder:text-navy-900/40 transition-all duration-250 hover:border-navy-950/20 focus:border-brand-green-500 focus:outline-none focus:ring-2 focus:ring-brand-green-500/20 ${
-            icon ? "pl-10" : "pl-8"
+          className={`h-12 w-full rounded-xl border bg-white pr-11 text-sm sm:text-base font-extrabold text-navy-950 placeholder:text-slate-400 transition-all duration-250 hover:border-slate-400 focus:border-brand-green-500 focus:outline-none focus:ring-2 focus:ring-brand-green-500/20 ${
+            icon ? "pl-11" : "pl-9"
           } ${
             error
-              ? "border-red-400 focus:border-red-500 focus:ring-red-500/20"
-              : "border-navy-950/10"
+              ? "border-red-500 focus:border-red-600 focus:ring-red-500/20"
+              : "border-slate-300"
           }`}
         />
-        <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3.5 text-xs sm:text-sm font-medium text-navy-900/40">
+        <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3.5 text-xs sm:text-sm font-bold text-slate-500">
           .00
         </span>
       </div>
@@ -91,3 +88,4 @@ export default function CurrencyInput({
     </div>
   );
 }
+
