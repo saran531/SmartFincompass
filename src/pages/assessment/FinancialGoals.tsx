@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useApp } from "../../context/AppContext";
 import ExploreIcon from "@mui/icons-material/Explore";
@@ -31,9 +31,8 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 
 const NAV_LINKS = [
   { label: "Home", href: "/" },
-  { label: "Features", href: "/#features" },
+  { label: "Features", href: "/features" },
   { label: "How It Works", href: "/how-it-works" },
-  { label: "Pricing", href: "/pricing" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
 ];
@@ -43,9 +42,8 @@ const FOOTER_COLUMNS = [
     title: "Quick Links",
     links: [
       { label: "Home", href: "/" },
-      { label: "Features", href: "/#features" },
+      { label: "Features", href: "/features" },
       { label: "How It Works", href: "/how-it-works" },
-      { label: "Pricing", href: "/pricing" },
       { label: "About", href: "/about" },
       { label: "Contact", href: "/contact" },
     ],
@@ -204,35 +202,71 @@ const TIMELINE_DOT_COLORS = [
   "bg-purple-500",
 ];
 
+const DEFAULT_SELECTED_GOALS = ["emergency", "home", "education", "retirement"];
+
 export default function FinancialGoals() {
   const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { assessmentData, updateAssessment } = useApp();
 
   const saved = assessmentData.goals || {};
-  const [selectedGoals, setSelectedGoals] = useState<string[]>(
-    saved.selectedGoals && saved.selectedGoals.length > 0
-      ? saved.selectedGoals
-      : ["emergency", "home", "education", "retirement"]
-  );
-  const [priorities, setPriorities] = useState<string[]>(
-    saved.goalPriorities && saved.goalPriorities.length > 0
-      ? saved.goalPriorities
-      : ["emergency", "home", "education", "marriage", "retirement", "travel", "business"]
-  );
+
+  const [selectedGoals, setSelectedGoals] = useState<string[]>(() => {
+    const raw =
+      saved.selectedGoals && saved.selectedGoals.length > 0
+        ? saved.selectedGoals
+        : DEFAULT_SELECTED_GOALS;
+    return Array.from(
+      new Set(raw.filter((k: string) => GOALS.some((g) => g.key === k)))
+    );
+  });
+
+  const [priorities, setPriorities] = useState<string[]>(() => {
+    if (saved.goalPriorities && saved.goalPriorities.length > 0) {
+      return Array.from(
+        new Set(saved.goalPriorities.filter((k: string) => GOALS.some((g) => g.key === k)))
+      );
+    }
+    return DEFAULT_SELECTED_GOALS;
+  });
+
   const [dragIdx, setDragIdx] = useState<number | null>(null);
+
+  // Derive rendered priorities directly & strictly from selectedGoals:
+  // 1. Maintain custom order from priorities state for items currently in selectedGoals
+  // 2. Append any selected item not yet in priorities
+  // 3. Ensure absolute uniqueness with no duplicate entries
+  const renderedPriorities = useMemo(() => {
+    const result: string[] = [];
+    for (const key of priorities) {
+      if (selectedGoals.includes(key) && !result.includes(key)) {
+        result.push(key);
+      }
+    }
+    for (const key of selectedGoals) {
+      if (!result.includes(key)) {
+        result.push(key);
+      }
+    }
+    return result;
+  }, [priorities, selectedGoals]);
 
   const toggleGoal = (key: string) => {
     setSelectedGoals((prev) => {
-      const next = prev.includes(key)
+      const isSelected = prev.includes(key);
+      const nextSelected = isSelected
         ? prev.filter((k) => k !== key)
         : [...prev, key];
-      if (!prev.includes(key)) {
-        setPriorities((p) => [...p, key]);
-      } else {
-        setPriorities((p) => p.filter((k) => k !== key));
-      }
-      return next;
+
+      setPriorities((prevP) => {
+        if (isSelected) {
+          return prevP.filter((k) => k !== key);
+        } else {
+          return prevP.includes(key) ? prevP : [...prevP, key];
+        }
+      });
+
+      return Array.from(new Set(nextSelected));
     });
   };
 
@@ -240,12 +274,10 @@ export default function FinancialGoals() {
   const handleDragOver = (e: React.DragEvent, idx: number) => {
     e.preventDefault();
     if (dragIdx === null || dragIdx === idx) return;
-    setPriorities((prev) => {
-      const next = [...prev];
-      const [moved] = next.splice(dragIdx, 1);
-      next.splice(idx, 0, moved);
-      return next;
-    });
+    const next = [...renderedPriorities];
+    const [moved] = next.splice(dragIdx, 1);
+    next.splice(idx, 0, moved);
+    setPriorities(next);
     setDragIdx(idx);
   };
   const handleDragEnd = () => setDragIdx(null);
@@ -253,7 +285,8 @@ export default function FinancialGoals() {
   const getPriorityLabel = (idx: number, total: number) => {
     if (idx === 0) return "Highest";
     if (idx === 1) return "High";
-    if (idx <= Math.floor(total / 2)) return "Medium";
+    if (idx === 2) return "Lower";
+    if (idx === 3) return "Low";
     if (idx < total - 1) return "Low";
     return "Lower";
   };
@@ -439,10 +472,10 @@ export default function FinancialGoals() {
                       key={goal.key}
                       type="button"
                       onClick={() => toggleGoal(goal.key)}
-                      className={`flex flex-col items-center gap-3 rounded-2xl border-2 p-5 text-center transition-all ${
+                      className={`option-card-interactive flex flex-col items-center gap-3 rounded-2xl border-2 p-5 text-center cursor-pointer transition-all duration-200 ${
                         selected
-                          ? "border-brand-green-500 bg-brand-green-50/70 shadow-sm"
-                          : "border-slate-300 bg-white hover:border-slate-400"
+                          ? "selected border-brand-green-500 bg-brand-green-50/80 shadow-xs"
+                          : "border-slate-300 bg-white"
                       }`}
                     >
                       <span
@@ -495,10 +528,10 @@ export default function FinancialGoals() {
               </p>
 
               <div className="mt-5 space-y-3">
-                {priorities.map((key, idx) => {
+                {renderedPriorities.map((key, idx) => {
                   const goal = GOALS.find((g) => g.key === key);
                   if (!goal) return null;
-                  const pLabel = getPriorityLabel(idx, priorities.length);
+                  const pLabel = getPriorityLabel(idx, renderedPriorities.length);
                   const badgeColor = getPriorityBadgeColor(pLabel);
                   return (
                     <div
@@ -507,10 +540,10 @@ export default function FinancialGoals() {
                       onDragStart={() => handleDragStart(idx)}
                       onDragOver={(e) => handleDragOver(e, idx)}
                       onDragEnd={handleDragEnd}
-                      className={`flex items-center gap-4 rounded-xl border border-slate-200/90 bg-white p-4 transition-all ${
+                      className={`flex items-center gap-4 rounded-xl border border-slate-200/90 bg-white p-4 transition-all duration-200 ${
                         dragIdx === idx
                           ? "opacity-50 shadow-md"
-                          : "hover:shadow-sm hover:border-slate-300"
+                          : "hover:shadow-md hover:border-brand-green-300 hover:bg-brand-green-50/20"
                       }`}
                     >
                       <span className="cursor-grab text-slate-400 hover:text-slate-600 active:cursor-grabbing">
@@ -558,7 +591,7 @@ export default function FinancialGoals() {
               <button
                 type="button"
                 onClick={() => {
-                  updateAssessment("goals", { selectedGoals, goalPriorities: priorities });
+                  updateAssessment("goals", { selectedGoals, goalPriorities: renderedPriorities });
                   navigate("/government-documents");
                 }}
                 className="flex h-12 items-center gap-2 rounded-xl bg-brand-green-500 px-8 text-[15px] font-bold text-white shadow-soft transition-all duration-250 hover:bg-brand-green-600 hover:shadow-md active:scale-[0.98]"

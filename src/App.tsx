@@ -20,6 +20,7 @@ import Insurance from "./pages/assessment/Insurance";
 import InvestmentExperience from "./pages/assessment/InvestmentExperience";
 import FinancialGoals from "./pages/assessment/FinancialGoals";
 import GovernmentDocuments from "./pages/assessment/GovernmentDocuments";
+import SelectedDocuments from "./pages/assessment/SelectedDocuments";
 import ReviewSubmit from "./pages/assessment/ReviewSubmit";
 import AiProcessing from "./pages/AiProcessing";
 import WelcomeScreen from "./pages/WelcomeScreen";
@@ -60,6 +61,8 @@ function App() {
       <Route path="/investment-experience" element={<ProtectedRoute><InvestmentExperience /></ProtectedRoute>} />
       <Route path="/financial-goals" element={<ProtectedRoute><FinancialGoals /></ProtectedRoute>} />
       <Route path="/government-documents" element={<ProtectedRoute><GovernmentDocuments /></ProtectedRoute>} />
+      <Route path="/selected-documents" element={<ProtectedRoute><SelectedDocuments /></ProtectedRoute>} />
+      <Route path="/assessment/selected-documents" element={<ProtectedRoute><SelectedDocuments /></ProtectedRoute>} />
       <Route path="/review-submit" element={<ProtectedRoute><ReviewSubmit /></ProtectedRoute>} />
       <Route path="/ai-processing" element={<ProtectedRoute><AiProcessing /></ProtectedRoute>} />
       <Route path="/financial-dashboard" element={<ProtectedRoute><FinancialDashboard /></ProtectedRoute>} />

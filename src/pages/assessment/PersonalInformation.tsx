@@ -33,9 +33,8 @@ import PhoneInput from "./components/PhoneInput";
 
 const NAV_LINKS = [
   { label: "Home", href: "/" },
-  { label: "Features", href: "/#features" },
+  { label: "Features", href: "/features" },
   { label: "How It Works", href: "/how-it-works" },
-  { label: "Pricing", href: "/pricing" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
 ];
@@ -45,9 +44,8 @@ const FOOTER_COLUMNS = [
     title: "Quick Links",
     links: [
       { label: "Home", href: "/" },
-      { label: "Features", href: "/#features" },
+      { label: "Features", href: "/features" },
       { label: "How It Works", href: "/how-it-works" },
-      { label: "Pricing", href: "/pricing" },
       { label: "About", href: "/about" },
       { label: "Contact", href: "/contact" },
     ],
@@ -388,10 +386,10 @@ export default function PersonalInformation() {
                     key={opt.label}
                     type="button"
                     onClick={() => setGender(opt.label)}
-                    className={`flex items-center gap-3 rounded-xl border-2 px-4 py-3.5 text-left transition-all duration-200 ${
+                    className={`option-card-interactive flex items-center gap-3 rounded-xl border-2 px-4 py-3.5 text-left cursor-pointer transition-all duration-200 ${
                       gender === opt.label
-                        ? "border-brand-green-500 bg-brand-green-50/80 shadow-xs"
-                        : "border-slate-300 bg-white hover:border-slate-400"
+                        ? "selected border-brand-green-500 bg-brand-green-50/80 shadow-xs"
+                        : "border-slate-300 bg-white"
                     }`}
                   >
                     <span

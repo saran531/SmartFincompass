@@ -204,3 +204,163 @@ input::placeholder {
   color: rgba(13, 37, 73, 0.45) !important;
   font-weight: 500;
 }
+
+/* ── Premium FinTech Animations & Utility Classes ── */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes floatSlow {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+.animate-float {
+  animation: floatSlow 6s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 4s ease-in-out infinite;
+}
+
+/* Stagger animation delays */
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-400 { animation-delay: 400ms; }
+.delay-500 { animation-delay: 500ms; }
+
+/* Interactive Hover & State Utility Classes */
+.card-hover-effect {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease;
+}
+
+.card-hover-effect:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 36px -8px rgba(13, 37, 73, 0.12);
+}
+
+.btn-hover-effect {
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.btn-hover-effect:hover {
+  transform: translateY(-2px);
+}
+
+.btn-hover-effect:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+/* ── Standardized Component Interaction Classes ── */
+
+/* Selectable Cards & Option Buttons */
+.option-card-interactive {
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+}
+
+.option-card-interactive:hover:not(.selected):not(:disabled) {
+  transform: translateY(-2px);
+  border-color: rgba(34, 181, 115, 0.45);
+  background-color: rgba(234, 251, 243, 0.35);
+  box-shadow: 0 4px 16px rgba(13, 37, 73, 0.05);
+}
+
+.option-card-interactive:active:not(:disabled) {
+  transform: scale(0.99) translateY(0);
+}
+
+.option-card-interactive.selected {
+  border-color: #22b573 !important;
+  background-color: rgba(234, 251, 243, 0.75) !important;
+  box-shadow: 0 0 0 3px rgba(34, 181, 115, 0.18) !important;
+}
+
+/* Dark mode selectable card support */
+.bg-navy-950 .option-card-interactive:hover:not(.selected):not(:disabled),
+.bg-navy-900 .option-card-interactive:hover:not(.selected):not(:disabled) {
+  background-color: rgba(255, 255, 255, 0.08);
+  border-color: rgba(34, 181, 115, 0.6);
+}
+
+.bg-navy-950 .option-card-interactive.selected,
+.bg-navy-900 .option-card-interactive.selected {
+  background-color: rgba(34, 181, 115, 0.15) !important;
+  border-color: #22b573 !important;
+  box-shadow: 0 0 0 3px rgba(34, 181, 115, 0.25) !important;
+}
+
+/* Form Input Focus & Hover Rules */
+input, select, textarea {
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+input:hover:not(:disabled):not(:focus),
+select:hover:not(:disabled):not(:focus),
+textarea:hover:not(:disabled):not(:focus) {
+  border-color: #94a3b8;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: #189a63 !important;
+  box-shadow: 0 0 0 3px rgba(24, 154, 99, 0.18) !important;
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-in-up,
+  .animate-fade-in,
+  .animate-float,
+  .animate-pulse-glow {
+    animation: none !important;
+    transform: none !important;
+  }
+  .card-hover-effect:hover,
+  .btn-hover-effect:hover,
+  .option-card-interactive:hover {
+    transform: none !important;
+  }
+}
+
+

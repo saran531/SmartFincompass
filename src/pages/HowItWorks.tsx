@@ -39,7 +39,6 @@ const NAV_LINKS = [
   { label: "Home", href: "/" },
   { label: "Features", href: "/features" },
   { label: "How It Works", href: "/how-it-works" },
-  { label: "Pricing", href: "/pricing" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
 ];
@@ -124,7 +123,6 @@ const FOOTER_COLUMNS = [
       { label: "Home", href: "/" },
       { label: "Features", href: "/features" },
       { label: "How It Works", href: "/how-it-works" },
-      { label: "Pricing", href: "/pricing" },
       { label: "About", href: "/about" },
       { label: "Contact", href: "/contact" },
     ],
@@ -246,34 +244,35 @@ export default function HowItWorks() {
 
       <main>
         {/* ─── HERO ─── */}
-        <section className="relative overflow-hidden bg-white">
-          <div className="pointer-events-none absolute inset-x-0 top-0 h-[700px] bg-gradient-to-br from-brand-green-50 via-white to-sky-50" />
+        <section className="relative overflow-hidden bg-navy-950 text-white">
+          <div className="pointer-events-none absolute inset-x-0 top-0 h-[700px] bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-brand-green-500/15 via-navy-900/50 to-transparent" />
+          <div className="pointer-events-none absolute -top-40 -right-40 h-96 w-96 rounded-full bg-brand-green-500/10 blur-3xl animate-pulse-glow" />
 
           <div className="relative mx-auto grid max-w-7xl gap-16 px-6 py-20 lg:grid-cols-2 lg:items-center lg:gap-12 lg:px-10 lg:py-28">
-            <div>
-              <p className="text-xs sm:text-sm font-bold uppercase tracking-wider text-brand-green-600">
+            <div className="animate-fade-in-up">
+              <p className="text-xs sm:text-sm font-bold uppercase tracking-wider text-brand-green-400">
                 How It Works
               </p>
-              <h1 className="mt-4 text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.1] text-navy-950">
+              <h1 className="mt-4 text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.1] text-white">
                 Your Journey to{" "}
-                <span className="text-brand-green-600">Financial Clarity</span>{" "}
+                <span className="text-brand-green-400">Financial Clarity</span>{" "}
                 Starts Here
               </h1>
-              <p className="mt-7 max-w-xl text-base sm:text-lg leading-relaxed text-navy-900/70">
+              <p className="mt-7 max-w-xl text-base sm:text-lg leading-relaxed text-slate-300">
                 SmartFin Compass turns your financial information into clear, personalized insights and actionable recommendations — so you can make smarter decisions with confidence.
               </p>
 
               <div className="mt-10 flex flex-wrap items-center gap-5">
                 <Link
                   to="/login"
-                  className="group/btn inline-flex items-center gap-2.5 rounded-lg bg-brand-green-500 px-7 py-3.5 text-sm sm:text-base font-semibold text-white shadow-soft transition-all duration-250 hover:bg-brand-green-600 hover:shadow-md hover:-translate-y-0.5 active:scale-[0.98] active:shadow-sm active:translate-y-0"
+                  className="group/btn btn-hover-effect inline-flex items-center gap-2.5 rounded-lg bg-brand-green-500 px-7 py-3.5 text-sm sm:text-base font-semibold text-white shadow-lg shadow-brand-green-500/25 transition-all duration-250 hover:bg-brand-green-400"
                 >
                   Start Your Assessment
-                  <ArrowForwardIcon fontSize="small" className="transition-transform duration-250 group-hover/btn:translate-x-0.5" />
+                  <ArrowForwardIcon fontSize="small" className="transition-transform duration-250 group-hover/btn:translate-x-1" />
                 </Link>
                 <Link
                   to="/features"
-                  className="group/btn inline-flex items-center gap-2.5 rounded-lg border border-navy-950/15 px-7 py-3.5 text-sm sm:text-base font-semibold text-navy-950 transition-all duration-250 hover:border-brand-green-500 hover:text-brand-green-600 active:scale-[0.98]"
+                  className="group/btn btn-hover-effect inline-flex items-center gap-2.5 rounded-lg border border-white/20 bg-white/5 px-7 py-3.5 text-sm sm:text-base font-semibold text-white transition-all duration-250 hover:border-white/40 hover:bg-white/10"
                 >
                   Explore Features
                 </Link>
@@ -281,27 +280,27 @@ export default function HowItWorks() {
             </div>
 
             {/* Hero Visual — Journey Flow */}
-            <div className="relative">
-              <div className="rounded-3xl border border-navy-950/5 bg-white p-7 shadow-card sm:p-8">
-                <p className="mb-6 text-base sm:text-lg font-bold text-navy-950">
+            <div className="relative animate-fade-in-up delay-200">
+              <div className="rounded-3xl border border-white/10 bg-navy-900/90 p-7 shadow-2xl backdrop-blur-xl sm:p-8">
+                <p className="mb-6 text-base sm:text-lg font-bold text-white">
                   Your SmartFin Compass Journey
                 </p>
 
                 <div className="relative flex flex-col gap-2">
                   {/* Vertical connector line passing behind icons */}
-                  <div className="absolute left-[36px] top-6 bottom-6 w-0.5 -translate-x-1/2 bg-navy-950/10" />
+                  <div className="absolute left-[36px] top-6 bottom-6 w-0.5 -translate-x-1/2 bg-white/10" />
 
                   {[
-                    { icon: PersonIcon, label: "Create Profile", color: "text-violet-500 bg-violet-50" },
-                    { icon: DescriptionIcon, label: "Complete Assessment", color: "text-sky-500 bg-sky-50" },
-                    { icon: PsychologyIcon, label: "AI Analysis", color: "text-brand-green-600 bg-brand-green-50" },
-                    { icon: SpeedIcon, label: "Health Score", color: "text-amber-accent bg-amber-50" },
-                    { icon: MapIcon, label: "Personalized Roadmap", color: "text-rose-500 bg-rose-50" },
-                    { icon: RocketLaunchIcon, label: "Financial Growth", color: "text-emerald-600 bg-emerald-50" },
+                    { icon: PersonIcon, label: "Create Profile", color: "text-violet-400 bg-violet-500/20" },
+                    { icon: DescriptionIcon, label: "Complete Assessment", color: "text-sky-400 bg-sky-500/20" },
+                    { icon: PsychologyIcon, label: "AI Analysis", color: "text-brand-green-400 bg-brand-green-500/20" },
+                    { icon: SpeedIcon, label: "Health Score", color: "text-amber-accent bg-amber-500/20" },
+                    { icon: MapIcon, label: "Personalized Roadmap", color: "text-rose-400 bg-rose-500/20" },
+                    { icon: RocketLaunchIcon, label: "Financial Growth", color: "text-emerald-400 bg-emerald-500/20" },
                   ].map((item) => (
                     <div
                       key={item.label}
-                      className="group relative grid grid-cols-[48px_1fr_20px] items-center gap-4 rounded-2xl px-3 py-2.5 transition-all duration-200 hover:bg-slate-50/80 hover:translate-x-1"
+                      className="group relative grid grid-cols-[48px_1fr_20px] items-center gap-4 rounded-2xl px-3 py-2.5 transition-all duration-200 hover:bg-white/10 hover:translate-x-1"
                     >
                       {/* Fixed-width Icon Container */}
                       <div className={`relative z-10 flex h-12 w-12 items-center justify-center rounded-xl transition-transform duration-200 group-hover:scale-105 ${item.color}`}>
@@ -310,7 +309,7 @@ export default function HowItWorks() {
 
                       {/* Consistently Aligned Text Label */}
                       <div className="min-w-0">
-                        <p className="text-sm sm:text-base font-semibold text-navy-950 transition-colors duration-200 group-hover:text-brand-green-600">
+                        <p className="text-sm sm:text-base font-semibold text-white transition-colors duration-200 group-hover:text-brand-green-400">
                           {item.label}
                         </p>
                       </div>
@@ -319,7 +318,7 @@ export default function HowItWorks() {
                       <div className="flex items-center justify-end">
                         <ArrowForwardIcon
                           sx={{ fontSize: 16 }}
-                          className="text-navy-900/30 transition-all duration-200 group-hover:translate-x-0.5 group-hover:text-brand-green-600"
+                          className="text-slate-400 transition-all duration-200 group-hover:translate-x-0.5 group-hover:text-brand-green-400"
                         />
                       </div>
                     </div>
@@ -330,66 +329,68 @@ export default function HowItWorks() {
           </div>
         </section>
 
-        {/* ─── SIMPLE 4-STEP JOURNEY ─── */}
-        <section className="mx-auto max-w-7xl px-6 py-24 lg:px-10">
-          <div className="mx-auto max-w-2xl text-center">
-            <p className="text-xs sm:text-sm font-bold uppercase tracking-wider text-brand-green-600">
-              The SmartFin Compass Journey
-            </p>
-            <h2 className="mt-4 text-3xl sm:text-4xl lg:text-[40px] font-extrabold text-navy-950">
-              From Financial Information to Financial Confidence
-            </h2>
-            <p className="mt-5 text-base sm:text-lg leading-relaxed text-navy-900/70">
-              Everything is designed to make understanding and improving your financial life simple.
-            </p>
-          </div>
-
-          <div className="mt-14 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
-            {JOURNEY_STEPS.map((s) => (
-              <div
-                key={s.step}
-                className="group relative rounded-2xl border border-navy-950/5 bg-white p-7 shadow-soft transition-all duration-300 hover:-translate-y-1 hover:shadow-card hover:border-brand-green-100"
-              >
-                <div className="mb-5 flex items-center gap-3">
-                  <span className={`flex h-12 w-12 items-center justify-center rounded-xl ring-4 ${s.ringColor} ${s.color} transition-transform duration-300 group-hover:scale-110`}>
-                    <s.icon sx={{ fontSize: 24 }} />
-                  </span>
-                  <span className="text-xs font-bold text-navy-900/40">{s.step}</span>
-                </div>
-                <h3 className="text-lg sm:text-xl font-bold text-navy-950 group-hover:text-brand-green-600 transition-colors duration-300">
-                  {s.title}
-                </h3>
-                <p className="mt-2.5 text-sm sm:text-base leading-relaxed text-navy-900/70">
-                  {s.desc}
-                </p>
-                <ul className="mt-5 space-y-2">
-                  {s.points.map((p) => (
-                    <li key={p} className="flex items-center gap-2 text-sm sm:text-base font-medium text-navy-900/70">
-                      <CheckCircleIcon sx={{ fontSize: 16, color: "#22b573" }} />
-                      {p}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* ─── DETAILED PROCESS / TIMELINE ─── */}
-        <section className="bg-slate-50/60 py-24">
+        {/* ─── SIMPLE 4-STEP JOURNEY ─── (SECTION 2: WHITE) */}
+        <section className="bg-white py-24 text-navy-950">
           <div className="mx-auto max-w-7xl px-6 lg:px-10">
             <div className="mx-auto max-w-2xl text-center">
               <p className="text-xs sm:text-sm font-bold uppercase tracking-wider text-brand-green-600">
-                How SmartFin Compass Works
+                The SmartFin Compass Journey
               </p>
               <h2 className="mt-4 text-3xl sm:text-4xl lg:text-[40px] font-extrabold text-navy-950">
+                From Financial Information to Financial Confidence
+              </h2>
+              <p className="mt-5 text-base sm:text-lg leading-relaxed text-navy-900/70">
+                Everything is designed to make understanding and improving your financial life simple.
+              </p>
+            </div>
+
+            <div className="mt-14 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+              {JOURNEY_STEPS.map((s) => (
+                <div
+                  key={s.step}
+                  className="group card-hover-effect relative rounded-2xl border border-navy-950/10 bg-white p-7 shadow-soft transition-all duration-300 hover:border-brand-green-100"
+                >
+                  <div className="mb-5 flex items-center gap-3">
+                    <span className={`flex h-12 w-12 items-center justify-center rounded-xl ring-4 ${s.ringColor} ${s.color} transition-transform duration-300 group-hover:scale-110`}>
+                      <s.icon sx={{ fontSize: 24 }} />
+                    </span>
+                    <span className="text-xs font-bold text-navy-900/40">{s.step}</span>
+                  </div>
+                  <h3 className="text-lg sm:text-xl font-bold text-navy-950 group-hover:text-brand-green-600 transition-colors duration-300">
+                    {s.title}
+                  </h3>
+                  <p className="mt-2.5 text-sm sm:text-base leading-relaxed text-navy-900/70">
+                    {s.desc}
+                  </p>
+                  <ul className="mt-5 space-y-2">
+                    {s.points.map((p) => (
+                      <li key={p} className="flex items-center gap-2 text-sm sm:text-base font-medium text-navy-900/70">
+                        <CheckCircleIcon sx={{ fontSize: 16, color: "#22b573" }} />
+                        {p}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ─── DETAILED PROCESS / TIMELINE ─── (SECTION 3: DARK BLUE) */}
+        <section className="bg-navy-950 py-24 text-white border-y border-white/10">
+          <div className="mx-auto max-w-7xl px-6 lg:px-10">
+            <div className="mx-auto max-w-2xl text-center">
+              <p className="text-xs sm:text-sm font-bold uppercase tracking-wider text-brand-green-400">
+                How SmartFin Compass Works
+              </p>
+              <h2 className="mt-4 text-3xl sm:text-4xl lg:text-[40px] font-extrabold text-white">
                 A Smarter Way to Understand Your Finances
               </h2>
             </div>
 
             <div className="relative mt-16">
               {/* Vertical line */}
-              <div className="absolute left-6 top-0 bottom-0 hidden w-0.5 bg-gradient-to-b from-brand-green-200 via-brand-green-400 to-brand-green-200 lg:block" />
+              <div className="absolute left-6 top-0 bottom-0 hidden w-0.5 bg-gradient-to-b from-brand-green-400/50 via-brand-green-400 to-brand-green-400/50 lg:block" />
 
               <div className="space-y-8">
                 {TIMELINE_STEPS.map((s) => (
@@ -398,21 +399,21 @@ export default function HowItWorks() {
                     className="group relative flex items-start gap-6 lg:gap-10"
                   >
                     {/* Step number bubble */}
-                    <div className="relative z-10 flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-brand-green-500 text-sm sm:text-base font-bold text-white shadow-[0_0_20px_rgba(34,181,115,0.25)] ring-4 ring-slate-50 transition-shadow duration-300 group-hover:shadow-[0_0_30px_rgba(34,181,115,0.35)]">
+                    <div className="relative z-10 flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-brand-green-500 text-sm sm:text-base font-bold text-white shadow-[0_0_20px_rgba(34,181,115,0.25)] ring-4 ring-navy-950 transition-shadow duration-300 group-hover:shadow-[0_0_30px_rgba(34,181,115,0.35)]">
                       {s.num}
                     </div>
 
                     {/* Content card */}
-                    <div className="flex-1 rounded-2xl border border-navy-950/5 bg-white p-6 shadow-soft transition-all duration-300 group-hover:shadow-card group-hover:border-brand-green-100">
+                    <div className="card-hover-effect flex-1 rounded-2xl border border-white/10 bg-navy-900/90 p-6 shadow-xl transition-all duration-300 group-hover:border-brand-green-400/50">
                       <div className="flex items-start gap-4">
-                        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand-green-50 text-brand-green-600">
+                        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand-green-500/20 text-brand-green-400">
                           <s.icon sx={{ fontSize: 20 }} />
                         </span>
                         <div>
-                          <h3 className="text-lg sm:text-xl font-bold text-navy-950 group-hover:text-brand-green-600 transition-colors duration-300">
+                          <h3 className="text-lg sm:text-xl font-bold text-white group-hover:text-brand-green-400 transition-colors duration-300">
                             {s.title}
                           </h3>
-                          <p className="mt-2 text-sm sm:text-base leading-relaxed text-navy-900/70">
+                          <p className="mt-2 text-sm sm:text-base leading-relaxed text-slate-300">
                             {s.desc}
                           </p>
                         </div>
@@ -425,59 +426,61 @@ export default function HowItWorks() {
           </div>
         </section>
 
-        {/* ─── AI ANALYSIS ─── */}
-        <section className="mx-auto max-w-7xl px-6 py-24 lg:px-10">
-          <div className="mx-auto max-w-2xl text-center">
-            <p className="text-xs sm:text-sm font-bold uppercase tracking-wider text-brand-green-600">
-              AI-Powered Analysis
-            </p>
-            <h2 className="mt-4 text-3xl sm:text-4xl lg:text-[40px] font-extrabold text-navy-950">
-              Your Financial Picture, Analyzed From Every Angle
-            </h2>
-            <p className="mt-5 text-base sm:text-lg leading-relaxed text-navy-900/70">
-              Our AI looks beyond individual numbers to understand how different parts of your financial life work together.
-            </p>
-          </div>
-
-          <div className="mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {AI_CARDS.map((c) => (
-              <div
-                key={c.title}
-                className="group rounded-2xl border border-navy-950/5 bg-white p-7 shadow-soft transition-all duration-300 hover:-translate-y-1 hover:shadow-card hover:border-brand-green-100"
-              >
-                <span className={`mb-5 inline-flex h-14 w-14 items-center justify-center rounded-2xl transition-transform duration-300 group-hover:scale-110 ${c.color}`}>
-                  <c.icon sx={{ fontSize: 28 }} />
-                </span>
-                <h3 className="text-base sm:text-lg font-bold text-navy-950 group-hover:text-brand-green-600 transition-colors duration-300">
-                  {c.title}
-                </h3>
-                <p className="mt-2.5 text-sm sm:text-base leading-relaxed text-navy-900/70">
-                  {c.desc}
-                </p>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* ─── PERSONALIZED ROADMAP ─── */}
-        <section className="bg-slate-50/60 py-24">
+        {/* ─── AI ANALYSIS ─── (SECTION 4: WHITE) */}
+        <section className="bg-white py-24 text-navy-950">
           <div className="mx-auto max-w-7xl px-6 lg:px-10">
             <div className="mx-auto max-w-2xl text-center">
               <p className="text-xs sm:text-sm font-bold uppercase tracking-wider text-brand-green-600">
-                Your Roadmap
+                AI-Powered Analysis
               </p>
               <h2 className="mt-4 text-3xl sm:text-4xl lg:text-[40px] font-extrabold text-navy-950">
-                Know What to Do Next
+                Your Financial Picture, Analyzed From Every Angle
               </h2>
               <p className="mt-5 text-base sm:text-lg leading-relaxed text-navy-900/70">
+                Our AI looks beyond individual numbers to understand how different parts of your financial life work together.
+              </p>
+            </div>
+
+            <div className="mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {AI_CARDS.map((c) => (
+                <div
+                  key={c.title}
+                  className="group card-hover-effect rounded-2xl border border-navy-950/10 bg-white p-7 shadow-soft transition-all duration-300 hover:border-brand-green-100"
+                >
+                  <span className={`mb-5 inline-flex h-14 w-14 items-center justify-center rounded-2xl transition-transform duration-300 group-hover:scale-110 ${c.color}`}>
+                    <c.icon sx={{ fontSize: 28 }} />
+                  </span>
+                  <h3 className="text-base sm:text-lg font-bold text-navy-950 group-hover:text-brand-green-600 transition-colors duration-300">
+                    {c.title}
+                  </h3>
+                  <p className="mt-2.5 text-sm sm:text-base leading-relaxed text-navy-900/70">
+                    {c.desc}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ─── PERSONALIZED ROADMAP ─── (SECTION 5: DARK BLUE) */}
+        <section className="bg-navy-950 py-24 text-white border-y border-white/10">
+          <div className="mx-auto max-w-7xl px-6 lg:px-10">
+            <div className="mx-auto max-w-2xl text-center">
+              <p className="text-xs sm:text-sm font-bold uppercase tracking-wider text-brand-green-400">
+                Your Roadmap
+              </p>
+              <h2 className="mt-4 text-3xl sm:text-4xl lg:text-[40px] font-extrabold text-white">
+                Know What to Do Next
+              </h2>
+              <p className="mt-5 text-base sm:text-lg leading-relaxed text-slate-300">
                 SmartFin Compass doesn't just tell you where you stand. It helps you understand what actions can move you forward.
               </p>
             </div>
 
             <div className="relative mt-14">
-              <div className="rounded-3xl border border-navy-950/5 bg-white p-8 shadow-card sm:p-10">
+              <div className="card-hover-effect rounded-3xl border border-white/10 bg-navy-900/90 p-8 shadow-xl backdrop-blur-md sm:p-10">
                 <div className="mb-6 flex items-center gap-2">
-                  <span className="rounded-full bg-brand-green-50 px-3 py-1 text-xs sm:text-sm font-semibold text-brand-green-600">
+                  <span className="rounded-full bg-brand-green-500/20 border border-brand-green-400/30 px-3.5 py-1 text-xs sm:text-sm font-semibold text-brand-green-400">
                     Personalized for your financial profile
                   </span>
                 </div>
@@ -486,18 +489,18 @@ export default function HowItWorks() {
                   {ROADMAP_CARDS.map((r) => (
                     <div
                       key={r.title}
-                      className="rounded-2xl border border-navy-950/5 bg-slate-50/60 p-5 transition-all duration-300 hover:border-brand-green-200 hover:shadow-[0_4px_16px_rgba(13,37,73,0.1)]"
+                      className="rounded-2xl border border-white/10 bg-white/5 p-5 transition-all duration-300 hover:border-brand-green-400/50 hover:bg-white/10"
                     >
                       <div className="flex items-start gap-3">
                         <span className={`inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg ${r.color}`}>
                           <r.icon sx={{ fontSize: 18 }} />
                         </span>
                         <div>
-                          <p className="text-sm sm:text-base font-bold text-navy-950">{r.title}</p>
-                          <p className="mt-0.5 text-xs sm:text-sm font-semibold text-brand-green-600">{r.time}</p>
+                          <p className="text-sm sm:text-base font-bold text-white">{r.title}</p>
+                          <p className="mt-0.5 text-xs sm:text-sm font-semibold text-brand-green-400">{r.time}</p>
                         </div>
                       </div>
-                      <p className="mt-3 text-sm sm:text-base leading-relaxed text-navy-900/70">
+                      <p className="mt-3 text-sm sm:text-base leading-relaxed text-slate-300">
                         {r.desc}
                       </p>
                     </div>
@@ -508,122 +511,122 @@ export default function HowItWorks() {
           </div>
         </section>
 
-        {/* ─── WHY THIS PROCESS IS DIFFERENT ─── */}
-        <section className="mx-auto max-w-7xl px-6 py-24 lg:px-10">
-          <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-3xl sm:text-4xl lg:text-[40px] font-extrabold text-navy-950">
-              Built Around You — Not Generic Financial Advice
-            </h2>
-          </div>
+        {/* ─── WHY THIS PROCESS IS DIFFERENT ─── (SECTION 6: WHITE) */}
+        <section className="bg-white py-24 text-navy-950">
+          <div className="mx-auto max-w-7xl px-6 lg:px-10">
+            <div className="mx-auto max-w-2xl text-center">
+              <h2 className="text-3xl sm:text-4xl lg:text-[40px] font-extrabold text-navy-950">
+                Built Around You — Not Generic Financial Advice
+              </h2>
+            </div>
 
-          <div className="mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {DIFFERENTIATORS.map((d) => (
-              <div
-                key={d.title}
-                className="group rounded-2xl border border-navy-950/5 bg-white p-7 shadow-soft transition-all duration-300 hover:-translate-y-1 hover:shadow-card hover:border-brand-green-100"
-              >
-                <span className={`mb-5 inline-flex h-14 w-14 items-center justify-center rounded-2xl transition-transform duration-300 group-hover:scale-110 ${d.color}`}>
-                  <d.icon sx={{ fontSize: 28 }} />
-                </span>
-                <h3 className="text-base sm:text-lg font-bold text-navy-950 group-hover:text-brand-green-600 transition-colors duration-300">
-                  {d.title}
-                </h3>
-                <p className="mt-2.5 text-sm sm:text-base leading-relaxed text-navy-900/70">
-                  {d.desc}
-                </p>
-              </div>
-            ))}
+            <div className="mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+              {DIFFERENTIATORS.map((d) => (
+                <div
+                  key={d.title}
+                  className="group card-hover-effect rounded-2xl border border-navy-950/10 bg-white p-7 shadow-soft transition-all duration-300 hover:border-brand-green-100"
+                >
+                  <span className={`mb-5 inline-flex h-14 w-14 items-center justify-center rounded-2xl transition-transform duration-300 group-hover:scale-110 ${d.color}`}>
+                    <d.icon sx={{ fontSize: 28 }} />
+                  </span>
+                  <h3 className="text-base sm:text-lg font-bold text-navy-950 group-hover:text-brand-green-600 transition-colors duration-300">
+                    {d.title}
+                  </h3>
+                  <p className="mt-2.5 text-sm sm:text-base leading-relaxed text-navy-900/70">
+                    {d.desc}
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
         </section>
 
-        {/* ─── SECURITY ─── */}
-        <section className="mx-auto max-w-7xl px-6 pb-24 lg:px-10">
-          <div className="relative overflow-hidden rounded-3xl border border-navy-950/5 bg-gradient-to-br from-navy-950 via-navy-900 to-navy-950 px-8 py-16 sm:px-16">
-            <div className="pointer-events-none absolute -left-20 -top-20 h-64 w-64 rounded-full bg-brand-green-500/10 blur-3xl" />
-            <div className="pointer-events-none absolute -bottom-20 -right-20 h-64 w-64 rounded-full bg-sky-500/10 blur-3xl" />
+        {/* ─── SECURITY ─── (SECTION 7: DARK BLUE) */}
+        <section className="bg-navy-950 py-20 text-white border-y border-white/10">
+          <div className="mx-auto max-w-7xl px-6 lg:px-10">
+            <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-navy-950 via-navy-900 to-navy-950 px-8 py-16 sm:px-16 shadow-xl">
+              <div className="pointer-events-none absolute -left-20 -top-20 h-64 w-64 rounded-full bg-brand-green-500/10 blur-3xl" />
+              <div className="pointer-events-none absolute -bottom-20 -right-20 h-64 w-64 rounded-full bg-sky-500/10 blur-3xl" />
 
-            <div className="relative">
-              <div className="mx-auto max-w-2xl text-center">
-                <span className="mb-6 inline-flex h-16 w-16 items-center justify-center rounded-full bg-brand-green-500/15 text-brand-green-400">
-                  <ShieldIcon sx={{ fontSize: 32 }} />
-                </span>
-                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white">
-                  Your Financial Data Stays Protected
-                </h2>
-                <p className="mt-4 text-base sm:text-lg leading-relaxed text-white/75">
-                  Your financial information is handled with security and privacy in mind. SmartFin Compass is designed to help you understand your finances without compromising trust.
-                </p>
-              </div>
-
-              <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-3">
-                <div className="rounded-2xl border border-white/10 bg-white/5 p-6 text-center">
-                  <VerifiedUserIcon sx={{ fontSize: 28, color: "#22b573" }} />
-                  <p className="mt-4 text-base font-bold text-white">100% Secure & Private</p>
-                  <p className="mt-2 text-sm sm:text-base leading-relaxed text-white/70">
-                    Your information is protected and never shared unnecessarily.
+              <div className="relative">
+                <div className="mx-auto max-w-2xl text-center">
+                  <span className="mb-6 inline-flex h-16 w-16 items-center justify-center rounded-full bg-brand-green-500/15 text-brand-green-400">
+                    <ShieldIcon sx={{ fontSize: 32 }} />
+                  </span>
+                  <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white">
+                    Your Financial Data Stays Protected
+                  </h2>
+                  <p className="mt-4 text-base sm:text-lg leading-relaxed text-slate-300">
+                    Your financial information is handled with security and privacy in mind. SmartFin Compass is designed to help you understand your finances without compromising trust.
                   </p>
                 </div>
-                <div className="rounded-2xl border border-white/10 bg-white/5 p-6 text-center">
-                  <LockIcon sx={{ fontSize: 28, color: "#22b573" }} />
-                  <p className="mt-4 text-base font-bold text-white">Bank-Level Security</p>
-                  <p className="mt-2 text-sm sm:text-base leading-relaxed text-white/70">
-                    Your sensitive financial information is handled using strong security practices.
-                  </p>
-                </div>
-                <div className="rounded-2xl border border-white/10 bg-white/5 p-6 text-center">
-                  <PrivacyTipIcon sx={{ fontSize: 28, color: "#22b573" }} />
-                  <p className="mt-4 text-base font-bold text-white">Your Data, Your Control</p>
-                  <p className="mt-2 text-sm sm:text-base leading-relaxed text-white/70">
-                    You remain in control of your financial information and assessment journey.
-                  </p>
-                </div>
-              </div>
 
-              <div className="mt-10 text-center">
-                <Link
-                  to="/features"
-                  className="inline-flex items-center gap-2 text-sm sm:text-base font-semibold text-brand-green-400 transition-colors duration-200 hover:text-brand-green-300"
-                >
-                  Learn More About Security
-                  <ArrowForwardIcon sx={{ fontSize: 16 }} />
-                </Link>
+                <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-3">
+                  <div className="rounded-2xl border border-white/10 bg-white/5 p-6 text-center">
+                    <VerifiedUserIcon sx={{ fontSize: 28, color: "#22b573" }} />
+                    <p className="mt-4 text-base font-bold text-white">100% Secure & Private</p>
+                    <p className="mt-2 text-sm sm:text-base leading-relaxed text-slate-300">
+                      Your information is protected and never shared unnecessarily.
+                    </p>
+                  </div>
+                  <div className="rounded-2xl border border-white/10 bg-white/5 p-6 text-center">
+                    <LockIcon sx={{ fontSize: 28, color: "#22b573" }} />
+                    <p className="mt-4 text-base font-bold text-white">Bank-Level Security</p>
+                    <p className="mt-2 text-sm sm:text-base leading-relaxed text-slate-300">
+                      Your sensitive financial information is handled using strong security practices.
+                    </p>
+                  </div>
+                  <div className="rounded-2xl border border-white/10 bg-white/5 p-6 text-center">
+                    <PrivacyTipIcon sx={{ fontSize: 28, color: "#22b573" }} />
+                    <p className="mt-4 text-base font-bold text-white">Your Data, Your Control</p>
+                    <p className="mt-2 text-sm sm:text-base leading-relaxed text-slate-300">
+                      You remain in control of your financial information and assessment journey.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="mt-10 text-center">
+                  <Link
+                    to="/features"
+                    className="inline-flex items-center gap-2 text-sm sm:text-base font-semibold text-brand-green-400 transition-colors duration-200 hover:text-brand-green-300"
+                  >
+                    Learn More About Security
+                    <ArrowForwardIcon sx={{ fontSize: 16 }} />
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
         </section>
 
-        {/* ─── FINAL CTA ─── */}
-        <section className="relative overflow-hidden bg-navy-950 py-24">
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-navy-900 via-navy-950 to-navy-900" />
-          <div className="pointer-events-none absolute -left-32 top-0 h-96 w-96 rounded-full bg-brand-green-500/10 blur-3xl" />
-          <div className="pointer-events-none absolute -right-32 bottom-0 h-96 w-96 rounded-full bg-sky-500/10 blur-3xl" />
-
+        {/* ─── FINAL CTA ─── (SECTION 8: WHITE) */}
+        <section className="relative overflow-hidden bg-white py-24 text-navy-950 border-t border-navy-950/10">
           <div className="relative mx-auto max-w-7xl px-6 text-center lg:px-10">
-            <h2 className="text-3xl sm:text-4xl lg:text-[40px] font-extrabold text-white">
+            <h2 className="text-3xl sm:text-4xl lg:text-[40px] font-extrabold text-navy-950">
               Ready to Understand Your{" "}
-              <span className="text-brand-green-400">Financial Future?</span>
+              <span className="text-brand-green-600">Financial Future?</span>
             </h2>
-            <p className="mx-auto mt-5 max-w-xl text-base sm:text-lg leading-relaxed text-white/75">
+            <p className="mx-auto mt-5 max-w-xl text-base sm:text-lg leading-relaxed text-navy-900/75">
               Take the first step toward financial clarity. Complete your SmartFin Compass assessment and discover where you stand — and what you can do next.
             </p>
 
             <div className="mt-10 flex flex-wrap items-center justify-center gap-5">
               <Link
                 to="/login"
-                className="group/btn inline-flex items-center gap-2.5 rounded-lg bg-brand-green-500 px-10 py-4 text-sm sm:text-base font-semibold text-white shadow-soft transition-all duration-250 hover:bg-brand-green-600 hover:shadow-md hover:-translate-y-0.5 active:scale-[0.98]"
+                className="group/btn btn-hover-effect inline-flex items-center gap-2.5 rounded-lg bg-brand-green-500 px-10 py-4 text-sm sm:text-base font-semibold text-white shadow-lg shadow-brand-green-500/25 transition-all duration-250 hover:bg-brand-green-600"
               >
                 Start Your Assessment
-                <ArrowForwardIcon fontSize="small" className="transition-transform duration-250 group-hover/btn:translate-x-0.5" />
+                <ArrowForwardIcon fontSize="small" className="transition-transform duration-250 group-hover/btn:translate-x-1" />
               </Link>
               <Link
                 to="/features"
-                className="group/btn inline-flex items-center gap-2.5 rounded-lg border border-white/20 px-10 py-4 text-sm sm:text-base font-semibold text-white transition-all duration-250 hover:border-white/40 hover:text-brand-green-400 active:scale-[0.98]"
+                className="group/btn btn-hover-effect inline-flex items-center gap-2.5 rounded-lg border border-navy-950/20 px-10 py-4 text-sm sm:text-base font-semibold text-navy-950 transition-all duration-250 hover:border-brand-green-500 hover:text-brand-green-600"
               >
                 Explore SmartFin Compass
               </Link>
             </div>
 
-            <p className="mt-6 text-sm text-white/60">
+            <p className="mt-6 text-sm font-medium text-navy-900/60">
               20–25 minutes &bull; Guided assessment &bull; Personalized financial insights
             </p>
           </div>
@@ -670,12 +673,21 @@ export default function HowItWorks() {
                 <ul className="mt-5 space-y-3">
                   {col.links.map((l) => (
                     <li key={l.label}>
-                      <a
-                        href={l.href}
-                        className="text-sm sm:text-base transition-colors duration-200 hover:text-brand-green-400"
-                      >
-                        {l.label}
-                      </a>
+                      {l.href.startsWith("/") ? (
+                        <Link
+                          to={l.href}
+                          className="text-sm sm:text-base transition-colors duration-200 hover:text-brand-green-400"
+                        >
+                          {l.label}
+                        </Link>
+                      ) : (
+                        <a
+                          href={l.href}
+                          className="text-sm sm:text-base transition-colors duration-200 hover:text-brand-green-400"
+                        >
+                          {l.label}
+                        </a>
+                      )}
                     </li>
                   ))}
                 </ul>

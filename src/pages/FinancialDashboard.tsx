@@ -29,9 +29,8 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 
 const NAV_LINKS = [
   { label: "Home", href: "/" },
-  { label: "Features", href: "/#features" },
+  { label: "Features", href: "/features" },
   { label: "How It Works", href: "/how-it-works" },
-  { label: "Pricing", href: "/pricing" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
 ];
@@ -41,9 +40,8 @@ const FOOTER_COLUMNS = [
     title: "Quick Links",
     links: [
       { label: "Home", href: "/" },
-      { label: "Features", href: "/#features" },
+      { label: "Features", href: "/features" },
       { label: "How It Works", href: "/how-it-works" },
-      { label: "Pricing", href: "/pricing" },
       { label: "About", href: "/about" },
       { label: "Contact", href: "/contact" },
     ],
@@ -185,8 +183,8 @@ function DonutChart({
         ))}
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <span className="text-xs font-semibold text-navy-900/60">{centerLabel}</span>
-        <span className="text-sm font-bold text-navy-950">{centerValue}</span>
+        <span className="text-xs font-bold text-navy-900/80">{centerLabel}</span>
+        <span className="text-sm font-extrabold text-navy-950">{centerValue}</span>
       </div>
     </div>
   );
@@ -224,14 +222,14 @@ function FinancialOverviewChart() {
               y1={toY(v)}
               x2={chartW}
               y2={toY(v)}
-              stroke="#e5e7eb"
-              strokeWidth="0.5"
+              stroke="#cbd5e1"
+              strokeWidth="0.75"
             />
             <text
-              x={padL - 5}
+              x={padL - 6}
               y={toY(v) + 4}
               textAnchor="end"
-              className="fill-navy-900/70 font-semibold"
+              className="fill-navy-950 font-bold"
               fontSize="11"
             >
               {v === 0 ? "₹ 0" : v === 30 ? "₹ 50K" : v === 60 ? "₹ 1L" : v === 90 ? "₹ 1.5L" : "₹ 2L"}
@@ -245,7 +243,7 @@ function FinancialOverviewChart() {
             x={toX(i)}
             y={chartH - 5}
             textAnchor="middle"
-            className="fill-navy-900/70 font-semibold"
+            className="fill-navy-950 font-bold"
             fontSize="11"
           >
             {m}
@@ -402,7 +400,7 @@ export default function FinancialDashboard() {
               <h1 className="text-3xl font-extrabold text-navy-950 sm:text-4xl">
                 Financial Dashboard
               </h1>
-              <p className="mt-2 text-[15px] text-navy-900/55">
+              <p className="mt-2 text-[15px] font-medium text-slate-700">
                 {isAssessmentCompleted
                   ? "Here's an overview of your financial health and readiness."
                   : "Complete your assessment to unlock your personalized financial health score, insights, recommendations, and roadmap."}
@@ -413,11 +411,11 @@ export default function FinancialDashboard() {
                 <button
                   type="button"
                   onClick={() => setDateOpen((v) => !v)}
-                  className="flex h-10 items-center gap-2 rounded-xl border border-navy-950/10 bg-white px-4 text-sm font-medium text-navy-950 transition-all hover:border-navy-950/20"
+                  className="flex h-10 items-center gap-2 rounded-xl border border-navy-950/15 bg-white px-4 text-sm font-bold text-navy-950 transition-all hover:border-brand-green-500 hover:text-brand-green-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green-500 cursor-pointer"
                 >
-                  <CalendarTodayIcon sx={{ fontSize: 16 }} className="text-navy-900/50" />
+                  <CalendarTodayIcon sx={{ fontSize: 16 }} className="text-navy-900/60" />
                   May 08, 2025
-                  <KeyboardArrowDownIcon sx={{ fontSize: 16 }} className="text-navy-900/40" />
+                  <KeyboardArrowDownIcon sx={{ fontSize: 16 }} className="text-navy-900/60" />
                 </button>
               </div>
             )}
@@ -426,11 +424,11 @@ export default function FinancialDashboard() {
                 <button
                   type="button"
                   onClick={() => setDateOpen((v) => !v)}
-                  className="flex h-10 items-center gap-2 rounded-xl border border-navy-950/10 bg-white px-4 text-sm font-medium text-navy-950 transition-all hover:border-navy-950/20"
+                  className="flex h-10 items-center gap-2 rounded-xl border border-navy-950/15 bg-white px-4 text-sm font-bold text-navy-950 transition-all hover:border-brand-green-500 hover:text-brand-green-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green-500 cursor-pointer"
                 >
-                  <CalendarTodayIcon sx={{ fontSize: 16 }} className="text-navy-900/50" />
+                  <CalendarTodayIcon sx={{ fontSize: 16 }} className="text-navy-900/60" />
                   May 08, 2025
-                  <KeyboardArrowDownIcon sx={{ fontSize: 16 }} className="text-navy-900/40" />
+                  <KeyboardArrowDownIcon sx={{ fontSize: 16 }} className="text-navy-900/60" />
                 </button>
                 {dateOpen && (
                   <div className="absolute right-0 top-12 z-10 w-48 rounded-xl border border-navy-950/10 bg-white py-2 shadow-lg">
@@ -439,7 +437,7 @@ export default function FinancialDashboard() {
                         key={d}
                         type="button"
                         onClick={() => setDateOpen(false)}
-                        className="w-full px-4 py-2 text-left text-sm text-navy-950 hover:bg-brand-green-50"
+                        className="w-full px-4 py-2 text-left text-sm font-semibold text-navy-950 hover:bg-brand-green-50 hover:text-brand-green-700 transition-colors cursor-pointer"
                       >
                         {d}
                       </button>
@@ -464,13 +462,13 @@ export default function FinancialDashboard() {
                 <h2 className="mt-6 text-2xl font-extrabold text-navy-950">
                   Start Your Financial Assessment
                 </h2>
-                <p className="mt-3 text-[15px] leading-relaxed text-navy-900/55">
+                <p className="mt-3 text-[15px] font-medium leading-relaxed text-slate-700">
                   Complete your assessment to unlock your personalized financial health
                   score, insights, recommendations, and roadmap.
                 </p>
                 <button
                   onClick={() => navigate("/personal-information")}
-                  className="mt-8 inline-flex items-center gap-2.5 rounded-xl bg-brand-green-500 px-10 py-4 text-lg font-semibold text-white shadow-soft transition-all duration-250 hover:bg-brand-green-600 hover:shadow-md hover:-translate-y-0.5 active:scale-[0.98]"
+                  className="mt-8 inline-flex items-center gap-2.5 rounded-xl bg-brand-green-500 px-10 py-4 text-lg font-bold text-white shadow-soft transition-all duration-250 hover:bg-brand-green-600 hover:shadow-md hover:-translate-y-0.5 active:scale-[0.98] cursor-pointer"
                 >
                   Start Assessment
                   <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -488,74 +486,74 @@ export default function FinancialDashboard() {
             {/* ─── Metric Cards (Row 1) ─── */}
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {/* Card 1: Financial Health Score */}
-          <div className="rounded-2xl border border-navy-950/5 bg-white p-6 shadow-[0_2px_12px_rgba(13,37,73,0.04)]">
+          <div className="card-hover-effect rounded-2xl border border-navy-950/5 bg-white p-6 shadow-[0_2px_12px_rgba(13,37,73,0.04)]">
             <div className="mb-4 flex items-center justify-between">
               <p className="text-sm font-bold text-navy-950">Financial Health Score</p>
-              <InfoOutlinedIcon sx={{ fontSize: 16 }} className="text-navy-900/30" />
+              <InfoOutlinedIcon sx={{ fontSize: 16 }} className="text-navy-900/50 hover:text-navy-950 transition-colors cursor-pointer" />
             </div>
             <div className="flex flex-col items-center">
               <div className="relative">
                 <GaugeChart value={78} max={100} color="#22b573" bgColor="#eef1f6" />
                 <div className="absolute inset-0 flex flex-col items-center justify-center">
                   <span className="text-2xl font-extrabold text-navy-950">78</span>
-                  <span className="text-xs text-navy-900/45">/ 100</span>
+                  <span className="text-xs font-bold text-navy-900/70">/ 100</span>
                 </div>
               </div>
               <div className="mt-2 flex items-center gap-1">
                 <TrendingUpIcon sx={{ fontSize: 14 }} className="text-brand-green-500" />
-                <span className="text-sm font-semibold text-brand-green-600">Good</span>
+                <span className="text-sm font-bold text-brand-green-600">Good</span>
               </div>
             </div>
           </div>
 
           {/* Card 2: Investment Readiness */}
-          <div className="rounded-2xl border border-navy-950/5 bg-white p-6 shadow-[0_2px_12px_rgba(13,37,73,0.04)]">
+          <div className="card-hover-effect rounded-2xl border border-navy-950/5 bg-white p-6 shadow-[0_2px_12px_rgba(13,37,73,0.04)]">
             <div className="mb-4 flex items-center justify-between">
               <p className="text-sm font-bold text-navy-950">Investment Readiness</p>
-              <InfoOutlinedIcon sx={{ fontSize: 16 }} className="text-navy-900/30" />
+              <InfoOutlinedIcon sx={{ fontSize: 16 }} className="text-navy-900/50 hover:text-navy-950 transition-colors cursor-pointer" />
             </div>
             <div className="flex flex-col items-center">
               <div className="relative">
                 <GaugeChart value={72} max={100} color="#8b5cf6" bgColor="#eef1f6" />
                 <div className="absolute inset-0 flex flex-col items-center justify-center">
                   <span className="text-2xl font-extrabold text-navy-950">72</span>
-                  <span className="text-xs text-navy-900/45">/ 100</span>
+                  <span className="text-xs font-bold text-navy-900/70">/ 100</span>
                 </div>
               </div>
               <div className="mt-2 flex items-center gap-1">
                 <TrendingUpIcon sx={{ fontSize: 14 }} className="text-purple-500" />
-                <span className="text-sm font-semibold text-purple-600">Moderate</span>
+                <span className="text-sm font-bold text-purple-600">Moderate</span>
               </div>
             </div>
           </div>
 
           {/* Card 3: Emergency Fund */}
-          <div className="rounded-2xl border border-navy-950/5 bg-white p-6 shadow-[0_2px_12px_rgba(13,37,73,0.04)]">
+          <div className="card-hover-effect rounded-2xl border border-navy-950/5 bg-white p-6 shadow-[0_2px_12px_rgba(13,37,73,0.04)]">
             <div className="mb-4 flex items-center justify-between">
               <p className="text-sm font-bold text-navy-950">Emergency Fund</p>
-              <InfoOutlinedIcon sx={{ fontSize: 16 }} className="text-navy-900/30" />
+              <InfoOutlinedIcon sx={{ fontSize: 16 }} className="text-navy-900/50 hover:text-navy-950 transition-colors cursor-pointer" />
             </div>
             <div className="flex flex-col items-center">
               <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-brand-green-50">
                 <ShieldIcon sx={{ fontSize: 28 }} className="text-brand-green-500" />
               </span>
               <p className="mt-3 text-xl font-extrabold text-navy-950">₹ 1,25,000</p>
-              <p className="mt-1 text-xs text-brand-green-600">3.4 Months Covered</p>
+              <p className="mt-1 text-xs font-bold text-brand-green-700">3.4 Months Covered</p>
             </div>
           </div>
 
           {/* Card 4: Net Worth */}
-          <div className="rounded-2xl border border-navy-950/5 bg-white p-6 shadow-[0_2px_12px_rgba(13,37,73,0.04)]">
+          <div className="card-hover-effect rounded-2xl border border-navy-950/5 bg-white p-6 shadow-[0_2px_12px_rgba(13,37,73,0.04)]">
             <div className="mb-4 flex items-center justify-between">
               <p className="text-sm font-bold text-navy-950">Net Worth</p>
-              <InfoOutlinedIcon sx={{ fontSize: 16 }} className="text-navy-900/30" />
+              <InfoOutlinedIcon sx={{ fontSize: 16 }} className="text-navy-900/50 hover:text-navy-950 transition-colors cursor-pointer" />
             </div>
             <div className="flex flex-col items-center">
               <MiniLineChart color="#3b82f6" />
               <p className="mt-2 text-xl font-extrabold text-navy-950">₹ 28,75,000</p>
               <div className="mt-1 flex items-center gap-1">
                 <TrendingUpIcon sx={{ fontSize: 14 }} className="text-brand-green-500" />
-                <span className="text-xs text-brand-green-600">12.6% vs last month</span>
+                <span className="text-xs font-bold text-brand-green-700">12.6% vs last month</span>
               </div>
             </div>
           </div>
@@ -564,10 +562,10 @@ export default function FinancialDashboard() {
         {/* ─── Metric Cards (Row 2) ─── */}
         <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {/* Card 5: Debt Ratio */}
-          <div className="rounded-2xl border border-navy-950/5 bg-white p-6 shadow-[0_2px_12px_rgba(13,37,73,0.04)]">
+          <div className="card-hover-effect rounded-2xl border border-navy-950/5 bg-white p-6 shadow-[0_2px_12px_rgba(13,37,73,0.04)]">
             <div className="mb-4 flex items-center justify-between">
               <p className="text-sm font-bold text-navy-950">Debt Ratio</p>
-              <InfoOutlinedIcon sx={{ fontSize: 16 }} className="text-navy-900/30" />
+              <InfoOutlinedIcon sx={{ fontSize: 16 }} className="text-navy-900/50 hover:text-navy-950 transition-colors cursor-pointer" />
             </div>
             <div className="flex flex-col items-center">
               <div className="relative">
@@ -578,53 +576,53 @@ export default function FinancialDashboard() {
               </div>
               <div className="mt-2 flex items-center gap-1">
                 <TrendingUpIcon sx={{ fontSize: 14 }} className="text-brand-green-500" />
-                <span className="text-sm font-semibold text-brand-green-600">Healthy</span>
+                <span className="text-sm font-bold text-brand-green-600">Healthy</span>
               </div>
             </div>
           </div>
 
           {/* Card 6: Cash Flow */}
-          <div className="rounded-2xl border border-navy-950/5 bg-white p-6 shadow-[0_2px_12px_rgba(13,37,73,0.04)]">
+          <div className="card-hover-effect rounded-2xl border border-navy-950/5 bg-white p-6 shadow-[0_2px_12px_rgba(13,37,73,0.04)]">
             <div className="mb-4 flex items-center justify-between">
               <p className="text-sm font-bold text-navy-950">Cash Flow</p>
-              <InfoOutlinedIcon sx={{ fontSize: 16 }} className="text-navy-900/30" />
+              <InfoOutlinedIcon sx={{ fontSize: 16 }} className="text-navy-900/50 hover:text-navy-950 transition-colors cursor-pointer" />
             </div>
             <div className="flex flex-col items-center">
               <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-amber-50">
                 <PaidIcon sx={{ fontSize: 28 }} className="text-amber-500" />
               </span>
               <p className="mt-3 text-xl font-extrabold text-navy-950">₹ 45,000</p>
-              <p className="mt-1 text-xs text-navy-900/55">Surplus / Month</p>
+              <p className="mt-1 text-xs font-semibold text-slate-700">Surplus / Month</p>
             </div>
           </div>
 
           {/* Card 7: Insurance Gap */}
-          <div className="rounded-2xl border border-red-200/60 bg-red-50/30 p-6 shadow-[0_2px_12px_rgba(13,37,73,0.04)]">
+          <div className="card-hover-effect rounded-2xl border border-red-200/60 bg-red-50/30 p-6 shadow-[0_2px_12px_rgba(13,37,73,0.04)]">
             <div className="mb-4 flex items-center justify-between">
               <p className="text-sm font-bold text-navy-950">Insurance Gap</p>
-              <InfoOutlinedIcon sx={{ fontSize: 16 }} className="text-navy-900/30" />
+              <InfoOutlinedIcon sx={{ fontSize: 16 }} className="text-navy-900/50 hover:text-navy-950 transition-colors cursor-pointer" />
             </div>
             <div className="flex flex-col items-center">
               <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-red-100">
                 <SecurityIcon sx={{ fontSize: 28 }} className="text-red-500" />
               </span>
               <p className="mt-3 text-xl font-extrabold text-navy-950">₹ 12,00,000</p>
-              <p className="mt-1 text-xs font-semibold text-red-500">High Priority</p>
+              <p className="mt-1 text-xs font-bold text-red-600">High Priority</p>
             </div>
           </div>
 
           {/* Card 8: Savings Capacity */}
-          <div className="rounded-2xl border border-navy-950/5 bg-white p-6 shadow-[0_2px_12px_rgba(13,37,73,0.04)]">
+          <div className="card-hover-effect rounded-2xl border border-navy-950/5 bg-white p-6 shadow-[0_2px_12px_rgba(13,37,73,0.04)]">
             <div className="mb-4 flex items-center justify-between">
               <p className="text-sm font-bold text-navy-950">Savings Capacity</p>
-              <InfoOutlinedIcon sx={{ fontSize: 16 }} className="text-navy-900/30" />
+              <InfoOutlinedIcon sx={{ fontSize: 16 }} className="text-navy-900/50 hover:text-navy-950 transition-colors cursor-pointer" />
             </div>
             <div className="flex flex-col items-center">
               <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-pink-50">
                 <SavingsIcon sx={{ fontSize: 28 }} className="text-pink-500" />
               </span>
               <p className="mt-3 text-xl font-extrabold text-navy-950">₹ 22,000</p>
-              <p className="mt-1 text-xs text-navy-900/55">24% of Income</p>
+              <p className="mt-1 text-xs font-semibold text-slate-700">24% of Income</p>
             </div>
           </div>
         </div>
@@ -641,10 +639,10 @@ export default function FinancialDashboard() {
                     key={f}
                     type="button"
                     onClick={() => setTimeFilter(f)}
-                    className={`rounded-lg px-3 py-1.5 text-xs font-semibold transition-all ${
+                    className={`rounded-lg px-3 py-1.5 text-xs font-bold transition-all cursor-pointer ${
                       timeFilter === f
-                        ? "bg-brand-green-500 text-white"
-                        : "bg-navy-950/5 text-navy-900/55 hover:bg-navy-950/10"
+                        ? "bg-brand-green-500 text-white shadow-sm"
+                        : "bg-slate-100 text-navy-950 hover:bg-slate-200"
                     }`}
                   >
                     {f}
@@ -655,15 +653,15 @@ export default function FinancialDashboard() {
             <div className="mb-3 flex items-center gap-5">
               <div className="flex items-center gap-1.5">
                 <span className="h-2.5 w-2.5 rounded-full bg-brand-green-500" />
-                <span className="text-xs text-navy-900/55">Income</span>
+                <span className="text-xs font-bold text-navy-950">Income</span>
               </div>
               <div className="flex items-center gap-1.5">
                 <span className="h-2.5 w-2.5 rounded-full bg-red-500" />
-                <span className="text-xs text-navy-900/55">Expenses</span>
+                <span className="text-xs font-bold text-navy-950">Expenses</span>
               </div>
               <div className="flex items-center gap-1.5">
                 <span className="h-2.5 w-2.5 rounded-full bg-blue-500" />
-                <span className="text-xs text-navy-900/55">Savings</span>
+                <span className="text-xs font-bold text-navy-950">Savings</span>
               </div>
             </div>
             <FinancialOverviewChart />
@@ -695,9 +693,9 @@ export default function FinancialDashboard() {
                   <div key={item.label} className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <span className={`h-2.5 w-2.5 rounded-full ${item.color}`} />
-                      <span className="text-xs text-navy-900/60">{item.label}</span>
+                      <span className="text-xs font-semibold text-navy-950">{item.label}</span>
                     </div>
-                    <span className="text-xs font-semibold text-navy-950">{item.pct}</span>
+                    <span className="text-xs sm:text-sm font-extrabold text-navy-950">{item.pct}</span>
                   </div>
                 ))}
               </div>
@@ -714,7 +712,7 @@ export default function FinancialDashboard() {
                 <AutoAwesomeIcon sx={{ fontSize: 18 }} className="text-brand-green-500" />
                 <p className="text-base font-bold text-navy-950">AI Insights</p>
               </div>
-              <button type="button" className="text-xs font-semibold text-brand-green-600 hover:text-brand-green-700">
+              <button type="button" className="text-xs font-bold text-brand-green-600 transition-colors hover:text-brand-green-700 hover:underline cursor-pointer">
                 View All Insights →
               </button>
             </div>
@@ -738,16 +736,16 @@ export default function FinancialDashboard() {
               ].map((insight, i) => (
                 <div
                   key={i}
-                  className={`flex items-start gap-3 ${
-                    i < 2 ? "border-b border-navy-950/5 pb-4" : ""
+                  className={`group flex items-start gap-3 rounded-xl p-1.5 transition-colors hover:bg-slate-50 ${
+                    i < 2 ? "border-b border-slate-100 pb-4" : ""
                   }`}
                 >
                   <span
-                    className={`mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl ${insight.iconColor}`}
+                    className={`mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl transition-transform group-hover:scale-105 ${insight.iconColor}`}
                   >
                     {insight.icon}
                   </span>
-                  <p className="text-sm leading-relaxed text-navy-900/60">
+                  <p className="text-sm sm:text-[15px] font-medium leading-relaxed text-navy-950">
                     {insight.text}
                   </p>
                 </div>
@@ -759,7 +757,7 @@ export default function FinancialDashboard() {
           <div className="rounded-2xl border border-navy-950/5 bg-white p-6 shadow-[0_2px_12px_rgba(13,37,73,0.04)]">
             <div className="mb-5 flex items-center justify-between">
               <p className="text-base font-bold text-navy-950">Recommended Actions</p>
-              <button type="button" className="text-xs font-semibold text-brand-green-600 hover:text-brand-green-700">
+              <button type="button" className="text-xs font-bold text-brand-green-600 transition-colors hover:text-brand-green-700 hover:underline cursor-pointer">
                 View All →
               </button>
             </div>
@@ -796,22 +794,22 @@ export default function FinancialDashboard() {
               ].map((action, i) => (
                 <div
                   key={i}
-                  className={`flex items-start gap-3 ${
-                    i < 3 ? "border-b border-navy-950/5 pb-4" : ""
+                  className={`group flex items-start gap-3 rounded-xl p-1.5 transition-colors hover:bg-slate-50 ${
+                    i < 3 ? "border-b border-slate-100 pb-4" : ""
                   }`}
                 >
                   <span
-                    className={`mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl ${action.iconColor}`}
+                    className={`mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl transition-transform group-hover:scale-105 ${action.iconColor}`}
                   >
                     {action.icon}
                   </span>
                   <div className="min-w-0 flex-1">
                     <p className="text-sm font-bold text-navy-950">{action.title}</p>
-                    <p className="mt-0.5 text-xs text-navy-900/55">{action.desc}</p>
+                    <p className="mt-0.5 text-xs sm:text-sm font-medium leading-relaxed text-slate-700">{action.desc}</p>
                   </div>
                   <button
                     type="button"
-                    className="shrink-0 rounded-lg border border-brand-green-500 bg-white px-3 py-1.5 text-xs font-semibold text-brand-green-600 transition-all hover:bg-brand-green-50"
+                    className="shrink-0 rounded-lg border-2 border-brand-green-500 bg-white px-3.5 py-1.5 text-xs font-bold text-brand-green-700 transition-all duration-200 hover:bg-brand-green-500 hover:text-white hover:shadow-sm active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green-500 cursor-pointer"
                   >
                     {action.btn}
                   </button>
@@ -825,7 +823,7 @@ export default function FinancialDashboard() {
         <div className="mt-6 rounded-2xl border border-navy-950/5 bg-white p-6 shadow-[0_2px_12px_rgba(13,37,73,0.04)]">
           <div className="mb-5 flex items-center justify-between">
             <p className="text-base font-bold text-navy-950">Financial Summary</p>
-            <button type="button" onClick={() => navigate("/ai-financial-report")} className="text-xs font-semibold text-brand-green-600 hover:text-brand-green-700">
+            <button type="button" onClick={() => navigate("/ai-financial-report")} className="text-xs sm:text-sm font-bold text-brand-green-600 transition-colors hover:text-brand-green-700 hover:underline cursor-pointer">
               View Full Report →
             </button>
           </div>
@@ -833,14 +831,14 @@ export default function FinancialDashboard() {
             <div className="flex-1 space-y-3">
               {[
                 { label: "Total Income", value: "₹ 1,85,000 / month", color: "text-navy-950" },
-                { label: "Total Expenses", value: "₹ 1,40,000 / month", color: "text-red-500" },
-                { label: "Total Savings", value: "₹ 45,000 / month", color: "text-brand-green-600" },
-                { label: "Total Assets", value: "₹ 28,75,000", color: "text-navy-950" },
-                { label: "Total Liabilities", value: "₹ 9,20,000", color: "text-navy-950" },
+                { label: "Total Expenses", value: "₹ 1,40,000 / month", color: "text-red-600 font-extrabold" },
+                { label: "Total Savings", value: "₹ 45,000 / month", color: "text-brand-green-700 font-extrabold" },
+                { label: "Total Assets", value: "₹ 28,75,000", color: "text-navy-950 font-extrabold" },
+                { label: "Total Liabilities", value: "₹ 9,20,000", color: "text-navy-950 font-extrabold" },
               ].map((row) => (
-                <div key={row.label} className="flex items-center justify-between">
-                  <span className="text-sm text-navy-900/60">{row.label}</span>
-                  <span className={`text-sm font-semibold ${row.color}`}>{row.value}</span>
+                <div key={row.label} className="flex items-center justify-between border-b border-slate-100 pb-2.5 last:border-0 last:pb-0">
+                  <span className="text-sm sm:text-base font-bold text-navy-950">{row.label}</span>
+                  <span className={`text-sm sm:text-base font-bold ${row.color}`}>{row.value}</span>
                 </div>
               ))}
             </div>
@@ -856,13 +854,13 @@ export default function FinancialDashboard() {
               <div className="space-y-3">
                 <div className="flex items-center gap-2">
                   <span className="h-2.5 w-2.5 rounded-full bg-brand-green-500" />
-                  <span className="text-xs text-navy-900/60">Assets</span>
-                  <span className="text-xs font-semibold text-navy-950">75.7%</span>
+                  <span className="text-xs sm:text-sm font-bold text-navy-950">Assets</span>
+                  <span className="text-xs sm:text-sm font-extrabold text-brand-green-700">75.7%</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="h-2.5 w-2.5 rounded-full bg-red-500" />
-                  <span className="text-xs text-navy-900/60">Liabilities</span>
-                  <span className="text-xs font-semibold text-navy-950">24.3%</span>
+                  <span className="text-xs sm:text-sm font-bold text-navy-950">Liabilities</span>
+                  <span className="text-xs sm:text-sm font-extrabold text-red-600">24.3%</span>
                 </div>
               </div>
             </div>

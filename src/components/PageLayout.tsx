@@ -14,9 +14,8 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 
 const NAV_LINKS = [
   { label: "Home", href: "/" },
-  { label: "Features", href: "/#features" },
+  { label: "Features", href: "/features" },
   { label: "How It Works", href: "/how-it-works" },
-  { label: "Pricing", href: "/pricing" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
 ];
@@ -26,9 +25,8 @@ const FOOTER_COLUMNS = [
     title: "Quick Links",
     links: [
       { label: "Home", href: "/" },
-      { label: "Features", href: "/#features" },
+      { label: "Features", href: "/features" },
       { label: "How It Works", href: "/how-it-works" },
-      { label: "Pricing", href: "/pricing" },
       { label: "About", href: "/about" },
       { label: "Contact", href: "/contact" },
     ],
@@ -100,13 +98,13 @@ export default function PageLayout({
           <div className="hidden items-center gap-3 lg:flex">
             <Link
               to="/login"
-              className="rounded-lg border border-navy-950/15 px-5 py-2 text-sm sm:text-base font-semibold text-navy-950 transition-colors hover:border-navy-950/30"
+              className="btn-hover-effect cursor-pointer rounded-lg border border-navy-950/15 px-5 py-2 text-sm sm:text-base font-semibold text-navy-950 transition-all hover:border-brand-green-500 hover:text-brand-green-600 focus:outline-none focus:ring-2 focus:ring-brand-green-500/20 active:scale-[0.98]"
             >
               Login
             </Link>
             <Link
               to="/create-account"
-              className="rounded-lg bg-brand-green-500 px-5 py-2 text-sm sm:text-base font-semibold text-white shadow-soft transition-colors hover:bg-brand-green-600"
+              className="btn-hover-effect cursor-pointer rounded-lg bg-brand-green-500 px-5 py-2 text-sm sm:text-base font-semibold text-white shadow-soft transition-all hover:bg-brand-green-600 focus:outline-none focus:ring-2 focus:ring-brand-green-500/20 active:scale-[0.98]"
             >
               Get Started
             </Link>
@@ -240,12 +238,21 @@ export default function PageLayout({
                 <ul className="mt-4 space-y-2.5">
                   {col.links.map((l) => (
                     <li key={l.label}>
-                      <a
-                        href={l.href}
-                        className="text-sm sm:text-base hover:text-brand-green-400"
-                      >
-                        {l.label}
-                      </a>
+                      {l.href.startsWith("/") ? (
+                        <Link
+                          to={l.href}
+                          className="text-sm sm:text-base hover:text-brand-green-400"
+                        >
+                          {l.label}
+                        </Link>
+                      ) : (
+                        <a
+                          href={l.href}
+                          className="text-sm sm:text-base hover:text-brand-green-400"
+                        >
+                          {l.label}
+                        </a>
+                      )}
                     </li>
                   ))}
                 </ul>

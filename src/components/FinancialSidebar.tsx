@@ -40,10 +40,10 @@ export default function FinancialSidebar() {
               <Link
                 key={item.label}
                 to={item.href}
-                className={`flex items-center gap-3 rounded-xl px-4 py-3 text-sm sm:text-base transition-all ${
+                className={`flex items-center gap-3 rounded-xl px-4 py-3 text-sm sm:text-base cursor-pointer transition-all duration-200 ${
                   isActive
-                    ? "bg-brand-green-50 font-semibold text-brand-green-700"
-                    : "font-medium text-navy-900/60 hover:bg-slate-100 hover:text-navy-950"
+                    ? "bg-brand-green-50 font-semibold text-brand-green-700 shadow-2xs"
+                    : "font-medium text-navy-900/60 hover:bg-brand-green-50/70 hover:text-brand-green-700 hover:translate-x-1.5 active:scale-[0.98]"
                 }`}
               >
                 {item.icon}

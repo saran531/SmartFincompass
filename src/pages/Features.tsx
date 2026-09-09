@@ -30,7 +30,6 @@ const NAV_LINKS = [
   { label: "Home", href: "/" },
   { label: "Features", href: "/features" },
   { label: "How It Works", href: "/how-it-works" },
-  { label: "Pricing", href: "/pricing" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
 ];
@@ -164,7 +163,6 @@ const FOOTER_COLUMNS = [
       { label: "Home", href: "/" },
       { label: "Features", href: "/features" },
       { label: "How It Works", href: "/how-it-works" },
-      { label: "Pricing", href: "/pricing" },
       { label: "About", href: "/about" },
       { label: "Contact", href: "/contact" },
     ],
@@ -286,34 +284,35 @@ export default function Features() {
 
       <main>
         {/* ─── HERO ─── */}
-        <section className="relative overflow-hidden bg-white">
-          <div className="pointer-events-none absolute inset-x-0 top-0 h-[700px] bg-gradient-to-br from-brand-green-50 via-white to-sky-50" />
+        <section className="relative overflow-hidden bg-navy-950 text-white">
+          <div className="pointer-events-none absolute inset-x-0 top-0 h-[700px] bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-brand-green-500/15 via-navy-900/50 to-transparent" />
+          <div className="pointer-events-none absolute -top-40 -right-40 h-96 w-96 rounded-full bg-brand-green-500/10 blur-3xl animate-pulse-glow" />
 
           <div className="relative mx-auto grid max-w-7xl gap-12 px-6 py-16 sm:py-20 lg:grid-cols-2 lg:items-center lg:gap-16 lg:px-10 lg:py-28">
             {/* ── LEFT: Hero Text Content ── */}
-            <div>
-              <p className="text-xs sm:text-sm font-bold uppercase tracking-wider text-brand-green-600">
+            <div className="animate-fade-in-up">
+              <p className="text-xs sm:text-sm font-bold uppercase tracking-wider text-brand-green-400">
                 Features
               </p>
-              <h1 className="mt-4 text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.1] text-navy-950">
+              <h1 className="mt-4 text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.1] text-white">
                 Everything You Need for{" "}
-                <span className="text-brand-green-600">Financial Wellness</span>
+                <span className="text-brand-green-400">Financial Wellness</span>
               </h1>
-              <p className="mt-7 max-w-xl text-base sm:text-lg leading-relaxed text-navy-900/70">
+              <p className="mt-7 max-w-xl text-base sm:text-lg leading-relaxed text-slate-300">
                 SmartFin Compass combines AI-powered financial analysis, personalized insights, and intelligent recommendations to help you understand your finances and make smarter decisions.
               </p>
 
               <div className="mt-10 flex flex-wrap items-center gap-5">
                 <Link
                   to="/login"
-                  className="group/btn inline-flex items-center gap-2.5 rounded-lg bg-brand-green-500 px-7 py-3.5 text-sm sm:text-base font-semibold text-white shadow-soft transition-all duration-250 hover:bg-brand-green-600 hover:shadow-md hover:-translate-y-0.5 active:scale-[0.98] active:shadow-sm active:translate-y-0"
+                  className="group/btn btn-hover-effect inline-flex items-center gap-2.5 rounded-lg bg-brand-green-500 px-7 py-3.5 text-sm sm:text-base font-semibold text-white shadow-lg shadow-brand-green-500/25 transition-all duration-250 hover:bg-brand-green-400"
                 >
                   Start Assessment
-                  <ArrowForwardIcon fontSize="small" className="transition-transform duration-250 group-hover/btn:translate-x-0.5" />
+                  <ArrowForwardIcon fontSize="small" className="transition-transform duration-250 group-hover/btn:translate-x-1" />
                 </Link>
                 <a
                   href="/how-it-works"
-                  className="group/btn inline-flex items-center gap-2.5 rounded-lg border border-navy-950/15 px-7 py-3.5 text-sm sm:text-base font-semibold text-navy-950 transition-all duration-250 hover:border-brand-green-500 hover:text-brand-green-600 active:scale-[0.98]"
+                  className="group/btn btn-hover-effect inline-flex items-center gap-2.5 rounded-lg border border-white/20 bg-white/5 px-7 py-3.5 text-sm sm:text-base font-semibold text-white transition-all duration-250 hover:border-white/40 hover:bg-white/10"
                 >
                   Explore How It Works
                 </a>
@@ -321,96 +320,100 @@ export default function Features() {
             </div>
 
             {/* ── RIGHT: Hero Image ── */}
-            <div className="flex items-center justify-center">
-              <img
-                src={featuresHeroImage}
-                alt="SmartFin Compass Features - Financial Wellness"
-                className="w-full max-w-[620px] h-auto object-contain"
-              />
+            <div className="flex items-center justify-center animate-fade-in-up delay-200">
+              <div className="relative rounded-3xl border border-white/10 bg-navy-900/60 p-4 shadow-2xl backdrop-blur-md">
+                <img
+                  src={featuresHeroImage}
+                  alt="SmartFin Compass Features - Financial Wellness"
+                  className="w-full max-w-[620px] h-auto object-contain rounded-2xl animate-float"
+                />
+              </div>
             </div>
           </div>
         </section>
 
-        {/* ─── MAIN FEATURES ─── */}
-        <section className="mx-auto max-w-7xl px-6 py-24 lg:px-10">
-          <div className="mx-auto max-w-2xl text-center">
-            <p className="text-xs sm:text-sm font-bold uppercase tracking-wider text-brand-green-600">
-              Powerful Features
-            </p>
-            <h2 className="mt-4 text-3xl sm:text-4xl lg:text-[40px] font-extrabold text-navy-950">
-              Powerful Features. Smarter Financial Decisions.
-            </h2>
-            <p className="mt-5 text-base sm:text-lg leading-relaxed text-navy-900/70">
-              From understanding your current financial position to planning your future, SmartFin Compass gives you the intelligence and guidance you need at every step.
-            </p>
-          </div>
-
-          <div className="mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {FEATURES.map((f) => (
-              <div
-                key={f.title}
-                className="group rounded-2xl border border-navy-950/5 bg-white p-7 shadow-soft transition-all duration-300 hover:-translate-y-1 hover:shadow-card hover:border-brand-green-100"
-              >
-                <span className={`mb-5 inline-flex h-14 w-14 items-center justify-center rounded-2xl transition-transform duration-300 group-hover:scale-110 ${f.color}`}>
-                  <f.icon sx={{ fontSize: 28 }} />
-                </span>
-                <h3 className="text-base sm:text-lg font-bold text-navy-950 group-hover:text-brand-green-600 transition-colors duration-300">
-                  {f.title}
-                </h3>
-                <p className="mt-2.5 text-sm sm:text-base leading-relaxed text-navy-900/70">
-                  {f.desc}
-                </p>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* ─── FEATURE DEEP-DIVE ─── */}
-        <section className="bg-slate-50/60 py-24">
+        {/* ─── MAIN FEATURES ─── (SECTION 2: WHITE) */}
+        <section className="bg-white py-24 text-navy-950">
           <div className="mx-auto max-w-7xl px-6 lg:px-10">
             <div className="mx-auto max-w-2xl text-center">
               <p className="text-xs sm:text-sm font-bold uppercase tracking-wider text-brand-green-600">
-                Complete Picture
+                Powerful Features
               </p>
               <h2 className="mt-4 text-3xl sm:text-4xl lg:text-[40px] font-extrabold text-navy-950">
-                See Your Complete Financial Picture
+                Powerful Features. Smarter Financial Decisions.
               </h2>
               <p className="mt-5 text-base sm:text-lg leading-relaxed text-navy-900/70">
+                From understanding your current financial position to planning your future, SmartFin Compass gives you the intelligence and guidance you need at every step.
+              </p>
+            </div>
+
+            <div className="mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+              {FEATURES.map((f) => (
+                <div
+                  key={f.title}
+                  className="group card-hover-effect rounded-2xl border border-navy-950/10 bg-white p-7 shadow-soft transition-all duration-300 hover:border-brand-green-100"
+                >
+                  <span className={`mb-5 inline-flex h-14 w-14 items-center justify-center rounded-2xl transition-transform duration-300 group-hover:scale-110 ${f.color}`}>
+                    <f.icon sx={{ fontSize: 28 }} />
+                  </span>
+                  <h3 className="text-base sm:text-lg font-bold text-navy-950 group-hover:text-brand-green-600 transition-colors duration-300">
+                    {f.title}
+                  </h3>
+                  <p className="mt-2.5 text-sm sm:text-base leading-relaxed text-navy-900/70">
+                    {f.desc}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ─── FEATURE DEEP-DIVE ─── (SECTION 3: DARK BLUE) */}
+        <section className="bg-navy-950 py-24 text-white border-y border-white/10">
+          <div className="mx-auto max-w-7xl px-6 lg:px-10">
+            <div className="mx-auto max-w-2xl text-center">
+              <p className="text-xs sm:text-sm font-bold uppercase tracking-wider text-brand-green-400">
+                Complete Picture
+              </p>
+              <h2 className="mt-4 text-3xl sm:text-4xl lg:text-[40px] font-extrabold text-white">
+                See Your Complete Financial Picture
+              </h2>
+              <p className="mt-5 text-base sm:text-lg leading-relaxed text-slate-300">
                 SmartFin Compass brings your financial information together so you can understand the bigger picture—not just individual numbers.
               </p>
             </div>
 
             <div className="mt-14 grid grid-cols-1 gap-8 lg:grid-cols-3">
               {/* Financial Overview */}
-              <div className="rounded-2xl border border-navy-950/5 bg-white p-8 shadow-soft">
+              <div className="card-hover-effect rounded-2xl border border-white/10 bg-navy-900/90 p-8 shadow-xl text-white">
                 <div className="mb-6 flex items-center gap-3">
-                  <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-green-50 text-brand-green-600">
+                  <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-green-500/20 text-brand-green-400">
                     <InsightsIcon sx={{ fontSize: 20 }} />
                   </span>
-                  <h3 className="text-lg sm:text-xl font-bold text-navy-950">Financial Overview</h3>
+                  <h3 className="text-lg sm:text-xl font-bold text-white">Financial Overview</h3>
                 </div>
                 <div className="space-y-4">
                   {FINANCIAL_OVERVIEW.map((item) => (
-                    <div key={item.label} className="flex items-center justify-between border-b border-navy-950/5 pb-3 last:border-0 last:pb-0">
-                      <span className="text-sm sm:text-base font-medium text-navy-900/70">{item.label}</span>
-                      <span className={`text-sm sm:text-base font-bold ${item.color}`}>{item.value}</span>
+                    <div key={item.label} className="flex items-center justify-between border-b border-white/10 pb-3 last:border-0 last:pb-0">
+                      <span className="text-sm sm:text-base font-medium text-slate-300">{item.label}</span>
+                      <span className={`text-sm sm:text-base font-bold ${item.color === 'text-navy-950' ? 'text-white' : item.color}`}>{item.value}</span>
                     </div>
                   ))}
                 </div>
               </div>
 
               {/* Financial Readiness */}
-              <div className="rounded-2xl border border-navy-950/5 bg-white p-8 shadow-soft">
+              <div className="card-hover-effect rounded-2xl border border-white/10 bg-navy-900/90 p-8 shadow-xl text-white">
                 <div className="mb-6 flex items-center gap-3">
-                  <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-sky-50 text-sky-500">
+                  <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-sky-500/20 text-sky-400">
                     <ShieldIcon sx={{ fontSize: 20 }} />
                   </span>
-                  <h3 className="text-lg sm:text-xl font-bold text-navy-950">Financial Readiness</h3>
+                  <h3 className="text-lg sm:text-xl font-bold text-white">Financial Readiness</h3>
                 </div>
                 <div className="space-y-3">
                   {FINANCIAL_READINESS.map((item) => (
-                    <div key={item.label} className="flex items-center justify-between rounded-xl bg-slate-50/60 px-4 py-3">
-                      <span className="text-sm sm:text-base font-medium text-navy-900/70">{item.label}</span>
+                    <div key={item.label} className="flex items-center justify-between rounded-xl bg-white/5 px-4 py-3 border border-white/5">
+                      <span className="text-sm sm:text-base font-medium text-slate-300">{item.label}</span>
                       <span className={`rounded-full px-3 py-1 text-xs sm:text-sm font-semibold ${item.color}`}>
                         {item.status}
                       </span>
@@ -420,12 +423,12 @@ export default function Features() {
               </div>
 
               {/* AI Insights */}
-              <div className="rounded-2xl border border-navy-950/5 bg-white p-8 shadow-soft">
+              <div className="card-hover-effect rounded-2xl border border-white/10 bg-navy-900/90 p-8 shadow-xl text-white">
                 <div className="mb-6 flex items-center gap-3">
-                  <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-violet-50 text-violet-500">
+                  <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-violet-500/20 text-violet-400">
                     <AutoAwesomeIcon sx={{ fontSize: 20 }} />
                   </span>
-                  <h3 className="text-lg sm:text-xl font-bold text-navy-950">AI Insights</h3>
+                  <h3 className="text-lg sm:text-xl font-bold text-white">AI Insights</h3>
                 </div>
                 <div className="space-y-3">
                   {AI_INSIGHTS.map((item, i) => (
@@ -440,39 +443,38 @@ export default function Features() {
           </div>
         </section>
 
-        {/* ─── AI INTELLIGENCE ─── */}
-        <section className="relative overflow-hidden bg-navy-950 py-28">
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-navy-900 via-navy-950 to-navy-900" />
+        {/* ─── AI INTELLIGENCE ─── (SECTION 4: WHITE) */}
+        <section className="relative overflow-hidden bg-white py-28 text-navy-950">
           <div className="relative mx-auto max-w-7xl px-6 lg:px-10">
             <div className="mx-auto max-w-2xl text-center">
-              <p className="text-xs sm:text-sm font-bold uppercase tracking-wider text-brand-green-400">
+              <p className="text-xs sm:text-sm font-bold uppercase tracking-wider text-brand-green-600">
                 AI Intelligence
               </p>
-              <h2 className="mt-4 text-3xl sm:text-4xl lg:text-[40px] font-extrabold text-white">
+              <h2 className="mt-4 text-3xl sm:text-4xl lg:text-[40px] font-extrabold text-navy-950">
                 AI That Understands Your Financial Journey
               </h2>
-              <p className="mt-5 text-base sm:text-lg leading-relaxed text-white/75">
+              <p className="mt-5 text-base sm:text-lg leading-relaxed text-navy-900/75">
                 SmartFin Compass analyzes the information you provide and transforms complex financial data into clear insights, priorities, and actionable recommendations.
               </p>
             </div>
 
             <div className="relative mt-20 grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-3">
-              <div className="absolute left-0 right-0 top-10 hidden border-t-2 border-dashed border-white/15 lg:block" />
+              <div className="absolute left-0 right-0 top-10 hidden border-t-2 border-dashed border-navy-950/15 lg:block" />
               {AI_STEPS.map((s) => (
                 <div
                   key={s.step}
                   className="relative flex flex-col items-center text-center"
                 >
-                  <div className="relative z-10 grid h-[72px] w-[72px] place-items-center rounded-full bg-navy-800 ring-[6px] ring-navy-950 shadow-[0_0_30px_rgba(34,181,115,0.15)] transition-shadow duration-300 hover:shadow-[0_0_40px_rgba(34,181,115,0.25)]">
+                  <div className="relative z-10 grid h-[72px] w-[72px] place-items-center rounded-full bg-navy-950 ring-[6px] ring-slate-100 shadow-md">
                     <s.icon className="text-white" sx={{ fontSize: 28 }} />
-                    <span className="absolute -bottom-2 -right-1 flex h-7 w-7 items-center justify-center rounded-full bg-brand-green-500 text-xs font-bold text-white ring-2 ring-navy-950">
+                    <span className="absolute -bottom-2 -right-1 flex h-7 w-7 items-center justify-center rounded-full bg-brand-green-500 text-xs font-bold text-white ring-2 ring-white">
                       {s.step}
                     </span>
                   </div>
-                  <h3 className="mt-6 text-lg sm:text-xl font-bold text-white">
+                  <h3 className="mt-6 text-lg sm:text-xl font-bold text-navy-950">
                     {s.title}
                   </h3>
-                  <p className="mt-2.5 max-w-[280px] text-sm sm:text-base leading-relaxed text-white/75">
+                  <p className="mt-2.5 max-w-[280px] text-sm sm:text-base leading-relaxed text-navy-900/75">
                     {s.desc}
                   </p>
                 </div>
@@ -481,66 +483,70 @@ export default function Features() {
           </div>
         </section>
 
-        {/* ─── PERSONALIZED EXPERIENCE ─── */}
-        <section className="mx-auto max-w-7xl px-6 py-24 lg:px-10">
-          <div className="mx-auto max-w-2xl text-center">
-            <p className="text-xs sm:text-sm font-bold uppercase tracking-wider text-brand-green-600">
-              Personalized
-            </p>
-            <h2 className="mt-4 text-3xl sm:text-4xl lg:text-[40px] font-extrabold text-navy-950">
-              Built Around You
-            </h2>
-          </div>
+        {/* ─── PERSONALIZED EXPERIENCE ─── (SECTION 5: DARK BLUE) */}
+        <section className="bg-navy-950 py-24 text-white border-y border-white/10">
+          <div className="mx-auto max-w-7xl px-6 lg:px-10">
+            <div className="mx-auto max-w-2xl text-center">
+              <p className="text-xs sm:text-sm font-bold uppercase tracking-wider text-brand-green-400">
+                Personalized
+              </p>
+              <h2 className="mt-4 text-3xl sm:text-4xl lg:text-[40px] font-extrabold text-white">
+                Built Around You
+              </h2>
+            </div>
 
-          <div className="mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {PERSONALIZED.map((p) => (
-              <div
-                key={p.title}
-                className="group rounded-2xl border border-navy-950/5 bg-white p-7 shadow-soft transition-all duration-300 hover:-translate-y-1 hover:shadow-card hover:border-brand-green-100"
-              >
-                <span className={`mb-5 inline-flex h-14 w-14 items-center justify-center rounded-2xl transition-transform duration-300 group-hover:scale-110 ${p.color}`}>
-                  <p.icon sx={{ fontSize: 28 }} />
-                </span>
-                <h3 className="text-base sm:text-lg font-bold text-navy-950 group-hover:text-brand-green-600 transition-colors duration-300">
-                  {p.title}
-                </h3>
-                <p className="mt-2.5 text-sm sm:text-base leading-relaxed text-navy-900/70">
-                  {p.desc}
-                </p>
-              </div>
-            ))}
+            <div className="mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+              {PERSONALIZED.map((p) => (
+                <div
+                  key={p.title}
+                  className="group card-hover-effect rounded-2xl border border-white/10 bg-navy-900/90 p-7 shadow-xl backdrop-blur-md transition-all duration-300 hover:border-brand-green-400/50"
+                >
+                  <span className={`mb-5 inline-flex h-14 w-14 items-center justify-center rounded-2xl transition-transform duration-300 group-hover:scale-110 ${p.color}`}>
+                    <p.icon sx={{ fontSize: 28 }} />
+                  </span>
+                  <h3 className="text-base sm:text-lg font-bold text-white group-hover:text-brand-green-400 transition-colors duration-300">
+                    {p.title}
+                  </h3>
+                  <p className="mt-2.5 text-sm sm:text-base leading-relaxed text-slate-300">
+                    {p.desc}
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
         </section>
 
-        {/* ─── SECURITY ─── */}
-        <section className="mx-auto max-w-7xl px-6 pb-24 lg:px-10">
-          <div className="relative overflow-hidden rounded-3xl border border-navy-950/5 bg-gradient-to-br from-navy-950 via-navy-900 to-navy-950 px-8 py-16 text-center sm:px-16">
-            <div className="pointer-events-none absolute -left-20 -top-20 h-64 w-64 rounded-full bg-brand-green-500/10 blur-3xl" />
-            <div className="pointer-events-none absolute -bottom-20 -right-20 h-64 w-64 rounded-full bg-sky-500/10 blur-3xl" />
+        {/* ─── SECURITY ─── (SECTION 6: WHITE) */}
+        <section className="bg-white py-20 text-navy-950">
+          <div className="mx-auto max-w-7xl px-6 lg:px-10">
+            <div className="relative overflow-hidden rounded-3xl border border-navy-950/10 bg-gradient-to-br from-navy-950 via-navy-900 to-navy-950 px-8 py-16 text-center sm:px-16 shadow-xl">
+              <div className="pointer-events-none absolute -left-20 -top-20 h-64 w-64 rounded-full bg-brand-green-500/10 blur-3xl" />
+              <div className="pointer-events-none absolute -bottom-20 -right-20 h-64 w-64 rounded-full bg-sky-500/10 blur-3xl" />
 
-            <div className="relative">
-              <span className="mx-auto mb-6 inline-flex h-16 w-16 items-center justify-center rounded-full bg-brand-green-500/15 text-brand-green-400">
-                <ShieldIcon sx={{ fontSize: 32 }} />
-              </span>
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white">
-                Your Financial Data Stays Protected
-              </h2>
-              <p className="mx-auto mt-4 max-w-xl text-base sm:text-lg leading-relaxed text-white/75">
-                We use bank-level encryption and industry best practices to protect your financial information. Your privacy and security are our priority.
-              </p>
+              <div className="relative">
+                <span className="mx-auto mb-6 inline-flex h-16 w-16 items-center justify-center rounded-full bg-brand-green-500/15 text-brand-green-400">
+                  <ShieldIcon sx={{ fontSize: 32 }} />
+                </span>
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white">
+                  Your Financial Data Stays Protected
+                </h2>
+                <p className="mx-auto mt-4 max-w-xl text-base sm:text-lg leading-relaxed text-white/75">
+                  We use bank-level encryption and industry best practices to protect your financial information. Your privacy and security are our priority.
+                </p>
 
-              <div className="mt-10 flex flex-wrap items-center justify-center gap-8">
-                <div className="flex items-center gap-3">
-                  <VerifiedUserIcon sx={{ fontSize: 20, color: "#22b573" }} />
-                  <span className="text-sm sm:text-base font-semibold text-white">Secure & Private</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <LockIcon sx={{ fontSize: 20, color: "#22b573" }} />
-                  <span className="text-sm sm:text-base font-semibold text-white">Encrypted Data</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <PrivacyTipIcon sx={{ fontSize: 20, color: "#22b573" }} />
-                  <span className="text-sm sm:text-base font-semibold text-white">Privacy First</span>
+                <div className="mt-10 flex flex-wrap items-center justify-center gap-8">
+                  <div className="flex items-center gap-3">
+                    <VerifiedUserIcon sx={{ fontSize: 20, color: "#22b573" }} />
+                    <span className="text-sm sm:text-base font-semibold text-white">Secure & Private</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <LockIcon sx={{ fontSize: 20, color: "#22b573" }} />
+                    <span className="text-sm sm:text-base font-semibold text-white">Encrypted Data</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <PrivacyTipIcon sx={{ fontSize: 20, color: "#22b573" }} />
+                    <span className="text-sm sm:text-base font-semibold text-white">Privacy First</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -548,22 +554,29 @@ export default function Features() {
         </section>
 
         {/* ─── FINAL CTA ─── */}
-        <section className="bg-gradient-to-br from-brand-green-50 via-white to-sky-50 py-24">
-          <div className="mx-auto max-w-7xl px-6 text-center lg:px-10">
-            <h2 className="text-3xl sm:text-4xl lg:text-[40px] font-extrabold text-navy-950">
-              Ready to Take Control of Your{" "}
-              <span className="text-brand-green-600">Financial Future?</span>
-            </h2>
-            <p className="mx-auto mt-5 max-w-xl text-base sm:text-lg leading-relaxed text-navy-900/70">
-              Start your personalized financial assessment and discover where you stand, what you should prioritize, and how you can move forward with confidence.
-            </p>
-            <Link
-              to="/login"
-              className="group/cta mt-10 inline-flex items-center gap-2.5 rounded-lg bg-brand-green-500 px-10 py-4 text-sm sm:text-base font-semibold text-white shadow-soft transition-all duration-250 hover:bg-brand-green-600 hover:shadow-md hover:-translate-y-0.5 active:scale-[0.98]"
-            >
-              Start Your Assessment
-              <ArrowForwardIcon fontSize="small" className="transition-transform duration-250 group-hover/cta:translate-x-0.5" />
-            </Link>
+        <section className="bg-slate-50 py-12 lg:py-16">
+          <div className="mx-auto max-w-7xl px-6 lg:px-10">
+            <div className="relative overflow-hidden rounded-3xl bg-navy-950 px-8 py-16 text-center sm:px-16 shadow-xl border border-white/10">
+              <div className="pointer-events-none absolute -left-20 -top-20 h-64 w-64 rounded-full bg-brand-green-500/10 blur-3xl" />
+              <div className="pointer-events-none absolute -bottom-20 -right-20 h-64 w-64 rounded-full bg-sky-500/10 blur-3xl" />
+
+              <div className="relative">
+                <h2 className="text-3xl sm:text-4xl lg:text-[40px] font-extrabold text-white">
+                  Ready to Take Control of Your{" "}
+                  <span className="text-brand-green-400">Financial Future?</span>
+                </h2>
+                <p className="mx-auto mt-5 max-w-xl text-base sm:text-lg leading-relaxed text-slate-300">
+                  Start your personalized financial assessment and discover where you stand, what you should prioritize, and how you can move forward with confidence.
+                </p>
+                <Link
+                  to="/login"
+                  className="group/cta btn-hover-effect mt-10 inline-flex items-center gap-2.5 rounded-lg bg-brand-green-500 px-10 py-4 text-sm sm:text-base font-semibold text-white shadow-lg shadow-brand-green-500/25 transition-all duration-250 hover:bg-brand-green-400"
+                >
+                  Start Your Assessment
+                  <ArrowForwardIcon fontSize="small" className="transition-transform duration-250 group-hover/cta:translate-x-1" />
+                </Link>
+              </div>
+            </div>
           </div>
         </section>
       </main>
@@ -609,12 +622,21 @@ export default function Features() {
                 <ul className="mt-5 space-y-3">
                   {col.links.map((l) => (
                     <li key={l.label}>
-                      <a
-                        href={l.href}
-                        className="text-sm sm:text-base transition-colors duration-200 hover:text-brand-green-400"
-                      >
-                        {l.label}
-                      </a>
+                      {l.href.startsWith("/") ? (
+                        <Link
+                          to={l.href}
+                          className="text-sm sm:text-base transition-colors duration-200 hover:text-brand-green-400"
+                        >
+                          {l.label}
+                        </Link>
+                      ) : (
+                        <a
+                          href={l.href}
+                          className="text-sm sm:text-base transition-colors duration-200 hover:text-brand-green-400"
+                        >
+                          {l.label}
+                        </a>
+                      )}
                     </li>
                   ))}
                 </ul>

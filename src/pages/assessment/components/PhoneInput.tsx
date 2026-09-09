@@ -165,7 +165,7 @@ export default function PhoneInput({
           <button
             type="button"
             onClick={() => setDropdownOpen((v) => !v)}
-            className={`flex h-12 items-center gap-2 rounded-l-xl border border-r-0 border-slate-300 bg-slate-100 px-3 select-none transition-colors hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-green-500/20 z-10 ${
+            className={`flex h-12 items-center gap-2 rounded-l-xl border border-r-0 border-slate-300 bg-slate-100/80 px-3 select-none cursor-pointer transition-all duration-200 hover:bg-slate-200/90 hover:border-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-green-500/20 active:scale-[0.98] z-10 ${
               error ? "border-red-500" : ""
             }`}
             aria-label="Select country code"
@@ -198,7 +198,7 @@ export default function PhoneInput({
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search country or code..."
-                  className="h-9 w-full rounded-lg border border-slate-300 bg-slate-50 pl-9 pr-3 text-xs sm:text-sm font-medium text-navy-950 placeholder:text-slate-400 focus:border-brand-green-500 focus:bg-white focus:outline-none"
+                  className="h-9 w-full rounded-lg border border-slate-300 bg-slate-50 pl-9 pr-3 text-xs sm:text-sm font-medium text-navy-950 placeholder:text-slate-400 transition-all duration-200 focus:border-brand-green-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-green-500/20"
                   autoFocus
                 />
               </div>
@@ -211,10 +211,10 @@ export default function PhoneInput({
                       key={`${c.name}-${c.code}`}
                       type="button"
                       onClick={() => handleCountrySelect(c)}
-                      className={`flex w-full items-center justify-between rounded-lg px-2.5 py-2 text-left text-sm transition-colors ${
+                      className={`flex w-full items-center justify-between rounded-lg px-2.5 py-2 text-left text-sm cursor-pointer transition-all duration-150 ${
                         selectedCode === c.code
-                          ? "bg-brand-green-50 text-brand-green-700 font-bold"
-                          : "text-navy-950 font-medium hover:bg-slate-100"
+                          ? "bg-brand-green-50/90 text-brand-green-700 font-bold shadow-2xs"
+                          : "text-navy-950 font-medium hover:bg-brand-green-50/60 hover:text-brand-green-700 hover:translate-x-0.5"
                       }`}
                     >
                       <div className="flex items-center gap-2">

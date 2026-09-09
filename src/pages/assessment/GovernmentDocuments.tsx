@@ -13,8 +13,6 @@ import LockIcon from "@mui/icons-material/Lock";
 import ShieldIcon from "@mui/icons-material/Shield";
 import VerifiedUserIcon from "@mui/icons-material/VerifiedUser";
 import LightbulbIcon from "@mui/icons-material/Lightbulb";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import FingerprintIcon from "@mui/icons-material/Fingerprint";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
@@ -23,9 +21,15 @@ import HealthAndSafetyIcon from "@mui/icons-material/HealthAndSafety";
 import HomeWorkIcon from "@mui/icons-material/HomeWork";
 import DescriptionIcon from "@mui/icons-material/Description";
 import GroupsIcon from "@mui/icons-material/Groups";
-import ScheduleIcon from "@mui/icons-material/Schedule";
-import UploadFileIcon from "@mui/icons-material/UploadFile";
-import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
+import SchoolIcon from "@mui/icons-material/School";
+import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
+import TwoWheelerIcon from "@mui/icons-material/TwoWheeler";
+import BadgeIcon from "@mui/icons-material/Badge";
+import FamilyRestroomIcon from "@mui/icons-material/FamilyRestroom";
+import PublicIcon from "@mui/icons-material/Public";
+import CakeIcon from "@mui/icons-material/Cake";
+import CheckIcon from "@mui/icons-material/Check";
+import CancelIcon from "@mui/icons-material/Cancel";
 import EmailIcon from "@mui/icons-material/Email";
 import CallIcon from "@mui/icons-material/Call";
 import PlaceIcon from "@mui/icons-material/Place";
@@ -36,9 +40,8 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 
 const NAV_LINKS = [
   { label: "Home", href: "/" },
-  { label: "Features", href: "/#features" },
+  { label: "Features", href: "/features" },
   { label: "How It Works", href: "/how-it-works" },
-  { label: "Pricing", href: "/pricing" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
 ];
@@ -48,9 +51,8 @@ const FOOTER_COLUMNS = [
     title: "Quick Links",
     links: [
       { label: "Home", href: "/" },
-      { label: "Features", href: "/#features" },
+      { label: "Features", href: "/features" },
       { label: "How It Works", href: "/how-it-works" },
-      { label: "Pricing", href: "/pricing" },
       { label: "About", href: "/about" },
       { label: "Contact", href: "/contact" },
     ],
@@ -94,106 +96,228 @@ const PROGRESS_STEPS = [
 interface DocumentDef {
   key: string;
   name: string;
+  question: string;
   desc: string;
   icon: React.ReactNode;
   iconColor: string;
-  initialStatus: "uploaded" | "pending";
+  category?: string;
 }
 
-const DOCUMENTS: DocumentDef[] = [
+const GENERAL_DOCUMENTS: DocumentDef[] = [
   {
     key: "aadhaar",
     name: "Aadhaar",
+    question: "Do you have an Aadhaar Card?",
     desc: "Proof of Identity & Address",
     icon: <FingerprintIcon sx={{ fontSize: 22 }} />,
     iconColor: "bg-amber-50 text-amber-600",
-    initialStatus: "pending",
   },
   {
     key: "pan",
     name: "PAN",
+    question: "Do you have a PAN Card?",
     desc: "Permanent Account Number",
     icon: <CreditCardIcon sx={{ fontSize: 22 }} />,
     iconColor: "bg-sky-50 text-sky-600",
-    initialStatus: "pending",
   },
   {
     key: "passport",
     name: "Passport",
+    question: "Do you have a Passport?",
     desc: "Identity for International Use",
     icon: <MenuBookIcon sx={{ fontSize: 22 }} />,
     iconColor: "bg-purple-50 text-purple-600",
-    initialStatus: "pending",
   },
   {
-    key: "driving",
+    key: "drivingLicence",
     name: "Driving Licence",
-    desc: "Proof to Drive",
+    question: "Do you have a Driving Licence?",
+    desc: "Proof to drive vehicles",
     icon: <DriveEtaIcon sx={{ fontSize: 22 }} />,
     iconColor: "bg-orange-50 text-orange-600",
-    initialStatus: "pending",
+  },
+  {
+    key: "voterId",
+    name: "Voter ID",
+    question: "Do you have a Voter ID?",
+    desc: "Electoral Identity Card",
+    icon: <BadgeIcon sx={{ fontSize: 22 }} />,
+    iconColor: "bg-indigo-50 text-indigo-600",
+  },
+  {
+    key: "twoWheelerRC",
+    name: "2 Wheeler Registration Certificate",
+    question: "Do you have a 2 Wheeler Registration Certificate?",
+    desc: "Two-wheeler registration proof",
+    icon: <TwoWheelerIcon sx={{ fontSize: 22 }} />,
+    iconColor: "bg-teal-50 text-teal-600",
+  },
+  {
+    key: "fourWheelerRC",
+    name: "4 Wheeler Registration Certificate",
+    question: "Do you have a 4 Wheeler Registration Certificate?",
+    desc: "Four-wheeler registration proof",
+    icon: <DirectionsCarIcon sx={{ fontSize: 22 }} />,
+    iconColor: "bg-blue-50 text-blue-600",
   },
   {
     key: "insurance",
     name: "Insurance",
-    desc: "Life / Health / General Insurance",
+    question: "Do you have Insurance?",
+    desc: "Life / Health / Term / Vehicle Insurance",
     icon: <HealthAndSafetyIcon sx={{ fontSize: 22 }} />,
     iconColor: "bg-blue-50 text-blue-600",
-    initialStatus: "pending",
+  },
+  {
+    key: "marriageCertificate",
+    name: "Marriage Certificate",
+    question: "Do you have a Marriage Certificate?",
+    desc: "Legal proof of marriage",
+    icon: <FamilyRestroomIcon sx={{ fontSize: 22 }} />,
+    iconColor: "bg-rose-50 text-rose-600",
+  },
+  {
+    key: "communityCertificate",
+    name: "Community Certificate",
+    question: "Do you have a Community Certificate?",
+    desc: "Category / Caste / Community proof",
+    icon: <GroupsIcon sx={{ fontSize: 22 }} />,
+    iconColor: "bg-amber-50 text-amber-700",
+  },
+  {
+    key: "birthCertificate",
+    name: "Birth Certificate",
+    question: "Do you have a Birth Certificate?",
+    desc: "Official proof of date of birth",
+    icon: <CakeIcon sx={{ fontSize: 22 }} />,
+    iconColor: "bg-cyan-50 text-cyan-600",
+  },
+  {
+    key: "rationCard",
+    name: "Ration Card",
+    question: "Do you have a Ration Card?",
+    desc: "Family identity & address card",
+    icon: <DescriptionIcon sx={{ fontSize: 22 }} />,
+    iconColor: "bg-lime-50 text-lime-700",
+  },
+  {
+    key: "ociCard",
+    name: "OCI Card",
+    question: "Do you have an OCI Card?",
+    desc: "Overseas Citizen of India card",
+    icon: <PublicIcon sx={{ fontSize: 22 }} />,
+    iconColor: "bg-violet-50 text-violet-600",
   },
   {
     key: "property",
     name: "Property",
-    desc: "Property Ownership Documents",
+    question: "Do you have Property Ownership Documents?",
+    desc: "Property ownership & deed documents",
     icon: <HomeWorkIcon sx={{ fontSize: 22 }} />,
     iconColor: "bg-emerald-50 text-emerald-600",
-    initialStatus: "pending",
   },
   {
     key: "will",
     name: "Will",
+    question: "Do you have a Will?",
     desc: "Last Will & Testament",
     icon: <DescriptionIcon sx={{ fontSize: 22 }} />,
     iconColor: "bg-violet-50 text-violet-600",
-    initialStatus: "pending",
   },
   {
     key: "nominee",
     name: "Nominee",
+    question: "Do you have Nominee Details / Declarations?",
     desc: "Nominee Details / Declarations",
     icon: <GroupsIcon sx={{ fontSize: 22 }} />,
     iconColor: "bg-orange-50 text-orange-600",
-    initialStatus: "pending",
   },
 ];
 
-const ALLOWED_TYPES = ["application/pdf", "image/jpeg", "image/png", "image/jpg"];
-const ALLOWED_EXTS = [".pdf", ".jpg", ".jpeg", ".png"];
-const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10 MB
+const EDUCATION_DOCUMENTS: DocumentDef[] = [
+  {
+    key: "education10th",
+    name: "10th",
+    question: "Do you have this document?",
+    desc: "Secondary School Certificate (SSLC / 10th)",
+    icon: <SchoolIcon sx={{ fontSize: 22 }} />,
+    iconColor: "bg-sky-50 text-sky-600",
+  },
+  {
+    key: "education12th",
+    name: "12th",
+    question: "Do you have this document?",
+    desc: "Higher Secondary Certificate (HSC / 12th)",
+    icon: <SchoolIcon sx={{ fontSize: 22 }} />,
+    iconColor: "bg-blue-50 text-blue-600",
+  },
+  {
+    key: "diploma",
+    name: "Diploma",
+    question: "Do you have this document?",
+    desc: "Diploma Certificate",
+    icon: <SchoolIcon sx={{ fontSize: 22 }} />,
+    iconColor: "bg-indigo-50 text-indigo-600",
+  },
+  {
+    key: "bachelors",
+    name: "Bachelors",
+    question: "Do you have this document?",
+    desc: "Undergraduate Degree Certificate",
+    icon: <SchoolIcon sx={{ fontSize: 22 }} />,
+    iconColor: "bg-purple-50 text-purple-600",
+  },
+  {
+    key: "masters",
+    name: "Masters",
+    question: "Do you have this document?",
+    desc: "Postgraduate Degree Certificate",
+    icon: <SchoolIcon sx={{ fontSize: 22 }} />,
+    iconColor: "bg-violet-50 text-violet-600",
+  },
+  {
+    key: "courses",
+    name: "Courses",
+    question: "Do you have this document?",
+    desc: "Professional Course / Skill Certificates",
+    icon: <SchoolIcon sx={{ fontSize: 22 }} />,
+    iconColor: "bg-emerald-50 text-emerald-600",
+  },
+];
 
-interface UploadedFileInfo {
-  name: string;
-  size: number;
-}
+const ALL_DOCUMENTS: DocumentDef[] = [...GENERAL_DOCUMENTS, ...EDUCATION_DOCUMENTS];
 
-function UploadStatusDonut({
-  uploaded,
-  pending,
+const INSURANCE_TYPES_OPTIONS = [
+  { id: "Health", label: "Health" },
+  { id: "Life", label: "Life" },
+  { id: "Term", label: "Term" },
+  { id: "Vehicle - Car", label: "Vehicle - Car" },
+  { id: "Vehicle - Bike", label: "Vehicle - Bike" },
+];
+
+function AvailabilityStatusDonut({
+  available,
+  notAvailable,
+  unanswered,
   total,
 }: {
-  uploaded: number;
-  pending: number;
+  available: number;
+  notAvailable: number;
+  unanswered: number;
   total: number;
 }) {
   const radius = 60;
   const strokeWidth = 18;
   const circumference = 2 * Math.PI * radius;
-  const uploadedPct = total > 0 ? uploaded / total : 0;
-  const pendingPct = total > 0 ? pending / total : 0;
+  
+  const availablePct = total > 0 ? available / total : 0;
+  const notAvailablePct = total > 0 ? notAvailable / total : 0;
+  const unansweredPct = total > 0 ? unanswered / total : 0;
 
-  const uploadedDash = uploadedPct * circumference;
-  const pendingDash = pendingPct * circumference;
-  const gap = 4;
+  const availableDash = availablePct * circumference;
+  const notAvailableDash = notAvailablePct * circumference;
+  const unansweredDash = unansweredPct * circumference;
+  const gap = 3;
 
   return (
     <div className="relative mx-auto flex h-[160px] w-[160px] items-center justify-center">
@@ -203,10 +327,10 @@ function UploadStatusDonut({
           cy="80"
           r={radius}
           fill="none"
-          stroke="#cbd5e1"
+          stroke="#e2e8f0"
           strokeWidth={strokeWidth}
         />
-        {uploaded > 0 && (
+        {available > 0 && (
           <circle
             cx="80"
             cy="80"
@@ -214,30 +338,41 @@ function UploadStatusDonut({
             fill="none"
             stroke="#22b573"
             strokeWidth={strokeWidth}
-            strokeDasharray={`${Math.max(0, uploadedDash - gap)} ${circumference - uploadedDash + gap}`}
+            strokeDasharray={`${Math.max(0, availableDash - gap)} ${circumference - availableDash + gap}`}
             strokeDashoffset={0}
             strokeLinecap="round"
           />
         )}
-        {pending > 0 && (
+        {notAvailable > 0 && (
           <circle
             cx="80"
             cy="80"
             r={radius}
             fill="none"
-            stroke="#f59e0b"
+            stroke="#64748b"
             strokeWidth={strokeWidth}
-            strokeDasharray={`${Math.max(0, pendingDash - gap)} ${circumference - pendingDash + gap}`}
-            strokeDashoffset={-(uploadedDash + gap)}
+            strokeDasharray={`${Math.max(0, notAvailableDash - gap)} ${circumference - notAvailableDash + gap}`}
+            strokeDashoffset={-availableDash}
+            strokeLinecap="round"
+          />
+        )}
+        {unanswered > 0 && (
+          <circle
+            cx="80"
+            cy="80"
+            r={radius}
+            fill="none"
+            stroke="#cbd5e1"
+            strokeWidth={strokeWidth}
+            strokeDasharray={`${Math.max(0, unansweredDash - gap)} ${circumference - unansweredDash + gap}`}
+            strokeDashoffset={-(availableDash + notAvailableDash)}
             strokeLinecap="round"
           />
         )}
       </svg>
-      <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <InsertDriveFileIcon
-          sx={{ fontSize: 28 }}
-          className="text-brand-green-600"
-        />
+      <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
+        <span className="text-2xl font-extrabold text-navy-950">{available}</span>
+        <span className="text-[11px] font-bold text-slate-500">Available</span>
       </div>
     </div>
   );
@@ -285,94 +420,166 @@ export default function GovernmentDocuments() {
   const { assessmentData, updateAssessment } = useApp();
 
   const savedDocs = assessmentData.documents || {};
-  const [statuses, setStatuses] = useState<Record<string, "uploaded" | "pending">>(() => {
-    const initial: Record<string, "uploaded" | "pending"> = {};
-    DOCUMENTS.forEach((d) => {
-      initial[d.key] = (savedDocs as any)[d.key] === "uploaded" ? "uploaded" : "pending";
+
+  const [answers, setAnswers] = useState<Record<string, boolean | undefined>>(() => {
+    const initial: Record<string, boolean | undefined> = {};
+    ALL_DOCUMENTS.forEach((doc) => {
+      const val = (savedDocs as any)[doc.key];
+      if (val === true || val === "uploaded") {
+        initial[doc.key] = true;
+      } else if (val === false) {
+        initial[doc.key] = false;
+      } else {
+        initial[doc.key] = undefined;
+      }
     });
     return initial;
   });
 
-  const [uploadedFiles, setUploadedFiles] = useState<Record<string, UploadedFileInfo>>({});
-  const [fileErrors, setFileErrors] = useState<Record<string, string>>({});
+  const [insuranceTypes, setInsuranceTypes] = useState<string[]>(() => {
+    return Array.isArray(savedDocs.insuranceTypes) ? savedDocs.insuranceTypes : [];
+  });
 
-  const [docNumbers, setDocNumbers] = useState<Record<string, string>>(() => ({
-    pan: typeof savedDocs.pan === "string" && !["uploaded", "pending"].includes(savedDocs.pan) ? savedDocs.pan : "",
-    aadhaar: typeof savedDocs.aadhaar === "string" && !["uploaded", "pending"].includes(savedDocs.aadhaar) ? savedDocs.aadhaar : "",
-    passport: typeof savedDocs.passport === "string" && !["uploaded", "pending"].includes(savedDocs.passport) ? savedDocs.passport : "",
-    drivingLicence: typeof savedDocs.drivingLicence === "string" && !["uploaded", "pending"].includes(savedDocs.drivingLicence) ? savedDocs.drivingLicence : "",
-  }));
-
-  const [expanded, setExpanded] = useState<string | null>(null);
-
-  const toggleExpand = (key: string) =>
-    setExpanded((prev) => (prev === key ? null : key));
-
-  const formatFileSize = (bytes: number): string => {
-    if (bytes < 1024) return `${bytes} B`;
-    if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
-    return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
-  };
-
-  const handleFileSelect = (key: string, file: File | null) => {
-    if (!file) return;
-
-    const ext = "." + file.name.split(".").pop()?.toLowerCase();
-    const isValidType = ALLOWED_TYPES.includes(file.type.toLowerCase()) || ALLOWED_EXTS.includes(ext);
-
-    if (!isValidType) {
-      setFileErrors((prev) => ({
-        ...prev,
-        [key]: "Please upload a PDF, JPG, JPEG or PNG file.",
-      }));
-      return;
-    }
-
-    if (file.size > MAX_FILE_SIZE) {
-      setFileErrors((prev) => ({
-        ...prev,
-        [key]: "File size must be 10 MB or less.",
-      }));
-      return;
-    }
-
-    setFileErrors((prev) => {
-      const next = { ...prev };
-      delete next[key];
-      return next;
-    });
-
-    setUploadedFiles((prev) => ({
+  const handleSelectAnswer = (key: string, value: boolean) => {
+    setAnswers((prev) => ({
       ...prev,
-      [key]: { name: file.name, size: file.size },
+      [key]: value,
     }));
-    setStatuses((prev) => ({ ...prev, [key]: "uploaded" }));
+    if (key === "insurance" && value === false) {
+      setInsuranceTypes([]);
+    }
   };
 
-  const handleRemoveFile = (key: string) => {
-    setUploadedFiles((prev) => {
-      const next = { ...prev };
-      delete next[key];
-      return next;
-    });
-    setStatuses((prev) => ({ ...prev, [key]: "pending" }));
-    setFileErrors((prev) => {
-      const next = { ...prev };
-      delete next[key];
-      return next;
-    });
+  const toggleInsuranceType = (typeId: string) => {
+    setInsuranceTypes((prev) =>
+      prev.includes(typeId) ? prev.filter((t) => t !== typeId) : [...prev, typeId]
+    );
   };
 
-  const uploadedCount = useMemo(
-    () => Object.values(statuses).filter((s) => s === "uploaded").length,
-    [statuses]
+  const availableCount = useMemo(
+    () => Object.values(answers).filter((a) => a === true).length,
+    [answers]
   );
-  const pendingCount = useMemo(
-    () => Object.values(statuses).filter((s) => s === "pending").length,
-    [statuses]
+
+  const notAvailableCount = useMemo(
+    () => Object.values(answers).filter((a) => a === false).length,
+    [answers]
   );
-  const total = DOCUMENTS.length;
-  const readiness = total > 0 ? Math.round((uploadedCount / total) * 100) : 0;
+
+  const unansweredCount = useMemo(
+    () => Object.values(answers).filter((a) => a === undefined).length,
+    [answers]
+  );
+
+  const total = ALL_DOCUMENTS.length;
+  const readinessPct = total > 0 ? Math.round((availableCount / total) * 100) : 0;
+
+  const handleNext = () => {
+    const finalDocs = {
+      ...savedDocs,
+      ...answers,
+      insuranceTypes: answers.insurance ? insuranceTypes : [],
+    };
+    updateAssessment("documents", finalDocs as any);
+    navigate("/selected-documents");
+  };
+
+  const renderDocCard = (doc: DocumentDef) => {
+    const answer = answers[doc.key];
+    const isInsurance = doc.key === "insurance";
+
+    return (
+      <div
+        key={doc.key}
+        className={`rounded-2xl border p-4 sm:p-5 transition-all duration-200 ${
+          answer === true
+            ? "border-brand-green-400 bg-brand-green-50/40 shadow-xs"
+            : answer === false
+            ? "border-slate-300 bg-slate-50/70"
+            : "border-slate-200 bg-white hover:border-brand-green-300 hover:shadow-md"
+        }`}
+      >
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex items-center gap-3.5 min-w-0">
+            <span
+              className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl ${doc.iconColor}`}
+            >
+              {doc.icon}
+            </span>
+            <div className="min-w-0">
+              <p className="text-sm font-bold text-navy-950 truncate">{doc.name}</p>
+              <p className="text-xs font-semibold text-slate-700">{doc.question}</p>
+              <p className="text-[11px] font-medium text-slate-600 mt-0.5">{doc.desc}</p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2 shrink-0 self-end sm:self-center">
+            <button
+              type="button"
+              onClick={() => handleSelectAnswer(doc.key, true)}
+              className={`flex h-9 min-w-[76px] items-center justify-center gap-1.5 rounded-xl px-4 text-xs font-bold cursor-pointer transition-all duration-200 active:scale-[0.96] ${
+                answer === true
+                  ? "bg-brand-green-500 text-white shadow-sm ring-2 ring-brand-green-500/30"
+                  : "border border-slate-200 bg-slate-50 text-slate-600 hover:border-brand-green-500 hover:bg-brand-green-50 hover:text-brand-green-700"
+              }`}
+            >
+              {answer === true && <CheckIcon sx={{ fontSize: 15 }} />}
+              Yes
+            </button>
+            <button
+              type="button"
+              onClick={() => handleSelectAnswer(doc.key, false)}
+              className={`flex h-9 min-w-[76px] items-center justify-center gap-1.5 rounded-xl px-4 text-xs font-bold cursor-pointer transition-all duration-200 active:scale-[0.96] ${
+                answer === false
+                  ? "bg-slate-700 text-white shadow-sm ring-2 ring-slate-700/30"
+                  : "border border-slate-200 bg-slate-50 text-slate-600 hover:border-slate-400 hover:bg-slate-100 hover:text-slate-800"
+              }`}
+            >
+              {answer === false && <CancelIcon sx={{ fontSize: 15 }} />}
+              No
+            </button>
+          </div>
+        </div>
+
+        {/* Insurance options expanded when Insurance = YES */}
+        {isInsurance && answer === true && (
+          <div className="mt-4 rounded-xl border border-brand-green-300 bg-brand-green-50/50 p-4">
+            <p className="text-xs font-bold text-navy-950 mb-2.5">
+              Insurance Type (Select all that apply)
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
+              {INSURANCE_TYPES_OPTIONS.map((opt) => {
+                const isChecked = insuranceTypes.includes(opt.id);
+                return (
+                  <button
+                    key={opt.id}
+                    type="button"
+                    onClick={() => toggleInsuranceType(opt.id)}
+                    className={`flex items-center gap-2.5 rounded-xl border px-3.5 py-2 text-xs font-bold cursor-pointer transition-all duration-150 text-left active:scale-[0.98] ${
+                      isChecked
+                        ? "border-brand-green-500 bg-brand-green-500 text-white shadow-sm"
+                        : "border-slate-200 bg-white text-navy-950 hover:border-brand-green-400 hover:bg-brand-green-50/50"
+                    }`}
+                  >
+                    <span
+                      className={`flex h-4 w-4 shrink-0 items-center justify-center rounded border transition-colors ${
+                        isChecked
+                          ? "border-white bg-white text-brand-green-600"
+                          : "border-slate-400 bg-white"
+                      }`}
+                    >
+                      {isChecked && <CheckIcon sx={{ fontSize: 12 }} />}
+                    </span>
+                    <span>{opt.label}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        )}
+      </div>
+    );
+  };
 
   return (
     <div className="min-h-screen bg-slate-50">
@@ -466,10 +673,10 @@ export default function GovernmentDocuments() {
         <div className="mb-8 flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
           <div className="max-w-xl">
             <h1 className="text-3xl font-extrabold text-navy-950 sm:text-4xl">
-              Financial Document Readiness
+              Financial Document Availability
             </h1>
             <p className="mt-3 text-[15px] font-medium leading-relaxed text-slate-700">
-              Ensure you have all the important documents in place for a secure financial future.
+              Select whether you possess each document to evaluate your financial readiness.
             </p>
           </div>
 
@@ -485,7 +692,10 @@ export default function GovernmentDocuments() {
             </div>
             <div className="relative">
               <div className="absolute left-[20px] top-4 h-0.5 w-[calc(100%-40px)] bg-slate-200" />
-              <div className="absolute left-[20px] top-4 h-0.5 w-[calc(100%-40px)] bg-brand-green-500" style={{ width: "91.66%" }} />
+              <div
+                className="absolute left-[20px] top-4 h-0.5 w-[calc(100%-40px)] bg-brand-green-500"
+                style={{ width: "91.66%" }}
+              />
               <div className="flex items-start justify-between overflow-x-auto pb-2">
                 {PROGRESS_STEPS.map((step, i) => (
                   <div
@@ -530,191 +740,48 @@ export default function GovernmentDocuments() {
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1fr_360px]">
           {/* LEFT — Document Checklist */}
           <div className="rounded-2xl border border-slate-200 bg-white p-7 shadow-[0_2px_12px_rgba(13,37,73,0.06)] sm:p-8">
-            <div className="mb-6">
-              <p className="text-base font-bold text-navy-950">
-                Document Checklist
-              </p>
-              <p className="mt-1 text-sm font-medium text-slate-600">
-                Review and upload your important documents
-              </p>
+            <div className="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 border-b border-slate-200 pb-4">
+              <div>
+                <p className="text-base font-bold text-navy-950">
+                  Document Checklist
+                </p>
+                <p className="mt-1 text-xs font-semibold text-slate-700">
+                  Indicate Yes or No for each financial document.
+                </p>
+              </div>
+              <span className="text-xs font-bold text-brand-green-700 bg-brand-green-100 px-3 py-1 rounded-full self-start sm:self-auto">
+                {availableCount} of {total} Available
+              </span>
             </div>
 
-            {/* Document Rows */}
+            {/* General Documents Section */}
             <div className="space-y-3">
-              {DOCUMENTS.map((doc) => {
-                const status = statuses[doc.key];
-                const isUploaded = status === "uploaded";
-                const isExpanded = expanded === doc.key;
-                const uploadedFile = uploadedFiles[doc.key];
-                const fileError = fileErrors[doc.key];
+              {GENERAL_DOCUMENTS.map((doc) => renderDocCard(doc))}
+            </div>
 
-                return (
-                  <div
-                    key={doc.key}
-                    className="rounded-xl border border-slate-200 bg-white transition-all hover:border-slate-300 hover:shadow-sm"
-                  >
-                    <button
-                      type="button"
-                      onClick={() => toggleExpand(doc.key)}
-                      className="flex w-full items-center gap-4 p-4 text-left"
-                      aria-expanded={isExpanded}
-                    >
-                      <span
-                        className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl ${doc.iconColor}`}
-                      >
-                        {doc.icon}
-                      </span>
-                      <div className="min-w-0 flex-1">
-                        <p className="text-sm font-bold text-navy-950">
-                          {doc.name}
-                        </p>
-                        <p className="text-xs font-medium text-slate-600">{doc.desc}</p>
-                      </div>
-                      <span
-                        className={`flex shrink-0 items-center gap-1.5 rounded-lg px-3 py-1 text-xs font-bold ${
-                          isUploaded
-                            ? "bg-brand-green-100 text-brand-green-700"
-                            : "bg-amber-100 text-amber-700"
-                        }`}
-                      >
-                        {isUploaded ? "Uploaded" : "Pending"}
-                        {isUploaded ? (
-                          <CheckCircleIcon sx={{ fontSize: 14 }} />
-                        ) : (
-                          <ScheduleIcon sx={{ fontSize: 14 }} />
-                        )}
-                      </span>
-                      {isExpanded ? (
-                        <ExpandLessIcon
-                          sx={{ fontSize: 20 }}
-                          className="shrink-0 text-slate-500"
-                        />
-                      ) : (
-                        <ExpandMoreIcon
-                          sx={{ fontSize: 20 }}
-                          className="shrink-0 text-slate-500"
-                        />
-                      )}
-                    </button>
+            {/* Education Documents Section Header */}
+            <div className="mt-8 mb-4 border-t border-slate-200 pt-6">
+              <div className="flex items-center gap-2.5 mb-3">
+                <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-sky-100 text-sky-700 font-bold">
+                  <SchoolIcon sx={{ fontSize: 20 }} />
+                </span>
+                <div>
+                  <h3 className="text-base font-bold text-navy-950">
+                    Education Documents
+                  </h3>
+                  <p className="text-xs font-semibold text-slate-700">
+                    Select Yes or No for each education document level.
+                  </p>
+                </div>
+              </div>
 
-                    {isExpanded && (
-                      <div className="border-t border-slate-200 px-4 py-4 space-y-4">
-                        {["pan", "aadhaar", "passport", "driving"].includes(doc.key) && (
-                          <div>
-                            <label className="block text-xs font-bold text-navy-950 mb-1">
-                              {doc.name} Number / Details
-                            </label>
-                            <input
-                              type="text"
-                              value={docNumbers[doc.key === "driving" ? "drivingLicence" : doc.key] || ""}
-                              onChange={(e) => {
-                                let val = e.target.value;
-                                if (doc.key === "pan") {
-                                  val = val.toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 10);
-                                } else if (doc.key === "aadhaar") {
-                                  val = val.replace(/[^0-9]/g, "").slice(0, 12);
-                                } else {
-                                  val = val.toUpperCase().replace(/[^A-Z0-9 ]/g, "").slice(0, 20);
-                                }
-                                setDocNumbers((prev) => ({
-                                  ...prev,
-                                  [doc.key === "driving" ? "drivingLicence" : doc.key]: val,
-                                }));
-                              }}
-                              placeholder={`Enter your ${doc.name} number`}
-                              className="h-10 w-full rounded-xl border border-slate-300 bg-white px-3 text-sm font-bold text-navy-950 placeholder:text-slate-400 focus:border-brand-green-500 focus:outline-none focus:ring-2 focus:ring-brand-green-500/20"
-                            />
-                          </div>
-                        )}
-
-                        {/* File Upload Area */}
-                        <div className="space-y-2">
-                          <div className="flex items-center justify-between">
-                            <p className="text-xs font-bold text-navy-950">
-                              Upload {doc.name} Document
-                            </p>
-                            <span className="text-[11px] font-semibold text-slate-500">
-                              PDF, JPG, JPEG or PNG • Max 10 MB
-                            </span>
-                          </div>
-
-                          {uploadedFile ? (
-                            <div className="flex items-center justify-between rounded-xl border border-brand-green-300 bg-brand-green-50/70 p-3.5">
-                              <div className="flex items-center gap-3 min-w-0">
-                                <InsertDriveFileIcon
-                                  className="text-brand-green-600 shrink-0"
-                                  sx={{ fontSize: 24 }}
-                                />
-                                <div className="min-w-0">
-                                  <p className="text-xs font-bold text-navy-950 truncate max-w-[200px] sm:max-w-[300px]">
-                                    {uploadedFile.name}
-                                  </p>
-                                  <p className="text-[11px] font-medium text-slate-600">
-                                    {formatFileSize(uploadedFile.size)} • Uploaded
-                                  </p>
-                                </div>
-                              </div>
-                              <div className="flex items-center gap-3 shrink-0">
-                                <label className="cursor-pointer text-xs font-bold text-brand-green-700 hover:text-brand-green-800 hover:underline">
-                                  Replace File
-                                  <input
-                                    type="file"
-                                    className="hidden"
-                                    accept=".pdf,.jpg,.jpeg,.png"
-                                    onChange={(e) => {
-                                      const file = e.target.files?.[0] || null;
-                                      handleFileSelect(doc.key, file);
-                                      e.target.value = "";
-                                    }}
-                                  />
-                                </label>
-                                <button
-                                  type="button"
-                                  onClick={() => handleRemoveFile(doc.key)}
-                                  className="text-xs font-bold text-red-600 hover:text-red-700 hover:underline"
-                                >
-                                  Remove File
-                                </button>
-                              </div>
-                            </div>
-                          ) : (
-                            <label className="flex cursor-pointer items-center justify-center gap-2.5 rounded-xl border-2 border-dashed border-slate-300 bg-slate-50/80 p-4 text-center transition-all hover:border-brand-green-500 hover:bg-brand-green-50/40">
-                              <UploadFileIcon
-                                sx={{ fontSize: 22 }}
-                                className="text-slate-500"
-                              />
-                              <span className="text-xs font-semibold text-slate-700">
-                                Click to select file (PDF, JPG, PNG • Max 10 MB)
-                              </span>
-                              <input
-                                type="file"
-                                className="hidden"
-                                accept=".pdf,.jpg,.jpeg,.png"
-                                onChange={(e) => {
-                                  const file = e.target.files?.[0] || null;
-                                  handleFileSelect(doc.key, file);
-                                  e.target.value = "";
-                                }}
-                              />
-                            </label>
-                          )}
-
-                          {fileError && (
-                            <p className="mt-1 flex items-center gap-1 text-xs font-semibold text-red-600">
-                              <span>⚠️</span>
-                              <span>{fileError}</span>
-                            </p>
-                          )}
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
+              <div className="space-y-3 mt-4">
+                {EDUCATION_DOCUMENTS.map((doc) => renderDocCard(doc))}
+              </div>
             </div>
 
             {/* Document Readiness Card */}
-            <div className="mt-6 rounded-xl border border-brand-green-300 bg-brand-green-50/60 p-5">
+            <div className="mt-8 rounded-xl border border-brand-green-300 bg-brand-green-50/60 p-5">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <span className="flex h-10 w-10 items-center justify-center rounded-full bg-brand-green-100">
@@ -728,11 +795,11 @@ export default function GovernmentDocuments() {
                       Your Document Readiness
                     </p>
                     <p className="text-xs font-medium text-slate-700">
-                      Keep your documents updated for a secure financial journey.
+                      {availableCount} of {total} Documents Available ({readinessPct}%)
                     </p>
                   </div>
                 </div>
-                <ReadinessRing pct={readiness} />
+                <ReadinessRing pct={readinessPct} />
               </div>
             </div>
 
@@ -748,20 +815,10 @@ export default function GovernmentDocuments() {
               </button>
               <button
                 type="button"
-                onClick={() => {
-                  const finalDocs = {
-                    ...statuses,
-                    pan: docNumbers.pan || statuses.pan,
-                    aadhaar: docNumbers.aadhaar || statuses.aadhaar,
-                    passport: docNumbers.passport || statuses.passport,
-                    drivingLicence: docNumbers.drivingLicence || statuses.drivingLicence,
-                  };
-                  updateAssessment("documents", finalDocs as any);
-                  navigate("/review-submit");
-                }}
+                onClick={handleNext}
                 className="flex h-12 items-center gap-2 rounded-xl bg-brand-green-500 px-8 text-[15px] font-bold text-white shadow-soft transition-all duration-250 hover:bg-brand-green-600 hover:shadow-md active:scale-[0.98]"
               >
-                Review & Finish
+                Next
                 <ArrowForwardIcon sx={{ fontSize: 18 }} />
               </button>
             </div>
@@ -775,50 +832,45 @@ export default function GovernmentDocuments() {
 
           {/* RIGHT — Sidebar */}
           <div className="flex flex-col gap-6">
-            {/* Card 1: Upload Status */}
+            {/* Card 1: Availability Status */}
             <div className="rounded-2xl border border-slate-200 bg-white p-7 shadow-[0_2px_12px_rgba(13,37,73,0.06)]">
               <h3 className="mb-5 text-base font-bold text-navy-950">
-                Upload Status
+                Document Availability Status
               </h3>
 
               <div className="flex items-center gap-6">
-                <UploadStatusDonut
-                  uploaded={uploadedCount}
-                  pending={pendingCount}
+                <AvailabilityStatusDonut
+                  available={availableCount}
+                  notAvailable={notAvailableCount}
+                  unanswered={unansweredCount}
                   total={total}
                 />
                 <div className="flex-1 space-y-3">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <span className="h-3 w-3 rounded-full bg-brand-green-500" />
-                      <span className="text-xs font-medium text-slate-700">Uploaded</span>
+                      <span className="text-xs font-medium text-slate-700">Available</span>
                     </div>
                     <div className="flex items-center gap-3">
                       <span className="text-xs font-bold text-navy-950">
-                        {uploadedCount}
+                        {availableCount}
                       </span>
                       <span className="text-xs font-bold text-slate-600">
-                        {total > 0
-                          ? Math.round((uploadedCount / total) * 100)
-                          : 0}
-                        %
+                        {Math.round((availableCount / total) * 100)}%
                       </span>
                     </div>
                   </div>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      <span className="h-3 w-3 rounded-full bg-amber-500" />
-                      <span className="text-xs font-medium text-slate-700">Pending</span>
+                      <span className="h-3 w-3 rounded-full bg-slate-600" />
+                      <span className="text-xs font-medium text-slate-700">Not Available</span>
                     </div>
                     <div className="flex items-center gap-3">
                       <span className="text-xs font-bold text-navy-950">
-                        {pendingCount}
+                        {notAvailableCount}
                       </span>
                       <span className="text-xs font-bold text-slate-600">
-                        {total > 0
-                          ? Math.round((pendingCount / total) * 100)
-                          : 0}
-                        %
+                        {Math.round((notAvailableCount / total) * 100)}%
                       </span>
                     </div>
                   </div>
@@ -826,18 +878,15 @@ export default function GovernmentDocuments() {
                     <div className="flex items-center gap-2">
                       <span className="h-3 w-3 rounded-full bg-slate-300" />
                       <span className="text-xs font-medium text-slate-700">
-                        Not Uploaded
+                        Unanswered
                       </span>
                     </div>
                     <div className="flex items-center gap-3">
                       <span className="text-xs font-bold text-navy-950">
-                        {total - uploadedCount}
+                        {unansweredCount}
                       </span>
                       <span className="text-xs font-bold text-slate-600">
-                        {total > 0
-                          ? Math.round(((total - uploadedCount) / total) * 100)
-                          : 0}
-                        %
+                        {Math.round((unansweredCount / total) * 100)}%
                       </span>
                     </div>
                   </div>
@@ -852,12 +901,12 @@ export default function GovernmentDocuments() {
                 />
                 <div>
                   <p className="text-sm font-bold text-brand-green-700">
-                    {uploadedCount} of {total} Documents Uploaded
+                    {availableCount} of {total} Documents Available
                   </p>
                   <p className="mt-0.5 text-xs font-medium leading-relaxed text-slate-700">
-                    {uploadedCount === total
-                      ? "Great job! All documents have been uploaded."
-                      : "Keep going! Complete the pending documents to improve your readiness."}
+                    {availableCount === total
+                      ? "Excellent! All documents are available."
+                      : "Keep updating your document checklist to ensure full financial readiness."}
                   </p>
                 </div>
               </div>
@@ -874,7 +923,7 @@ export default function GovernmentDocuments() {
                 </h3>
               </div>
               <p className="text-sm font-medium leading-relaxed text-slate-700">
-                Complete and updated documents help in faster verification, smooth loan approvals, claim settlements, and secure your financial future.
+                Knowing which financial and personal documents you hold enables accurate verification, smooth claim processing, estate planning, and faster loan approvals.
               </p>
             </div>
 
@@ -889,7 +938,7 @@ export default function GovernmentDocuments() {
                 </h3>
               </div>
               <p className="text-sm font-medium leading-relaxed text-slate-700">
-                We use bank-level encryption to protect your documents and personal information. Your privacy is our priority.
+                We use bank-level encryption to protect your document availability information. Your privacy and data security are our top priorities.
               </p>
             </div>
 
@@ -904,15 +953,15 @@ export default function GovernmentDocuments() {
               <ul className="space-y-2 text-sm font-medium text-slate-700">
                 <li className="flex items-start gap-2">
                   <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-slate-600" />
-                  Ensure documents are clear and valid
+                  Keep physical and digital copies organized
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-slate-600" />
-                  Upload colored scans or high-quality photos
+                  Ensure insurance and identity records are up-to-date
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-slate-600" />
-                  Keep documents updated regularly
+                  Update nominee declarations across all financial assets
                 </li>
               </ul>
             </div>

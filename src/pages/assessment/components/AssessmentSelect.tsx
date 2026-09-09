@@ -74,7 +74,7 @@ export default function AssessmentSelect({
         <button
           type="button"
           onClick={() => setOpen((v) => !v)}
-          className={`flex h-12 w-full items-center justify-between rounded-xl border bg-white px-4 text-sm sm:text-base transition-all duration-250 hover:border-slate-400 focus:border-brand-green-500 focus:outline-none focus:ring-2 focus:ring-brand-green-500/20 ${
+          className={`flex h-12 w-full items-center justify-between rounded-xl border bg-white px-4 text-sm sm:text-base cursor-pointer transition-all duration-200 hover:border-slate-400 hover:bg-slate-50/50 focus:border-brand-green-500 focus:outline-none focus:ring-2 focus:ring-brand-green-500/20 active:scale-[0.99] ${
             icon ? "pl-11" : ""
           } ${
             error
@@ -93,7 +93,7 @@ export default function AssessmentSelect({
           />
         </button>
         {open && (
-          <div className="absolute z-50 mt-1.5 max-h-60 w-full overflow-y-auto rounded-xl border border-slate-300 bg-white py-1.5 shadow-xl">
+          <div className="absolute z-50 mt-1.5 max-h-60 w-full overflow-y-auto rounded-xl border border-slate-300 bg-white py-1.5 shadow-2xl">
             {options.map((opt) => (
               <button
                 key={opt}
@@ -102,10 +102,10 @@ export default function AssessmentSelect({
                   onChange(opt);
                   setOpen(false);
                 }}
-                className={`w-full px-4 py-2.5 text-left text-sm sm:text-base transition-colors ${
+                className={`w-full px-4 py-2.5 text-left text-sm sm:text-base cursor-pointer transition-all duration-150 ${
                   value === opt
-                    ? "font-bold text-brand-green-700 bg-brand-green-50/90"
-                    : "font-medium text-navy-950 hover:bg-slate-100"
+                    ? "font-bold text-brand-green-700 bg-brand-green-50/90 shadow-2xs"
+                    : "font-medium text-navy-950 hover:bg-brand-green-50/60 hover:text-brand-green-700 hover:translate-x-1"
                 }`}
               >
                 {opt}

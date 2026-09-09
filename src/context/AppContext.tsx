@@ -101,14 +101,30 @@ interface GoalsInfo {
 }
 
 interface DocumentsInfo {
-  aadhaar: string;
-  pan: string;
-  passport: string;
-  drivingLicence: string;
-  insurance: string;
-  property: string;
-  will: string;
-  nominee: string;
+  aadhaar?: boolean | string;
+  pan?: boolean | string;
+  passport?: boolean | string;
+  drivingLicence?: boolean | string;
+  voterId?: boolean;
+  twoWheelerRC?: boolean;
+  fourWheelerRC?: boolean;
+  insurance?: boolean | string;
+  insuranceTypes?: string[];
+  marriageCertificate?: boolean;
+  communityCertificate?: boolean;
+  birthCertificate?: boolean;
+  rationCard?: boolean;
+  ociCard?: boolean;
+  property?: boolean | string;
+  will?: boolean | string;
+  nominee?: boolean | string;
+  education10th?: boolean;
+  education12th?: boolean;
+  diploma?: boolean;
+  bachelors?: boolean;
+  masters?: boolean;
+  courses?: boolean;
+  [key: string]: any;
 }
 
 interface AssessmentData {
@@ -222,20 +238,54 @@ const defaultAssessmentData: AssessmentData = {
     goalPriorities: [],
   },
   documents: {
-    aadhaar: "",
-    pan: "",
-    passport: "",
-    drivingLicence: "",
-    insurance: "",
-    property: "",
-    will: "",
-    nominee: "",
+    aadhaar: undefined,
+    pan: undefined,
+    passport: undefined,
+    drivingLicence: undefined,
+    voterId: undefined,
+    twoWheelerRC: undefined,
+    fourWheelerRC: undefined,
+    insurance: undefined,
+    insuranceTypes: [],
+    marriageCertificate: undefined,
+    communityCertificate: undefined,
+    birthCertificate: undefined,
+    rationCard: undefined,
+    ociCard: undefined,
+    property: undefined,
+    will: undefined,
+    nominee: undefined,
+    education10th: undefined,
+    education12th: undefined,
+    diploma: undefined,
+    bachelors: undefined,
+    masters: undefined,
+    courses: undefined,
   },
 };
 
 // ─── Demo Credentials ───
-const DEMO_EMAIL = "smartfin@gmail.com";
-const DEMO_PASSWORD = "SmartFin @123";
+export const DEMO_ACCOUNTS = [
+  {
+    email: "smartfin@gmail.com",
+    password: "SmartFin @123",
+  },
+  {
+    email: "gokul@gmail.com",
+    password: "Smartfin123",
+  },
+];
+
+export function validateDemoCredentials(email: string, password: string) {
+  const normalizedEmail = email.trim().toLowerCase();
+  const match = DEMO_ACCOUNTS.find(
+    (acc) => acc.email.toLowerCase() === normalizedEmail && acc.password === password
+  );
+  if (match) {
+    return { success: true, email: match.email };
+  }
+  return { success: false, error: "Invalid email or password." };
+}
 
 // ─── Context ───
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -269,11 +319,12 @@ export function AppProvider({ children }: { children: ReactNode }) {
   }, [assessmentData]);
 
   const login = useCallback((email: string, password: string) => {
-    if (email === DEMO_EMAIL && password === DEMO_PASSWORD) {
-      setAuth({ isAuthenticated: true, email });
+    const res = validateDemoCredentials(email, password);
+    if (res.success && res.email) {
+      setAuth({ isAuthenticated: true, email: res.email });
       return { success: true };
     }
-    return { success: false, error: "Invalid email or password. Please use the demo credentials." };
+    return { success: false, error: res.error || "Invalid email or password." };
   }, []);
 
   const logout = useCallback(() => {

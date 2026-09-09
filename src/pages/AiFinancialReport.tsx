@@ -36,9 +36,8 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 
 const NAV_LINKS = [
   { label: "Home", href: "/" },
-  { label: "Features", href: "/#features" },
+  { label: "Features", href: "/features" },
   { label: "How It Works", href: "/how-it-works" },
-  { label: "Pricing", href: "/pricing" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
 ];
@@ -48,9 +47,8 @@ const FOOTER_COLUMNS = [
     title: "Quick Links",
     links: [
       { label: "Home", href: "/" },
-      { label: "Features", href: "/#features" },
+      { label: "Features", href: "/features" },
       { label: "How It Works", href: "/how-it-works" },
-      { label: "Pricing", href: "/pricing" },
       { label: "About", href: "/about" },
       { label: "Contact", href: "/contact" },
     ],
@@ -177,8 +175,8 @@ function DonutChart({
         ))}
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <span className="text-xs font-semibold text-navy-900/60">{centerLabel}</span>
-        <span className="text-sm font-bold text-navy-950">{centerValue}</span>
+        <span className="text-xs font-bold text-navy-900/80">{centerLabel}</span>
+        <span className="text-sm font-extrabold text-navy-950">{centerValue}</span>
       </div>
     </div>
   );
@@ -215,14 +213,14 @@ function FinancialOverviewChart() {
               y1={toY(v)}
               x2={chartW}
               y2={toY(v)}
-              stroke="#e5e7eb"
-              strokeWidth="0.5"
+              stroke="#cbd5e1"
+              strokeWidth="0.75"
             />
             <text
               x={padL - 5}
               y={toY(v) + 4}
               textAnchor="end"
-              className="fill-navy-900/70 font-semibold"
+              className="fill-navy-950 font-bold"
               fontSize="11"
             >
               {v === 0 ? "₹ 0" : v === 30 ? "₹ 50K" : v === 60 ? "₹ 1L" : v === 90 ? "₹ 1.5L" : "₹ 2L"}
@@ -235,7 +233,7 @@ function FinancialOverviewChart() {
             x={toX(i)}
             y={chartH - 5}
             textAnchor="middle"
-            className="fill-navy-900/70 font-semibold"
+            className="fill-navy-950 font-bold"
             fontSize="11"
           >
             {m}
@@ -350,16 +348,16 @@ export default function AiFinancialReport() {
             <h1 className="text-3xl font-extrabold text-navy-950 sm:text-4xl">
               Personalized Financial Readiness Report
             </h1>
-            <p className="mt-2 text-[15px] text-navy-900/55">
+            <p className="mt-2 text-[15px] font-medium text-slate-700">
               Your AI-powered financial analysis and personalized roadmap to financial freedom.
             </p>
           </div>
           <div className="flex flex-col items-start gap-1 sm:items-end">
-            <button className="flex h-10 items-center gap-2 rounded-xl border-2 border-brand-green-500 bg-white px-4 text-sm font-semibold text-brand-green-600 transition-all hover:bg-brand-green-50">
+            <button className="flex h-10 items-center gap-2 rounded-xl border-2 border-brand-green-500 bg-white px-4 text-sm font-bold text-brand-green-700 transition-all duration-200 hover:bg-brand-green-500 hover:text-white hover:shadow-md active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green-500 cursor-pointer">
               <DownloadIcon sx={{ fontSize: 18 }} />
               Download PDF
             </button>
-            <span className="text-xs text-navy-900/45">Generated on: May 08, 2025</span>
+            <span className="text-xs font-semibold text-slate-700">Generated on: May 08, 2025</span>
           </div>
         </div>
 
@@ -373,18 +371,18 @@ export default function AiFinancialReport() {
                 <GaugeChart value={78} max={100} color="#22b573" bgColor="#eef1f6" size={150} />
                 <div className="absolute inset-0 flex flex-col items-center justify-center">
                   <span className="text-3xl font-extrabold text-navy-950">78</span>
-                  <span className="text-xs text-navy-900/45">/ 100</span>
+                  <span className="text-xs font-bold text-navy-900/70">/ 100</span>
                 </div>
               </div>
               <div className="text-center sm:text-left">
-                <p className="text-sm font-semibold text-navy-950">You are in a good financial position.</p>
-                <p className="mt-1 text-xs leading-relaxed text-navy-900/55">
+                <p className="text-sm font-bold text-navy-950">You are in a good financial position.</p>
+                <p className="mt-1 text-xs font-medium leading-relaxed text-slate-700">
                   Keep going! With a few improvements, you can achieve financial freedom faster.
                 </p>
-                <div className="mt-3 inline-flex items-center gap-1.5 rounded-lg bg-brand-green-50 px-3 py-1.5">
+                <div className="mt-3 inline-flex items-center gap-1.5 rounded-lg bg-brand-green-50 border border-brand-green-200/60 px-3 py-1.5 shadow-xs">
                   <TrendingUpIcon sx={{ fontSize: 14 }} className="text-brand-green-500" />
-                  <span className="text-xs font-semibold text-brand-green-600">+12 points</span>
-                  <span className="text-[10px] text-navy-900/45">vs last assessment</span>
+                  <span className="text-xs font-extrabold text-brand-green-700">+12 points</span>
+                  <span className="text-[11px] font-semibold text-slate-700">vs last assessment</span>
                 </div>
               </div>
             </div>
@@ -393,24 +391,24 @@ export default function AiFinancialReport() {
             <div className="flex-1">
               <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
                 {[
-                  { icon: <AutoGraphIcon sx={{ fontSize: 18 }} />, iconColor: "bg-purple-50 text-purple-600", label: "Investment Readiness", value: "72 / 100", status: "Moderate", statusColor: "text-purple-600" },
-                  { icon: <ShieldIcon sx={{ fontSize: 18 }} />, iconColor: "bg-brand-green-50 text-brand-green-600", label: "Emergency Fund", value: "3.4 Months", status: "Good", statusColor: "text-brand-green-600" },
-                  { icon: <CreditCardIcon sx={{ fontSize: 18 }} />, iconColor: "bg-orange-50 text-orange-600", label: "Debt Ratio", value: "32%", status: "Healthy", statusColor: "text-brand-green-600" },
-                  { icon: <SavingsIcon sx={{ fontSize: 18 }} />, iconColor: "bg-brand-green-50 text-brand-green-600", label: "Savings Capacity", value: "24%", status: "of Income", statusColor: "text-navy-900/55" },
-                  { icon: <AccountBalanceWalletIcon sx={{ fontSize: 18 }} />, iconColor: "bg-sky-50 text-sky-600", label: "Net Worth", value: "₹ 28,75,000", status: "+12.6%", statusColor: "text-brand-green-600" },
-                  { icon: <PaidIcon sx={{ fontSize: 18 }} />, iconColor: "bg-amber-50 text-amber-600", label: "Cash Flow", value: "₹ 45,000", status: "Surplus / Month", statusColor: "text-navy-900/55" },
-                  { icon: <SecurityIcon sx={{ fontSize: 18 }} />, iconColor: "bg-red-50 text-red-500", label: "Insurance Gap", value: "₹ 12,00,000", status: "High", statusColor: "text-red-500" },
-                  { icon: <HealthAndSafetyIcon sx={{ fontSize: 18 }} />, iconColor: "bg-brand-green-50 text-brand-green-600", label: "Financial Health", value: "Good", status: "Stable", statusColor: "text-navy-900/55" },
+                  { icon: <AutoGraphIcon sx={{ fontSize: 18 }} />, iconColor: "bg-purple-50 text-purple-600", label: "Investment Readiness", value: "72 / 100", status: "Moderate", statusColor: "text-purple-600 font-bold" },
+                  { icon: <ShieldIcon sx={{ fontSize: 18 }} />, iconColor: "bg-brand-green-50 text-brand-green-600", label: "Emergency Fund", value: "3.4 Months", status: "Good", statusColor: "text-brand-green-700 font-bold" },
+                  { icon: <CreditCardIcon sx={{ fontSize: 18 }} />, iconColor: "bg-orange-50 text-orange-600", label: "Debt Ratio", value: "32%", status: "Healthy", statusColor: "text-brand-green-700 font-bold" },
+                  { icon: <SavingsIcon sx={{ fontSize: 18 }} />, iconColor: "bg-brand-green-50 text-brand-green-600", label: "Savings Capacity", value: "24%", status: "of Income", statusColor: "text-slate-700 font-semibold" },
+                  { icon: <AccountBalanceWalletIcon sx={{ fontSize: 18 }} />, iconColor: "bg-sky-50 text-sky-600", label: "Net Worth", value: "₹ 28,75,000", status: "+12.6%", statusColor: "text-brand-green-700 font-bold" },
+                  { icon: <PaidIcon sx={{ fontSize: 18 }} />, iconColor: "bg-amber-50 text-amber-600", label: "Cash Flow", value: "₹ 45,000", status: "Surplus / Month", statusColor: "text-slate-700 font-semibold" },
+                  { icon: <SecurityIcon sx={{ fontSize: 18 }} />, iconColor: "bg-red-50 text-red-500", label: "Insurance Gap", value: "₹ 12,00,000", status: "High", statusColor: "text-red-600 font-extrabold" },
+                  { icon: <HealthAndSafetyIcon sx={{ fontSize: 18 }} />, iconColor: "bg-brand-green-50 text-brand-green-600", label: "Financial Health", value: "Good", status: "Stable", statusColor: "text-slate-700 font-semibold" },
                 ].map((m) => (
-                  <div key={m.label} className="rounded-xl border border-navy-950/5 bg-slate-50/50 p-4">
+                  <div key={m.label} className="card-hover-effect rounded-xl border border-navy-950/10 bg-white p-4 shadow-[0_2px_10px_rgba(13,37,73,0.03)]">
                     <div className="mb-3 flex items-center gap-2">
                       <span className={`flex h-8 w-8 items-center justify-center rounded-lg ${m.iconColor}`}>
                         {m.icon}
                       </span>
                     </div>
-                    <p className="text-xs font-semibold text-navy-900/70">{m.label}</p>
-                    <p className="mt-1 text-lg font-bold text-navy-950">{m.value}</p>
-                    <p className={`text-xs font-semibold ${m.statusColor}`}>{m.status}</p>
+                    <p className="text-xs font-bold text-navy-950">{m.label}</p>
+                    <p className="mt-1 text-lg font-extrabold text-navy-950">{m.value}</p>
+                    <p className={`text-xs ${m.statusColor}`}>{m.status}</p>
                   </div>
                 ))}
               </div>
@@ -430,10 +428,10 @@ export default function AiFinancialReport() {
                     key={f}
                     type="button"
                     onClick={() => setTimeFilter(f)}
-                    className={`rounded-lg px-3 py-1.5 text-xs font-semibold transition-all ${
+                    className={`rounded-lg px-3 py-1.5 text-xs font-bold transition-all cursor-pointer ${
                       timeFilter === f
-                        ? "bg-brand-green-500 text-white"
-                        : "bg-navy-950/5 text-navy-900/55 hover:bg-navy-950/10"
+                        ? "bg-brand-green-500 text-white shadow-sm"
+                        : "bg-slate-100 text-navy-950 hover:bg-slate-200"
                     }`}
                   >
                     {f}
@@ -444,15 +442,15 @@ export default function AiFinancialReport() {
             <div className="mb-3 flex items-center gap-5">
               <div className="flex items-center gap-1.5">
                 <span className="h-2.5 w-2.5 rounded-full bg-brand-green-500" />
-                <span className="text-xs text-navy-900/55">Income</span>
+                <span className="text-xs font-bold text-navy-950">Income</span>
               </div>
               <div className="flex items-center gap-1.5">
                 <span className="h-2.5 w-2.5 rounded-full bg-red-500" />
-                <span className="text-xs text-navy-900/55">Expenses</span>
+                <span className="text-xs font-bold text-navy-950">Expenses</span>
               </div>
               <div className="flex items-center gap-1.5">
                 <span className="h-2.5 w-2.5 rounded-full bg-blue-500" />
-                <span className="text-xs text-navy-900/55">Savings</span>
+                <span className="text-xs font-bold text-navy-950">Savings</span>
               </div>
             </div>
             <FinancialOverviewChart />
@@ -484,22 +482,22 @@ export default function AiFinancialReport() {
                   <div key={item.label} className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <span className={`h-2.5 w-2.5 rounded-full ${item.color}`} />
-                      <span className="text-xs text-navy-900/60">{item.label}</span>
+                      <span className="text-xs font-semibold text-navy-950">{item.label}</span>
                     </div>
-                    <span className="text-xs font-semibold text-navy-950">{item.pct}</span>
+                    <span className="text-xs sm:text-sm font-extrabold text-navy-950">{item.pct}</span>
                   </div>
                 ))}
               </div>
             </div>
-            <div className="mt-5 border-t border-navy-950/5 pt-4">
+            <div className="mt-5 border-t border-slate-200 pt-4">
               <div className="flex items-center justify-between">
-                <span className="text-sm text-navy-900/55">Diversification Score</span>
+                <span className="text-sm font-bold text-navy-950">Diversification Score</span>
                 <div className="flex items-center gap-2">
-                  <span className="text-sm font-semibold text-brand-green-600">Good</span>
-                  <span className="text-xs text-navy-900/45">72/100</span>
+                  <span className="text-sm font-extrabold text-brand-green-700">Good</span>
+                  <span className="text-xs font-bold text-navy-950">72/100</span>
                 </div>
               </div>
-              <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-navy-950/5">
+              <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-slate-200">
                 <div className="h-full rounded-full bg-brand-green-500" style={{ width: "72%" }} />
               </div>
             </div>
@@ -509,12 +507,12 @@ export default function AiFinancialReport() {
         {/* ─── Strengths + Weaknesses + Recommendations ─── */}
         <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-3">
           {/* Strengths */}
-          <div className="rounded-2xl border border-navy-950/5 bg-white p-6 shadow-[0_2px_12px_rgba(13,37,73,0.04)]">
+          <div className="card-hover-effect rounded-2xl border border-navy-950/5 bg-white p-6 shadow-[0_2px_12px_rgba(13,37,73,0.04)]">
             <div className="mb-4 flex items-center gap-2">
               <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-green-50 text-brand-green-600">
                 <TrendingUpIcon sx={{ fontSize: 18 }} />
               </span>
-              <p className="text-base font-bold text-navy-950">Strengths</p>
+              <p className="text-base font-extrabold text-navy-950">Strengths</p>
             </div>
             <ul className="space-y-3">
               {[
@@ -526,19 +524,19 @@ export default function AiFinancialReport() {
               ].map((s) => (
                 <li key={s} className="flex items-start gap-2">
                   <CheckCircleIcon sx={{ fontSize: 16, mt: 0.3 }} className="shrink-0 text-brand-green-500" />
-                  <span className="text-sm text-navy-900/60">{s}</span>
+                  <span className="text-sm font-semibold text-navy-950">{s}</span>
                 </li>
               ))}
             </ul>
           </div>
 
           {/* Weaknesses */}
-          <div className="rounded-2xl border border-navy-950/5 bg-white p-6 shadow-[0_2px_12px_rgba(13,37,73,0.04)]">
+          <div className="card-hover-effect rounded-2xl border border-navy-950/5 bg-white p-6 shadow-[0_2px_12px_rgba(13,37,73,0.04)]">
             <div className="mb-4 flex items-center gap-2">
               <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-amber-50 text-amber-600">
                 <WarningAmberIcon sx={{ fontSize: 18 }} />
               </span>
-              <p className="text-base font-bold text-navy-950">Weaknesses</p>
+              <p className="text-base font-extrabold text-navy-950">Weaknesses</p>
             </div>
             <ul className="space-y-3">
               {[
@@ -549,19 +547,19 @@ export default function AiFinancialReport() {
               ].map((s) => (
                 <li key={s} className="flex items-start gap-2">
                   <WarningAmberIcon sx={{ fontSize: 16, mt: 0.3 }} className="shrink-0 text-amber-500" />
-                  <span className="text-sm text-navy-900/60">{s}</span>
+                  <span className="text-sm font-semibold text-navy-950">{s}</span>
                 </li>
               ))}
             </ul>
           </div>
 
           {/* Top Recommendations */}
-          <div className="rounded-2xl border border-navy-950/5 bg-white p-6 shadow-[0_2px_12px_rgba(13,37,73,0.04)]">
+          <div className="card-hover-effect rounded-2xl border border-navy-950/5 bg-white p-6 shadow-[0_2px_12px_rgba(13,37,73,0.04)]">
             <div className="mb-4 flex items-center gap-2">
               <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-purple-50 text-purple-600">
                 <LightbulbIcon sx={{ fontSize: 18 }} />
               </span>
-              <p className="text-base font-bold text-navy-950">Top Recommendations</p>
+              <p className="text-base font-extrabold text-navy-950">Top Recommendations</p>
             </div>
             <ul className="space-y-3">
               {[
@@ -573,7 +571,7 @@ export default function AiFinancialReport() {
               ].map((s) => (
                 <li key={s} className="flex items-start gap-2">
                   <LightbulbIcon sx={{ fontSize: 16, mt: 0.3 }} className="shrink-0 text-purple-500" />
-                  <span className="text-sm text-navy-900/60">{s}</span>
+                  <span className="text-sm font-semibold text-navy-950">{s}</span>
                 </li>
               ))}
             </ul>
@@ -582,7 +580,7 @@ export default function AiFinancialReport() {
 
         {/* ─── Recommended Investment Categories ─── */}
         <div className="mt-6 rounded-2xl border border-navy-950/5 bg-white p-6 shadow-[0_2px_12px_rgba(13,37,73,0.04)]">
-          <p className="mb-5 text-base font-bold text-navy-950">Recommended Investment Categories for You</p>
+          <p className="mb-5 text-base font-extrabold text-navy-950">Recommended Investment Categories for You</p>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 lg:grid-cols-5">
             {[
               { name: "Equity Funds", pct: "40%", desc: "High Growth Potential", color: "bg-blue-50 text-blue-600", barColor: "bg-blue-500", icon: <ShowChartIcon sx={{ fontSize: 20 }} />, barW: "40%" },
@@ -591,14 +589,14 @@ export default function AiFinancialReport() {
               { name: "Direct Stocks", pct: "15%", desc: "Long Term Wealth", color: "bg-brand-green-50 text-brand-green-600", barColor: "bg-brand-green-500", icon: <BarChartIcon sx={{ fontSize: 20 }} />, barW: "15%" },
               { name: "Cash / Others", pct: "10%", desc: "Liquidity & Safety", color: "bg-orange-50 text-orange-600", barColor: "bg-orange-500", icon: <AccountBalanceWalletIcon sx={{ fontSize: 20 }} />, barW: "10%" },
             ].map((cat) => (
-              <div key={cat.name} className="rounded-xl border border-navy-950/5 bg-slate-50/50 p-4">
+              <div key={cat.name} className="card-hover-effect rounded-xl border border-navy-950/10 bg-white p-4 shadow-[0_2px_10px_rgba(13,37,73,0.03)]">
                 <span className={`mb-3 flex h-10 w-10 items-center justify-center rounded-xl ${cat.color}`}>
                   {cat.icon}
                 </span>
                 <p className="mt-3 text-sm font-bold text-navy-950">{cat.name}</p>
-                <p className="text-lg font-extrabold text-navy-950">{cat.pct}</p>
-                <p className="mt-1 text-xs text-navy-900/55">{cat.desc}</p>
-                <div className="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-navy-950/5">
+                <p className="text-xl font-extrabold text-navy-950">{cat.pct}</p>
+                <p className="mt-1 text-xs font-semibold text-slate-700">{cat.desc}</p>
+                <div className="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-slate-200">
                   <div className={`h-full rounded-full ${cat.barColor}`} style={{ width: cat.barW }} />
                 </div>
               </div>
@@ -608,51 +606,51 @@ export default function AiFinancialReport() {
 
         {/* ─── Personalized Financial Roadmap ─── */}
         <div className="mt-6 rounded-2xl border border-navy-950/5 bg-white p-6 shadow-[0_2px_12px_rgba(13,37,73,0.04)]">
-          <p className="mb-6 text-base font-bold text-navy-950">Your Personalized Financial Roadmap</p>
+          <p className="mb-6 text-base font-extrabold text-navy-950">Your Personalized Financial Roadmap</p>
           <div className="relative">
             {/* Connection line */}
-            <div className="absolute left-0 top-6 hidden h-0.5 w-full bg-navy-950/10 lg:block" />
+            <div className="absolute left-0 top-6 hidden h-0.5 w-full bg-slate-300 lg:block" />
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-5">
               {[
                 {
                   period: "0 - 3 Months",
                   icon: <EventIcon sx={{ fontSize: 18 }} />,
-                  iconColor: "bg-brand-green-50 text-brand-green-600",
+                  iconColor: "bg-brand-green-50 text-brand-green-600 border border-brand-green-200",
                   tasks: ["Build emergency fund to 3 months", "Review & optimize expenses", "Close high-interest debt"],
                 },
                 {
                   period: "3 - 6 Months",
                   icon: <FlagIcon sx={{ fontSize: 18 }} />,
-                  iconColor: "bg-brand-green-50 text-brand-green-600",
+                  iconColor: "bg-brand-green-50 text-brand-green-600 border border-brand-green-200",
                   tasks: ["Complete 6 months emergency fund", "Increase insurance coverage", "Start SIP of ₹10,000"],
                 },
                 {
                   period: "6 - 12 Months",
                   icon: <ShowChartIcon sx={{ fontSize: 18 }} />,
-                  iconColor: "bg-purple-50 text-purple-600",
+                  iconColor: "bg-purple-50 text-purple-600 border border-purple-200",
                   tasks: ["Invest in diversified mutual funds", "Review investment performance", "Improve credit score"],
                 },
                 {
                   period: "1 - 3 Years",
                   icon: <RocketLaunchIcon sx={{ fontSize: 18 }} />,
-                  iconColor: "bg-orange-50 text-orange-600",
+                  iconColor: "bg-orange-50 text-orange-600 border border-orange-200",
                   tasks: ["Increase SIP to ₹15,000+", "Build long-term wealth portfolio", "Plan for major goals"],
                 },
                 {
                   period: "3+ Years",
                   icon: <EmojiEventsIcon sx={{ fontSize: 18 }} />,
-                  iconColor: "bg-sky-50 text-sky-600",
+                  iconColor: "bg-sky-50 text-sky-600 border border-sky-200",
                   tasks: ["Achieve financial independence", "Retirement planning", "Wealth protection"],
                 },
               ].map((stage) => (
                 <div key={stage.period} className="relative flex flex-col items-center text-center">
-                  <span className={`z-10 flex h-12 w-12 items-center justify-center rounded-full ${stage.iconColor} shadow-sm`}>
+                  <span className={`z-10 flex h-12 w-12 items-center justify-center rounded-full ${stage.iconColor} shadow-xs`}>
                     {stage.icon}
                   </span>
-                  <p className="mt-3 text-sm font-bold text-navy-950">{stage.period}</p>
-                  <ul className="mt-2 space-y-1">
+                  <p className="mt-3 text-sm font-extrabold text-navy-950">{stage.period}</p>
+                  <ul className="mt-2 space-y-1.5">
                     {stage.tasks.map((t) => (
-                      <li key={t} className="text-xs text-navy-900/55">• {t}</li>
+                      <li key={t} className="text-xs font-semibold leading-relaxed text-slate-700">• {t}</li>
                     ))}
                   </ul>
                 </div>

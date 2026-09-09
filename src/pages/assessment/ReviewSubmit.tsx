@@ -37,9 +37,8 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 
 const NAV_LINKS = [
   { label: "Home", href: "/" },
-  { label: "Features", href: "/#features" },
+  { label: "Features", href: "/features" },
   { label: "How It Works", href: "/how-it-works" },
-  { label: "Pricing", href: "/pricing" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
 ];
@@ -49,9 +48,8 @@ const FOOTER_COLUMNS = [
     title: "Quick Links",
     links: [
       { label: "Home", href: "/" },
-      { label: "Features", href: "/#features" },
+      { label: "Features", href: "/features" },
       { label: "How It Works", href: "/how-it-works" },
-      { label: "Pricing", href: "/pricing" },
       { label: "About", href: "/about" },
       { label: "Contact", href: "/contact" },
     ],
@@ -109,6 +107,93 @@ export default function ReviewSubmit() {
   const [agreed, setAgreed] = useState(false);
   const [expanded, setExpanded] = useState(false);
   const [submitAttempted, setSubmitAttempted] = useState(false);
+
+  const DOCUMENT_LABELS: Record<string, string> = {
+    aadhaar: "Aadhaar",
+    pan: "PAN",
+    passport: "Passport",
+    drivingLicence: "Driving Licence",
+    voterId: "Voter ID",
+    twoWheelerRC: "2 Wheeler RC",
+    fourWheelerRC: "4 Wheeler RC",
+    insurance: "Insurance",
+    marriageCertificate: "Marriage Certificate",
+    communityCertificate: "Community Certificate",
+    birthCertificate: "Birth Certificate",
+    rationCard: "Ration Card",
+    ociCard: "OCI Card",
+    property: "Property Documents",
+    will: "Will",
+    nominee: "Nominee Details",
+    education10th: "10th",
+    education12th: "12th",
+    diploma: "Diploma",
+    bachelors: "Bachelors",
+    masters: "Masters",
+    courses: "Courses",
+  };
+
+  const getSelectedDocumentItems = () => {
+    const docs = (assessmentData.documents || {}) as Record<string, any>;
+    const items: { label: string; value: string; check?: boolean }[] = [];
+
+    const keysInOrder = [
+      "aadhaar",
+      "pan",
+      "passport",
+      "drivingLicence",
+      "voterId",
+      "twoWheelerRC",
+      "fourWheelerRC",
+      "insurance",
+      "marriageCertificate",
+      "communityCertificate",
+      "birthCertificate",
+      "rationCard",
+      "ociCard",
+      "property",
+      "will",
+      "nominee",
+      "education10th",
+      "education12th",
+      "diploma",
+      "bachelors",
+      "masters",
+      "courses",
+    ];
+
+    keysInOrder.forEach((key) => {
+      const val = docs[key];
+      const isYes = val === true || val === "uploaded";
+      if (isYes) {
+        if (key === "insurance") {
+          const types = Array.isArray(docs.insuranceTypes) && docs.insuranceTypes.length > 0
+            ? docs.insuranceTypes.join(", ")
+            : "Available";
+          items.push({
+            label: "Insurance",
+            value: types,
+            check: true,
+          });
+        } else {
+          items.push({
+            label: DOCUMENT_LABELS[key] || key,
+            value: "Available",
+            check: true,
+          });
+        }
+      }
+    });
+
+    if (items.length === 0) {
+      items.push({
+        label: "Available Documents",
+        value: "None selected",
+      });
+    }
+
+    return items;
+  };
 
   const summaryCards: SummaryCard[] = [
     {
@@ -256,10 +341,7 @@ export default function ReviewSubmit() {
       iconColor: "bg-pink-50 text-pink-700",
       bulletColor: "bg-pink-500",
       editRoute: "/government-documents",
-      items: [
-        { label: "PAN Card", value: assessmentData.documents?.pan ? (["uploaded", "pending"].includes(assessmentData.documents.pan) ? assessmentData.documents.pan.toUpperCase() : "Uploaded") : "Pending" },
-        { label: "Aadhaar", value: assessmentData.documents?.aadhaar ? (["uploaded", "pending"].includes(assessmentData.documents.aadhaar) ? assessmentData.documents.aadhaar : "Uploaded") : "Pending" },
-      ],
+      items: getSelectedDocumentItems(),
     },
     {
       key: "checklist",
@@ -564,7 +646,7 @@ export default function ReviewSubmit() {
         <div className="mt-8 flex flex-col items-center gap-4 sm:flex-row sm:justify-between">
           <button
             type="button"
-            onClick={() => navigate("/government-documents")}
+            onClick={() => navigate("/selected-documents")}
             className="flex h-12 items-center gap-2 rounded-xl border-2 border-brand-green-600 bg-white px-6 text-sm font-bold text-brand-green-700 transition-all duration-250 hover:bg-brand-green-50 active:scale-[0.98]"
           >
             <ArrowBackIcon sx={{ fontSize: 18 }} />

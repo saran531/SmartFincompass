@@ -37,10 +37,9 @@ import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import InstagramIcon from "@mui/icons-material/Instagram";
 
 const NAV_LINKS = [
-  { label: "Home", href: "#home" },
+  { label: "Home", href: "/" },
   { label: "Features", href: "/features" },
   { label: "How It Works", href: "/how-it-works" },
-  { label: "Pricing", href: "/pricing" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
 ];
@@ -221,9 +220,8 @@ const FOOTER_COLUMNS = [
     title: "Quick Links",
     links: [
       { label: "Home", href: "/" },
-      { label: "Features", href: "/#features" },
+      { label: "Features", href: "/features" },
       { label: "How It Works", href: "/how-it-works" },
-      { label: "Pricing", href: "/pricing" },
       { label: "About", href: "/about" },
       { label: "Contact", href: "/contact" },
     ],
@@ -282,8 +280,8 @@ function ScoreGauge({ score }: { score: number }) {
         </defs>
       </svg>
       <div className="absolute bottom-0 flex flex-col items-center">
-        <span className="text-5xl font-extrabold text-navy-950">{score}</span>
-        <span className="mt-0.5 text-sm font-semibold text-brand-green-600">
+        <span className="text-5xl font-extrabold text-white">{score}</span>
+        <span className="mt-0.5 text-sm font-semibold text-brand-green-400">
           Good
         </span>
       </div>
@@ -375,14 +373,25 @@ export default function Home() {
           <div className="border-t border-navy-950/5 bg-white px-6 py-4 lg:hidden">
             <nav className="flex flex-col gap-4">
               {NAV_LINKS.map((link) => (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  className="text-sm font-medium text-navy-900/80"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  {link.label}
-                </a>
+                link.href.startsWith("/") && !link.href.startsWith("/#") ? (
+                  <Link
+                    key={link.label}
+                    to={link.href}
+                    className="text-sm font-medium text-navy-900/80 transition-colors hover:text-brand-green-600"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    {link.label}
+                  </Link>
+                ) : (
+                  <a
+                    key={link.label}
+                    href={link.href}
+                    className="text-sm font-medium text-navy-900/80 transition-colors hover:text-brand-green-600"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    {link.label}
+                  </a>
+                )
               ))}
             </nav>
             <div className="mt-4 flex flex-col gap-3">
@@ -407,17 +416,18 @@ export default function Home() {
 
       <main>
         {/* ─── HERO ─── */}
-        <section id="home" className="relative overflow-hidden bg-white">
-          <div className="pointer-events-none absolute inset-x-0 top-0 h-[700px] bg-gradient-to-br from-brand-green-50 via-white to-sky-50" />
+        <section id="home" className="relative overflow-hidden bg-navy-950 text-white">
+          <div className="pointer-events-none absolute inset-x-0 top-0 h-[700px] bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-brand-green-500/15 via-navy-900/50 to-transparent" />
+          <div className="pointer-events-none absolute -top-40 -right-40 h-96 w-96 rounded-full bg-brand-green-500/10 blur-3xl animate-pulse-glow" />
 
           <div className="relative mx-auto grid max-w-7xl gap-16 px-6 py-20 lg:grid-cols-2 lg:items-center lg:gap-12 lg:px-10 lg:py-28">
-            <div>
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.1] text-navy-950">
+            <div className="animate-fade-in-up">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.1] text-white">
                 Know Your{" "}
-                <span className="text-brand-green-600">Financial Readiness</span>{" "}
+                <span className="text-brand-green-400">Financial Readiness</span>{" "}
                 Before You Invest
               </h1>
-              <p className="mt-7 max-w-xl text-base sm:text-lg leading-relaxed text-navy-900/70">
+              <p className="mt-7 max-w-xl text-base sm:text-lg leading-relaxed text-slate-300">
                 AI-powered financial wellness platform that analyzes your
                 complete financial profile and generates a personalized
                 financial roadmap.
@@ -426,12 +436,12 @@ export default function Home() {
               <div className="mt-10 flex flex-wrap items-center gap-5">
                 <Link
                   to="/login"
-                  className="group/btn inline-flex items-center gap-2.5 rounded-lg bg-brand-green-500 px-7 py-3.5 text-sm sm:text-base font-semibold text-white shadow-soft transition-all duration-250 hover:bg-brand-green-600 hover:shadow-md hover:-translate-y-0.5 active:scale-[0.98] active:shadow-sm active:translate-y-0"
+                  className="group/btn btn-hover-effect inline-flex items-center gap-2.5 rounded-lg bg-brand-green-500 px-7 py-3.5 text-sm sm:text-base font-semibold text-white shadow-lg shadow-brand-green-500/25 transition-all duration-250 hover:bg-brand-green-400"
                 >
                   Start Assessment
-                  <ArrowForwardIcon fontSize="small" className="transition-transform duration-250 group-hover/btn:translate-x-0.5" />
+                  <ArrowForwardIcon fontSize="small" className="transition-transform duration-250 group-hover/btn:translate-x-1" />
                 </Link>
-                <button className="group/btn inline-flex items-center gap-2.5 rounded-lg border border-navy-950/15 px-7 py-3.5 text-sm sm:text-base font-semibold text-navy-950 transition-all duration-250 hover:border-brand-green-500 hover:text-brand-green-600 active:scale-[0.98] active:border-brand-green-600">
+                <button className="group/btn btn-hover-effect inline-flex items-center gap-2.5 rounded-lg border border-white/20 bg-white/5 px-7 py-3.5 text-sm sm:text-base font-semibold text-white transition-all duration-250 hover:border-white/40 hover:bg-white/10">
                   <PlayCircleIcon fontSize="small" className="transition-transform duration-250 group-hover/btn:scale-110" />
                   Watch Demo
                 </button>
@@ -442,20 +452,20 @@ export default function Home() {
                   {["#f5a623", "#22b573", "#1c3f73"].map((c, i) => (
                     <span
                       key={i}
-                      className="h-11 w-11 rounded-full border-2 border-white"
+                      className="h-11 w-11 rounded-full border-2 border-navy-950"
                       style={{ backgroundColor: c }}
                     />
                   ))}
                 </div>
                 <div>
-                  <p className="text-sm font-semibold text-navy-950">
+                  <p className="text-sm font-semibold text-white">
                     Trusted by 10,000+ users
                   </p>
                   <div className="flex items-center gap-1 text-amber-accent">
                     {Array.from({ length: 5 }).map((_, i) => (
                       <StarIcon key={i} sx={{ fontSize: 16 }} />
                     ))}
-                    <span className="ml-1 text-xs sm:text-sm font-medium text-navy-900/60">
+                    <span className="ml-1 text-xs sm:text-sm font-medium text-slate-300">
                       4.8/5
                     </span>
                   </div>
@@ -463,35 +473,35 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="relative">
-              <AutoAwesomeIcon className="absolute -top-4 right-8 text-brand-green-400" sx={{ fontSize: 28 }} />
-              <div className="rounded-3xl border border-navy-950/5 bg-white p-7 shadow-card sm:p-8">
-                <p className="text-base font-bold text-navy-950">
+            <div className="relative animate-fade-in-up delay-200">
+              <AutoAwesomeIcon className="absolute -top-4 right-8 text-brand-green-400 animate-pulse-glow" sx={{ fontSize: 28 }} />
+              <div className="rounded-3xl border border-white/10 bg-navy-900/90 p-7 shadow-2xl backdrop-blur-xl sm:p-8">
+                <p className="text-base font-bold text-white">
                   Your Financial Health Score
                 </p>
 
                 <div className="mt-5 grid gap-7 sm:grid-cols-2">
-                  <div className="flex flex-col items-center justify-center rounded-2xl bg-slate-50/60 py-5">
+                  <div className="flex flex-col items-center justify-center rounded-2xl bg-white/5 py-5 border border-white/5">
                     <ScoreGauge score={78} />
-                    <span className="mt-2 text-sm font-medium text-navy-900/60">
+                    <span className="mt-2 text-sm font-medium text-slate-300">
                       Keep it up!
                     </span>
                   </div>
 
                   <div>
-                    <p className="mb-4 text-xs font-bold uppercase tracking-wider text-navy-900/65">
+                    <p className="mb-4 text-xs font-bold uppercase tracking-wider text-slate-400">
                       Score Breakdown
                     </p>
                     <div className="space-y-3">
                       {SCORE_BREAKDOWN.map((item) => (
                         <div key={item.label}>
-                          <div className="mb-1.5 flex items-center justify-between text-xs sm:text-sm font-medium text-navy-900/70">
+                          <div className="mb-1.5 flex items-center justify-between text-xs sm:text-sm font-medium text-slate-300">
                             <span>{item.label}</span>
-                            <span className="font-bold text-navy-950">
+                            <span className="font-bold text-white">
                               {item.value}
                             </span>
                           </div>
-                          <div className="h-2 w-full overflow-hidden rounded-full bg-slate-100">
+                          <div className="h-2 w-full overflow-hidden rounded-full bg-white/10">
                             <div
                               className="h-full rounded-full bg-gradient-to-r from-amber-accent to-brand-green-500"
                               style={{ width: `${item.value}%` }}
@@ -503,11 +513,11 @@ export default function Home() {
                   </div>
                 </div>
 
-                <div className="mt-7 border-t border-navy-950/5 pt-6">
-                  <p className="mb-3 text-xs font-bold uppercase tracking-wider text-navy-900/65">
+                <div className="mt-7 border-t border-white/10 pt-6">
+                  <p className="mb-3 text-xs font-bold uppercase tracking-wider text-slate-400">
                     Your Personalized Roadmap
                   </p>
-                  <p className="mb-4 text-xs font-semibold text-navy-900/60">
+                  <p className="mb-4 text-xs font-semibold text-slate-400">
                     Recommended Actions
                   </p>
                   <div className="grid grid-cols-2 gap-2.5">
@@ -519,15 +529,15 @@ export default function Home() {
                           onClick={() => setActiveRoadmap(isActive ? null : i)}
                           className={`group/roadmap text-left rounded-xl border p-3 transition-all duration-300 ${
                             isActive
-                              ? "border-brand-green-400 bg-brand-green-50/50 shadow-[0_2px_12px_rgba(34,181,115,0.12)]"
-                              : "border-navy-950/8 bg-slate-50/50 hover:border-brand-green-200/60 hover:shadow-[0_4px_16px_rgba(13,37,73,0.1)]"
+                              ? "border-brand-green-400 bg-brand-green-500/20 shadow-[0_2px_12px_rgba(34,181,115,0.2)]"
+                              : "border-white/10 bg-white/5 hover:border-brand-green-400/50 hover:bg-white/10"
                           }`}
                         >
                           <div className="flex items-start gap-2.5">
                             <span
                               className={`mt-0.5 inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-lg transition-all duration-300 ${
                                 isActive
-                                  ? "scale-110 bg-brand-green-100 text-brand-green-700"
+                                  ? "scale-110 bg-brand-green-500 text-white"
                                   : "group-hover/roadmap:scale-105 " + item.color
                               }`}
                             >
@@ -535,12 +545,12 @@ export default function Home() {
                             </span>
                             <div className="min-w-0">
                               <p className={`text-xs sm:text-sm font-bold leading-snug transition-colors duration-300 ${
-                                isActive ? "text-brand-green-700" : "text-navy-950"
+                                isActive ? "text-brand-green-400" : "text-white"
                               }`}>
                                 {item.title}
                               </p>
                               <p className={`mt-0.5 text-xs font-medium transition-colors duration-300 ${
-                                isActive ? "text-brand-green-600/80" : "text-navy-900/60"
+                                isActive ? "text-brand-green-300/90" : "text-slate-400"
                               }`}>
                                 {item.time}
                               </p>
@@ -552,20 +562,20 @@ export default function Home() {
                   </div>
                 </div>
 
-                <div className="mt-7 flex items-center justify-between border-t border-navy-950/5 pt-6">
+                <div className="mt-7 flex items-center justify-between border-t border-white/10 pt-6">
                   <div>
-                    <p className="text-xs sm:text-sm font-medium text-navy-900/60">
+                    <p className="text-xs sm:text-sm font-medium text-slate-400">
                       Potential Wealth in 5 Years
                     </p>
-                    <p className="text-xl sm:text-2xl font-extrabold text-brand-green-600">
+                    <p className="text-xl sm:text-2xl font-extrabold text-brand-green-400">
                       ₹28,75,000
                     </p>
                   </div>
                   <div className="text-right">
-                    <p className="text-xs sm:text-sm font-medium text-navy-900/60">
+                    <p className="text-xs sm:text-sm font-medium text-slate-400">
                       Monthly Savings Potential
                     </p>
-                    <p className="text-xl sm:text-2xl font-extrabold text-brand-green-600">
+                    <p className="text-xl sm:text-2xl font-extrabold text-brand-green-400">
                       ₹12,500
                     </p>
                   </div>
@@ -593,7 +603,7 @@ export default function Home() {
                 <button
                   key={f.title}
                   onClick={() => setActiveFeature(isActive ? null : i)}
-                  className={`group text-left rounded-2xl border p-6 sm:p-7 shadow-soft transition-all duration-300 ${
+                  className={`group card-hover-effect text-left rounded-2xl border p-6 sm:p-7 shadow-soft transition-all duration-300 ${
                     isActive
                       ? "border-brand-green-400 bg-brand-green-50/30 shadow-[0_4px_24px_rgba(34,181,115,0.12)]"
                       : "border-navy-950/5 bg-white hover:border-brand-green-200 hover:shadow-card"
@@ -628,9 +638,8 @@ export default function Home() {
         {/* ─── HOW IT WORKS ─── */}
         <section
           id="how-it-works"
-          className="relative overflow-hidden bg-navy-950 py-28"
+          className="relative overflow-hidden bg-navy-950 py-28 text-white border-y border-white/10"
         >
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-navy-900 via-navy-950 to-navy-900" />
           <div className="relative mx-auto max-w-7xl px-6 lg:px-10">
             <div className="mx-auto max-w-2xl text-center">
               <p className="section-eyebrow text-xs sm:text-sm font-bold uppercase text-brand-green-400">
@@ -641,14 +650,14 @@ export default function Home() {
               </h2>
             </div>
 
-            <div className="relative mt-20 grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="relative mt-20 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
               <div className="absolute left-0 right-0 top-10 hidden border-t-2 border-dashed border-white/15 lg:block" />
               {STEPS.map((s) => (
                 <div
                   key={s.step}
-                  className="relative flex flex-col items-center text-center"
+                  className="card-hover-effect relative flex flex-col items-center rounded-2xl border border-white/10 bg-navy-900/90 p-7 text-center shadow-xl backdrop-blur-md"
                 >
-                  <div className="relative z-10 grid h-[72px] w-[72px] place-items-center rounded-full bg-navy-800 ring-[6px] ring-navy-950 shadow-[0_0_30px_rgba(34,181,115,0.15)] transition-shadow duration-300 hover:shadow-[0_0_40px_rgba(34,181,115,0.25)]">
+                  <div className="relative z-10 grid h-[72px] w-[72px] place-items-center rounded-full bg-navy-800 text-white ring-4 ring-brand-green-500/30 shadow-md">
                     <s.icon className="text-white" sx={{ fontSize: 28 }} />
                     <span className="absolute -bottom-2 -right-1 flex h-7 w-7 items-center justify-center rounded-full bg-brand-green-500 text-xs font-bold text-white ring-2 ring-navy-950">
                       {s.step}
@@ -657,7 +666,7 @@ export default function Home() {
                   <h3 className="mt-6 text-lg sm:text-xl font-bold text-white">
                     {s.title}
                   </h3>
-                  <p className="mt-2.5 max-w-[260px] text-sm sm:text-base leading-relaxed text-white/75">
+                  <p className="mt-2.5 max-w-[260px] text-sm sm:text-base leading-relaxed text-slate-300">
                     {s.desc}
                   </p>
                 </div>
@@ -667,7 +676,7 @@ export default function Home() {
         </section>
 
         {/* ─── BENEFITS ─── */}
-        <section className="bg-slate-50/60 py-24">
+        <section className="bg-white py-24 text-navy-950">
           <div className="mx-auto max-w-7xl px-6 lg:px-10">
             <div className="mx-auto max-w-2xl text-center">
               <p className="section-eyebrow text-xs sm:text-sm font-bold uppercase text-brand-green-600">
@@ -685,10 +694,10 @@ export default function Home() {
                   <button
                     key={b.tag}
                     onClick={() => setActiveBenefit(isActive ? null : i)}
-                    className={`group text-center rounded-2xl border p-6 sm:p-7 shadow-soft transition-all duration-300 ${
+                    className={`group card-hover-effect text-center rounded-2xl border p-6 sm:p-7 shadow-soft transition-all duration-300 ${
                       isActive
                         ? "border-brand-green-400 bg-brand-green-50/30 shadow-[0_4px_24px_rgba(34,181,115,0.12)]"
-                        : "border-navy-950/5 bg-white hover:border-brand-green-200 hover:shadow-card"
+                        : "border-navy-950/10 bg-white hover:border-brand-green-200 hover:shadow-card"
                     }`}
                   >
                     <span className={`mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full transition-all duration-300 ${
@@ -720,85 +729,87 @@ export default function Home() {
         </section>
 
         {/* ─── TESTIMONIALS ─── */}
-        <section className="mx-auto max-w-7xl px-6 py-24 lg:px-10">
-          <div className="mx-auto max-w-2xl text-center">
-            <p className="section-eyebrow text-xs sm:text-sm font-bold uppercase text-brand-green-600">
-              Testimonials
-            </p>
-            <h2 className="mt-4 text-3xl sm:text-4xl lg:text-[40px] font-extrabold text-navy-950">
-              What Our Users Say
-            </h2>
-          </div>
+        <section className="bg-navy-950 py-24 text-white border-y border-white/10">
+          <div className="mx-auto max-w-7xl px-6 lg:px-10">
+            <div className="mx-auto max-w-2xl text-center">
+              <p className="section-eyebrow text-xs sm:text-sm font-bold uppercase text-brand-green-400">
+                Testimonials
+              </p>
+              <h2 className="mt-4 text-3xl sm:text-4xl lg:text-[40px] font-extrabold text-white">
+                What Our Users Say
+              </h2>
+            </div>
 
-          <div className="mt-14 grid grid-cols-1 gap-8 sm:grid-cols-3">
-            {TESTIMONIALS.map((t, i) => {
-              const isActive = activeTestimonial === i;
-              return (
-                <button
-                  key={t.name}
-                  onClick={() => setActiveTestimonial(isActive ? null : i)}
-                  className={`group text-left rounded-2xl border p-7 shadow-soft transition-all duration-300 ${
-                    isActive
-                      ? "border-brand-green-400 bg-brand-green-50/20 shadow-[0_4px_24px_rgba(34,181,115,0.1)]"
-                      : "border-navy-950/5 bg-white hover:border-brand-green-200 hover:shadow-card"
-                  }`}
-                >
-                  <FormatQuoteIcon
-                    sx={{ fontSize: 36 }}
-                    className={`transition-all duration-300 ${
-                      isActive ? "text-brand-green-600 scale-110" : "text-brand-green-500 group-hover:scale-105"
+            <div className="mt-14 grid grid-cols-1 gap-8 sm:grid-cols-3">
+              {TESTIMONIALS.map((t, i) => {
+                const isActive = activeTestimonial === i;
+                return (
+                  <button
+                    key={t.name}
+                    onClick={() => setActiveTestimonial(isActive ? null : i)}
+                    className={`group card-hover-effect text-left rounded-2xl border p-7 shadow-xl transition-all duration-300 ${
+                      isActive
+                        ? "border-brand-green-400 bg-brand-green-500/20 shadow-[0_4px_24px_rgba(34,181,115,0.2)]"
+                        : "border-white/10 bg-navy-900/90 hover:border-brand-green-400/50 hover:bg-navy-900"
                     }`}
-                  />
-                  <p className="mt-3 text-base sm:text-lg leading-relaxed text-navy-900/80">
-                    {t.quote}
-                  </p>
-                  <div className="mt-7 flex items-center gap-3.5">
-                    <span
-                      className={`grid h-12 w-12 place-items-center rounded-full text-sm font-bold text-white transition-all duration-300 ${
-                        isActive ? "ring-2 ring-brand-green-400 ring-offset-2 scale-105" : "group-hover:scale-105"
+                  >
+                    <FormatQuoteIcon
+                      sx={{ fontSize: 36 }}
+                      className={`transition-all duration-300 ${
+                        isActive ? "text-brand-green-400 scale-110" : "text-brand-green-400 group-hover:scale-105"
                       }`}
-                      style={{ backgroundColor: t.color }}
-                    >
-                      {t.name
-                        .split(" ")
-                        .map((n) => n[0])
-                        .join("")}
-                    </span>
-                    <div>
-                      <p className={`text-base font-bold transition-colors duration-300 ${
-                        isActive ? "text-brand-green-700" : "text-navy-950"
-                      }`}>
-                        {t.name}
-                      </p>
-                      <p className="text-xs sm:text-sm text-navy-900/60">{t.role}</p>
+                    />
+                    <p className="mt-3 text-base sm:text-lg leading-relaxed text-slate-300">
+                      {t.quote}
+                    </p>
+                    <div className="mt-7 flex items-center gap-3.5">
+                      <span
+                        className={`grid h-12 w-12 place-items-center rounded-full text-sm font-bold text-white transition-all duration-300 ${
+                          isActive ? "ring-2 ring-brand-green-400 ring-offset-2 ring-offset-navy-950 scale-105" : "group-hover:scale-105"
+                        }`}
+                        style={{ backgroundColor: t.color }}
+                      >
+                        {t.name
+                          .split(" ")
+                          .map((n) => n[0])
+                          .join("")}
+                      </span>
+                      <div>
+                        <p className={`text-base font-bold transition-colors duration-300 ${
+                          isActive ? "text-brand-green-400" : "text-white"
+                        }`}>
+                          {t.name}
+                        </p>
+                        <p className="text-xs sm:text-sm text-slate-400">{t.role}</p>
+                      </div>
                     </div>
-                  </div>
-                  <div className="mt-3.5 flex gap-0.5 text-amber-accent">
-                    {Array.from({ length: 5 }).map((_, j) => (
-                      <StarIcon key={j} sx={{ fontSize: 16 }} />
-                    ))}
-                  </div>
-                </button>
-              );
-            })}
-          </div>
+                    <div className="mt-3.5 flex gap-0.5 text-amber-accent">
+                      {Array.from({ length: 5 }).map((_, j) => (
+                        <StarIcon key={j} sx={{ fontSize: 16 }} />
+                      ))}
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
 
-          <div className="mt-10 flex justify-center gap-2.5">
-            {TESTIMONIALS.map((_, i) => (
-              <button
-                key={i}
-                onClick={() => {
-                  setTestimonialActive(i);
-                  setActiveTestimonial(i);
-                }}
-                aria-label={`Show testimonial ${i + 1}`}
-                className={`h-2.5 rounded-full transition-all duration-300 ${
-                  testimonialActive === i
-                    ? "w-7 bg-brand-green-500"
-                    : "w-2.5 bg-navy-950/15 hover:bg-navy-950/25"
-                }`}
-              />
-            ))}
+            <div className="mt-10 flex justify-center gap-2.5">
+              {TESTIMONIALS.map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => {
+                    setTestimonialActive(i);
+                    setActiveTestimonial(i);
+                  }}
+                  aria-label={`Show testimonial ${i + 1}`}
+                  className={`h-2.5 rounded-full transition-all duration-300 ${
+                    testimonialActive === i
+                      ? "w-7 bg-brand-green-500"
+                      : "w-2.5 bg-white/20 hover:bg-white/40"
+                  }`}
+                />
+              ))}
+            </div>
           </div>
         </section>
 
@@ -922,39 +933,43 @@ export default function Home() {
       </main>
 
       {/* ─── NEWSLETTER ─── */}
-      <section className="bg-brand-green-600">
-        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-8 px-6 py-14 sm:flex-row lg:px-10">
-          <div className="flex items-center gap-5">
-            <span className="grid h-14 w-14 shrink-0 place-items-center rounded-full bg-white text-brand-green-600">
-              <SendIcon sx={{ fontSize: 24 }} />
-            </span>
-            <div>
-              <p className="text-xl sm:text-2xl font-bold text-white">
-                Stay Updated with Financial Insights
-              </p>
-              <p className="mt-1 text-sm sm:text-base text-white/85">
-                Subscribe to our newsletter and never miss an update.
-              </p>
+      <section className="bg-slate-50 py-12 lg:py-16">
+        <div className="mx-auto max-w-7xl px-6 lg:px-10">
+          <div className="relative overflow-hidden rounded-3xl bg-navy-950 p-8 sm:p-12 text-white shadow-xl border border-white/10">
+            <div className="flex flex-col items-center justify-between gap-8 sm:flex-row">
+              <div className="flex items-center gap-5">
+                <span className="grid h-14 w-14 shrink-0 place-items-center rounded-full bg-brand-green-500 text-white shadow-lg shadow-brand-green-500/30">
+                  <SendIcon sx={{ fontSize: 24 }} />
+                </span>
+                <div>
+                  <p className="text-xl sm:text-2xl font-bold text-white">
+                    Stay Updated with Financial Insights
+                  </p>
+                  <p className="mt-1 text-sm sm:text-base text-slate-300">
+                    Subscribe to our newsletter and never miss an update.
+                  </p>
+                </div>
+              </div>
+
+              <form
+                className="flex w-full max-w-lg flex-col gap-3 sm:flex-row"
+                onSubmit={(e) => e.preventDefault()}
+              >
+                <input
+                  type="email"
+                  required
+                  placeholder="Enter your email address"
+                  className="h-[50px] min-w-0 flex-1 rounded-xl border border-slate-300 bg-white px-5 text-sm sm:text-base text-navy-950 font-medium placeholder:text-slate-400 transition-all duration-250 hover:border-brand-green-400 focus:border-brand-green-500 focus:outline-none focus:ring-2 focus:ring-brand-green-500/20"
+                />
+                <button
+                  type="submit"
+                  className="btn-hover-effect h-[50px] shrink-0 rounded-xl bg-brand-green-500 px-8 text-sm sm:text-base font-semibold text-white transition-all duration-250 hover:bg-brand-green-400 shadow-md shadow-brand-green-500/20 active:scale-95 cursor-pointer"
+                >
+                  Subscribe
+                </button>
+              </form>
             </div>
           </div>
-
-          <form
-            className="flex w-full max-w-lg flex-col gap-3 sm:flex-row"
-            onSubmit={(e) => e.preventDefault()}
-          >
-            <input
-              type="email"
-              required
-              placeholder="Enter your email address"
-              className="h-[50px] min-w-0 flex-1 rounded-lg border border-white/40 bg-white px-5 text-sm sm:text-base text-navy-950 placeholder:text-navy-900/50 transition-all duration-250 hover:border-white/70 focus:border-white focus:outline-none focus:ring-2 focus:ring-white/60"
-            />
-            <button
-              type="submit"
-              className="h-[50px] shrink-0 rounded-lg bg-navy-950 px-8 text-sm sm:text-base font-semibold text-white transition-all duration-250 hover:-translate-y-0.5 hover:bg-navy-800 hover:shadow-lg active:scale-[0.98] active:translate-y-0 active:shadow-sm"
-            >
-              Subscribe
-            </button>
-          </form>
         </div>
       </section>
 
@@ -999,12 +1014,21 @@ export default function Home() {
                 <ul className="mt-5 space-y-3">
                   {col.links.map((l) => (
                     <li key={l.label}>
-                      <a
-                        href={l.href}
-                        className="text-sm sm:text-base transition-colors duration-200 hover:text-brand-green-400"
-                      >
-                        {l.label}
-                      </a>
+                      {l.href.startsWith("/") && !l.href.startsWith("/#") ? (
+                        <Link
+                          to={l.href}
+                          className="text-sm sm:text-base transition-colors duration-200 hover:text-brand-green-400"
+                        >
+                          {l.label}
+                        </Link>
+                      ) : (
+                        <a
+                          href={l.href}
+                          className="text-sm sm:text-base transition-colors duration-200 hover:text-brand-green-400"
+                        >
+                          {l.label}
+                        </a>
+                      )}
                     </li>
                   ))}
                 </ul>

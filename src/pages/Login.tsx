@@ -26,9 +26,8 @@ import loginImage from "../Assets/images/Login.png";
 
 const NAV_LINKS = [
   { label: "Home", href: "/" },
-  { label: "Features", href: "/#features" },
+  { label: "Features", href: "/features" },
   { label: "How It Works", href: "/how-it-works" },
-  { label: "Pricing", href: "/pricing" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
 ];
@@ -86,9 +85,8 @@ const FOOTER_COLUMNS = [
     title: "Quick Links",
     links: [
       { label: "Home", href: "/" },
-      { label: "Features", href: "/#features" },
+      { label: "Features", href: "/features" },
       { label: "How It Works", href: "/how-it-works" },
-      { label: "Pricing", href: "/pricing" },
       { label: "About Us", href: "/about" },
       { label: "Contact", href: "/contact" },
     ],
@@ -147,7 +145,7 @@ export default function Login() {
     if (result.success) {
       navigate("/welcome");
     } else {
-      setError(result.error || "Invalid email or password. Please use the demo credentials.");
+      setError(result.error || "Invalid email or password.");
     }
   };
 
