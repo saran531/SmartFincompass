@@ -1,6 +1,7 @@
 import { useState, useMemo } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useApp } from "../../context/AppContext";
+import CurrencyInput from "./components/CurrencyInput";
 import ExploreIcon from "@mui/icons-material/Explore";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
@@ -152,6 +153,60 @@ const ASSET_CATEGORIES = [
   },
 ];
 
+type AssetEntry = {
+  id: string;
+  name: string;
+  amount: string;
+};
+
+type MutualFundEntry = {
+  id: string;
+  name: string;
+  type: "Lumpsum" | "SIP";
+  amount: string;
+};
+
+const DYNAMIC_ASSET_CONFIG: Record<
+  string,
+  { addLabel: string; nameLabel: string; namePlaceholder: string } | undefined
+> = {
+  bankBalance: {
+    addLabel: "+ Add Bank Account",
+    nameLabel: "Bank Name / Account Description",
+    namePlaceholder: "e.g. SBI Savings Account",
+  },
+  fixedDeposits: {
+    addLabel: "+ Add Fixed Deposit",
+    nameLabel: "FD Name / Description",
+    namePlaceholder: "e.g. SBI FD",
+  },
+  property: {
+    addLabel: "+ Add Property",
+    nameLabel: "Property Description / Type",
+    namePlaceholder: "e.g. Residential House",
+  },
+  vehicle: {
+    addLabel: "+ Add Vehicle",
+    nameLabel: "Vehicle Description / Type",
+    namePlaceholder: "e.g. Car",
+  },
+  mutualFunds: {
+    addLabel: "+ Add Mutual Fund",
+    nameLabel: "Fund / Investment Name",
+    namePlaceholder: "e.g. HDFC Flexi Cap Fund",
+  },
+};
+
+let assetEntryIdSeq = 0;
+const createAssetEntryId = () => `asset-${++assetEntryIdSeq}`;
+
+const parseMoney = (value: string): number => {
+  if (!value) return 0;
+  const cleaned = value.replace(/[^0-9.]/g, "");
+  const parsed = parseFloat(cleaned);
+  return Number.isFinite(parsed) ? parsed : 0;
+};
+
 function DonutChart({
   values,
   total,
@@ -223,27 +278,86 @@ export default function Assets() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const savedAst = assessmentData.assets || {};
-  const [amounts, setAmounts] = useState<Record<string, string>>({
-    bankBalance: savedAst.bankAccounts || "",
-    cash: "",
-    fixedDeposits: "",
-    gold: savedAst.gold || "",
-    property: savedAst.realEstate || "",
-    stocks: savedAst.stocks || "",
-    mutualFunds: savedAst.mutualFunds || "",
-    crypto: savedAst.crypto || "",
-    vehicle: savedAst.vehicles || "",
+  const savedAstEx = savedAst as typeof savedAst & {
+    mutualFundsList?: Array<{ name: string; type?: "Lumpsum" | "SIP"; amount: string }>;
+  };
+
+  const seedEntries = (
+    list: Array<{ name: string; amount: string }> | undefined,
+    legacyAmount: string
+  ): AssetEntry[] => {
+    const rows = (list || []).map((item) => ({
+      id: createAssetEntryId(),
+      name: item.name,
+      amount: item.amount,
+    }));
+    if (legacyAmount && rows.length === 0) {
+      rows.push({ id: createAssetEntryId(), name: "", amount: legacyAmount });
+    }
+    return rows;
+  };
+
+  const [assetEntries, setAssetEntries] = useState<Record<string, AssetEntry[]>>(() => ({
+    bankBalance: seedEntries(savedAst.bankAccountsList, savedAst.bankAccounts),
+    fixedDeposits: seedEntries(savedAst.fixedDepositsList, savedAst.fixedDeposits || ""),
+    property: seedEntries(savedAst.propertyList, savedAst.realEstate),
+    vehicle: seedEntries(savedAst.vehicleList, savedAst.vehicles),
+  }));
+
+  const [mutualFundEntries, setMutualFundEntries] = useState<MutualFundEntry[]>(() => {
+    const saved = savedAstEx.mutualFundsList;
+    if (saved && saved.length > 0) {
+      return saved.map((item) => ({
+        id: createAssetEntryId(),
+        name: item.name,
+        type: item.type === "SIP" ? "SIP" : "Lumpsum",
+        amount: item.amount,
+      }));
+    }
+    const info = savedAst.mutualFundInfo;
+    if (info?.mode === "SIP" && info.sipAmount) {
+      return [{ id: createAssetEntryId(), name: "", type: "SIP" as const, amount: info.sipAmount }];
+    }
+    if (info?.mode === "Lumpsum" && info.lumpsumAmount) {
+      return [{ id: createAssetEntryId(), name: "", type: "Lumpsum" as const, amount: info.lumpsumAmount }];
+    }
+    return savedAst.mutualFunds
+      ? [{ id: createAssetEntryId(), name: "", type: "Lumpsum" as const, amount: savedAst.mutualFunds }]
+      : [];
   });
 
-  const numericValues = useMemo(
-    () =>
-      Object.fromEntries(
-        Object.entries(amounts).map(([k, v]) => [k, parseFloat(v) || 0])
-      ) as Record<string, number>,
-    [amounts]
-  );
+  const [amounts, setAmounts] = useState<Record<string, string>>({
+    cash: "",
+    gold: savedAst.gold || "",
+    stocks: savedAst.stocks || "",
+    crypto: savedAst.crypto || "",
+  });
 
-  const total = useMemo(
+  const sumRows = (rows: Array<{ amount: string }>) =>
+    rows.reduce((acc, item) => acc + parseMoney(item.amount), 0);
+
+  const bankTotal = useMemo(() => sumRows(assetEntries.bankBalance || []), [assetEntries]);
+  const fdTotal = useMemo(() => sumRows(assetEntries.fixedDeposits || []), [assetEntries]);
+  const propertyTotal = useMemo(() => sumRows(assetEntries.property || []), [assetEntries]);
+  const vehicleTotal = useMemo(() => sumRows(assetEntries.vehicle || []), [assetEntries]);
+  const mutualFundTotal = useMemo(() => sumRows(mutualFundEntries), [mutualFundEntries]);
+
+  const numericValues = useMemo(() => {
+    const simple = (k: string) => parseMoney(amounts[k]);
+    return {
+      bankBalance: bankTotal,
+      cash: simple("cash"),
+      fixedDeposits: fdTotal,
+      gold: simple("gold"),
+      property: propertyTotal,
+      stocks: simple("stocks"),
+      mutualFunds: mutualFundTotal,
+      crypto: simple("crypto"),
+      vehicle: vehicleTotal,
+    } as Record<string, number>;
+  }, [bankTotal, fdTotal, propertyTotal, vehicleTotal, mutualFundTotal, amounts]);
+
+  const grandTotal = useMemo(
     () => Object.values(numericValues).reduce((a, b) => a + b, 0),
     [numericValues]
   );
@@ -255,6 +369,40 @@ export default function Assets() {
     if (parts[1] && parts[1].length > 2) cleaned = parts[0] + "." + parts[1].slice(0, 2);
     setAmounts((prev) => ({ ...prev, [key]: cleaned }));
   };
+
+  const addEntry = (key: string) =>
+    setAssetEntries((prev) => ({
+      ...prev,
+      [key]: [...(prev[key] || []), { id: createAssetEntryId(), name: "", amount: "" }],
+    }));
+
+  const updateEntry = (key: string, id: string, patch: Partial<AssetEntry>) =>
+    setAssetEntries((prev) => ({
+      ...prev,
+      [key]: (prev[key] || []).map((entry) =>
+        entry.id === id ? { ...entry, ...patch } : entry
+      ),
+    }));
+
+  const removeEntry = (key: string, id: string) =>
+    setAssetEntries((prev) => ({
+      ...prev,
+      [key]: (prev[key] || []).filter((entry) => entry.id !== id),
+    }));
+
+  const addMutualFund = () =>
+    setMutualFundEntries((prev) => [
+      ...prev,
+      { id: createAssetEntryId(), name: "", type: "Lumpsum", amount: "" },
+    ]);
+
+  const updateMutualFund = (id: string, patch: Partial<MutualFundEntry>) =>
+    setMutualFundEntries((prev) =>
+      prev.map((entry) => (entry.id === id ? { ...entry, ...patch } : entry))
+    );
+
+  const removeMutualFund = (id: string) =>
+    setMutualFundEntries((prev) => prev.filter((entry) => entry.id !== id));
 
   return (
     <div className="min-h-screen bg-slate-50">
@@ -424,42 +572,220 @@ export default function Assets() {
 
             {/* Asset Rows */}
             <div className="space-y-4">
-              {ASSET_CATEGORIES.map((cat) => (
-                <div
-                  key={cat.key}
-                  className="flex items-center gap-4 rounded-xl border border-slate-200/90 bg-white p-4 transition-colors hover:bg-slate-50/80"
-                >
-                  <span
-                    className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl ${cat.color}`}
+              {ASSET_CATEGORIES.map((cat) => {
+                const dynamic = DYNAMIC_ASSET_CONFIG[cat.key];
+
+                if (!dynamic) {
+                  return (
+                    <div
+                      key={cat.key}
+                      className="flex items-center gap-4 rounded-xl border border-slate-200/90 bg-white p-4 transition-colors hover:bg-slate-50/80"
+                    >
+                      <span
+                        className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl ${cat.color}`}
+                      >
+                        <cat.icon sx={{ fontSize: 22 }} />
+                      </span>
+                      <div className="min-w-0 flex-1">
+                        <p className="text-sm font-bold text-navy-950">
+                          {cat.label}
+                        </p>
+                        <p className="mt-0.5 whitespace-pre-line text-xs font-medium text-slate-600">
+                          {cat.desc}
+                        </p>
+                      </div>
+                      <div className="relative w-full max-w-[200px] shrink-0">
+                        <span className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-base font-extrabold text-navy-950">
+                          ₹
+                        </span>
+                        <input
+                          type="text"
+                          value={amounts[cat.key]}
+                          onChange={(e) => handleChange(cat.key, e.target.value)}
+                          inputMode="decimal"
+                          placeholder="Enter amount"
+                          className="h-11 w-full rounded-xl border border-slate-300 bg-white pl-8 pr-10 text-sm font-bold text-navy-950 placeholder:text-slate-400 transition-all duration-250 hover:border-slate-400 focus:border-brand-green-500 focus:outline-none focus:ring-2 focus:ring-brand-green-500/20"
+                        />
+                        <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-xs sm:text-sm font-bold text-slate-500">
+                          .00
+                        </span>
+                      </div>
+                    </div>
+                  );
+                }
+
+                const catEntries =
+                  cat.key === "mutualFunds"
+                    ? mutualFundEntries
+                    : assetEntries[cat.key] || [];
+                const catTotal = numericValues[cat.key] || 0;
+
+                return (
+                  <div
+                    key={cat.key}
+                    className="rounded-xl border border-slate-200/90 bg-white transition-colors hover:bg-slate-50/80"
                   >
-                    <cat.icon sx={{ fontSize: 22 }} />
-                  </span>
-                  <div className="min-w-0 flex-1">
-                    <p className="text-sm font-bold text-navy-950">
-                      {cat.label}
-                    </p>
-                    <p className="mt-0.5 whitespace-pre-line text-xs font-medium text-slate-600">
-                      {cat.desc}
-                    </p>
+                    <div className="flex items-center gap-4 p-4">
+                      <span
+                        className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl ${cat.color}`}
+                      >
+                        <cat.icon sx={{ fontSize: 22 }} />
+                      </span>
+                      <div className="min-w-0 flex-1">
+                        <p className="text-sm font-bold text-navy-950">
+                          {cat.label}
+                        </p>
+                        <p className="mt-0.5 whitespace-pre-line text-xs font-medium text-slate-600">
+                          {cat.desc}
+                        </p>
+                      </div>
+                      <div className="relative w-full max-w-[200px] shrink-0">
+                        <span className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-base font-extrabold text-navy-950">
+                          ₹
+                        </span>
+                        <input
+                          type="text"
+                          value={
+                            catTotal > 0
+                              ? catTotal.toLocaleString("en-IN", {
+                                  minimumFractionDigits: 2,
+                                  maximumFractionDigits: 2,
+                                })
+                              : ""
+                          }
+                          readOnly
+                          placeholder="Enter amount"
+                          className="h-11 w-full rounded-xl border border-slate-300 bg-white pl-8 pr-10 text-sm font-bold text-navy-950 placeholder:text-slate-400 transition-all duration-250 hover:border-slate-400 focus:border-brand-green-500 focus:outline-none focus:ring-2 focus:ring-brand-green-500/20"
+                        />
+                        <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-xs sm:text-sm font-bold text-slate-500">
+                          .00
+                        </span>
+                      </div>
+                    </div>
+
+                    {catEntries.length > 0 && (
+                      <div className="space-y-3 border-t border-slate-200/80 px-4 pb-4 pt-4">
+                        {catEntries.map((entry) =>
+                          cat.key === "mutualFunds" ? (
+                            <div
+                              key={entry.id}
+                              className="flex items-end gap-3 rounded-xl border border-navy-950/10 bg-white p-3 sm:gap-4 sm:p-4"
+                            >
+                              <div className="grid min-w-0 flex-1 grid-cols-1 gap-4 sm:grid-cols-2">
+                                <div>
+                                  <label className="mb-2 block text-sm sm:text-base font-bold text-navy-950">
+                                    {dynamic.nameLabel}
+                                  </label>
+                                  <input
+                                    type="text"
+                                    value={entry.name}
+                                    onChange={(e) =>
+                                      updateMutualFund(entry.id, {
+                                        name: e.target.value,
+                                      })
+                                    }
+                                    placeholder={dynamic.namePlaceholder}
+                                    className="h-12 w-full rounded-xl border border-slate-300 bg-white px-3.5 text-sm sm:text-base font-semibold text-navy-950 placeholder:text-slate-400 transition-all duration-250 hover:border-slate-400 focus:border-brand-green-500 focus:outline-none focus:ring-2 focus:ring-brand-green-500/20"
+                                  />
+                                </div>
+                                <div>
+                                  <label className="mb-2 block text-sm sm:text-base font-bold text-navy-950">
+                                    Investment Type
+                                  </label>
+                                  <select
+                                    value={(entry as MutualFundEntry).type}
+                                    onChange={(e) =>
+                                      updateMutualFund(entry.id, {
+                                        type: e.target.value as "Lumpsum" | "SIP",
+                                      })
+                                    }
+                                    className="h-12 w-full rounded-xl border border-slate-300 bg-white px-3.5 text-sm sm:text-base font-semibold text-navy-950 transition-all duration-250 hover:border-slate-400 focus:border-brand-green-500 focus:outline-none focus:ring-2 focus:ring-brand-green-500/20"
+                                  >
+                                    <option value="Lumpsum">Lumpsum</option>
+                                    <option value="SIP">SIP</option>
+                                  </select>
+                                </div>
+                                <CurrencyInput
+                                  label="Amount (₹)"
+                                  value={entry.amount}
+                                  onChange={(v) =>
+                                    updateMutualFund(entry.id, { amount: v })
+                                  }
+                                  placeholder="0"
+                                />
+                              </div>
+                              <button
+                                type="button"
+                                onClick={() => removeMutualFund(entry.id)}
+                                aria-label={`Remove ${cat.label} entry`}
+                                className="mb-1.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-slate-400 transition-colors hover:bg-red-50 hover:text-red-500"
+                              >
+                                <CloseIcon sx={{ fontSize: 18 }} />
+                              </button>
+                            </div>
+                          ) : (
+                            <div
+                              key={entry.id}
+                              className="flex items-end gap-3 rounded-xl border border-navy-950/10 bg-white p-3 sm:gap-4 sm:p-4"
+                            >
+                              <div className="grid min-w-0 flex-1 grid-cols-1 gap-4 sm:grid-cols-2">
+                                <div>
+                                  <label className="mb-2 block text-sm sm:text-base font-bold text-navy-950">
+                                    {dynamic.nameLabel}
+                                  </label>
+                                  <input
+                                    type="text"
+                                    value={entry.name}
+                                    onChange={(e) =>
+                                      updateEntry(cat.key, entry.id, {
+                                        name: e.target.value,
+                                      })
+                                    }
+                                    placeholder={dynamic.namePlaceholder}
+                                    className="h-12 w-full rounded-xl border border-slate-300 bg-white px-3.5 text-sm sm:text-base font-semibold text-navy-950 placeholder:text-slate-400 transition-all duration-250 hover:border-slate-400 focus:border-brand-green-500 focus:outline-none focus:ring-2 focus:ring-brand-green-500/20"
+                                  />
+                                </div>
+                                <CurrencyInput
+                                  label="Amount (₹)"
+                                  value={entry.amount}
+                                  onChange={(v) =>
+                                    updateEntry(cat.key, entry.id, {
+                                      amount: v,
+                                    })
+                                  }
+                                  placeholder="0"
+                                />
+                              </div>
+                              <button
+                                type="button"
+                                onClick={() => removeEntry(cat.key, entry.id)}
+                                aria-label={`Remove ${cat.label} entry`}
+                                className="mb-1.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-slate-400 transition-colors hover:bg-red-50 hover:text-red-500"
+                              >
+                                <CloseIcon sx={{ fontSize: 18 }} />
+                              </button>
+                            </div>
+                          )
+                        )}
+                      </div>
+                    )}
+
+                    <div className="px-4 pb-4">
+                      <button
+                        type="button"
+                        onClick={() =>
+                          cat.key === "mutualFunds"
+                            ? addMutualFund()
+                            : addEntry(cat.key)
+                        }
+                        className="flex items-center gap-2 rounded-lg border-2 border-dashed border-brand-green-300 px-4 py-2 text-sm font-semibold text-brand-green-700 transition-all hover:border-brand-green-500 hover:bg-brand-green-50"
+                      >
+                        {dynamic.addLabel}
+                      </button>
+                    </div>
                   </div>
-                  <div className="relative w-full max-w-[200px] shrink-0">
-                    <span className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-base font-extrabold text-navy-950">
-                      ₹
-                    </span>
-                    <input
-                      type="text"
-                      value={amounts[cat.key]}
-                      onChange={(e) => handleChange(cat.key, e.target.value)}
-                      inputMode="decimal"
-                      placeholder="Enter amount"
-                      className="h-11 w-full rounded-xl border border-slate-300 bg-white pl-8 pr-10 text-sm font-bold text-navy-950 placeholder:text-slate-400 transition-all duration-250 hover:border-slate-400 focus:border-brand-green-500 focus:outline-none focus:ring-2 focus:ring-brand-green-500/20"
-                    />
-                    <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-xs sm:text-sm font-bold text-slate-500">
-                      .00
-                    </span>
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
 
             {/* Total Assets Value */}
@@ -479,7 +805,7 @@ export default function Assets() {
               </div>
               <span className="text-xl font-black text-brand-green-700">
                 ₹
-                {total.toLocaleString("en-IN", {
+                {grandTotal.toLocaleString("en-IN", {
                   minimumFractionDigits: 2,
                   maximumFractionDigits: 2,
                 })}
@@ -499,7 +825,41 @@ export default function Assets() {
               <button
                 type="button"
                 onClick={() => {
-                  updateAssessment("assets", amounts);
+                  const lumpsumSum = mutualFundEntries
+                    .filter((e) => e.type === "Lumpsum")
+                    .reduce((acc, e) => acc + parseMoney(e.amount), 0);
+                  const sipSum = mutualFundEntries
+                    .filter((e) => e.type === "SIP")
+                    .reduce((acc, e) => acc + parseMoney(e.amount), 0);
+                  const mfMode = lumpsumSum > 0 && sipSum === 0
+                    ? "Lumpsum"
+                    : sipSum > 0 && lumpsumSum === 0
+                    ? "SIP"
+                    : mutualFundEntries.length > 0
+                    ? "Lumpsum"
+                    : "";
+                  const payload = {
+                    cash: amounts.cash || "",
+                    gold: amounts.gold || "",
+                    stocks: amounts.stocks || "",
+                    crypto: amounts.crypto || "",
+                    bankAccounts: String(bankTotal || ""),
+                    fixedDeposits: String(fdTotal || ""),
+                    realEstate: String(propertyTotal || ""),
+                    vehicles: String(vehicleTotal || ""),
+                    mutualFunds: String(mutualFundTotal || ""),
+                    bankAccountsList: assetEntries.bankBalance || [],
+                    fixedDepositsList: assetEntries.fixedDeposits || [],
+                    propertyList: assetEntries.property || [],
+                    vehicleList: assetEntries.vehicle || [],
+                    mutualFundsList: mutualFundEntries,
+                    mutualFundInfo: {
+                      mode: mfMode,
+                      lumpsumAmount: String(lumpsumSum || ""),
+                      sipAmount: String(sipSum || ""),
+                    },
+                  };
+                  updateAssessment("assets", payload);
                   navigate("/liabilities");
                 }}
                 className="flex h-12 items-center gap-2 rounded-xl bg-brand-green-500 px-8 text-[15px] font-bold text-white shadow-soft transition-all duration-250 hover:bg-brand-green-600 hover:shadow-md active:scale-[0.98]"
@@ -528,19 +888,19 @@ export default function Assets() {
               </p>
               <p className="mb-5 text-2xl font-black text-brand-green-700">
                 ₹
-                {total.toLocaleString("en-IN", {
+                {grandTotal.toLocaleString("en-IN", {
                   minimumFractionDigits: 2,
                   maximumFractionDigits: 2,
                 })}
               </p>
 
-              <DonutChart values={numericValues} total={total} />
+              <DonutChart values={numericValues} total={grandTotal} />
 
               {/* Legend */}
               <div className="mt-5 space-y-2.5">
                 {ASSET_CATEGORIES.map((cat) => {
                   const val = numericValues[cat.key];
-                  const pct = total > 0 ? Math.round((val / total) * 100) : 0;
+                  const pct = grandTotal > 0 ? Math.round((val / grandTotal) * 100) : 0;
                   return (
                     <div
                       key={cat.key}

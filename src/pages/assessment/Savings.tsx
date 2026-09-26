@@ -1,6 +1,7 @@
 import { useState, useMemo } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useApp } from "../../context/AppContext";
+import CurrencyInput from "./components/CurrencyInput";
 import ExploreIcon from "@mui/icons-material/Explore";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
@@ -15,6 +16,7 @@ import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import EventIcon from "@mui/icons-material/Event";
 import BadgeIcon from "@mui/icons-material/Badge";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import ShieldIcon from "@mui/icons-material/Shield";
 import CallIcon from "@mui/icons-material/Call";
@@ -115,6 +117,14 @@ const SAVINGS_CATEGORIES = [
     color: "text-teal-500 bg-teal-50",
     chartColor: "#14b8a6",
   },
+  {
+    key: "other",
+    label: "Other",
+    desc: "Any other savings or\ninvestments",
+    icon: MoreHorizIcon,
+    color: "text-slate-500 bg-slate-50",
+    chartColor: "#94a3b8",
+  },
 ];
 
 const CHART_LEGEND = [
@@ -123,7 +133,24 @@ const CHART_LEGEND = [
   { key: "recurringDeposit", label: "RD", color: "#8b5cf6" },
   { key: "ppf", label: "PPF", color: "#f59e0b" },
   { key: "epf", label: "EPF", color: "#14b8a6" },
+  { key: "other", label: "Other Savings", color: "#94a3b8" },
 ];
+
+interface OtherSavingEntry {
+  id: string;
+  description: string;
+  amount: string;
+}
+
+let otherSavingIdSeq = 0;
+const createOtherSavingId = () => `other-saving-${++otherSavingIdSeq}`;
+
+const parseMoney = (value: string): number => {
+  if (!value) return 0;
+  const cleaned = value.replace(/[^0-9.]/g, "");
+  const parsed = parseFloat(cleaned);
+  return Number.isFinite(parsed) ? parsed : 0;
+};
 
 function DonutChart({
   values,
@@ -207,12 +234,42 @@ export default function Savings() {
     epf: savedSvg.epf || "",
   });
 
+  const savedOtherSavings = (
+    savedSvg as unknown as { otherSavings?: Array<{
+      description?: string;
+      amount?: string;
+    }> }
+  ).otherSavings;
+
+  const [otherSavings, setOtherSavings] = useState<OtherSavingEntry[]>(() =>
+    Array.isArray(savedOtherSavings) && savedOtherSavings.length > 0
+      ? (savedOtherSavings as Array<{
+          description?: string;
+          amount?: string;
+        }>).map((entry) => ({
+          id: createOtherSavingId(),
+          description: entry.description || "",
+          amount: entry.amount || "",
+        }))
+      : savedSvg.other
+      ? [{ id: createOtherSavingId(), description: savedSvg.otherName || "", amount: savedSvg.other }]
+      : []
+  );
+
+  const otherTotal = useMemo(
+    () => otherSavings.reduce((acc, item) => acc + parseMoney(item.amount), 0),
+    [otherSavings]
+  );
+
   const numericValues = useMemo(
-    () =>
-      Object.fromEntries(
+    () => {
+      const values = Object.fromEntries(
         Object.entries(amounts).map(([k, v]) => [k, parseFloat(v) || 0])
-      ) as Record<string, number>,
-    [amounts]
+      ) as Record<string, number>;
+      values.other = otherTotal;
+      return values;
+    },
+    [amounts, otherTotal]
   );
 
   const total = useMemo(
@@ -226,6 +283,26 @@ export default function Savings() {
     if (parts.length > 2) cleaned = parts[0] + "." + parts.slice(1).join("");
     if (parts[1] && parts[1].length > 2) cleaned = parts[0] + "." + parts[1].slice(0, 2);
     setAmounts((prev) => ({ ...prev, [key]: cleaned }));
+  };
+
+  const addOtherSaving = () => {
+    setOtherSavings((prev) => [
+      ...prev,
+      { id: createOtherSavingId(), description: "", amount: "" },
+    ]);
+  };
+
+  const updateOtherSaving = (
+    id: string,
+    patch: Partial<{ description: string; amount: string }>
+  ) => {
+    setOtherSavings((prev) =>
+      prev.map((item) => (item.id === id ? { ...item, ...patch } : item))
+    );
+  };
+
+  const removeOtherSaving = (id: string) => {
+    setOtherSavings((prev) => prev.filter((item) => item.id !== id));
   };
 
   return (
@@ -396,42 +473,148 @@ export default function Savings() {
 
             {/* Savings Rows */}
             <div className="space-y-4">
-              {SAVINGS_CATEGORIES.map((cat) => (
-                <div
-                  key={cat.key}
-                  className="flex items-center gap-4 rounded-xl border border-slate-200/90 bg-white p-4 transition-colors hover:bg-slate-50/80"
-                >
-                  <span
-                    className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl ${cat.color}`}
+              {SAVINGS_CATEGORIES.map((cat) => {
+                if (cat.key === "other") {
+                  const otherCatTotal = numericValues.other || 0;
+                  return (
+                    <div
+                      key={cat.key}
+                      className="rounded-xl border border-slate-200/90 bg-white transition-colors hover:bg-slate-50/80"
+                    >
+                      <div className="flex items-center gap-4 p-4">
+                        <span
+                          className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl ${cat.color}`}
+                        >
+                          <cat.icon sx={{ fontSize: 22 }} />
+                        </span>
+                        <div className="min-w-0 flex-1">
+                          <p className="text-sm font-bold text-navy-950">
+                            {cat.label}
+                          </p>
+                          <p className="mt-0.5 whitespace-pre-line text-xs font-medium text-slate-600">
+                            {cat.desc}
+                          </p>
+                        </div>
+                        <div className="relative w-full max-w-[200px] shrink-0">
+                          <span className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-base font-extrabold text-navy-950">
+                            ₹
+                          </span>
+                          <input
+                            type="text"
+                            value={
+                              otherCatTotal > 0
+                                ? otherCatTotal.toLocaleString("en-IN", {
+                                    minimumFractionDigits: 2,
+                                    maximumFractionDigits: 2,
+                                  })
+                                : ""
+                            }
+                            readOnly
+                            placeholder="Enter amount"
+                            className="h-11 w-full rounded-xl border border-slate-300 bg-white pl-8 pr-10 text-sm font-bold text-navy-950 placeholder:text-slate-400 transition-all duration-250 hover:border-slate-400 focus:border-brand-green-500 focus:outline-none focus:ring-2 focus:ring-brand-green-500/20"
+                          />
+                          <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-xs sm:text-sm font-bold text-slate-500">
+                            .00
+                          </span>
+                        </div>
+                      </div>
+
+                      {otherSavings.length > 0 && (
+                        <div className="space-y-3 border-t border-slate-200/80 px-4 pb-4 pt-4">
+                          {otherSavings.map((entry) => (
+                            <div
+                              key={entry.id}
+                              className="flex items-end gap-3 rounded-xl border border-navy-950/10 bg-white p-3 sm:gap-4 sm:p-4"
+                            >
+                              <div className="grid min-w-0 flex-1 grid-cols-1 gap-4 sm:grid-cols-2">
+                                <div>
+                                  <label className="mb-2 block text-sm sm:text-base font-bold text-navy-950">
+                                    Savings Type
+                                  </label>
+                                  <input
+                                    type="text"
+                                    value={entry.description}
+                                    onChange={(e) =>
+                                      updateOtherSaving(entry.id, {
+                                        description: e.target.value,
+                                      })
+                                    }
+                                    placeholder="e.g. NPS, Sukanya Samriddhi, Crypto..."
+                                    className="h-12 w-full rounded-xl border border-slate-300 bg-white px-3.5 text-sm sm:text-base font-semibold text-navy-950 placeholder:text-slate-400 transition-all duration-250 hover:border-slate-400 focus:border-brand-green-500 focus:outline-none focus:ring-2 focus:ring-brand-green-500/20"
+                                  />
+                                </div>
+                                <CurrencyInput
+                                  label="Value (₹)"
+                                  value={entry.amount}
+                                  onChange={(v) =>
+                                    updateOtherSaving(entry.id, { amount: v })
+                                  }
+                                  placeholder="0"
+                                />
+                              </div>
+                              <button
+                                type="button"
+                                onClick={() => removeOtherSaving(entry.id)}
+                                aria-label="Remove other savings"
+                                className="mb-1.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-slate-400 transition-colors hover:bg-red-50 hover:text-red-500"
+                              >
+                                <CloseIcon sx={{ fontSize: 18 }} />
+                              </button>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+
+                      <div className="px-4 pb-4">
+                        <button
+                          type="button"
+                          onClick={addOtherSaving}
+                          className="flex items-center gap-2 rounded-lg border-2 border-dashed border-brand-green-300 px-4 py-2 text-sm font-semibold text-brand-green-700 transition-all hover:border-brand-green-500 hover:bg-brand-green-50"
+                        >
+                          + Add Other Saving
+                        </button>
+                      </div>
+                    </div>
+                  );
+                }
+
+                return (
+                  <div
+                    key={cat.key}
+                    className="flex items-center gap-4 rounded-xl border border-slate-200/90 bg-white p-4 transition-colors hover:bg-slate-50/80"
                   >
-                    <cat.icon sx={{ fontSize: 22 }} />
-                  </span>
-                  <div className="min-w-0 flex-1">
-                    <p className="text-sm font-bold text-navy-950">
-                      {cat.label}
-                    </p>
-                    <p className="mt-0.5 whitespace-pre-line text-xs font-medium text-slate-600">
-                      {cat.desc}
-                    </p>
-                  </div>
-                  <div className="relative w-full max-w-[200px] shrink-0">
-                    <span className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-base font-extrabold text-navy-950">
-                      ₹
+                    <span
+                      className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl ${cat.color}`}
+                    >
+                      <cat.icon sx={{ fontSize: 22 }} />
                     </span>
-                    <input
-                      type="text"
-                      value={amounts[cat.key]}
-                      onChange={(e) => handleChange(cat.key, e.target.value)}
-                      inputMode="decimal"
-                      placeholder="Enter amount"
-                      className="h-11 w-full rounded-xl border border-slate-300 bg-white pl-8 pr-10 text-sm font-bold text-navy-950 placeholder:text-slate-400 transition-all duration-250 hover:border-slate-400 focus:border-brand-green-500 focus:outline-none focus:ring-2 focus:ring-brand-green-500/20"
-                    />
-                    <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-xs sm:text-sm font-bold text-slate-500">
-                      .00
-                    </span>
+                    <div className="min-w-0 flex-1">
+                      <p className="text-sm font-bold text-navy-950">
+                        {cat.label}
+                      </p>
+                      <p className="mt-0.5 whitespace-pre-line text-xs font-medium text-slate-600">
+                        {cat.desc}
+                      </p>
+                    </div>
+                    <div className="relative w-full max-w-[200px] shrink-0">
+                      <span className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-base font-extrabold text-navy-950">
+                        ₹
+                      </span>
+                      <input
+                        type="text"
+                        value={amounts[cat.key]}
+                        onChange={(e) => handleChange(cat.key, e.target.value)}
+                        inputMode="decimal"
+                        placeholder="Enter amount"
+                        className="h-11 w-full rounded-xl border border-slate-300 bg-white pl-8 pr-10 text-sm font-bold text-navy-950 placeholder:text-slate-400 transition-all duration-250 hover:border-slate-400 focus:border-brand-green-500 focus:outline-none focus:ring-2 focus:ring-brand-green-500/20"
+                      />
+                      <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-xs sm:text-sm font-bold text-slate-500">
+                        .00
+                      </span>
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
 
             {/* Total Savings Value */}
@@ -471,7 +654,18 @@ export default function Savings() {
               <button
                 type="button"
                 onClick={() => {
-                  updateAssessment("savings", amounts);
+                  const payload = {
+                    ...amounts,
+                    other: String(otherTotal || ""),
+                    otherName:
+                      otherSavings.map((e) => e.description).find(Boolean) ||
+                      "",
+                    otherSavings: otherSavings.map(({ description, amount }) => ({
+                      description,
+                      amount,
+                    })),
+                  };
+                  updateAssessment("savings", payload);
                   navigate("/insurance");
                 }}
                 className="flex h-12 items-center gap-2 rounded-xl bg-brand-green-500 px-8 text-[15px] font-bold text-white shadow-soft transition-all duration-250 hover:bg-brand-green-600 hover:shadow-md active:scale-[0.98]"
@@ -578,6 +772,30 @@ export default function Savings() {
           </div>
         </div>
       </main>
+
+      {/* ─── INVESTMENT RISK GUIDANCE ─── */}
+      <section className="mx-auto max-w-7xl px-6 pb-16 lg:px-10">
+        <div className="rounded-2xl border border-slate-200 bg-white p-7 shadow-[0_2px_12px_rgba(13,37,73,0.06)] sm:p-8">
+          <div className="flex flex-col gap-6 sm:flex-row sm:items-start">
+            <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-brand-green-50 text-brand-green-600">
+              <TrendingUpIcon sx={{ fontSize: 22 }} />
+            </span>
+            <div className="min-w-0 flex-1">
+              <h2 className="text-xl font-extrabold text-navy-950 sm:text-2xl">
+                How much investment risk can you take?
+              </h2>
+              <p className="mt-3 text-[15px] font-medium leading-relaxed text-slate-700">
+                A simple starting point is the 100 − Age Rule:
+              </p>
+              <div className="mt-4 rounded-xl border border-brand-green-200 bg-brand-green-50/80 px-5 py-4">
+                <p className="text-base font-extrabold text-brand-green-700 sm:text-lg">
+                  100 − Your Age = Suggested % in Equity
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* ─── FOOTER ─── */}
       <footer className="bg-navy-950 pt-20 text-slate-300">

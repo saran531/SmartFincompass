@@ -1,0 +1,14 @@
+<svg width="600" height="300" viewBox="0 0 600 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="newsGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#00F2FE" stop-opacity="0.2"/>
+      <stop offset="60%" stop-color="#22B573" stop-opacity="0.1"/>
+      <stop offset="100%" stop-color="#0A1F3D" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="600" height="300" fill="url(#newsGlow)"/>
+  <circle cx="500" cy="50" r="180" fill="#22B573" fill-opacity="0.08" filter="blur(40px)"/>
+  <circle cx="100" cy="250" r="140" fill="#00F2FE" fill-opacity="0.08" filter="blur(40px)"/>
+  <path d="M 0 150 Q 150 100 300 180 T 600 120" fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="2"/>
+  <path d="M 0 180 Q 200 240 400 120 T 600 200" fill="none" stroke="rgba(34,181,115,0.06)" stroke-width="3"/>
+</svg>

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useApp } from "../../context/AppContext";
+import { useApp, calculateAge } from "../../context/AppContext";
 import ExploreIcon from "@mui/icons-material/Explore";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
@@ -104,7 +104,8 @@ export default function ReviewSubmit() {
   const navigate = useNavigate();
   const { assessmentData, completeAssessment } = useApp();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [agreed, setAgreed] = useState(false);
+  const [declarationOneAccepted, setDeclarationOneAccepted] = useState(false);
+  const [declarationTwoAccepted, setDeclarationTwoAccepted] = useState(false);
   const [expanded, setExpanded] = useState(false);
   const [submitAttempted, setSubmitAttempted] = useState(false);
 
@@ -207,6 +208,9 @@ export default function ReviewSubmit() {
         { label: "Name", value: assessmentData.personalInfo.fullName || "Not provided" },
         { label: "Email", value: assessmentData.personalInfo.email || "Not provided" },
         { label: "Phone", value: assessmentData.personalInfo.phone ? `+91 ${assessmentData.personalInfo.phone}` : "Not provided" },
+        { label: "Age", value: assessmentData.personalInfo.dateOfBirth ? `${calculateAge(assessmentData.personalInfo.dateOfBirth)} years` : "Not provided" },
+        { label: "Education", value: assessmentData.personalInfo.education || "Not provided" },
+        { label: "Dependents", value: assessmentData.personalInfo.dependents || "0" },
       ],
     },
     {
@@ -219,6 +223,10 @@ export default function ReviewSubmit() {
       items: [
         { label: "Employment Type", value: assessmentData.employment.employmentType || "Not provided" },
         { label: "Occupation / Role", value: assessmentData.employment.occupation || assessmentData.employment.employerName || "Not provided" },
+        ...(assessmentData.employment.employmentType === "Student" ? [
+          { label: "Education", value: assessmentData.employment.educationQualification || "Not provided" },
+          { label: "Part-time Job", value: assessmentData.employment.partTimeJob || "Not specified" },
+        ] : []),
         { label: "Annual Income", value: assessmentData.employment.annualIncome ? `₹ ${Number(assessmentData.employment.annualIncome).toLocaleString("en-IN")}` : "Not provided" },
       ],
     },
@@ -231,8 +239,16 @@ export default function ReviewSubmit() {
       editRoute: "/income-details",
       items: [
         { label: "Salary", value: assessmentData.income.salary ? `₹ ${Number(assessmentData.income.salary).toLocaleString("en-IN")}` : "₹ 0" },
-        { label: "Business / Other", value: assessmentData.income.business || assessmentData.income.other ? `₹ ${(Number(assessmentData.income.business || 0) + Number(assessmentData.income.other || 0)).toLocaleString("en-IN")}` : "₹ 0" },
+        { label: "Business", value: assessmentData.income.business ? `₹ ${Number(assessmentData.income.business).toLocaleString("en-IN")}` : "₹ 0" },
+        { label: "Commission", value: assessmentData.income.commission ? `₹ ${Number(assessmentData.income.commission).toLocaleString("en-IN")}` : "₹ 0" },
         { label: "Freelance / Rental", value: assessmentData.income.freelance || assessmentData.income.rental ? `₹ ${(Number(assessmentData.income.freelance || 0) + Number(assessmentData.income.rental || 0)).toLocaleString("en-IN")}` : "₹ 0" },
+        ...(assessmentData.income.otherIncomes && assessmentData.income.otherIncomes.length > 0
+          ? assessmentData.income.otherIncomes.map((oi) => ({
+              label: oi.type || "Other Income",
+              value: oi.amount ? `₹ ${Number(oi.amount).toLocaleString("en-IN")}` : "₹ 0",
+            }))
+          : []),
+        { label: "Other Income", value: assessmentData.income.other ? `₹ ${Number(assessmentData.income.other).toLocaleString("en-IN")}` : "₹ 0" },
       ],
     },
     {
@@ -247,8 +263,10 @@ export default function ReviewSubmit() {
           label: "Total Expenses",
           value: `₹ ${Object.values(assessmentData.expenses || {}).reduce((acc, curr) => acc + (Number(curr) || 0), 0).toLocaleString("en-IN")}`,
         },
-        { label: "Housing & Utilities", value: `₹ ${(Number(assessmentData.expenses?.housing || 0) + Number(assessmentData.expenses?.utilities || 0)).toLocaleString("en-IN")}` },
         { label: "Food & Transport", value: `₹ ${(Number(assessmentData.expenses?.food || 0) + Number(assessmentData.expenses?.transport || 0)).toLocaleString("en-IN")}` },
+        { label: "EMI & Insurance", value: `₹ ${(Number(assessmentData.expenses?.emi || 0) + Number(assessmentData.expenses?.insurance || 0)).toLocaleString("en-IN")}` },
+        { label: "Utilities & Entertainment", value: `₹ ${(Number(assessmentData.expenses?.utilities || 0) + Number(assessmentData.expenses?.entertainment || 0)).toLocaleString("en-IN")}` },
+        { label: "Subscriptions", value: assessmentData.expenses?.subscriptions ? `₹ ${Number(assessmentData.expenses.subscriptions).toLocaleString("en-IN")}` : "₹ 0" },
       ],
     },
     {
@@ -263,8 +281,9 @@ export default function ReviewSubmit() {
           label: "Total Assets",
           value: `₹ ${Object.values(assessmentData.assets || {}).reduce((acc, curr) => acc + (Number(curr) || 0), 0).toLocaleString("en-IN")}`,
         },
-        { label: "Mutual Funds & Stocks", value: `₹ ${(Number(assessmentData.assets?.mutualFunds || 0) + Number(assessmentData.assets?.stocks || 0)).toLocaleString("en-IN")}` },
-        { label: "Bank Deposits & Gold", value: `₹ ${(Number(assessmentData.assets?.bankAccounts || 0) + Number(assessmentData.assets?.gold || 0)).toLocaleString("en-IN")}` },
+        { label: "Bank Balance", value: assessmentData.assets?.bankAccounts ? `₹ ${Number(assessmentData.assets.bankAccounts).toLocaleString("en-IN")}` : "₹ 0" },
+        { label: "Mutual Funds", value: assessmentData.assets?.mutualFunds ? `₹ ${Number(assessmentData.assets.mutualFunds).toLocaleString("en-IN")}${assessmentData.assets?.mutualFundInfo?.mode ? ` (${assessmentData.assets.mutualFundInfo.mode})` : ""}` : "₹ 0" },
+        { label: "Property & Vehicle", value: `₹ ${(Number(assessmentData.assets?.realEstate || 0) + Number(assessmentData.assets?.vehicles || 0)).toLocaleString("en-IN")}` },
       ],
     },
     {
@@ -279,8 +298,9 @@ export default function ReviewSubmit() {
           label: "Total Liabilities",
           value: `₹ ${Object.values(assessmentData.liabilities || {}).reduce((acc, curr) => acc + (Number(curr) || 0), 0).toLocaleString("en-IN")}`,
         },
-        { label: "Home & Car Loans", value: `₹ ${(Number(assessmentData.liabilities?.homeLoan || 0) + Number(assessmentData.liabilities?.carLoan || 0)).toLocaleString("en-IN")}` },
-        { label: "Personal & Credit Card", value: `₹ ${(Number(assessmentData.liabilities?.personalLoan || 0) + Number(assessmentData.liabilities?.creditCard || 0)).toLocaleString("en-IN")}` },
+        { label: "Home Loan", value: assessmentData.liabilities?.homeLoan ? `₹ ${Number(assessmentData.liabilities.homeLoan).toLocaleString("en-IN")}` : "₹ 0" },
+        { label: "Personal Loan", value: assessmentData.liabilities?.personalLoan ? `₹ ${Number(assessmentData.liabilities.personalLoan).toLocaleString("en-IN")}` : "₹ 0" },
+        ...(assessmentData.liabilities?.otherName ? [{ label: assessmentData.liabilities.otherName, value: assessmentData.liabilities.other ? `₹ ${Number(assessmentData.liabilities.other).toLocaleString("en-IN")}` : "₹ 0" }] : []),
       ],
     },
     {
@@ -293,7 +313,8 @@ export default function ReviewSubmit() {
       items: [
         { label: "Emergency Fund", value: assessmentData.savings?.emergencyFund ? `₹ ${Number(assessmentData.savings.emergencyFund).toLocaleString("en-IN")}` : "₹ 0" },
         { label: "Monthly Savings", value: assessmentData.savings?.monthlySavings ? `₹ ${Number(assessmentData.savings.monthlySavings).toLocaleString("en-IN")}` : "₹ 0" },
-        { label: "PPF / EPF / RD", value: `₹ ${(Number(assessmentData.savings?.ppf || 0) + Number(assessmentData.savings?.epf || 0) + Number(assessmentData.savings?.recurringDeposit || 0)).toLocaleString("en-IN")}` },
+        { label: "PPF / EPF", value: `₹ ${(Number(assessmentData.savings?.ppf || 0) + Number(assessmentData.savings?.epf || 0)).toLocaleString("en-IN")}` },
+        ...(assessmentData.savings?.otherName ? [{ label: assessmentData.savings.otherName, value: assessmentData.savings.other ? `₹ ${Number(assessmentData.savings.other).toLocaleString("en-IN")}` : "₹ 0" }] : []),
       ],
     },
     {
@@ -359,7 +380,7 @@ export default function ReviewSubmit() {
   ];
 
   const handleSubmit = () => {
-    if (!agreed) {
+    if (!declarationOneAccepted || !declarationTwoAccepted) {
       setSubmitAttempted(true);
       return;
     }
@@ -607,35 +628,55 @@ export default function ReviewSubmit() {
             </span>
             <div className="flex-1">
               <p className="text-base font-extrabold text-navy-950">Declaration</p>
-              <p className="mt-2 text-sm leading-relaxed text-slate-700 font-medium">
-                I hereby declare that all the information provided above is true, accurate, and complete to the best of my knowledge.
-                <br />
-                I understand that this information will be used to generate my financial wellness assessment and recommendations.
-              </p>
-              <button
-                type="button"
-                onClick={() => {
-                  setAgreed((v) => !v);
-                  setSubmitAttempted(false);
-                }}
-                className="mt-4 flex items-center gap-2.5 text-sm font-bold text-navy-950"
-              >
-                {agreed ? (
-                  <CheckBoxIcon
-                    sx={{ fontSize: 22 }}
-                    className="text-brand-green-600"
-                  />
-                ) : (
-                  <CheckBoxOutlineBlankIcon
-                    sx={{ fontSize: 22 }}
-                    className="text-slate-500"
-                  />
-                )}
-                I agree to the above declaration
-              </button>
-              {submitAttempted && !agreed && (
-                <p className="mt-2 text-xs font-semibold text-red-600">
-                  Please agree to the declaration before submitting.
+              <div className="mt-3 space-y-3">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setDeclarationOneAccepted((v) => !v);
+                    setSubmitAttempted(false);
+                  }}
+                  aria-pressed={declarationOneAccepted}
+                  className="flex items-start gap-2.5 text-left text-sm leading-relaxed text-slate-700 font-medium"
+                >
+                  {declarationOneAccepted ? (
+                    <CheckBoxIcon
+                      sx={{ fontSize: 22 }}
+                      className="mt-0.5 shrink-0 text-brand-green-600"
+                    />
+                  ) : (
+                    <CheckBoxOutlineBlankIcon
+                      sx={{ fontSize: 22 }}
+                      className="mt-0.5 shrink-0 text-slate-500"
+                    />
+                  )}
+                  I hereby declare that all the information provided above is true, accurate, and complete to the best of my knowledge.
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setDeclarationTwoAccepted((v) => !v);
+                    setSubmitAttempted(false);
+                  }}
+                  aria-pressed={declarationTwoAccepted}
+                  className="flex items-start gap-2.5 text-left text-sm leading-relaxed text-slate-700 font-medium"
+                >
+                  {declarationTwoAccepted ? (
+                    <CheckBoxIcon
+                      sx={{ fontSize: 22 }}
+                      className="mt-0.5 shrink-0 text-brand-green-600"
+                    />
+                  ) : (
+                    <CheckBoxOutlineBlankIcon
+                      sx={{ fontSize: 22 }}
+                      className="mt-0.5 shrink-0 text-slate-500"
+                    />
+                  )}
+                  I understand that this information will be used to generate my financial wellness assessment and recommendations.
+                </button>
+              </div>
+              {submitAttempted && (!declarationOneAccepted || !declarationTwoAccepted) && (
+                <p className="mt-3 text-xs font-semibold text-red-600">
+                  Please agree to both declarations before submitting your assessment.
                 </p>
               )}
             </div>

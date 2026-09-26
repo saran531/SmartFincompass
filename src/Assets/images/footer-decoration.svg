@@ -1,0 +1,33 @@
+<svg width="160" height="140" viewBox="0 0 160 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="ftCoinGrad" x1="0" y1="0" x2="60" y2="60" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FFE259"/>
+      <stop offset="100%" stop-color="#E58C06"/>
+    </linearGradient>
+    <linearGradient id="ftLeafGrad" x1="0" y1="0" x2="80" y2="80" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#00E676"/>
+      <stop offset="100%" stop-color="#0E6941"/>
+    </linearGradient>
+    <filter id="ftShadow" x="0" y="0" width="160" height="140" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#22B573" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+
+  <g filter="url(#ftShadow)">
+    <!-- Leaves Background -->
+    <path d="M 30 110 C 10 50 60 10 120 20 C 110 80 70 120 30 110 Z" fill="url(#ftLeafGrad)" opacity="0.9"/>
+    <path d="M 30 110 Q 70 65 120 20" fill="none" stroke="#A7F3D0" stroke-width="2"/>
+
+    <!-- Small Leaf -->
+    <path d="M 80 120 C 65 90 90 60 135 70 C 125 105 100 130 80 120 Z" fill="#22B573" opacity="0.8"/>
+
+    <!-- Gold Rupee Coins Cluster -->
+    <!-- Back Coin -->
+    <circle cx="105" cy="85" r="24" fill="url(#ftCoinGrad)" stroke="#FFF5B8" stroke-width="2"/>
+    <text x="105" y="92" font-family="Arial, sans-serif" font-weight="900" font-size="18" fill="#FFFFFF" text-anchor="middle">₹</text>
+
+    <!-- Front Coin -->
+    <circle cx="75" cy="95" r="30" fill="url(#ftCoinGrad)" stroke="#FFF5B8" stroke-width="2.5"/>
+    <text x="75" y="103" font-family="Arial, sans-serif" font-weight="900" font-size="24" fill="#FFFFFF" text-anchor="middle">₹</text>
+  </g>
+</svg>

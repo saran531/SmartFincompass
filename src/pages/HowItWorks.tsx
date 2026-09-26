@@ -35,6 +35,29 @@ import SecurityIcon from "@mui/icons-material/Security";
 import FlagCircleIcon from "@mui/icons-material/FlagCircle";
 import FolderIcon from "@mui/icons-material/Folder";
 
+// ─── Reusable Section Transitions ───
+import {
+  HeroToFeaturesWave,
+  FeaturesToHowItWorksWave,
+  HowItWorksToBenefitsWave,
+  BenefitsToTestimonialsWave,
+  TestimonialsToFaqWave,
+} from "../components/waves/SectionWaves";
+
+// ─── Decorative illustration backdrops ───
+import HeroBackdrop from "../components/illustrations/HeroBackdrop";
+
+// ─── Provided section illustration assets ───
+import financialClarityImg from "../Assets/images/FinancialClarity.png";
+import growthChartImg from "../Assets/images/growthchart.png";
+import rocketImg from "../Assets/images/Rocket.png";
+import smarterWayImg from "../Assets/images/SmarterWay.png";
+import financialPictureImg from "../Assets/images/FinancialPicture.png";
+import yourGoalsImg from "../Assets/images/yourgoals.png";
+import builtAroundImg from "../Assets/images/BuiltAround.png";
+import yourImg from "../Assets/images/your.png";
+import financialFutureImg from "../Assets/images/FinancialFuture.png";
+
 const NAV_LINKS = [
   { label: "Home", href: "/" },
   { label: "Features", href: "/features" },
@@ -83,14 +106,14 @@ const JOURNEY_STEPS = [
 ];
 
 const TIMELINE_STEPS = [
-  { num: "01", title: "Personal Information", desc: "Build your financial profile with essential personal and professional information.", icon: PersonIcon },
-  { num: "02", title: "Income & Expenses", desc: "Understand your earning capacity, spending patterns and savings behaviour.", icon: ReceiptLongIcon },
-  { num: "03", title: "Assets & Liabilities", desc: "See what you own, what you owe and how your net worth is positioned.", icon: AccountBalanceWalletIcon },
-  { num: "04", title: "Insurance & Investments", desc: "Evaluate your protection, investment experience, risk appetite and financial readiness.", icon: SecurityIcon },
-  { num: "05", title: "Financial Goals", desc: "Define the goals that matter most — from emergency funds and home ownership to retirement and wealth creation.", icon: FlagCircleIcon },
-  { num: "06", title: "Documents", desc: "Improve financial readiness by organizing important financial documents.", icon: FolderIcon },
-  { num: "07", title: "AI Analysis", desc: "SmartFin Compass processes your information to generate a comprehensive financial assessment.", icon: PsychologyIcon },
-  { num: "08", title: "Personalized Roadmap", desc: "Get clear priorities, recommendations and next actions based on your financial profile.", icon: MapIcon },
+  { num: "01", title: "Personal Information", desc: "Build your financial profile with essential personal and professional information.", icon: PersonIcon, color: "text-sky-400 bg-sky-500/20" },
+  { num: "02", title: "Income & Expenses", desc: "Understand your earning capacity, spending patterns and savings behaviour.", icon: ReceiptLongIcon, color: "text-emerald-400 bg-emerald-500/20" },
+  { num: "03", title: "Assets & Liabilities", desc: "See what you own, what you owe and how your net worth is positioned.", icon: AccountBalanceWalletIcon, color: "text-amber-accent bg-amber-500/20" },
+  { num: "04", title: "Insurance & Investments", desc: "Evaluate your protection, investment experience, risk appetite and financial readiness.", icon: SecurityIcon, color: "text-cyan-400 bg-cyan-500/20" },
+  { num: "05", title: "Financial Goals", desc: "Define the goals that matter most — from emergency funds and home ownership to retirement and wealth creation.", icon: FlagCircleIcon, color: "text-rose-400 bg-rose-500/20" },
+  { num: "06", title: "Documents", desc: "Improve financial readiness by organizing important financial documents.", icon: FolderIcon, color: "text-violet-400 bg-violet-500/20" },
+  { num: "07", title: "AI Analysis", desc: "SmartFin Compass processes your information to generate a comprehensive financial assessment.", icon: PsychologyIcon, color: "text-brand-green-400 bg-brand-green-500/20" },
+  { num: "08", title: "Personalized Roadmap", desc: "Get clear priorities, recommendations and next actions based on your financial profile.", icon: MapIcon, color: "text-pink-400 bg-pink-500/20" },
 ];
 
 const AI_CARDS = [
@@ -125,6 +148,7 @@ const FOOTER_COLUMNS = [
       { label: "How It Works", href: "/how-it-works" },
       { label: "About", href: "/about" },
       { label: "Contact", href: "/contact" },
+      { label: "Know Your Risk", href: "/know-your-risk" },
     ],
   },
   {
@@ -245,11 +269,11 @@ export default function HowItWorks() {
       <main>
         {/* ─── HERO ─── */}
         <section className="relative overflow-hidden bg-navy-950 text-white">
-          <div className="pointer-events-none absolute inset-x-0 top-0 h-[700px] bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-brand-green-500/15 via-navy-900/50 to-transparent" />
-          <div className="pointer-events-none absolute -top-40 -right-40 h-96 w-96 rounded-full bg-brand-green-500/10 blur-3xl animate-pulse-glow" />
+          {/* Premium fintech backdrop */}
+          <HeroBackdrop />
 
-          <div className="relative mx-auto grid max-w-7xl gap-16 px-6 py-20 lg:grid-cols-2 lg:items-center lg:gap-12 lg:px-10 lg:py-28">
-            <div className="animate-fade-in-up">
+          <div className="relative z-10 mx-auto grid max-w-7xl gap-14 px-6 py-20 lg:grid-cols-2 lg:items-center lg:gap-10 lg:px-10 lg:py-28">
+            <div className="relative z-10 animate-fade-in-up">
               <p className="text-xs sm:text-sm font-bold uppercase tracking-wider text-brand-green-400">
                 How It Works
               </p>
@@ -279,9 +303,18 @@ export default function HowItWorks() {
               </div>
             </div>
 
-            {/* Hero Visual — Journey Flow */}
-            <div className="relative animate-fade-in-up delay-200">
-              <div className="rounded-3xl border border-white/10 bg-navy-900/90 p-7 shadow-2xl backdrop-blur-xl sm:p-8">
+            {/* Hero Visual — Financial Clarity illustration + Journey Flow */}
+            <div className="relative flex flex-col items-center gap-8 animate-fade-in-up delay-200 lg:grid lg:grid-cols-[1fr_0.95fr] lg:items-center lg:gap-6">
+              {/* Main hero illustration — right side of the hero */}
+              <img
+                src={financialClarityImg}
+                alt="SmartFin Compass - Your journey to financial clarity"
+                draggable={false}
+                className="pointer-events-none relative z-0 mx-auto block w-full max-w-[300px] select-none object-contain sm:max-w-sm lg:order-2 lg:mx-0 lg:-ml-5 lg:w-[calc(100%+1.25rem)] lg:max-w-none"
+              />
+
+              {/* Journey Flow Panel */}
+              <div className="relative z-10 w-full rounded-3xl border border-white/10 bg-navy-900/90 p-7 shadow-2xl backdrop-blur-xl sm:p-8 lg:order-1">
                 <p className="mb-6 text-base sm:text-lg font-bold text-white">
                   Your SmartFin Compass Journey
                 </p>
@@ -304,7 +337,7 @@ export default function HowItWorks() {
                     >
                       {/* Fixed-width Icon Container */}
                       <div className={`relative z-10 flex h-12 w-12 items-center justify-center rounded-xl transition-transform duration-200 group-hover:scale-105 ${item.color}`}>
-                        <item.icon sx={{ fontSize: 22 }} />
+                        <item.icon sx={{ fontSize: 24 }} />
                       </div>
 
                       {/* Consistently Aligned Text Label */}
@@ -327,16 +360,42 @@ export default function HowItWorks() {
               </div>
             </div>
           </div>
+
+          {/* Reusable Section Transition */}
+          <HeroToFeaturesWave />
         </section>
 
         {/* ─── SIMPLE 4-STEP JOURNEY ─── (SECTION 2: WHITE) */}
-        <section className="bg-white py-24 text-navy-950">
-          <div className="mx-auto max-w-7xl px-6 lg:px-10">
+        <section className="relative overflow-hidden bg-white py-16 text-navy-950 lg:py-24">
+          {/* Soft tinted atmosphere */}
+          <div className="pointer-events-none absolute inset-0 z-0 bg-tech-grid-light opacity-25" />
+          <div className="pointer-events-none absolute -top-24 left-1/2 z-0 h-[420px] w-[860px] -translate-x-1/2 rounded-full bg-cyan-100/60 blur-[130px]" />
+          <div className="pointer-events-none absolute bottom-0 right-10 z-0 h-80 w-80 rounded-full bg-brand-green-500/5 blur-[120px]" />
+
+          {/* Green growth chart decoration — top left */}
+          <img
+            src={growthChartImg}
+            alt=""
+            aria-hidden="true"
+            draggable={false}
+            className="pointer-events-none absolute left-0 top-28 z-0 hidden w-20 select-none animate-float lg:block xl:w-28"
+          />
+
+          {/* Rocket decoration — top right */}
+          <img
+            src={rocketImg}
+            alt=""
+            aria-hidden="true"
+            draggable={false}
+            className="pointer-events-none absolute right-3 top-6 z-0 hidden w-20 select-none animate-float delay-300 lg:block lg:right-6 lg:w-24 xl:right-8 xl:w-28"
+          />
+
+          <div className="relative z-10 mx-auto max-w-7xl px-6 lg:px-10">
             <div className="mx-auto max-w-2xl text-center">
               <p className="text-xs sm:text-sm font-bold uppercase tracking-wider text-brand-green-600">
                 The SmartFin Compass Journey
               </p>
-              <h2 className="mt-4 text-3xl sm:text-4xl lg:text-[40px] font-extrabold text-navy-950">
+              <h2 className="mt-4 text-3xl sm:text-4xl lg:text-5xl font-extrabold text-navy-950">
                 From Financial Information to Financial Confidence
               </h2>
               <p className="mt-5 text-base sm:text-lg leading-relaxed text-navy-900/70">
@@ -344,15 +403,15 @@ export default function HowItWorks() {
               </p>
             </div>
 
-            <div className="mt-14 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
               {JOURNEY_STEPS.map((s) => (
                 <div
                   key={s.step}
-                  className="group card-hover-effect relative rounded-2xl border border-navy-950/10 bg-white p-7 shadow-soft transition-all duration-300 hover:border-brand-green-100"
+                  className="group card-hover-effect relative rounded-3xl border border-navy-950/10 bg-white p-7 shadow-[0_10px_40px_-26px_rgba(13,37,73,0.5)] transition-all duration-300 hover:-translate-y-2 hover:border-brand-green-100 hover:shadow-[0_28px_60px_-28px_rgba(13,37,73,0.4)]"
                 >
                   <div className="mb-5 flex items-center gap-3">
-                    <span className={`flex h-12 w-12 items-center justify-center rounded-xl ring-4 ${s.ringColor} ${s.color} transition-transform duration-300 group-hover:scale-110`}>
-                      <s.icon sx={{ fontSize: 24 }} />
+                    <span className={`flex h-14 w-14 items-center justify-center rounded-2xl ring-4 transition-transform duration-300 group-hover:scale-110 lg:h-16 lg:w-16 ${s.ringColor} ${s.color}`}>
+                      <s.icon sx={{ fontSize: 28 }} />
                     </span>
                     <span className="text-xs font-bold text-navy-900/40">{s.step}</span>
                   </div>
@@ -365,7 +424,7 @@ export default function HowItWorks() {
                   <ul className="mt-5 space-y-2">
                     {s.points.map((p) => (
                       <li key={p} className="flex items-center gap-2 text-sm sm:text-base font-medium text-navy-900/70">
-                        <CheckCircleIcon sx={{ fontSize: 16, color: "#22b573" }} />
+                        <CheckCircleIcon sx={{ fontSize: 18, color: "#22b573" }} />
                         {p}
                       </li>
                     ))}
@@ -374,66 +433,98 @@ export default function HowItWorks() {
               ))}
             </div>
           </div>
+
+          {/* Multi-layer Wave Transition to A Smarter Way */}
+          <FeaturesToHowItWorksWave />
         </section>
 
         {/* ─── DETAILED PROCESS / TIMELINE ─── (SECTION 3: DARK BLUE) */}
-        <section className="bg-navy-950 py-24 text-white border-y border-white/10">
-          <div className="mx-auto max-w-7xl px-6 lg:px-10">
+        <section className="relative overflow-hidden bg-gradient-to-b from-[#0A1F3D] via-[#0d2a4e] to-[#0A1F3D] py-16 text-white lg:py-24">
+          {/* Dark Tech Grid & Glowing Orbs Backdrop */}
+          <div className="pointer-events-none absolute inset-0 z-0 bg-tech-grid-dark opacity-20" />
+          <div className="pointer-events-none absolute left-1/4 top-10 z-0 h-80 w-80 rounded-full bg-cyan-500/10 blur-[120px]" />
+          <div className="pointer-events-none absolute bottom-10 right-1/4 z-0 h-80 w-80 rounded-full bg-[#00E676]/10 blur-[120px]" />
+
+          <div className="relative z-10 mx-auto max-w-7xl px-6 lg:px-10">
             <div className="mx-auto max-w-2xl text-center">
               <p className="text-xs sm:text-sm font-bold uppercase tracking-wider text-brand-green-400">
                 How SmartFin Compass Works
               </p>
-              <h2 className="mt-4 text-3xl sm:text-4xl lg:text-[40px] font-extrabold text-white">
+              <h2 className="mt-4 text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white">
                 A Smarter Way to Understand Your Finances
               </h2>
             </div>
 
-            <div className="relative mt-16">
-              {/* Vertical line */}
-              <div className="absolute left-6 top-0 bottom-0 hidden w-0.5 bg-gradient-to-b from-brand-green-400/50 via-brand-green-400 to-brand-green-400/50 lg:block" />
+            <div className="mt-14 grid gap-10 lg:mt-16 lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:gap-12">
+              {/* LEFT — main supporting illustration */}
+              <div className="relative flex items-center justify-center">
+                <div className="pointer-events-none absolute -inset-4 rounded-[40px] bg-gradient-to-r from-cyan-500/20 via-brand-green-500/20 to-blue-500/20 opacity-60 blur-2xl" />
+                <img
+                  src={smarterWayImg}
+                  alt="A smarter way to understand your finances illustration"
+                  draggable={false}
+                  className="relative z-10 w-full max-w-xs select-none object-contain animate-float sm:max-w-sm lg:max-w-none"
+                />
+              </div>
 
-              <div className="space-y-8">
-                {TIMELINE_STEPS.map((s) => (
-                  <div
-                    key={s.num}
-                    className="group relative flex items-start gap-6 lg:gap-10"
-                  >
-                    {/* Step number bubble */}
-                    <div className="relative z-10 flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-brand-green-500 text-sm sm:text-base font-bold text-white shadow-[0_0_20px_rgba(34,181,115,0.25)] ring-4 ring-navy-950 transition-shadow duration-300 group-hover:shadow-[0_0_30px_rgba(34,181,115,0.35)]">
-                      {s.num}
-                    </div>
+              {/* RIGHT — timeline steps */}
+              <div className="relative">
+                {/* Vertical line */}
+                <div className="absolute left-6 top-0 bottom-0 hidden w-0.5 bg-gradient-to-b from-brand-green-400/50 via-brand-green-400 to-brand-green-400/50 lg:block" />
 
-                    {/* Content card */}
-                    <div className="card-hover-effect flex-1 rounded-2xl border border-white/10 bg-navy-900/90 p-6 shadow-xl transition-all duration-300 group-hover:border-brand-green-400/50">
-                      <div className="flex items-start gap-4">
-                        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand-green-500/20 text-brand-green-400">
-                          <s.icon sx={{ fontSize: 20 }} />
-                        </span>
-                        <div>
-                          <h3 className="text-lg sm:text-xl font-bold text-white group-hover:text-brand-green-400 transition-colors duration-300">
-                            {s.title}
-                          </h3>
-                          <p className="mt-2 text-sm sm:text-base leading-relaxed text-slate-300">
-                            {s.desc}
-                          </p>
+                <div className="space-y-6">
+                  {TIMELINE_STEPS.map((s) => (
+                    <div
+                      key={s.num}
+                      className="group relative flex items-start gap-5 lg:gap-6"
+                    >
+                      {/* Step number bubble */}
+                      <div className="relative z-10 flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-brand-green-500 text-sm sm:text-base font-bold text-white shadow-[0_0_20px_rgba(34,181,115,0.25)] ring-4 ring-navy-950 transition-shadow duration-300 group-hover:shadow-[0_0_30px_rgba(34,181,115,0.35)]">
+                        {s.num}
+                      </div>
+
+                      {/* Content card */}
+                      <div className="card-hover-effect flex-1 rounded-2xl border border-white/10 bg-navy-900/90 p-5 shadow-xl transition-all duration-300 group-hover:border-brand-green-400/50 sm:p-6">
+                        <div className="flex items-start gap-4">
+                          <span className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl transition-transform duration-300 group-hover:scale-105 ${s.color}`}>
+                            <s.icon sx={{ fontSize: 24 }} />
+                          </span>
+                          <div>
+                            <h3 className="text-lg sm:text-xl font-bold text-white group-hover:text-brand-green-400 transition-colors duration-300">
+                              {s.title}
+                            </h3>
+                            <p className="mt-2 text-sm sm:text-base leading-relaxed text-slate-300">
+                              {s.desc}
+                            </p>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
             </div>
+          </div>
+
+          {/* Reusable Section Transition */}
+          <div className="mt-10 sm:mt-14">
+            <HowItWorksToBenefitsWave />
           </div>
         </section>
 
         {/* ─── AI ANALYSIS ─── (SECTION 4: WHITE) */}
-        <section className="bg-white py-24 text-navy-950">
-          <div className="mx-auto max-w-7xl px-6 lg:px-10">
+        <section className="relative overflow-hidden bg-white py-16 text-navy-950 lg:py-24">
+          {/* Soft tinted atmosphere */}
+          <div className="pointer-events-none absolute inset-0 z-0 bg-tech-grid-light opacity-25" />
+          <div className="pointer-events-none absolute left-1/4 top-0 z-0 h-[420px] w-[420px] rounded-full bg-brand-green-500/5 blur-[130px]" />
+          <div className="pointer-events-none absolute bottom-0 right-1/4 z-0 h-96 w-96 rounded-full bg-cyan-500/5 blur-[130px]" />
+
+          <div className="relative z-10 mx-auto max-w-7xl px-6 lg:px-10">
             <div className="mx-auto max-w-2xl text-center">
               <p className="text-xs sm:text-sm font-bold uppercase tracking-wider text-brand-green-600">
                 AI-Powered Analysis
               </p>
-              <h2 className="mt-4 text-3xl sm:text-4xl lg:text-[40px] font-extrabold text-navy-950">
+              <h2 className="mt-4 text-3xl sm:text-4xl lg:text-5xl font-extrabold text-navy-950">
                 Your Financial Picture, Analyzed From Every Angle
               </h2>
               <p className="mt-5 text-base sm:text-lg leading-relaxed text-navy-900/70">
@@ -441,35 +532,66 @@ export default function HowItWorks() {
               </p>
             </div>
 
-            <div className="mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {AI_CARDS.map((c) => (
-                <div
-                  key={c.title}
-                  className="group card-hover-effect rounded-2xl border border-navy-950/10 bg-white p-7 shadow-soft transition-all duration-300 hover:border-brand-green-100"
-                >
-                  <span className={`mb-5 inline-flex h-14 w-14 items-center justify-center rounded-2xl transition-transform duration-300 group-hover:scale-110 ${c.color}`}>
-                    <c.icon sx={{ fontSize: 28 }} />
-                  </span>
-                  <h3 className="text-base sm:text-lg font-bold text-navy-950 group-hover:text-brand-green-600 transition-colors duration-300">
-                    {c.title}
-                  </h3>
-                  <p className="mt-2.5 text-sm sm:text-base leading-relaxed text-navy-900/70">
-                    {c.desc}
-                  </p>
-                </div>
-              ))}
+            <div className="mt-14 grid items-center gap-8 lg:grid-cols-[minmax(0,300px)_minmax(0,1fr)] lg:gap-10 xl:grid-cols-[minmax(0,340px)_minmax(0,1fr)]">
+              {/* LEFT — main supporting illustration */}
+              <div className="relative flex items-center justify-center">
+                <div className="pointer-events-none absolute -inset-4 rounded-[40px] bg-gradient-to-r from-sky-500/15 via-cyan-500/15 to-brand-green-500/15 opacity-70 blur-2xl" />
+                <img
+                  src={financialPictureImg}
+                  alt="Your financial picture analyzed from every angle illustration"
+                  draggable={false}
+                  className="relative z-10 w-full max-w-xs select-none object-contain animate-float sm:max-w-sm lg:max-w-none"
+                />
+              </div>
+
+              {/* RIGHT — financial information cards */}
+              <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
+                {AI_CARDS.map((c) => (
+                  <div
+                    key={c.title}
+                    className="group card-hover-effect rounded-3xl border border-navy-950/10 bg-white p-7 shadow-[0_10px_40px_-26px_rgba(13,37,73,0.5)] transition-all duration-300 hover:-translate-y-2 hover:border-brand-green-100 hover:shadow-[0_28px_60px_-28px_rgba(13,37,73,0.4)]"
+                  >
+                    <span className={`mb-5 inline-flex h-14 w-14 items-center justify-center rounded-2xl transition-transform duration-300 group-hover:scale-110 lg:h-16 lg:w-16 ${c.color}`}>
+                      <c.icon sx={{ fontSize: 30 }} />
+                    </span>
+                    <h3 className="text-base sm:text-lg font-bold text-navy-950 group-hover:text-brand-green-600 transition-colors duration-300">
+                      {c.title}
+                    </h3>
+                    <p className="mt-2.5 text-sm sm:text-base leading-relaxed text-navy-900/70">
+                      {c.desc}
+                    </p>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
+
+          {/* Multi-layer Wave Transition to Know What to Do Next */}
+          <BenefitsToTestimonialsWave />
         </section>
 
         {/* ─── PERSONALIZED ROADMAP ─── (SECTION 5: DARK BLUE) */}
-        <section className="bg-navy-950 py-24 text-white border-y border-white/10">
-          <div className="mx-auto max-w-7xl px-6 lg:px-10">
+        <section className="relative overflow-hidden bg-gradient-to-b from-[#0A1F3D] via-[#0d2a4e] to-[#0A1F3D] py-16 text-white lg:py-24">
+          {/* Dark Tech Grid & Glowing Orbs Backdrop */}
+          <div className="pointer-events-none absolute inset-0 z-0 bg-tech-grid-dark opacity-20" />
+          <div className="pointer-events-none absolute -left-20 top-1/3 z-0 h-80 w-80 rounded-full bg-brand-green-500/10 blur-[120px]" />
+          <div className="pointer-events-none absolute -right-20 bottom-1/4 z-0 h-80 w-80 rounded-full bg-cyan-500/10 blur-[120px]" />
+
+          {/* Goals target decoration — upper left */}
+          <img
+            src={yourGoalsImg}
+            alt=""
+            aria-hidden="true"
+            draggable={false}
+            className="pointer-events-none absolute left-3 top-8 z-0 hidden w-16 select-none animate-float delay-300 sm:block sm:w-20 lg:left-6 lg:w-24 xl:left-10 xl:w-28"
+          />
+
+          <div className="relative z-10 mx-auto max-w-7xl px-6 lg:px-10">
             <div className="mx-auto max-w-2xl text-center">
               <p className="text-xs sm:text-sm font-bold uppercase tracking-wider text-brand-green-400">
                 Your Roadmap
               </p>
-              <h2 className="mt-4 text-3xl sm:text-4xl lg:text-[40px] font-extrabold text-white">
+              <h2 className="mt-4 text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white">
                 Know What to Do Next
               </h2>
               <p className="mt-5 text-base sm:text-lg leading-relaxed text-slate-300">
@@ -478,7 +600,7 @@ export default function HowItWorks() {
             </div>
 
             <div className="relative mt-14">
-              <div className="card-hover-effect rounded-3xl border border-white/10 bg-navy-900/90 p-8 shadow-xl backdrop-blur-md sm:p-10">
+              <div className="card-hover-effect rounded-3xl border border-white/10 bg-navy-900/85 p-8 shadow-xl backdrop-blur-md sm:p-10">
                 <div className="mb-6 flex items-center gap-2">
                   <span className="rounded-full bg-brand-green-500/20 border border-brand-green-400/30 px-3.5 py-1 text-xs sm:text-sm font-semibold text-brand-green-400">
                     Personalized for your financial profile
@@ -489,11 +611,11 @@ export default function HowItWorks() {
                   {ROADMAP_CARDS.map((r) => (
                     <div
                       key={r.title}
-                      className="rounded-2xl border border-white/10 bg-white/5 p-5 transition-all duration-300 hover:border-brand-green-400/50 hover:bg-white/10"
+                      className="rounded-2xl border border-white/10 bg-white/5 p-5 transition-all duration-300 hover:-translate-y-1 hover:border-brand-green-400/50 hover:bg-white/10"
                     >
                       <div className="flex items-start gap-3">
-                        <span className={`inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg ${r.color}`}>
-                          <r.icon sx={{ fontSize: 18 }} />
+                        <span className={`inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl ${r.color}`}>
+                          <r.icon sx={{ fontSize: 22 }} />
                         </span>
                         <div>
                           <p className="text-sm sm:text-base font-bold text-white">{r.title}</p>
@@ -509,25 +631,44 @@ export default function HowItWorks() {
               </div>
             </div>
           </div>
+
+          {/* Reusable Section Transition */}
+          <div className="mt-10 sm:mt-14">
+            <TestimonialsToFaqWave />
+          </div>
         </section>
 
         {/* ─── WHY THIS PROCESS IS DIFFERENT ─── (SECTION 6: WHITE) */}
-        <section className="bg-white py-24 text-navy-950">
-          <div className="mx-auto max-w-7xl px-6 lg:px-10">
+        <section className="relative overflow-hidden bg-white py-16 text-navy-950 lg:py-24">
+          {/* Soft tinted atmosphere */}
+          <div className="pointer-events-none absolute inset-0 z-0 bg-tech-grid-light opacity-25" />
+          <div className="pointer-events-none absolute -top-24 right-1/4 z-0 h-[420px] w-[560px] rounded-full bg-emerald-100/60 blur-[130px]" />
+          <div className="pointer-events-none absolute bottom-0 left-10 z-0 h-80 w-80 rounded-full bg-cyan-500/5 blur-[120px]" />
+
+          <div className="relative z-10 mx-auto max-w-7xl px-6 lg:px-10">
             <div className="mx-auto max-w-2xl text-center">
-              <h2 className="text-3xl sm:text-4xl lg:text-[40px] font-extrabold text-navy-950">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-navy-950">
                 Built Around You — Not Generic Financial Advice
               </h2>
             </div>
 
-            <div className="mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {/* Target / action illustration — right side */}
+            <img
+              src={builtAroundImg}
+              alt=""
+              aria-hidden="true"
+              draggable={false}
+              className="pointer-events-none absolute right-2 top-2 z-0 hidden w-20 select-none animate-float delay-300 lg:block lg:w-24 xl:bottom-8 xl:right-4 xl:top-auto xl:w-36"
+            />
+
+            <div className="relative z-10 mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 xl:pr-44">
               {DIFFERENTIATORS.map((d) => (
                 <div
                   key={d.title}
-                  className="group card-hover-effect rounded-2xl border border-navy-950/10 bg-white p-7 shadow-soft transition-all duration-300 hover:border-brand-green-100"
+                  className="group card-hover-effect rounded-3xl border border-navy-950/10 bg-white p-7 shadow-[0_10px_40px_-26px_rgba(13,37,73,0.5)] transition-all duration-300 hover:-translate-y-2 hover:border-brand-green-100 hover:shadow-[0_28px_60px_-28px_rgba(13,37,73,0.4)]"
                 >
-                  <span className={`mb-5 inline-flex h-14 w-14 items-center justify-center rounded-2xl transition-transform duration-300 group-hover:scale-110 ${d.color}`}>
-                    <d.icon sx={{ fontSize: 28 }} />
+                  <span className={`mb-5 inline-flex h-14 w-14 items-center justify-center rounded-2xl transition-transform duration-300 group-hover:scale-110 lg:h-16 lg:w-16 ${d.color}`}>
+                    <d.icon sx={{ fontSize: 30 }} />
                   </span>
                   <h3 className="text-base sm:text-lg font-bold text-navy-950 group-hover:text-brand-green-600 transition-colors duration-300">
                     {d.title}
@@ -539,17 +680,37 @@ export default function HowItWorks() {
               ))}
             </div>
           </div>
+
+          {/* Multi-layer Wave Transition to Data Protection */}
+          <FeaturesToHowItWorksWave />
         </section>
 
         {/* ─── SECURITY ─── (SECTION 7: DARK BLUE) */}
-        <section className="bg-navy-950 py-20 text-white border-y border-white/10">
-          <div className="mx-auto max-w-7xl px-6 lg:px-10">
-            <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-navy-950 via-navy-900 to-navy-950 px-8 py-16 sm:px-16 shadow-xl">
+        <section className="relative overflow-hidden bg-gradient-to-b from-[#0A1F3D] via-[#0d2a4e] to-[#0A1F3D] py-16 text-white lg:py-24">
+          {/* Dark Tech Grid & Glowing Orbs Backdrop */}
+          <div className="pointer-events-none absolute inset-0 z-0 bg-tech-grid-dark opacity-20" />
+          <div className="pointer-events-none absolute left-1/3 top-0 z-0 h-96 w-96 rounded-full bg-brand-green-500/10 blur-[130px]" />
+          <div className="pointer-events-none absolute right-1/4 bottom-0 z-0 h-96 w-96 rounded-full bg-sky-500/10 blur-[130px]" />
+
+          <div className="relative z-10 mx-auto max-w-7xl px-6 lg:px-10">
+            <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-navy-900/70 px-6 py-14 shadow-xl backdrop-blur-xl sm:px-10 lg:px-14">
               <div className="pointer-events-none absolute -left-20 -top-20 h-64 w-64 rounded-full bg-brand-green-500/10 blur-3xl" />
               <div className="pointer-events-none absolute -bottom-20 -right-20 h-64 w-64 rounded-full bg-sky-500/10 blur-3xl" />
 
-              <div className="relative">
-                <div className="mx-auto max-w-2xl text-center">
+              <div className="relative grid items-center gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:gap-12">
+                {/* LEFT — security illustration */}
+                <div className="relative flex items-center justify-center">
+                  <div className="pointer-events-none absolute -inset-4 rounded-[40px] bg-gradient-to-r from-brand-green-500/20 via-cyan-500/20 to-sky-500/20 opacity-60 blur-2xl" />
+                  <img
+                    src={yourImg}
+                    alt="Your financial data stays protected illustration"
+                    draggable={false}
+                    className="relative z-10 w-full max-w-[240px] select-none object-contain animate-float sm:max-w-xs lg:max-w-none"
+                  />
+                </div>
+
+                {/* RIGHT — heading + description */}
+                <div className="text-center">
                   <span className="mb-6 inline-flex h-16 w-16 items-center justify-center rounded-full bg-brand-green-500/15 text-brand-green-400">
                     <ShieldIcon sx={{ fontSize: 32 }} />
                   </span>
@@ -560,75 +721,99 @@ export default function HowItWorks() {
                     Your financial information is handled with security and privacy in mind. SmartFin Compass is designed to help you understand your finances without compromising trust.
                   </p>
                 </div>
+              </div>
 
-                <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-3">
-                  <div className="rounded-2xl border border-white/10 bg-white/5 p-6 text-center">
-                    <VerifiedUserIcon sx={{ fontSize: 28, color: "#22b573" }} />
-                    <p className="mt-4 text-base font-bold text-white">100% Secure & Private</p>
-                    <p className="mt-2 text-sm sm:text-base leading-relaxed text-slate-300">
-                      Your information is protected and never shared unnecessarily.
-                    </p>
-                  </div>
-                  <div className="rounded-2xl border border-white/10 bg-white/5 p-6 text-center">
-                    <LockIcon sx={{ fontSize: 28, color: "#22b573" }} />
-                    <p className="mt-4 text-base font-bold text-white">Bank-Level Security</p>
-                    <p className="mt-2 text-sm sm:text-base leading-relaxed text-slate-300">
-                      Your sensitive financial information is handled using strong security practices.
-                    </p>
-                  </div>
-                  <div className="rounded-2xl border border-white/10 bg-white/5 p-6 text-center">
-                    <PrivacyTipIcon sx={{ fontSize: 28, color: "#22b573" }} />
-                    <p className="mt-4 text-base font-bold text-white">Your Data, Your Control</p>
-                    <p className="mt-2 text-sm sm:text-base leading-relaxed text-slate-300">
-                      You remain in control of your financial information and assessment journey.
-                    </p>
-                  </div>
+              <div className="relative z-10 mt-12 grid grid-cols-1 gap-6 sm:grid-cols-3">
+                <div className="rounded-2xl border border-white/10 bg-white/5 p-6 text-center transition-all duration-300 hover:border-brand-green-400/40">
+                  <VerifiedUserIcon sx={{ fontSize: 32, color: "#22b573" }} />
+                  <p className="mt-4 text-base font-bold text-white">100% Secure & Private</p>
+                  <p className="mt-2 text-sm sm:text-base leading-relaxed text-slate-300">
+                    Your information is protected and never shared unnecessarily.
+                  </p>
                 </div>
-
-                <div className="mt-10 text-center">
-                  <Link
-                    to="/features"
-                    className="inline-flex items-center gap-2 text-sm sm:text-base font-semibold text-brand-green-400 transition-colors duration-200 hover:text-brand-green-300"
-                  >
-                    Learn More About Security
-                    <ArrowForwardIcon sx={{ fontSize: 16 }} />
-                  </Link>
+                <div className="rounded-2xl border border-white/10 bg-white/5 p-6 text-center transition-all duration-300 hover:border-brand-green-400/40">
+                  <LockIcon sx={{ fontSize: 32, color: "#22b573" }} />
+                  <p className="mt-4 text-base font-bold text-white">Bank-Level Security</p>
+                  <p className="mt-2 text-sm sm:text-base leading-relaxed text-slate-300">
+                    Your sensitive financial information is handled using strong security practices.
+                  </p>
+                </div>
+                <div className="rounded-2xl border border-white/10 bg-white/5 p-6 text-center transition-all duration-300 hover:border-brand-green-400/40">
+                  <PrivacyTipIcon sx={{ fontSize: 32, color: "#22b573" }} />
+                  <p className="mt-4 text-base font-bold text-white">Your Data, Your Control</p>
+                  <p className="mt-2 text-sm sm:text-base leading-relaxed text-slate-300">
+                    You remain in control of your financial information and assessment journey.
+                  </p>
                 </div>
               </div>
+
+              <div className="relative z-10 mt-10 text-center">
+                <Link
+                  to="/features"
+                  className="inline-flex items-center gap-2 text-sm sm:text-base font-semibold text-brand-green-400 transition-colors duration-200 hover:text-brand-green-300"
+                >
+                  Learn More About Security
+                  <ArrowForwardIcon sx={{ fontSize: 16 }} />
+                </Link>
+              </div>
             </div>
+          </div>
+
+          {/* Reusable Section Transition */}
+          <div className="mt-10 sm:mt-14">
+            <HowItWorksToBenefitsWave />
           </div>
         </section>
 
         {/* ─── FINAL CTA ─── (SECTION 8: WHITE) */}
-        <section className="relative overflow-hidden bg-white py-24 text-navy-950 border-t border-navy-950/10">
-          <div className="relative mx-auto max-w-7xl px-6 text-center lg:px-10">
-            <h2 className="text-3xl sm:text-4xl lg:text-[40px] font-extrabold text-navy-950">
-              Ready to Understand Your{" "}
-              <span className="text-brand-green-600">Financial Future?</span>
-            </h2>
-            <p className="mx-auto mt-5 max-w-xl text-base sm:text-lg leading-relaxed text-navy-900/75">
-              Take the first step toward financial clarity. Complete your SmartFin Compass assessment and discover where you stand — and what you can do next.
-            </p>
+        <section className="relative overflow-hidden bg-white py-16 text-navy-950 lg:py-24">
+          {/* Soft tinted atmosphere */}
+          <div className="pointer-events-none absolute inset-0 z-0 bg-tech-grid-light opacity-25" />
+          <div className="pointer-events-none absolute -top-24 left-1/4 z-0 h-[420px] w-[620px] rounded-full bg-cyan-100/60 blur-[130px]" />
+          <div className="pointer-events-none absolute bottom-0 right-1/3 z-0 h-80 w-80 rounded-full bg-brand-green-500/5 blur-[120px]" />
 
-            <div className="mt-10 flex flex-wrap items-center justify-center gap-5">
-              <Link
-                to="/login"
-                className="group/btn btn-hover-effect inline-flex items-center gap-2.5 rounded-lg bg-brand-green-500 px-10 py-4 text-sm sm:text-base font-semibold text-white shadow-lg shadow-brand-green-500/25 transition-all duration-250 hover:bg-brand-green-600"
-              >
-                Start Your Assessment
-                <ArrowForwardIcon fontSize="small" className="transition-transform duration-250 group-hover/btn:translate-x-1" />
-              </Link>
-              <Link
-                to="/features"
-                className="group/btn btn-hover-effect inline-flex items-center gap-2.5 rounded-lg border border-navy-950/20 px-10 py-4 text-sm sm:text-base font-semibold text-navy-950 transition-all duration-250 hover:border-brand-green-500 hover:text-brand-green-600"
-              >
-                Explore SmartFin Compass
-              </Link>
+          <div className="relative z-10 mx-auto grid max-w-7xl items-center gap-10 px-6 lg:grid-cols-[0.85fr_1.15fr] lg:gap-14 lg:px-10">
+            {/* LEFT — CTA illustration */}
+            <div className="relative flex items-center justify-center">
+              <div className="pointer-events-none absolute -inset-4 rounded-[40px] bg-gradient-to-r from-brand-green-500/15 via-cyan-500/15 to-blue-500/15 opacity-70 blur-2xl" />
+              <img
+                src={financialFutureImg}
+                alt="Understand your financial future illustration"
+                draggable={false}
+                className="relative z-10 w-full max-w-xs select-none object-contain animate-float sm:max-w-sm lg:max-w-[420px]"
+              />
             </div>
 
-            <p className="mt-6 text-sm font-medium text-navy-900/60">
-              20–25 minutes &bull; Guided assessment &bull; Personalized financial insights
-            </p>
+            {/* RIGHT — CTA content */}
+            <div className="text-center">
+              <h2 className="text-3xl sm:text-4xl lg:text-[40px] font-extrabold text-navy-950">
+                Ready to Understand Your{" "}
+                <span className="text-brand-green-600">Financial Future?</span>
+              </h2>
+              <p className="mx-auto mt-5 max-w-xl text-base sm:text-lg leading-relaxed text-navy-900/75">
+                Take the first step toward financial clarity. Complete your SmartFin Compass assessment and discover where you stand — and what you can do next.
+              </p>
+
+              <div className="mt-10 flex flex-wrap items-center justify-center gap-5">
+                <Link
+                  to="/login"
+                  className="group/btn btn-hover-effect inline-flex items-center gap-2.5 rounded-lg bg-brand-green-500 px-10 py-4 text-sm sm:text-base font-semibold text-white shadow-lg shadow-brand-green-500/25 transition-all duration-250 hover:bg-brand-green-600"
+                >
+                  Start Your Assessment
+                  <ArrowForwardIcon fontSize="small" className="transition-transform duration-250 group-hover/btn:translate-x-1" />
+                </Link>
+                <Link
+                  to="/features"
+                  className="group/btn btn-hover-effect inline-flex items-center gap-2.5 rounded-lg border border-navy-950/20 px-10 py-4 text-sm sm:text-base font-semibold text-navy-950 transition-all duration-250 hover:border-brand-green-500 hover:text-brand-green-600"
+                >
+                  Explore SmartFin Compass
+                </Link>
+              </div>
+
+              <p className="mt-6 text-sm font-medium text-navy-900/60">
+                20–25 minutes &bull; Guided assessment &bull; Personalized financial insights
+              </p>
+            </div>
           </div>
         </section>
       </main>

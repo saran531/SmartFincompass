@@ -15,6 +15,7 @@ interface PersonalInfo {
   gender: string;
   maritalStatus: string;
   dependents: string;
+  dependentsBreakdown?: { spouse: number; children: number; parents: number; other: number };
   education: string;
 }
 
@@ -27,6 +28,13 @@ interface EmploymentInfo {
   additionalIncome: string;
   businessIncome: string;
   contactNumber?: string;
+  educationQualification?: string;
+  partTimeJob?: string;
+}
+
+interface OtherIncomeEntry {
+  type: string;
+  amount: string;
 }
 
 interface IncomeInfo {
@@ -35,6 +43,8 @@ interface IncomeInfo {
   rental: string;
   freelance: string;
   other: string;
+  commission?: string;
+  otherIncomes?: OtherIncomeEntry[];
 }
 
 interface ExpensesInfo {
@@ -49,6 +59,18 @@ interface ExpensesInfo {
   emi?: string;
   insurance?: string;
   medical?: string;
+  subscriptions?: string;
+}
+
+interface AssetEntry {
+  name: string;
+  amount: string;
+}
+
+interface MutualFundInfo {
+  mode?: string;
+  lumpsumAmount?: string;
+  sipAmount?: string;
 }
 
 interface AssetsInfo {
@@ -59,6 +81,12 @@ interface AssetsInfo {
   realEstate: string;
   crypto: string;
   vehicles: string;
+  fixedDeposits?: string;
+  bankAccountsList?: AssetEntry[];
+  fixedDepositsList?: AssetEntry[];
+  propertyList?: AssetEntry[];
+  vehicleList?: AssetEntry[];
+  mutualFundInfo?: MutualFundInfo;
 }
 
 interface LiabilitiesInfo {
@@ -67,6 +95,8 @@ interface LiabilitiesInfo {
   carLoan: string;
   creditCard: string;
   educationLoan: string;
+  other?: string;
+  otherName?: string;
 }
 
 interface SavingsInfo {
@@ -75,6 +105,8 @@ interface SavingsInfo {
   recurringDeposit: string;
   ppf: string;
   epf: string;
+  other?: string;
+  otherName?: string;
 }
 
 interface InsuranceInfo {
@@ -180,6 +212,8 @@ const defaultAssessmentData: AssessmentData = {
     rental: "",
     freelance: "",
     other: "",
+    commission: "",
+    otherIncomes: [],
   },
   expenses: {
     food: "",
@@ -193,6 +227,7 @@ const defaultAssessmentData: AssessmentData = {
     emi: "",
     insurance: "",
     medical: "",
+    subscriptions: "",
   },
   assets: {
     bankAccounts: "",
@@ -202,6 +237,12 @@ const defaultAssessmentData: AssessmentData = {
     realEstate: "",
     crypto: "",
     vehicles: "",
+    fixedDeposits: "",
+    bankAccountsList: [],
+    fixedDepositsList: [],
+    propertyList: [],
+    vehicleList: [],
+    mutualFundInfo: {},
   },
   liabilities: {
     homeLoan: "",
@@ -209,6 +250,8 @@ const defaultAssessmentData: AssessmentData = {
     carLoan: "",
     creditCard: "",
     educationLoan: "",
+    other: "",
+    otherName: "",
   },
   savings: {
     emergencyFund: "",
@@ -216,6 +259,8 @@ const defaultAssessmentData: AssessmentData = {
     recurringDeposit: "",
     ppf: "",
     epf: "",
+    other: "",
+    otherName: "",
   },
   insurance: {
     lifeInsurance: [],
@@ -263,6 +308,19 @@ const defaultAssessmentData: AssessmentData = {
     courses: undefined,
   },
 };
+
+// ─── Age Calculation Helper ───
+export function calculateAge(dob: string): number {
+  if (!dob) return 0;
+  const birth = new Date(dob);
+  const today = new Date();
+  let age = today.getFullYear() - birth.getFullYear();
+  const monthDiff = today.getMonth() - birth.getMonth();
+  if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+    age--;
+  }
+  return age;
+}
 
 // ─── Demo Credentials ───
 export const DEMO_ACCOUNTS = [

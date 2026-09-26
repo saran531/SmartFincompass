@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useApp } from "../../context/AppContext";
+import { useApp, calculateAge } from "../../context/AppContext";
 import ExploreIcon from "@mui/icons-material/Explore";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
@@ -198,6 +198,8 @@ export default function InvestmentExperience() {
   const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { assessmentData, updateAssessment } = useApp();
+  const userAge = calculateAge(assessmentData.personalInfo?.dateOfBirth || "");
+  const suggestedEquity = userAge > 0 ? 100 - userAge : 0;
 
   const saved = assessmentData.investment || {};
   const [riskAppetite, setRiskAppetite] = useState(saved.riskAppetite || "conservative");
@@ -384,6 +386,32 @@ export default function InvestmentExperience() {
               <p className="mt-1 text-sm font-medium text-slate-600">
                 Your answers will help us build better recommendations
               </p>
+            </div>
+
+            {/* Investment Risk Guideline */}
+            <div className="mb-8 rounded-2xl border border-brand-green-200 bg-gradient-to-br from-brand-green-50/80 to-sky-50/50 p-6">
+              <div className="flex items-start gap-4">
+                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-brand-green-100 text-brand-green-700">
+                  <TrendingUpIcon sx={{ fontSize: 22 }} />
+                </span>
+                <div>
+                  <p className="text-sm font-bold text-navy-950">How much investment risk can you take?</p>
+                  <p className="mt-1 text-xs font-medium leading-relaxed text-slate-600">
+                    A simple starting point is the <span className="font-bold text-navy-950">100 − Age Rule</span>:
+                  </p>
+                  <div className="mt-2 inline-flex items-center gap-2 rounded-lg bg-white px-4 py-2 shadow-sm border border-brand-green-100">
+                    <span className="text-xs font-semibold text-slate-600">100 − {userAge > 0 ? userAge : "Your Age"}</span>
+                    <span className="text-xs font-bold text-navy-950">=</span>
+                    <span className="text-xs font-bold text-brand-green-700">{suggestedEquity > 0 ? `${suggestedEquity}%` : "—"}</span>
+                    <span className="text-xs font-semibold text-slate-600">Suggested % in Equity</span>
+                  </div>
+                  {userAge > 0 && (
+                    <p className="mt-2 text-[11px] font-medium text-slate-500">
+                      Based on your age of {userAge} years. This is a general guideline, not financial advice.
+                    </p>
+                  )}
+                </div>
+              </div>
             </div>
 
             {/* Question 1: Risk Appetite */}

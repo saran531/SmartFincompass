@@ -1,0 +1,11 @@
+<svg width="1440" height="100" viewBox="0 0 1440 100" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+  <path d="M0 0C320 80 640 100 960 40C1120 10 1280 30 1440 60V100H0V0Z" fill="#0A1F3D"/>
+  <path d="M0 5C320 85 640 105 960 45C1120 15 1280 35 1440 65" fill="none" stroke="url(#waveLineGrad)" stroke-width="3" stroke-opacity="0.6"/>
+  <defs>
+    <linearGradient id="waveLineGrad" x1="0" y1="0" x2="1440" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#00F2FE"/>
+      <stop offset="50%" stop-color="#22B573"/>
+      <stop offset="100%" stop-color="#00E676"/>
+    </linearGradient>
+  </defs>
+</svg>

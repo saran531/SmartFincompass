@@ -1,0 +1,20 @@
+<svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="camGrad" x1="0" y1="0" x2="100" y2="100" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#00F2FE"/>
+      <stop offset="100%" stop-color="#14315E"/>
+    </linearGradient>
+    <filter id="camGlow" x="0" y="0" width="100" height="100" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#00F2FE" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+
+  <g filter="url(#camGlow)">
+    <circle cx="50" cy="46" r="36" fill="url(#camGrad)" stroke="rgba(255,255,255,0.4)" stroke-width="2"/>
+    <circle cx="50" cy="46" r="28" fill="rgba(10,31,61,0.6)"/>
+    <!-- Camera/Lens Icon -->
+    <rect x="36" y="38" width="28" height="20" rx="5" fill="none" stroke="#FFFFFF" stroke-width="2.5"/>
+    <circle cx="50" cy="48" r="5" fill="#00E676" stroke="#FFFFFF" stroke-width="1.5"/>
+    <circle cx="44" cy="42" r="1.5" fill="#FFFFFF"/>
+  </g>
+</svg>

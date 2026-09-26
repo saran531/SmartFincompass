@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useApp } from "../../context/AppContext";
+import { useApp, calculateAge } from "../../context/AppContext";
 import ExploreIcon from "@mui/icons-material/Explore";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
@@ -21,7 +21,6 @@ import TwitterIcon from "@mui/icons-material/Twitter";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import GroupsIcon from "@mui/icons-material/Groups";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import FlagIcon from "@mui/icons-material/Flag";
@@ -93,6 +92,7 @@ const MARITAL_STATUS_OPTIONS = [
 ];
 
 const EDUCATION_OPTIONS = [
+  "Un Educated",
   "High School",
   "Bachelor's Degree",
   "Master's Degree",
@@ -133,7 +133,10 @@ export default function PersonalInformation() {
   const [dob, setDob] = useState(assessmentData.personalInfo?.dateOfBirth || "");
   const [gender, setGender] = useState(assessmentData.personalInfo?.gender || "Male");
   const [maritalStatus, setMaritalStatus] = useState(assessmentData.personalInfo?.maritalStatus || "");
-  const [dependents, setDependents] = useState(Number(assessmentData.personalInfo?.dependents) || 0);
+  const [_dependents, _setDependents] = useState(Number(assessmentData.personalInfo?.dependents) || 0);
+  const [dependentsBreakdown, setDependentsBreakdown] = useState(
+    assessmentData.personalInfo?.dependentsBreakdown || { spouse: 0, children: 0, parents: 0, other: 0 }
+  );
 
   const initialEdu = assessmentData.personalInfo?.education || "";
   const isStdEdu = EDUCATION_OPTIONS.includes(initialEdu);
@@ -156,9 +159,18 @@ export default function PersonalInformation() {
       e.phone = "Please enter a valid phone number.";
     }
 
+    if (dob) {
+      const age = calculateAge(dob);
+      if (age < 14) {
+        e.dob = "Age must be at least 14 years.";
+      } else if (age > 120) {
+        e.dob = "Please enter a valid date of birth.";
+      }
+    }
+
     setErrors(e);
     return Object.keys(e).length === 0;
-  }, [fullName, email, phone]);
+  }, [fullName, email, phone, dob]);
 
   return (
     <div className="min-h-screen bg-slate-50">
@@ -368,11 +380,12 @@ export default function PersonalInformation() {
               <AssessmentDatePicker
                 label="Date of Birth"
                 value={dob}
-                onChange={(v) => setDob(v)}
+                onChange={(v) => { setDob(v); if (errors.dob) setErrors((p) => { const n = { ...p }; delete n.dob; return n; }); }}
                 placeholder="DD / MM / YYYY"
                 max={new Date().toISOString().split("T")[0]}
                 icon={<CalendarTodayIcon sx={{ fontSize: 20 }} />}
               />
+              {errors.dob && <p className="mt-1 text-xs text-red-500">{errors.dob}</p>}
             </div>
 
             {/* Gender */}
@@ -437,35 +450,40 @@ export default function PersonalInformation() {
                 <label className="mb-2 block text-sm sm:text-base font-bold text-navy-950">
                   Dependents
                 </label>
-                <div className="flex items-center gap-0">
-                  <span className="flex h-12 items-center pl-3.5 text-slate-600 pr-1">
-                    <GroupsIcon sx={{ fontSize: 22 }} />
-                  </span>
-                  <button
-                    type="button"
-                    onClick={() =>
-                      setDependents((d) => Math.max(0, d - 1))
-                    }
-                    className="flex h-12 w-12 items-center justify-center rounded-l-xl border border-r-0 border-slate-300 bg-slate-100 text-xl font-extrabold text-navy-950 transition-colors hover:bg-slate-200 active:bg-slate-300"
-                  >
-                    −
-                  </button>
-                  <span className="flex h-12 w-14 items-center justify-center border-y border-slate-300 bg-white text-base font-extrabold text-navy-950">
-                    {dependents}
-                  </span>
-                  <button
-                    type="button"
-                    onClick={() =>
-                      setDependents((d) => Math.min(20, d + 1))
-                    }
-                    className="flex h-12 w-12 items-center justify-center rounded-r-xl border border-l-0 border-slate-300 bg-slate-100 text-xl font-extrabold text-navy-950 transition-colors hover:bg-slate-200 active:bg-slate-300"
-                  >
-                    +
-                  </button>
-                </div>
-                <p className="mt-1.5 text-xs sm:text-sm font-semibold text-slate-600">
-                  Include children, parents or other dependents
+                <p className="mb-3 text-xs sm:text-sm font-semibold text-slate-600">
+                  Include spouse, children, parents or other dependents
                 </p>
+                <div className="space-y-2">
+                  {[
+                    { key: "spouse", label: "Spouse", icon: "👤" },
+                    { key: "children", label: "Children", icon: "👶" },
+                    { key: "parents", label: "Parents", icon: "👨‍👩‍👦" },
+                    { key: "other", label: "Other Dependents", icon: "👥" },
+                  ].map((cat) => (
+                    <div key={cat.key} className="flex items-center justify-between rounded-lg border border-slate-200 bg-white px-3 py-2">
+                      <span className="text-xs sm:text-sm font-semibold text-navy-950">{cat.icon} {cat.label}</span>
+                      <div className="flex items-center gap-0">
+                        <button
+                          type="button"
+                          onClick={() => setDependentsBreakdown((d) => ({ ...d, [cat.key]: Math.max(0, d[cat.key as keyof typeof d] - 1) }))}
+                          className="flex h-7 w-7 items-center justify-center rounded-l-md border border-r-0 border-slate-300 bg-slate-100 text-sm font-bold text-navy-950 hover:bg-slate-200 active:bg-slate-300"
+                        >
+                          −
+                        </button>
+                        <span className="flex h-7 w-8 items-center justify-center border-y border-slate-300 bg-white text-xs font-bold text-navy-950">
+                          {dependentsBreakdown[cat.key as keyof typeof dependentsBreakdown]}
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => setDependentsBreakdown((d) => ({ ...d, [cat.key]: Math.min(10, d[cat.key as keyof typeof d] + 1) }))}
+                          className="flex h-7 w-7 items-center justify-center rounded-r-md border border-l-0 border-slate-300 bg-slate-100 text-sm font-bold text-navy-950 hover:bg-slate-200 active:bg-slate-300"
+                        >
+                          +
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
               <div>
                 <AssessmentSelect
@@ -495,7 +513,12 @@ export default function PersonalInformation() {
                 type="button"
                 onClick={() => {
                   if (!validate()) return;
-                  updateAssessment("personalInfo", { fullName, email, phone, dateOfBirth: dob, gender, maritalStatus, dependents: String(dependents), education: education === "Other" ? educationOther : education });
+                  updateAssessment("personalInfo", {
+                    fullName, email, phone, dateOfBirth: dob, gender, maritalStatus,
+                    dependents: String(Object.values(dependentsBreakdown).reduce((a, b) => a + b, 0)),
+                    dependentsBreakdown,
+                    education: education === "Other" ? educationOther : education,
+                  });
                   navigate("/employment-details");
                 }}
                 className="flex h-12 w-full max-w-sm items-center justify-center gap-2 rounded-xl bg-brand-green-500 text-base font-bold text-white shadow-md transition-all duration-250 hover:bg-brand-green-600 hover:shadow-lg active:scale-[0.98]"

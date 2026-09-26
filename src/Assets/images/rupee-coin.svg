@@ -1,0 +1,37 @@
+<svg width="180" height="180" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="coinG1" x1="0" y1="0" x2="100" y2="100" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FFE259"/>
+      <stop offset="50%" stop-color="#FFA751"/>
+      <stop offset="100%" stop-color="#E58C06"/>
+    </linearGradient>
+    <linearGradient id="leafG1" x1="0" y1="0" x2="100" y2="100" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#00E676"/>
+      <stop offset="100%" stop-color="#0E6941"/>
+    </linearGradient>
+    <filter id="heroCoinGlow" x="0" y="0" width="180" height="180" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="4" dy="12" stdDeviation="12" flood-color="#F5A623" flood-opacity="0.45"/>
+    </filter>
+  </defs>
+
+  <g filter="url(#heroCoinGlow)">
+    <!-- 3D Emerald Green Leaves Branching behind coin -->
+    <path d="M 100 80 C 80 20 140 10 170 30 C 160 80 130 110 100 80 Z" fill="url(#leafG1)" opacity="0.9"/>
+    <path d="M 100 80 Q 135 45 170 30" fill="none" stroke="#A7F3D0" stroke-width="2"/>
+    
+    <path d="M 120 100 C 100 50 150 40 175 55 C 165 95 145 120 120 100 Z" fill="#22B573" opacity="0.85"/>
+
+    <!-- Large 3D Gold Rupee Coin -->
+    <circle cx="80" cy="100" r="48" fill="#8F4F00"/>
+    <circle cx="80" cy="96" r="46" fill="url(#coinG1)"/>
+    <circle cx="80" cy="96" r="38" fill="#FFF3A1" stroke="#E58C06" stroke-width="3"/>
+    
+    <!-- Rupee Symbol ₹ -->
+    <path d="M 64 80 H 96 M 64 88 H 92 M 64 80 V 96 C 76 96 86 96 86 90 M 64 96 L 90 116" stroke="#8F4F00" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M 64 80 H 96 M 64 88 H 92 M 64 80 V 96 C 76 96 86 96 86 90 M 64 96 L 90 116" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <!-- Smaller Back Coin -->
+    <circle cx="124" cy="120" r="28" fill="url(#coinG1)" stroke="#FFF5B8" stroke-width="2"/>
+    <text x="124" y="127" font-family="Arial, sans-serif" font-weight="900" font-size="20" fill="#FFFFFF" text-anchor="middle">₹</text>
+  </g>
+</svg>

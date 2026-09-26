@@ -1,6 +1,7 @@
 import { useState, useMemo } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useApp } from "../../context/AppContext";
+import CurrencyInput from "./components/CurrencyInput";
 import ExploreIcon from "@mui/icons-material/Explore";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
@@ -16,6 +17,7 @@ import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 import SchoolIcon from "@mui/icons-material/School";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import ShieldIcon from "@mui/icons-material/Shield";
 import CallIcon from "@mui/icons-material/Call";
@@ -116,6 +118,14 @@ const LIABILITY_CATEGORIES = [
     color: "text-amber-500 bg-amber-50",
     chartColor: "#f59e0b",
   },
+  {
+    key: "other",
+    label: "Other",
+    desc: "Any other outstanding\nliabilities",
+    icon: MoreHorizIcon,
+    color: "text-slate-500 bg-slate-50",
+    chartColor: "#94a3b8",
+  },
 ];
 
 const CHART_LEGEND = [
@@ -126,6 +136,22 @@ const CHART_LEGEND = [
   { key: "educationLoan", label: "Education Loan", color: "#f59e0b" },
   { key: "other", label: "Other Liabilities", color: "#94a3b8" },
 ];
+
+interface OtherLiabilityEntry {
+  id: string;
+  description: string;
+  amount: string;
+}
+
+let otherLiabilityIdSeq = 0;
+const createOtherLiabilityId = () => `other-liability-${++otherLiabilityIdSeq}`;
+
+const parseMoney = (value: string): number => {
+  if (!value) return 0;
+  const cleaned = value.replace(/[^0-9.]/g, "");
+  const parsed = parseFloat(cleaned);
+  return Number.isFinite(parsed) ? parsed : 0;
+};
 
 function DonutChart({
   values,
@@ -209,12 +235,44 @@ export default function Liabilities() {
     educationLoan: savedLiab.educationLoan || "",
   });
 
+  const savedOtherLiabilities = (
+    savedLiab as unknown as { otherLiabilities?: Array<{
+      description?: string;
+      amount?: string;
+    }> }
+  ).otherLiabilities;
+
+  const [otherLiabilities, setOtherLiabilities] = useState<
+    OtherLiabilityEntry[]
+  >(() =>
+    Array.isArray(savedOtherLiabilities) && savedOtherLiabilities.length > 0
+      ? (savedOtherLiabilities as Array<{
+          description?: string;
+          amount?: string;
+        }>).map((entry) => ({
+          id: createOtherLiabilityId(),
+          description: entry.description || "",
+          amount: entry.amount || "",
+        }))
+      : savedLiab.other
+      ? [{ id: createOtherLiabilityId(), description: savedLiab.otherName || "", amount: savedLiab.other }]
+      : []
+  );
+
+  const otherTotal = useMemo(
+    () => otherLiabilities.reduce((acc, item) => acc + parseMoney(item.amount), 0),
+    [otherLiabilities]
+  );
+
   const numericValues = useMemo(
-    () =>
-      Object.fromEntries(
+    () => {
+      const values = Object.fromEntries(
         Object.entries(amounts).map(([k, v]) => [k, parseFloat(v) || 0])
-      ) as Record<string, number>,
-    [amounts]
+      ) as Record<string, number>;
+      values.other = otherTotal;
+      return values;
+    },
+    [amounts, otherTotal]
   );
 
   const total = useMemo(
@@ -228,6 +286,26 @@ export default function Liabilities() {
     if (parts.length > 2) cleaned = parts[0] + "." + parts.slice(1).join("");
     if (parts[1] && parts[1].length > 2) cleaned = parts[0] + "." + parts[1].slice(0, 2);
     setAmounts((prev) => ({ ...prev, [key]: cleaned }));
+  };
+
+  const addOtherLiability = () => {
+    setOtherLiabilities((prev) => [
+      ...prev,
+      { id: createOtherLiabilityId(), description: "", amount: "" },
+    ]);
+  };
+
+  const updateOtherLiability = (
+    id: string,
+    patch: Partial<{ description: string; amount: string }>
+  ) => {
+    setOtherLiabilities((prev) =>
+      prev.map((item) => (item.id === id ? { ...item, ...patch } : item))
+    );
+  };
+
+  const removeOtherLiability = (id: string) => {
+    setOtherLiabilities((prev) => prev.filter((item) => item.id !== id));
   };
 
   return (
@@ -398,42 +476,148 @@ export default function Liabilities() {
 
             {/* Liability Rows */}
             <div className="space-y-4">
-              {LIABILITY_CATEGORIES.map((cat) => (
-                <div
-                  key={cat.key}
-                  className="flex items-center gap-4 rounded-xl border border-slate-200/90 bg-white p-4 transition-colors hover:bg-slate-50/80"
-                >
-                  <span
-                    className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl ${cat.color}`}
+              {LIABILITY_CATEGORIES.map((cat) => {
+                if (cat.key === "other") {
+                  const otherCatTotal = numericValues.other || 0;
+                  return (
+                    <div
+                      key={cat.key}
+                      className="rounded-xl border border-slate-200/90 bg-white transition-colors hover:bg-slate-50/80"
+                    >
+                      <div className="flex items-center gap-4 p-4">
+                        <span
+                          className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl ${cat.color}`}
+                        >
+                          <cat.icon sx={{ fontSize: 22 }} />
+                        </span>
+                        <div className="min-w-0 flex-1">
+                          <p className="text-sm font-bold text-navy-950">
+                            {cat.label}
+                          </p>
+                          <p className="mt-0.5 whitespace-pre-line text-xs font-medium text-slate-600">
+                            {cat.desc}
+                          </p>
+                        </div>
+                        <div className="relative w-full max-w-[200px] shrink-0">
+                          <span className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-base font-extrabold text-navy-950">
+                            ₹
+                          </span>
+                          <input
+                            type="text"
+                            value={
+                              otherCatTotal > 0
+                                ? otherCatTotal.toLocaleString("en-IN", {
+                                    minimumFractionDigits: 2,
+                                    maximumFractionDigits: 2,
+                                  })
+                                : ""
+                            }
+                            readOnly
+                            placeholder="Enter amount"
+                            className="h-11 w-full rounded-xl border border-slate-300 bg-white pl-8 pr-10 text-sm font-bold text-navy-950 placeholder:text-slate-400 transition-all duration-250 hover:border-slate-400 focus:border-brand-green-500 focus:outline-none focus:ring-2 focus:ring-brand-green-500/20"
+                          />
+                          <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-xs sm:text-sm font-bold text-slate-500">
+                            .00
+                          </span>
+                        </div>
+                      </div>
+
+                      {otherLiabilities.length > 0 && (
+                        <div className="space-y-3 border-t border-slate-200/80 px-4 pb-4 pt-4">
+                          {otherLiabilities.map((entry) => (
+                            <div
+                              key={entry.id}
+                              className="flex items-end gap-3 rounded-xl border border-navy-950/10 bg-white p-3 sm:gap-4 sm:p-4"
+                            >
+                              <div className="grid min-w-0 flex-1 grid-cols-1 gap-4 sm:grid-cols-2">
+                                <div>
+                                  <label className="mb-2 block text-sm sm:text-base font-bold text-navy-950">
+                                    Liability Type
+                                  </label>
+                                  <input
+                                    type="text"
+                                    value={entry.description}
+                                    onChange={(e) =>
+                                      updateOtherLiability(entry.id, {
+                                        description: e.target.value,
+                                      })
+                                    }
+                                    placeholder="e.g. Gold Loan, Business Loan..."
+                                    className="h-12 w-full rounded-xl border border-slate-300 bg-white px-3.5 text-sm sm:text-base font-semibold text-navy-950 placeholder:text-slate-400 transition-all duration-250 hover:border-slate-400 focus:border-brand-green-500 focus:outline-none focus:ring-2 focus:ring-brand-green-500/20"
+                                  />
+                                </div>
+                                <CurrencyInput
+                                  label="Outstanding Amount (₹)"
+                                  value={entry.amount}
+                                  onChange={(v) =>
+                                    updateOtherLiability(entry.id, { amount: v })
+                                  }
+                                  placeholder="0"
+                                />
+                              </div>
+                              <button
+                                type="button"
+                                onClick={() => removeOtherLiability(entry.id)}
+                                aria-label="Remove other liability"
+                                className="mb-1.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-slate-400 transition-colors hover:bg-red-50 hover:text-red-500"
+                              >
+                                <CloseIcon sx={{ fontSize: 18 }} />
+                              </button>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+
+                      <div className="px-4 pb-4">
+                        <button
+                          type="button"
+                          onClick={addOtherLiability}
+                          className="flex items-center gap-2 rounded-lg border-2 border-dashed border-brand-green-300 px-4 py-2 text-sm font-semibold text-brand-green-700 transition-all hover:border-brand-green-500 hover:bg-brand-green-50"
+                        >
+                          + Add Other Liability
+                        </button>
+                      </div>
+                    </div>
+                  );
+                }
+
+                return (
+                  <div
+                    key={cat.key}
+                    className="flex items-center gap-4 rounded-xl border border-slate-200/90 bg-white p-4 transition-colors hover:bg-slate-50/80"
                   >
-                    <cat.icon sx={{ fontSize: 22 }} />
-                  </span>
-                  <div className="min-w-0 flex-1">
-                    <p className="text-sm font-bold text-navy-950">
-                      {cat.label}
-                    </p>
-                    <p className="mt-0.5 whitespace-pre-line text-xs font-medium text-slate-600">
-                      {cat.desc}
-                    </p>
-                  </div>
-                  <div className="relative w-full max-w-[200px] shrink-0">
-                    <span className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-base font-extrabold text-navy-950">
-                      ₹
+                    <span
+                      className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl ${cat.color}`}
+                    >
+                      <cat.icon sx={{ fontSize: 22 }} />
                     </span>
-                    <input
-                      type="text"
-                      value={amounts[cat.key]}
-                      onChange={(e) => handleChange(cat.key, e.target.value)}
-                      inputMode="decimal"
-                      placeholder="Enter amount"
-                      className="h-11 w-full rounded-xl border border-slate-300 bg-white pl-8 pr-10 text-sm font-bold text-navy-950 placeholder:text-slate-400 transition-all duration-250 hover:border-slate-400 focus:border-brand-green-500 focus:outline-none focus:ring-2 focus:ring-brand-green-500/20"
-                    />
-                    <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-xs sm:text-sm font-bold text-slate-500">
-                      .00
-                    </span>
+                    <div className="min-w-0 flex-1">
+                      <p className="text-sm font-bold text-navy-950">
+                        {cat.label}
+                      </p>
+                      <p className="mt-0.5 whitespace-pre-line text-xs font-medium text-slate-600">
+                        {cat.desc}
+                      </p>
+                    </div>
+                    <div className="relative w-full max-w-[200px] shrink-0">
+                      <span className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-base font-extrabold text-navy-950">
+                        ₹
+                      </span>
+                      <input
+                        type="text"
+                        value={amounts[cat.key]}
+                        onChange={(e) => handleChange(cat.key, e.target.value)}
+                        inputMode="decimal"
+                        placeholder="Enter amount"
+                        className="h-11 w-full rounded-xl border border-slate-300 bg-white pl-8 pr-10 text-sm font-bold text-navy-950 placeholder:text-slate-400 transition-all duration-250 hover:border-slate-400 focus:border-brand-green-500 focus:outline-none focus:ring-2 focus:ring-brand-green-500/20"
+                      />
+                      <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-xs sm:text-sm font-bold text-slate-500">
+                        .00
+                      </span>
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
 
             {/* Total Outstanding Amount */}
@@ -473,7 +657,18 @@ export default function Liabilities() {
               <button
                 type="button"
                 onClick={() => {
-                  updateAssessment("liabilities", amounts);
+                  const payload = {
+                    ...amounts,
+                    other: String(otherTotal || ""),
+                    otherName:
+                      otherLiabilities.map((e) => e.description).find(Boolean) ||
+                      "",
+                    otherLiabilities: otherLiabilities.map(({ description, amount }) => ({
+                      description,
+                      amount,
+                    })),
+                  };
+                  updateAssessment("liabilities", payload);
                   navigate("/savings");
                 }}
                 className="flex h-12 items-center gap-2 rounded-xl bg-brand-green-500 px-8 text-[15px] font-bold text-white shadow-soft transition-all duration-250 hover:bg-brand-green-600 hover:shadow-md active:scale-[0.98]"

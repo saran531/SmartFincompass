@@ -7,6 +7,7 @@ import HowItWorks from "./pages/HowItWorks";
 import Pricing from "./pages/Pricing";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
+import KnowYourRisk from "./pages/KnowYourRisk";
 import CreateAccount from "./pages/CreateAccount";
 import OtpVerification from "./pages/OtpVerification";
 import PersonalInformation from "./pages/assessment/PersonalInformation";
@@ -45,6 +46,7 @@ function App() {
       <Route path="/pricing" element={<Pricing />} />
       <Route path="/about" element={<About />} />
       <Route path="/contact" element={<Contact />} />
+      <Route path="/know-your-risk" element={<KnowYourRisk />} />
       <Route path="/create-account" element={<CreateAccount />} />
       <Route path="/otp-verification" element={<OtpVerification />} />
 

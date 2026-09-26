@@ -1,6 +1,7 @@
 import { useState, useMemo } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useApp } from "../../context/AppContext";
+import CurrencyInput from "./components/CurrencyInput";
 import ExploreIcon from "@mui/icons-material/Explore";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
@@ -18,6 +19,7 @@ import BoltIcon from "@mui/icons-material/Bolt";
 import LocalHospitalIcon from "@mui/icons-material/LocalHospital";
 import MovieIcon from "@mui/icons-material/Movie";
 import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
+import SubscriptionsIcon from "@mui/icons-material/Subscriptions";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
@@ -144,6 +146,14 @@ const EXPENSE_CATEGORIES = [
     chartColor: "#ec4899",
   },
   {
+    key: "subscriptions",
+    label: "Subscriptions",
+    desc: "OTT, software, gym,\nnews, memberships, etc.",
+    icon: SubscriptionsIcon,
+    color: "text-indigo-500 bg-indigo-50",
+    chartColor: "#6366f1",
+  },
+  {
     key: "other",
     label: "Other",
     desc: "Any other regular\nmonthly expenses",
@@ -152,6 +162,16 @@ const EXPENSE_CATEGORIES = [
     chartColor: "#94a3b8",
   },
 ];
+
+let expenseEntryIdSeq = 0;
+const createExpenseEntryId = () => `expense-${++expenseEntryIdSeq}`;
+
+const parseMoney = (value: string): number => {
+  if (!value) return 0;
+  const cleaned = value.replace(/[^0-9.]/g, "");
+  const parsed = parseFloat(cleaned);
+  return Number.isFinite(parsed) ? parsed : 0;
+};
 
 function DonutChart({
   values,
@@ -227,24 +247,60 @@ export default function MonthlyExpenses() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const savedExp = assessmentData.expenses || {};
-  const [amounts, setAmounts] = useState<Record<string, string>>({
-    food: savedExp.food || "",
-    transport: savedExp.transport || "",
-    emi: savedExp.emi || savedExp.housing || "",
-    insurance: savedExp.insurance || "",
-    utilities: savedExp.utilities || "",
-    medical: savedExp.medical || savedExp.healthcare || "",
-    entertainment: savedExp.entertainment || "",
-    shopping: savedExp.shopping || "",
-    other: savedExp.other || "",
-  });
+  const savedAmountFor = (key: string): string => {
+    switch (key) {
+      case "food":
+        return savedExp.food || "";
+      case "transport":
+        return savedExp.transport || "";
+      case "emi":
+        return savedExp.emi || savedExp.housing || "";
+      case "insurance":
+        return savedExp.insurance || "";
+      case "utilities":
+        return savedExp.utilities || "";
+      case "medical":
+        return savedExp.medical || savedExp.healthcare || "";
+      case "entertainment":
+        return savedExp.entertainment || "";
+      case "shopping":
+        return savedExp.shopping || "";
+      case "subscriptions":
+        return savedExp.subscriptions || "";
+      case "other":
+        return savedExp.other || "";
+      default:
+        return "";
+    }
+  };
+
+  const [expenseEntries, setExpenseEntries] = useState<Record<string, Array<{ id: string; description: string; amount: string }>>>(
+    () =>
+      Object.fromEntries(
+        EXPENSE_CATEGORIES.map((cat) => {
+          const savedAmount = savedAmountFor(cat.key);
+          return [
+            cat.key,
+            savedAmount
+              ? [{ id: createExpenseEntryId(), description: "", amount: savedAmount }]
+              : [],
+          ];
+        })
+      )
+  );
 
   const numericValues = useMemo(
     () =>
       Object.fromEntries(
-        EXPENSE_CATEGORIES.map((cat) => [cat.key, parseFloat(amounts[cat.key] || "0") || 0])
+        EXPENSE_CATEGORIES.map((cat) => [
+          cat.key,
+          (expenseEntries[cat.key] || []).reduce(
+            (sum, entry) => sum + parseMoney(entry.amount),
+            0
+          ),
+        ])
       ) as Record<string, number>,
-    [amounts]
+    [expenseEntries]
   );
 
   const total = useMemo(
@@ -252,12 +308,31 @@ export default function MonthlyExpenses() {
     [numericValues]
   );
 
-  const handleChange = (key: string, value: string) => {
-    let cleaned = value.replace(/[^0-9.]/g, "");
-    const parts = cleaned.split(".");
-    if (parts.length > 2) cleaned = parts[0] + "." + parts.slice(1).join("");
-    if (parts[1] && parts[1].length > 2) cleaned = parts[0] + "." + parts[1].slice(0, 2);
-    setAmounts((prev) => ({ ...prev, [key]: cleaned }));
+  const addExpenseEntry = (key: string) => {
+    setExpenseEntries((prev) => ({
+      ...prev,
+      [key]: [...(prev[key] || []), { id: createExpenseEntryId(), description: "", amount: "" }],
+    }));
+  };
+
+  const updateExpenseEntry = (
+    key: string,
+    id: string,
+    patch: Partial<{ description: string; amount: string }>
+  ) => {
+    setExpenseEntries((prev) => ({
+      ...prev,
+      [key]: (prev[key] || []).map((entry) =>
+        entry.id === id ? { ...entry, ...patch } : entry
+      ),
+    }));
+  };
+
+  const removeExpenseEntry = (key: string, id: string) => {
+    setExpenseEntries((prev) => ({
+      ...prev,
+      [key]: (prev[key] || []).filter((entry) => entry.id !== id),
+    }));
   };
 
   return (
@@ -428,42 +503,112 @@ export default function MonthlyExpenses() {
 
             {/* Expense Rows */}
             <div className="space-y-4">
-              {EXPENSE_CATEGORIES.map((cat) => (
-                <div
-                  key={cat.key}
-                  className="flex items-center gap-4 rounded-xl border border-slate-200/90 bg-white p-4 transition-colors hover:bg-slate-50/80"
-                >
-                  <span
-                    className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl ${cat.color}`}
+              {EXPENSE_CATEGORIES.map((cat) => {
+                const catEntries = expenseEntries[cat.key] || [];
+                const catTotal = numericValues[cat.key] || 0;
+                return (
+                  <div
+                    key={cat.key}
+                    className="rounded-xl border border-slate-200/90 bg-white transition-colors hover:bg-slate-50/80"
                   >
-                    <cat.icon sx={{ fontSize: 22 }} />
-                  </span>
-                  <div className="min-w-0 flex-1">
-                    <p className="text-sm font-bold text-navy-950">
-                      {cat.label}
-                    </p>
-                    <p className="mt-0.5 whitespace-pre-line text-xs font-medium text-slate-600">
-                      {cat.desc}
-                    </p>
+                    <div className="flex items-center gap-4 p-4">
+                      <span
+                        className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl ${cat.color}`}
+                      >
+                        <cat.icon sx={{ fontSize: 22 }} />
+                      </span>
+                      <div className="min-w-0 flex-1">
+                        <p className="text-sm font-bold text-navy-950">
+                          {cat.label}
+                        </p>
+                        <p className="mt-0.5 whitespace-pre-line text-xs font-medium text-slate-600">
+                          {cat.desc}
+                        </p>
+                      </div>
+                      <div className="relative w-full max-w-[200px] shrink-0">
+                        <span className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-base font-extrabold text-navy-950">
+                          ₹
+                        </span>
+                        <input
+                          type="text"
+                          value={
+                            catTotal > 0
+                              ? catTotal.toLocaleString("en-IN", {
+                                  minimumFractionDigits: 2,
+                                  maximumFractionDigits: 2,
+                                })
+                              : ""
+                          }
+                          readOnly
+                          placeholder="Enter amount"
+                          className="h-11 w-full rounded-xl border border-slate-300 bg-white pl-8 pr-10 text-sm font-bold text-navy-950 placeholder:text-slate-400 transition-all duration-250 hover:border-slate-400 focus:border-brand-green-500 focus:outline-none focus:ring-2 focus:ring-brand-green-500/20"
+                        />
+                        <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-xs sm:text-sm font-bold text-slate-500">
+                          .00
+                        </span>
+                      </div>
+                    </div>
+
+                    {catEntries.length > 0 && (
+                      <div className="space-y-3 border-t border-slate-200/80 px-4 pb-4 pt-4">
+                        {catEntries.map((entry) => (
+                          <div
+                            key={entry.id}
+                            className="flex items-end gap-3 rounded-xl border border-navy-950/10 bg-white p-3 sm:gap-4 sm:p-4"
+                          >
+                            <div className="grid min-w-0 flex-1 grid-cols-1 gap-4 sm:grid-cols-2">
+                              <div>
+                                <label className="mb-2 block text-sm sm:text-base font-bold text-navy-950">
+                                  Expense Type
+                                </label>
+                                <input
+                                  type="text"
+                                  value={entry.description}
+                                  onChange={(e) =>
+                                    updateExpenseEntry(cat.key, entry.id, {
+                                      description: e.target.value,
+                                    })
+                                  }
+                                  placeholder="e.g. Groceries, Rent..."
+                                  className="h-12 w-full rounded-xl border border-slate-300 bg-white px-3.5 text-sm sm:text-base font-semibold text-navy-950 placeholder:text-slate-400 transition-all duration-250 hover:border-slate-400 focus:border-brand-green-500 focus:outline-none focus:ring-2 focus:ring-brand-green-500/20"
+                                />
+                              </div>
+                              <CurrencyInput
+                                label="Monthly Amount (₹)"
+                                value={entry.amount}
+                                onChange={(v) =>
+                                  updateExpenseEntry(cat.key, entry.id, {
+                                    amount: v,
+                                  })
+                                }
+                                placeholder="0"
+                              />
+                            </div>
+                            <button
+                              type="button"
+                              onClick={() => removeExpenseEntry(cat.key, entry.id)}
+                              aria-label={`Remove ${cat.label} expense`}
+                              className="mb-1.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-slate-400 transition-colors hover:bg-red-50 hover:text-red-500"
+                            >
+                              <CloseIcon sx={{ fontSize: 18 }} />
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    <div className="px-4 pb-4">
+                      <button
+                        type="button"
+                        onClick={() => addExpenseEntry(cat.key)}
+                        className="flex items-center gap-2 rounded-lg border-2 border-dashed border-brand-green-300 px-4 py-2 text-sm font-semibold text-brand-green-700 transition-all hover:border-brand-green-500 hover:bg-brand-green-50"
+                      >
+                        + Add
+                      </button>
+                    </div>
                   </div>
-                  <div className="relative w-full max-w-[200px] shrink-0">
-                    <span className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-base font-extrabold text-navy-950">
-                      ₹
-                    </span>
-                    <input
-                      type="text"
-                      value={amounts[cat.key]}
-                      onChange={(e) => handleChange(cat.key, e.target.value)}
-                      inputMode="decimal"
-                      placeholder="Enter amount"
-                      className="h-11 w-full rounded-xl border border-slate-300 bg-white pl-8 pr-10 text-sm font-bold text-navy-950 placeholder:text-slate-400 transition-all duration-250 hover:border-slate-400 focus:border-brand-green-500 focus:outline-none focus:ring-2 focus:ring-brand-green-500/20"
-                    />
-                    <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-xs sm:text-sm font-bold text-slate-500">
-                      .00
-                    </span>
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
 
             {/* Total Monthly Expenses */}
@@ -501,7 +646,13 @@ export default function MonthlyExpenses() {
               <button
                 type="button"
                 onClick={() => {
-                  updateAssessment("expenses", amounts);
+                  const persisted = Object.fromEntries(
+                    EXPENSE_CATEGORIES.map((cat) => [
+                      cat.key,
+                      String(numericValues[cat.key] || ""),
+                    ])
+                  );
+                  updateAssessment("expenses", persisted);
                   navigate("/assets");
                 }}
                 className="flex h-12 items-center gap-2 rounded-xl bg-brand-green-500 px-8 text-[15px] font-bold text-white shadow-soft transition-all duration-250 hover:bg-brand-green-600 hover:shadow-md active:scale-[0.98]"

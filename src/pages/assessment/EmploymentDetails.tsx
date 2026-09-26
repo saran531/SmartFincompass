@@ -11,6 +11,7 @@ import WorkIcon from "@mui/icons-material/Work";
 import BusinessCenterIcon from "@mui/icons-material/BusinessCenter";
 import ComputerIcon from "@mui/icons-material/Computer";
 import BusinessIcon from "@mui/icons-material/Business";
+import SchoolIcon from "@mui/icons-material/School";
 import LockIcon from "@mui/icons-material/Lock";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -83,6 +84,7 @@ const EMPLOYMENT_TYPES = [
   { label: "Self Employed", icon: PersonIcon, color: "bg-violet-50 text-violet-600 border border-violet-100" },
   { label: "Business Owner", icon: BusinessIcon, color: "bg-amber-50 text-amber-700 border border-amber-100" },
   { label: "Freelancer", icon: ComputerIcon, color: "bg-sky-50 text-sky-600 border border-sky-100" },
+  { label: "Student", icon: SchoolIcon, color: "bg-emerald-50 text-emerald-600 border border-emerald-100" },
 ];
 
 const WHAT_YOU_GET = [
@@ -161,6 +163,10 @@ export default function EmploymentDetails() {
     !PLATFORM_OPTIONS.includes(emp.employerName || "") ? (emp.employerName || "") : ""
   );
 
+  // Student fields
+  const [educationQualification, setEducationQualification] = useState(emp.educationQualification || "");
+  const [partTimeJob, setPartTimeJob] = useState(emp.partTimeJob || "");
+
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const handleTypeChange = (type: string) => {
@@ -197,6 +203,10 @@ export default function EmploymentDetails() {
       savedOccupation = freelanceProfession;
       savedExperience = yearsFreelancing;
       savedEmployer = mainPlatform === "Others" ? platformOther : mainPlatform;
+    } else if (employmentType === "Student") {
+      savedOccupation = educationQualification || "Student";
+      savedExperience = "";
+      savedIncome = "";
     }
 
     updateAssessment("employment", {
@@ -208,6 +218,8 @@ export default function EmploymentDetails() {
       additionalIncome,
       businessIncome: annualTurnover,
       contactNumber,
+      educationQualification,
+      partTimeJob,
     });
 
     navigate("/income-details");
@@ -697,6 +709,51 @@ export default function EmploymentDetails() {
                   onChange={(v) => setMonthlySalary(v)}
                   placeholder="Enter average monthly income"
                 />
+              </div>
+            )}
+
+            {employmentType === "Student" && (
+              <div className="mt-5 rounded-xl border border-emerald-200 bg-emerald-50/50 p-5">
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-100 text-emerald-600">
+                    <SchoolIcon sx={{ fontSize: 22 }} />
+                  </span>
+                  <div>
+                    <p className="text-sm font-bold text-navy-950">Student Details</p>
+                    <p className="text-xs text-slate-600">Tell us about your education</p>
+                  </div>
+                </div>
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                  <div>
+                    <label className="mb-1.5 block text-xs font-semibold text-navy-950">Education Qualification</label>
+                    <input
+                      type="text"
+                      value={educationQualification}
+                      onChange={(e) => setEducationQualification(e.target.value)}
+                      placeholder="e.g. B.Tech, MBA, etc."
+                      className="h-10 w-full rounded-lg border border-navy-950/10 bg-white px-3 text-sm text-navy-950 placeholder:text-navy-900/40 transition-all hover:border-navy-950/20 focus:border-brand-green-500 focus:outline-none focus:ring-2 focus:ring-brand-green-500/20"
+                    />
+                  </div>
+                  <div>
+                    <label className="mb-1.5 block text-xs font-semibold text-navy-950">Involved in any part time job?</label>
+                    <div className="flex gap-3">
+                      {["Yes", "No"].map((opt) => (
+                        <button
+                          key={opt}
+                          type="button"
+                          onClick={() => setPartTimeJob(opt)}
+                          className={`flex-1 h-10 rounded-lg border-2 px-4 text-sm font-semibold transition-all ${
+                            partTimeJob === opt
+                              ? "border-brand-green-500 bg-brand-green-50 text-brand-green-700"
+                              : "border-slate-300 bg-white text-slate-700 hover:border-slate-400"
+                          }`}
+                        >
+                          {opt}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
               </div>
             )}
 
