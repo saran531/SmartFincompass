@@ -62,7 +62,8 @@ export default function AssessmentInput({
 
   return (
     <div className={className}>
-      <label className="mb-2 block text-sm sm:text-base font-bold text-navy-950">
+      <label className="mb-2 flex items-center gap-2 text-sm sm:text-base font-bold text-navy-950">
+        {icon && <span className="label-icon">{icon}</span>}
         {label}
       </label>
       <div className="relative">

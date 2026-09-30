@@ -1,86 +1,34 @@
 import { useState, useCallback } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useApp, calculateAge } from "../../context/AppContext";
-import ExploreIcon from "@mui/icons-material/Explore";
-import MenuIcon from "@mui/icons-material/Menu";
-import CloseIcon from "@mui/icons-material/Close";
-import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import PersonIcon from "@mui/icons-material/Person";
+import ManIcon from "@mui/icons-material/Man";
+import FemaleIcon from "@mui/icons-material/Female";
 import EmailIcon from "@mui/icons-material/Email";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import SchoolIcon from "@mui/icons-material/School";
+import GroupsIcon from "@mui/icons-material/Groups";
+import ChildCareIcon from "@mui/icons-material/ChildCare";
+import FamilyRestroomIcon from "@mui/icons-material/FamilyRestroom";
 import ShieldIcon from "@mui/icons-material/Shield";
 import LockIcon from "@mui/icons-material/Lock";
 import LightbulbIcon from "@mui/icons-material/Lightbulb";
-import AnalyticsIcon from "@mui/icons-material/Analytics";
-import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
-import CallIcon from "@mui/icons-material/Call";
-import PlaceIcon from "@mui/icons-material/Place";
-import FacebookIcon from "@mui/icons-material/Facebook";
-import TwitterIcon from "@mui/icons-material/Twitter";
-import LinkedInIcon from "@mui/icons-material/LinkedIn";
-import InstagramIcon from "@mui/icons-material/Instagram";
+import BarChartIcon from "@mui/icons-material/BarChart";
+import TrendingUpIcon from "@mui/icons-material/TrendingUp";
+import HeadsetMicIcon from "@mui/icons-material/HeadsetMic";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
-import FlagIcon from "@mui/icons-material/Flag";
-import ReviewIcon from "@mui/icons-material/RateReview";
 import AssessmentInput from "./components/AssessmentInput";
 import AssessmentSelect from "./components/AssessmentSelect";
 import AssessmentDatePicker from "./components/AssessmentDatePicker";
 import PhoneInput from "./components/PhoneInput";
-
-const NAV_LINKS = [
-  { label: "Home", href: "/" },
-  { label: "Features", href: "/features" },
-  { label: "How It Works", href: "/how-it-works" },
-  { label: "About", href: "/about" },
-  { label: "Contact", href: "/contact" },
-];
-
-const FOOTER_COLUMNS = [
-  {
-    title: "Quick Links",
-    links: [
-      { label: "Home", href: "/" },
-      { label: "Features", href: "/features" },
-      { label: "How It Works", href: "/how-it-works" },
-      { label: "About", href: "/about" },
-      { label: "Contact", href: "/contact" },
-    ],
-  },
-  {
-    title: "Resources",
-    links: [
-      { label: "Blog", href: "/blog" },
-      { label: "Financial Guide", href: "/financial-guide" },
-      { label: "FAQs", href: "/contact" },
-      { label: "Privacy Policy", href: "/privacy" },
-      { label: "Terms of Service", href: "/terms" },
-    ],
-  },
-  {
-    title: "Company",
-    links: [
-      { label: "About Us", href: "/about" },
-      { label: "Careers", href: "/careers" },
-      { label: "Press", href: "/press" },
-      { label: "Partners", href: "/partners" },
-    ],
-  },
-];
-
-const PROGRESS_STEPS = [
-  { label: "Personal Info", icon: PersonIcon, active: true, completed: false },
-  { label: "Income & Expenses", icon: FormatListBulletedIcon, active: false, completed: false },
-  { label: "Goals & Preferences", icon: FlagIcon, active: false, completed: false },
-  { label: "Review & Insights", icon: ReviewIcon, active: false, completed: false },
-];
+import AssessmentJourneyProgress from "../../components/AssessmentJourneyProgress";
 
 const GENDER_OPTIONS = [
-  { label: "Male", icon: PersonIcon },
-  { label: "Female", icon: PersonIcon },
-  { label: "Other", icon: PersonIcon },
+  { label: "Male", icon: ManIcon, tone: "bg-sky-50 text-sky-600" },
+  { label: "Female", icon: FemaleIcon, tone: "bg-pink-50 text-pink-600" },
+  { label: "Other", icon: PersonIcon, tone: "bg-violet-50 text-violet-600" },
 ];
 
 const MARITAL_STATUS_OPTIONS = [
@@ -109,13 +57,13 @@ const WHY_WE_ASK = [
     desc: "Helps us provide insights tailored to your profile",
   },
   {
-    icon: AnalyticsIcon,
+    icon: BarChartIcon,
     color: "text-sky-600 bg-sky-50 border border-sky-100",
     title: "Accurate Recommendations",
     desc: "Enables better financial recommendations",
   },
   {
-    icon: CompareArrowsIcon,
+    icon: TrendingUpIcon,
     color: "text-violet-600 bg-violet-50 border border-violet-100",
     title: "Benchmarking",
     desc: "Compare your financial health with relevant peers",
@@ -125,7 +73,6 @@ const WHY_WE_ASK = [
 export default function PersonalInformation() {
   const navigate = useNavigate();
   const { assessmentData, updateAssessment } = useApp();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const [fullName, setFullName] = useState(assessmentData.personalInfo?.fullName || "");
   const [email, setEmail] = useState(assessmentData.personalInfo?.email || "");
@@ -173,170 +120,60 @@ export default function PersonalInformation() {
   }, [fullName, email, phone, dob]);
 
   return (
-    <div className="min-h-screen bg-slate-50">
-      {/* ─── NAVBAR ─── */}
-      <header className="sticky top-0 z-50 border-b border-slate-200/80 bg-white/95 backdrop-blur-md">
-        <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6 py-3 lg:px-10">
-          <Link to="/" className="flex items-center gap-3">
-            <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand-green-500 text-white shadow-sm">
-              <ExploreIcon fontSize="small" />
-            </span>
-            <span className="text-xl font-bold leading-tight text-navy-950">
-              SmartFin
-              <span className="block -mt-1 text-brand-green-600">Compass</span>
-            </span>
-          </Link>
-
-          <nav className="hidden items-center gap-9 lg:flex">
-            {NAV_LINKS.map((link, i) => (
-              <a
-                key={link.label}
-                href={link.href}
-                className={`group/nav relative text-[15px] font-semibold transition-colors duration-250 ${
-                  i === 0
-                    ? "text-navy-950"
-                    : "text-slate-700 hover:text-brand-green-600"
-                }`}
-              >
-                {link.label}
-                <span
-                  className={`absolute -bottom-2 left-0 h-0.5 rounded-full bg-brand-green-500 transition-all duration-300 ${
-                    i === 0 ? "w-full" : "w-0 group-hover/nav:w-full"
-                  }`}
-                />
-              </a>
-            ))}
-          </nav>
-
-          <div className="hidden items-center gap-4 lg:flex">
-            <button className="relative grid h-10 w-10 place-items-center rounded-full text-slate-600 transition-colors hover:bg-slate-100 hover:text-navy-950">
-              <NotificationsNoneIcon sx={{ fontSize: 22 }} />
-              <span className="absolute right-2 top-2 h-2.5 w-2.5 rounded-full border-2 border-white bg-brand-green-500" />
-            </button>
-            <div className="flex items-center gap-2">
-              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-navy-950 text-sm font-bold text-white">
-                VG
-              </span>
-              <KeyboardArrowDownIcon
-                sx={{ fontSize: 18 }}
-                className="text-slate-600"
-              />
-            </div>
-          </div>
-
-          <button
-            className="grid h-10 w-10 place-items-center rounded-lg text-navy-950 lg:hidden"
-            onClick={() => setMobileMenuOpen((v) => !v)}
-            aria-label="Toggle menu"
-          >
-            {mobileMenuOpen ? <CloseIcon /> : <MenuIcon />}
-          </button>
-        </div>
-
-        {mobileMenuOpen && (
-          <div className="border-t border-slate-200 bg-white px-6 py-4 lg:hidden">
-            <nav className="flex flex-col gap-4">
-              {NAV_LINKS.map((link) => (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  className="text-sm font-semibold text-slate-700 hover:text-brand-green-600"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  {link.label}
-                </a>
-              ))}
-            </nav>
-            <div className="mt-4 flex items-center gap-3">
-              <button className="relative grid h-10 w-10 place-items-center rounded-full text-slate-600">
-                <NotificationsNoneIcon sx={{ fontSize: 22 }} />
-              </button>
-              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-navy-950 text-sm font-bold text-white">
-                VG
-              </span>
-            </div>
-          </div>
-        )}
-      </header>
-
-      <main className="mx-auto max-w-7xl px-6 py-10 lg:px-10">
-        {/* ─── TOP ROW: Title + Assessment Progress ─── */}
-        <div className="mb-8 flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
-          <div className="max-w-xl">
-            <h1 className="text-3xl font-extrabold text-navy-950 sm:text-4xl">
-              Personal Information
-            </h1>
-            <p className="mt-3 text-[15px] leading-relaxed text-slate-600 font-medium">
-              Please enter your personal details below to begin your financial wellness assessment.
-            </p>
-          </div>
-
-          {/* Assessment Progress Card */}
-          <div className="w-full max-w-2xl rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-            <div className="mb-5 flex items-center justify-between">
-              <p className="text-sm font-bold text-navy-950">
-                Assessment Progress
-              </p>
-              <span className="rounded-full bg-brand-green-100 px-3 py-1 text-xs font-bold text-brand-green-700">
-                Step 1 of 12
-              </span>
-            </div>
-            <div className="relative">
-              <div className="absolute left-[20px] top-4 h-0.5 w-[calc(100%-40px)] bg-slate-200" />
-              <div className="absolute left-[20px] top-4 h-0.5 w-[calc(100%-40px)] bg-brand-green-500" style={{ width: "8.33%" }} />
-              <div className="flex items-start justify-between overflow-x-auto pb-2">
-                {PROGRESS_STEPS.map((step, i) => (
-                  <div
-                    key={step.label}
-                    className="flex shrink-0 flex-col items-center text-center px-1"
-                    style={{ minWidth: "48px" }}
-                  >
-                    <span
-                      className={`relative z-10 flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold transition-all ${
-                        step.active
-                          ? "bg-brand-green-500 text-white shadow-sm ring-4 ring-brand-green-100"
-                          : step.completed
-                          ? "bg-brand-green-500 text-white shadow-sm"
-                          : "border-2 border-slate-300 bg-white text-slate-500"
-                      }`}
-                    >
-                      {step.completed ? (
-                        <CheckCircleIcon sx={{ fontSize: 16 }} />
-                      ) : (
-                        i + 1
-                      )}
-                    </span>
-                    <p
-                      className={`mt-2 text-[10px] font-semibold leading-tight ${
-                        step.active
-                          ? "text-brand-green-700 font-bold"
-                          : step.completed
-                          ? "text-slate-700"
-                          : "text-slate-500"
-                      }`}
-                    >
-                      {step.label}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
+    <div className="assessment-page min-h-screen">
+      <style>{`
+        .pi-fullname .label-icon { background-color: #eff6ff !important; color: #2563eb !important; }
+        .pi-email .label-icon { background-color: #fdf2f8 !important; color: #db2777 !important; }
+        .pi-phone .label-icon { background-color: #eafbf3 !important; color: #128052 !important; }
+        .pi-dob .label-icon { background-color: #f5f3ff !important; color: #7c3aed !important; }
+        .pi-gender .label-icon { background-color: #fff7ed !important; color: #ea580c !important; }
+        .pi-marital .label-icon { background-color: #eafbf3 !important; color: #128052 !important; }
+        .pi-dependents .label-icon { background-color: #eff6ff !important; color: #2563eb !important; }
+        .pi-education .label-icon { background-color: #f5f3ff !important; color: #7c3aed !important; }
+        .assessment-page .label-icon { height: 28px !important; width: 28px !important; border-radius: 9px !important; }
+        .assessment-page .label-icon svg { font-size: 20px !important; }
+        .assessment-page main label.mb-2 { margin-bottom: 6px !important; }
+        .assessment-page .pi-gender label { margin-bottom: 6px !important; }
+        .assessment-page .asmt-btn-next {
+          border-radius: 9999px !important;
+          background: linear-gradient(135deg, #128052 0%, #22b573 100%);
+          box-shadow: 0 6px 16px rgba(18, 128, 82, 0.3), 0 0 10px rgba(34, 181, 115, 0.18);
+          transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+        }
+        .assessment-page .asmt-btn-next:hover {
+          background: linear-gradient(135deg, #16975f 0%, #27c77f 100%);
+          box-shadow: 0 10px 24px rgba(18, 128, 82, 0.42), 0 0 16px rgba(34, 181, 115, 0.34);
+          transform: translateY(-1px);
+        }
+        .assessment-page .asmt-btn-next:active { transform: translateY(0); }
+      `}</style>
+      <main className="relative z-10 mx-auto max-w-7xl px-6 py-6 lg:px-10">
+        {/* ─── TOP ROW: Assessment Journey Progress ─── */}
+        <AssessmentJourneyProgress
+          currentStep={1}
+          title="Personal Information"
+          subtitle="Please enter your personal details below to begin your financial wellness assessment."
+        />
 
         {/* ─── MAIN CONTENT: Form + Sidebar ─── */}
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-12">
           {/* Left Column: Form */}
           <div className="lg:col-span-8">
             {/* Basic Details Section */}
-            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
-              <h2 className="mb-6 text-lg font-bold text-navy-950 border-b border-slate-100 pb-3">
-                Basic Details
-              </h2>
+            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-6">
+              <div className="mb-6 flex items-center gap-3">
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-brand-green-100 text-brand-green-700">
+                  <PersonIcon sx={{ fontSize: 24 }} />
+                </span>
+                <h2 className="asmt-section-title text-lg font-bold text-navy-950">
+                  Basic Details
+                </h2>
+              </div>
 
               <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
                 <AssessmentInput
                   label="Full Name"
+                  className="pi-fullname"
                   value={fullName}
                   onChange={(v) => {
                     setFullName(v);
@@ -349,6 +186,7 @@ export default function PersonalInformation() {
                 />
                 <AssessmentInput
                   label="Email Address"
+                  className="pi-email"
                   value={email}
                   onChange={(v) => {
                     setEmail(v);
@@ -362,7 +200,7 @@ export default function PersonalInformation() {
               </div>
 
               {/* Phone Number */}
-              <div className="mt-5">
+              <div className="pi-phone mt-5">
                 <PhoneInput
                   label="Phone Number"
                   value={phone}
@@ -376,7 +214,7 @@ export default function PersonalInformation() {
               </div>
 
             {/* Date of Birth */}
-            <div className="mt-5">
+            <div className="pi-dob mt-5">
               <AssessmentDatePicker
                 label="Date of Birth"
                 value={dob}
@@ -389,8 +227,11 @@ export default function PersonalInformation() {
             </div>
 
             {/* Gender */}
-            <div className="mt-5">
-              <label className="mb-3 block text-sm sm:text-base font-bold text-navy-950">
+            <div className="pi-gender mt-5">
+              <label className="mb-3 flex items-center gap-2 text-sm sm:text-base font-bold text-navy-950">
+                <span className="label-icon">
+                  <PersonIcon sx={{ fontSize: 20 }} />
+                </span>
                 Gender
               </label>
               <div className="grid grid-cols-3 gap-4">
@@ -406,13 +247,9 @@ export default function PersonalInformation() {
                     }`}
                   >
                     <span
-                      className={`flex h-9 w-9 items-center justify-center rounded-full ${
-                        gender === opt.label
-                          ? "bg-brand-green-100 text-brand-green-700"
-                          : "bg-slate-100 text-slate-600"
-                      }`}
+                      className={`flex h-9 w-9 items-center justify-center rounded-full ${opt.tone}`}
                     >
-                      <opt.icon sx={{ fontSize: 20 }} />
+                      <opt.icon sx={{ fontSize: 24 }} />
                     </span>
                     <span className="text-sm sm:text-base font-bold text-navy-950">
                       {opt.label}
@@ -434,20 +271,24 @@ export default function PersonalInformation() {
             </div>
 
             {/* Marital Status */}
-            <div className="mt-5">
-              <AssessmentSelect
-                label="Marital Status"
-                value={maritalStatus}
-                onChange={(v) => setMaritalStatus(v)}
-                options={MARITAL_STATUS_OPTIONS}
-                placeholder="Select your marital status"
-              />
+            <div className="pi-marital mt-5">
+                <AssessmentSelect
+                  label="Marital Status"
+                  value={maritalStatus}
+                  onChange={(v) => setMaritalStatus(v)}
+                  options={MARITAL_STATUS_OPTIONS}
+                  placeholder="Select your marital status"
+                  icon={<FavoriteIcon sx={{ fontSize: 20 }} />}
+                />
             </div>
 
             {/* Dependents + Education — side by side */}
             <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2">
-              <div>
-                <label className="mb-2 block text-sm sm:text-base font-bold text-navy-950">
+              <div className="pi-dependents">
+                <label className="mb-2 flex items-center gap-2 text-sm sm:text-base font-bold text-navy-950">
+                  <span className="label-icon">
+                    <GroupsIcon sx={{ fontSize: 20 }} />
+                  </span>
                   Dependents
                 </label>
                 <p className="mb-3 text-xs sm:text-sm font-semibold text-slate-600">
@@ -455,13 +296,18 @@ export default function PersonalInformation() {
                 </p>
                 <div className="space-y-2">
                   {[
-                    { key: "spouse", label: "Spouse", icon: "👤" },
-                    { key: "children", label: "Children", icon: "👶" },
-                    { key: "parents", label: "Parents", icon: "👨‍👩‍👦" },
-                    { key: "other", label: "Other Dependents", icon: "👥" },
+                    { key: "spouse", label: "Spouse", Icon: PersonIcon, tone: "bg-pink-50 text-pink-600" },
+                    { key: "children", label: "Children", Icon: ChildCareIcon, tone: "bg-orange-50 text-orange-600" },
+                    { key: "parents", label: "Parents", Icon: FamilyRestroomIcon, tone: "bg-sky-50 text-sky-600" },
+                    { key: "other", label: "Other Dependents", Icon: GroupsIcon, tone: "bg-violet-50 text-violet-600" },
                   ].map((cat) => (
                     <div key={cat.key} className="flex items-center justify-between rounded-lg border border-slate-200 bg-white px-3 py-2">
-                      <span className="text-xs sm:text-sm font-semibold text-navy-950">{cat.icon} {cat.label}</span>
+                      <span className="flex items-center gap-2 text-xs sm:text-sm font-semibold text-navy-950">
+                        <span className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-lg ${cat.tone}`}>
+                          <cat.Icon sx={{ fontSize: 20 }} />
+                        </span>
+                        {cat.label}
+                      </span>
                       <div className="flex items-center gap-0">
                         <button
                           type="button"
@@ -485,7 +331,7 @@ export default function PersonalInformation() {
                   ))}
                 </div>
               </div>
-              <div>
+              <div className="pi-education">
                 <AssessmentSelect
                   label="Education"
                   value={education}
@@ -495,6 +341,7 @@ export default function PersonalInformation() {
                   }}
                   options={EDUCATION_OPTIONS}
                   placeholder="Select your education level"
+                  icon={<SchoolIcon sx={{ fontSize: 20 }} />}
                   otherValue={educationOther}
                   onOtherChange={(v) => {
                     setEducationOther(v);
@@ -505,10 +352,8 @@ export default function PersonalInformation() {
                 />
               </div>
             </div>
-          </div>
-
             {/* Next Button */}
-            <div className="mt-8 flex flex-col items-center">
+            <div className="mt-4 flex justify-end">
               <button
                 type="button"
                 onClick={() => {
@@ -521,24 +366,26 @@ export default function PersonalInformation() {
                   });
                   navigate("/employment-details");
                 }}
-                className="flex h-12 w-full max-w-sm items-center justify-center gap-2 rounded-xl bg-brand-green-500 text-base font-bold text-white shadow-md transition-all duration-250 hover:bg-brand-green-600 hover:shadow-lg active:scale-[0.98]"
+                className="asmt-btn-next flex h-12 items-center gap-2 rounded-full px-8 text-base font-bold"
               >
                 Next
                 <ArrowForwardIcon sx={{ fontSize: 20 }} />
               </button>
-              <p className="mt-4 flex items-center gap-2 text-xs sm:text-sm font-semibold text-slate-700">
-                <span className="text-brand-green-600">
-                  <CheckCircleIcon sx={{ fontSize: 18 }} />
-                </span>
-                Your information is safe with us and 100% secure
-              </p>
             </div>
+            <p className="mt-3 flex items-center justify-center gap-2 text-xs sm:text-sm font-semibold text-slate-700">
+              <span className="text-brand-green-600">
+                <CheckCircleIcon sx={{ fontSize: 18 }} />
+              </span>
+              Your information is safe with us and 100% secure
+            </p>
+          </div>
+
           </div>
 
           {/* RIGHT — Sidebar */}
-          <div className="lg:col-span-4 flex flex-col gap-6">
+          <div className="lg:col-span-4 flex flex-col gap-3">
             {/* Card 1: Your Information is Safe */}
-            <div className="rounded-2xl border border-slate-200/90 bg-white p-7 shadow-sm">
+            <div className="rounded-2xl border border-slate-200/90 bg-white p-6 shadow-sm">
               {/* Illustration placeholder */}
               <div className="relative mb-5 flex items-center justify-center overflow-hidden rounded-xl bg-gradient-to-br from-sky-50 to-brand-green-50/70 px-4 py-8 border border-slate-100">
                 <div className="relative">
@@ -566,8 +413,9 @@ export default function PersonalInformation() {
             </div>
 
             {/* Card 2: Why We Ask This */}
-            <div className="rounded-2xl border border-slate-200/90 bg-white p-7 shadow-sm">
-              <h3 className="mb-5 text-base sm:text-lg font-extrabold text-navy-950">
+            <div className="rounded-2xl border border-slate-200/90 bg-white p-6 shadow-sm">
+              <h3 className="flex items-center gap-2.5 mb-5 text-base sm:text-lg font-extrabold text-navy-950">
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-orange-50 text-orange-600 shadow-sm ring-1 ring-orange-100"><LightbulbIcon sx={{ fontSize: 22 }} /></span>
                 Why We Ask This
               </h3>
               <div className="space-y-5">
@@ -576,7 +424,7 @@ export default function PersonalInformation() {
                     <span
                       className={`mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${item.color}`}
                     >
-                      <item.icon sx={{ fontSize: 20 }} />
+                      <item.icon sx={{ fontSize: 24 }} />
                     </span>
                     <div>
                       <p className="text-sm sm:text-base font-extrabold text-navy-950">
@@ -592,10 +440,10 @@ export default function PersonalInformation() {
             </div>
 
             {/* Card 3: Need Help? */}
-            <div className="rounded-2xl border border-slate-200/90 bg-white p-7 shadow-sm">
+            <div className="rounded-2xl border border-slate-200/90 bg-white p-6 shadow-sm">
               <div className="mb-3 flex items-center gap-2.5">
                 <span className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-green-50 text-brand-green-700 border border-brand-green-100">
-                  <CallIcon sx={{ fontSize: 18 }} />
+                  <HeadsetMicIcon sx={{ fontSize: 22 }} />
                 </span>
                 <h3 className="text-base sm:text-lg font-extrabold text-navy-950">
                   Need Help?
@@ -616,10 +464,10 @@ export default function PersonalInformation() {
         </div>
 
         {/* ─── PRIVACY BANNER ─── */}
-        <div className="mt-10 rounded-2xl border border-brand-green-200/80 bg-brand-green-50/60 px-7 py-6 shadow-xs">
+        <div className="mt-3 rounded-2xl border border-brand-green-200/80 bg-brand-green-50/60 px-5 py-4 shadow-xs">
           <div className="flex items-start gap-4">
             <span className="mt-0.5 flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-brand-green-100 text-brand-green-700 border border-brand-green-200/80">
-              <LockIcon sx={{ fontSize: 20 }} />
+              <LockIcon sx={{ fontSize: 24 }} />
             </span>
             <div>
               <p className="text-base font-extrabold text-navy-950">
@@ -633,98 +481,6 @@ export default function PersonalInformation() {
           </div>
         </div>
       </main>
-
-      {/* ─── FOOTER ─── */}
-      <footer className="bg-navy-950 pt-20 text-slate-300">
-        <div className="mx-auto max-w-7xl px-6 lg:px-10">
-          <div className="grid grid-cols-1 gap-12 pb-14 sm:grid-cols-2 lg:grid-cols-5">
-            <div className="lg:col-span-2">
-              <Link to="/" className="flex items-center gap-3">
-                <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand-green-500 text-white">
-                  <ExploreIcon fontSize="small" />
-                </span>
-                <span className="text-xl font-bold leading-tight text-white">
-                  SmartFin
-                  <span className="block -mt-1 text-brand-green-400">
-                    Compass
-                  </span>
-                </span>
-              </Link>
-              <p className="mt-5 max-w-xs text-sm font-medium leading-relaxed text-slate-300">
-                AI-powered financial wellness platform that helps you make
-                smarter financial decisions.
-              </p>
-              <div className="mt-6 flex gap-3.5">
-                {[FacebookIcon, LinkedInIcon, TwitterIcon, InstagramIcon].map(
-                  (Icon, i) => (
-                    <a
-                      key={i}
-                      href="#"
-                      className="grid h-10 w-10 place-items-center rounded-full bg-white/10 text-white transition-all duration-200 hover:scale-110 hover:bg-brand-green-500 hover:text-white"
-                    >
-                      <Icon sx={{ fontSize: 18 }} />
-                    </a>
-                  )
-                )}
-              </div>
-            </div>
-
-            {FOOTER_COLUMNS.map((col) => (
-              <div key={col.title}>
-                <p className="text-sm font-bold text-white uppercase tracking-wider">{col.title}</p>
-                <ul className="mt-5 space-y-3">
-                  {col.links.map((l) => (
-                    <li key={l.label}>
-                      <a
-                        href={l.href}
-                        className="text-sm font-medium text-slate-300 transition-colors duration-200 hover:text-brand-green-400"
-                      >
-                        {l.label}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-
-            <div>
-              <p className="text-sm font-bold text-white uppercase tracking-wider">Contact Us</p>
-              <ul className="mt-5 space-y-4 text-sm font-medium text-slate-300">
-                <li className="flex items-center gap-2.5">
-                  <EmailIcon className="text-brand-green-400" sx={{ fontSize: 16 }} />
-                  support@smartfincompass.com
-                </li>
-                <li className="flex items-center gap-2.5">
-                  <CallIcon className="text-brand-green-400" sx={{ fontSize: 16 }} />
-                  +91 98765 43210
-                </li>
-                <li className="flex items-center gap-2.5">
-                  <PlaceIcon className="text-brand-green-400" sx={{ fontSize: 16 }} />
-                  Bangalore, Karnataka, India
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          <div className="flex flex-col items-center justify-between gap-3 border-t border-white/10 py-7 text-xs font-medium text-slate-400 sm:flex-row">
-            <p>© 2025 SmartFin Compass. All rights reserved.</p>
-            <div className="flex gap-5">
-              <a
-                href="#"
-                className="transition-colors duration-200 hover:text-brand-green-400"
-              >
-                Privacy Policy
-              </a>
-              <a
-                href="#"
-                className="transition-colors duration-200 hover:text-brand-green-400"
-              >
-                Terms of Service
-              </a>
-            </div>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }

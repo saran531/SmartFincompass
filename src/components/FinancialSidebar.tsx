@@ -1,4 +1,6 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import LogoutIcon from "@mui/icons-material/Logout";
+import { useApp } from "../context/AppContext";
 
 const SIDEBAR_ITEMS = [
   {
@@ -29,6 +31,8 @@ const SIDEBAR_ITEMS = [
 
 export default function FinancialSidebar() {
   const location = useLocation();
+  const navigate = useNavigate();
+  const { logout } = useApp();
 
   return (
     <aside className="hidden w-64 shrink-0 pr-8 lg:block">
@@ -52,6 +56,17 @@ export default function FinancialSidebar() {
             );
           })}
         </nav>
+
+        <button
+          onClick={() => {
+            logout();
+            navigate("/login");
+          }}
+          className="mt-6 flex w-full cursor-pointer items-center gap-3 rounded-xl border border-navy-950/15 px-4 py-3 text-sm font-semibold text-navy-950 transition-all duration-250 hover:border-red-400 hover:text-red-500 sm:text-base"
+        >
+          <LogoutIcon sx={{ fontSize: 20 }} />
+          Logout
+        </button>
       </div>
     </aside>
   );

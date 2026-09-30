@@ -1,11 +1,6 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useApp, calculateAge } from "../../context/AppContext";
-import ExploreIcon from "@mui/icons-material/Explore";
-import MenuIcon from "@mui/icons-material/Menu";
-import CloseIcon from "@mui/icons-material/Close";
-import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
@@ -17,6 +12,7 @@ import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import ListIcon from "@mui/icons-material/List";
 import PersonIcon from "@mui/icons-material/Person";
 import WorkIcon from "@mui/icons-material/Work";
+import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import SavingsIcon from "@mui/icons-material/Savings";
@@ -28,67 +24,44 @@ import DescriptionIcon from "@mui/icons-material/Description";
 import ChecklistIcon from "@mui/icons-material/Checklist";
 import VerifiedUserIcon from "@mui/icons-material/VerifiedUser";
 import EmailIcon from "@mui/icons-material/Email";
-import CallIcon from "@mui/icons-material/Call";
-import PlaceIcon from "@mui/icons-material/Place";
-import FacebookIcon from "@mui/icons-material/Facebook";
-import TwitterIcon from "@mui/icons-material/Twitter";
-import LinkedInIcon from "@mui/icons-material/LinkedIn";
-import InstagramIcon from "@mui/icons-material/Instagram";
-
-const NAV_LINKS = [
-  { label: "Home", href: "/" },
-  { label: "Features", href: "/features" },
-  { label: "How It Works", href: "/how-it-works" },
-  { label: "About", href: "/about" },
-  { label: "Contact", href: "/contact" },
-];
-
-const FOOTER_COLUMNS = [
-  {
-    title: "Quick Links",
-    links: [
-      { label: "Home", href: "/" },
-      { label: "Features", href: "/features" },
-      { label: "How It Works", href: "/how-it-works" },
-      { label: "About", href: "/about" },
-      { label: "Contact", href: "/contact" },
-    ],
-  },
-  {
-    title: "Resources",
-    links: [
-      { label: "Blog", href: "/blog" },
-      { label: "Financial Guide", href: "/financial-guide" },
-      { label: "FAQs", href: "/contact" },
-      { label: "Privacy Policy", href: "/privacy" },
-      { label: "Terms of Service", href: "/terms" },
-    ],
-  },
-  {
-    title: "Company",
-    links: [
-      { label: "About Us", href: "/about" },
-      { label: "Careers", href: "/careers" },
-      { label: "Press", href: "/press" },
-      { label: "Partners", href: "/partners" },
-    ],
-  },
-];
-
-const PROGRESS_STEPS = [
-  { label: "Personal Info", completed: true },
-  { label: "Employment", completed: true },
-  { label: "Income", completed: true },
-  { label: "Expenses", completed: true },
-  { label: "Assets", completed: true },
-  { label: "Liabilities", completed: true },
-  { label: "Savings", completed: true },
-  { label: "Insurance", completed: true },
-  { label: "Investment", completed: true },
-  { label: "Goals", completed: true },
-  { label: "Documents", completed: true },
-  { label: "Review", active: true },
-];
+import PhoneIcon from "@mui/icons-material/Phone";
+import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
+import SchoolIcon from "@mui/icons-material/School";
+import GroupsIcon from "@mui/icons-material/Groups";
+import WorkOutlineIcon from "@mui/icons-material/WorkOutlined";
+import BarChartIcon from "@mui/icons-material/BarChart";
+import BusinessIcon from "@mui/icons-material/Business";
+import PercentIcon from "@mui/icons-material/Percent";
+import LaptopIcon from "@mui/icons-material/Laptop";
+import PaymentsIcon from "@mui/icons-material/Payments";
+import RestaurantIcon from "@mui/icons-material/Restaurant";
+import BoltIcon from "@mui/icons-material/Bolt";
+import SubscriptionsIcon from "@mui/icons-material/Subscriptions";
+import LayersIcon from "@mui/icons-material/Layers";
+import HomeIcon from "@mui/icons-material/Home";
+import ShowChartIcon from "@mui/icons-material/ShowChart";
+import SecurityIcon from "@mui/icons-material/Security";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import MedicalServicesIcon from "@mui/icons-material/MedicalServices";
+import TrackChangesIcon from "@mui/icons-material/TrackChanges";
+import MenuBookIcon from "@mui/icons-material/MenuBook";
+import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
+import FingerprintIcon from "@mui/icons-material/Fingerprint";
+import BadgeIcon from "@mui/icons-material/Badge";
+import BookIcon from "@mui/icons-material/Book";
+import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
+import AccountBoxIcon from "@mui/icons-material/AccountBox";
+import Diversity3Icon from "@mui/icons-material/Diversity3";
+import CakeIcon from "@mui/icons-material/Cake";
+import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
+import PublicIcon from "@mui/icons-material/Public";
+import GavelIcon from "@mui/icons-material/Gavel";
+import AssignmentIcon from "@mui/icons-material/Assignment";
+import CardMembershipIcon from "@mui/icons-material/CardMembership";
+import FactCheckIcon from "@mui/icons-material/FactCheck";
+import VerifiedIcon from "@mui/icons-material/Verified";
+import LightbulbIcon from "@mui/icons-material/Lightbulb";
+import AssessmentJourneyProgress from "../../components/AssessmentJourneyProgress";
 
 interface SummaryCard {
   key: string;
@@ -100,10 +73,93 @@ interface SummaryCard {
   items: { label: string; value: string; check?: boolean }[];
 }
 
+const FIELD_ICONS: Record<string, React.ReactNode> = {
+  "name": <PersonIcon sx={{ fontSize: 18 }} className="text-blue-600" />,
+  "email": <EmailIcon sx={{ fontSize: 18 }} className="text-rose-600" />,
+  "phone": <PhoneIcon sx={{ fontSize: 18 }} className="text-emerald-600" />,
+  "age": <CalendarTodayIcon sx={{ fontSize: 18 }} className="text-violet-600" />,
+  "education": <SchoolIcon sx={{ fontSize: 18 }} className="text-emerald-600" />,
+  "dependents": <GroupsIcon sx={{ fontSize: 18 }} className="text-orange-600" />,
+  "employment type": <WorkIcon sx={{ fontSize: 18 }} className="text-blue-600" />,
+  "occupation / role": <PersonIcon sx={{ fontSize: 18 }} className="text-indigo-600" />,
+  "part-time job": <WorkOutlineIcon sx={{ fontSize: 18 }} className="text-amber-600" />,
+  "annual income": <BarChartIcon sx={{ fontSize: 18 }} className="text-rose-600" />,
+  "salary": <AccountBalanceWalletIcon sx={{ fontSize: 18 }} className="text-amber-600" />,
+  "business": <BusinessIcon sx={{ fontSize: 18 }} className="text-rose-600" />,
+  "commission": <PercentIcon sx={{ fontSize: 18 }} className="text-fuchsia-600" />,
+  "freelance / rental": <LaptopIcon sx={{ fontSize: 18 }} className="text-sky-600" />,
+  "other income": <PaymentsIcon sx={{ fontSize: 18 }} className="text-blue-600" />,
+  "total expenses": <BarChartIcon sx={{ fontSize: 18 }} className="text-orange-600" />,
+  "food & transport": <RestaurantIcon sx={{ fontSize: 18 }} className="text-amber-600" />,
+  "emi & insurance": <CreditCardIcon sx={{ fontSize: 18 }} className="text-pink-600" />,
+  "utilities & entertainment": <BoltIcon sx={{ fontSize: 18 }} className="text-yellow-500" />,
+  "subscriptions": <SubscriptionsIcon sx={{ fontSize: 18 }} className="text-red-500" />,
+  "total assets": <BusinessIcon sx={{ fontSize: 18 }} className="text-teal-600" />,
+  "bank balance": <AccountBalanceIcon sx={{ fontSize: 18 }} className="text-blue-700" />,
+  "mutual funds": <ShowChartIcon sx={{ fontSize: 18 }} className="text-indigo-600" />,
+  "property & vehicle": <HomeIcon sx={{ fontSize: 18 }} className="text-orange-600" />,
+  "total liabilities": <LayersIcon sx={{ fontSize: 18 }} className="text-rose-600" />,
+  "home loan": <HomeIcon sx={{ fontSize: 18 }} className="text-pink-600" />,
+  "personal loan": <DescriptionIcon sx={{ fontSize: 18 }} className="text-blue-600" />,
+  "emergency fund": <SecurityIcon sx={{ fontSize: 18 }} className="text-teal-600" />,
+  "monthly savings": <SavingsIcon sx={{ fontSize: 18 }} className="text-amber-600" />,
+  "ppf / epf": <TrendingUpIcon sx={{ fontSize: 18 }} className="text-emerald-600" />,
+  "life insurance": <FavoriteIcon sx={{ fontSize: 18 }} className="text-rose-600" />,
+  "health insurance": <MedicalServicesIcon sx={{ fontSize: 18 }} className="text-purple-600" />,
+  "nominee": <GroupsIcon sx={{ fontSize: 18 }} className="text-orange-600" />,
+  "risk appetite": <TrackChangesIcon sx={{ fontSize: 18 }} className="text-rose-600" />,
+  "knowledge level": <MenuBookIcon sx={{ fontSize: 18 }} className="text-purple-600" />,
+  "current investments": <BarChartIcon sx={{ fontSize: 18 }} className="text-orange-600" />,
+  "selected goals": <TrackChangesIcon sx={{ fontSize: 18 }} className="text-violet-600" />,
+  "top priority": <EmojiEventsIcon sx={{ fontSize: 18 }} className="text-amber-500" />,
+  "aadhaar": <FingerprintIcon sx={{ fontSize: 18 }} className="text-amber-600" />,
+  "pan": <BadgeIcon sx={{ fontSize: 18 }} className="text-blue-600" />,
+  "passport": <BookIcon sx={{ fontSize: 18 }} className="text-indigo-700" />,
+  "driving licence": <DirectionsCarIcon sx={{ fontSize: 18 }} className="text-sky-600" />,
+  "voter id": <AccountBoxIcon sx={{ fontSize: 18 }} className="text-rose-600" />,
+  "2 wheeler rc": <DirectionsCarIcon sx={{ fontSize: 18 }} className="text-sky-600" />,
+  "4 wheeler rc": <DirectionsCarIcon sx={{ fontSize: 18 }} className="text-sky-600" />,
+  "insurance": <SecurityIcon sx={{ fontSize: 18 }} className="text-emerald-600" />,
+  "marriage certificate": <Diversity3Icon sx={{ fontSize: 18 }} className="text-brand-green-600" />,
+  "community certificate": <GroupsIcon sx={{ fontSize: 18 }} className="text-purple-600" />,
+  "birth certificate": <CakeIcon sx={{ fontSize: 18 }} className="text-orange-500" />,
+  "ration card": <ReceiptLongIcon sx={{ fontSize: 18 }} className="text-amber-700" />,
+  "oci card": <PublicIcon sx={{ fontSize: 18 }} className="text-cyan-600" />,
+  "property documents": <HomeIcon sx={{ fontSize: 18 }} className="text-orange-600" />,
+  "will": <GavelIcon sx={{ fontSize: 18 }} className="text-violet-600" />,
+  "10th": <MenuBookIcon sx={{ fontSize: 18 }} className="text-teal-600" />,
+  "12th": <SchoolIcon sx={{ fontSize: 18 }} className="text-sky-700" />,
+  "diploma": <AssignmentIcon sx={{ fontSize: 18 }} className="text-violet-600" />,
+  "bachelors": <SchoolIcon sx={{ fontSize: 18 }} className="text-indigo-600" />,
+  "masters": <SchoolIcon sx={{ fontSize: 18 }} className="text-purple-700" />,
+  "courses": <CardMembershipIcon sx={{ fontSize: 18 }} className="text-rose-500" />,
+  "all steps reviewed": <FactCheckIcon sx={{ fontSize: 18 }} className="text-blue-600" />,
+  "data verified": <VerifiedIcon sx={{ fontSize: 18 }} className="text-emerald-600" />,
+  "ready for ai insights": <LightbulbIcon sx={{ fontSize: 18 }} className="text-amber-500" />,
+  "available documents": <DescriptionIcon sx={{ fontSize: 18 }} className="text-cyan-600" />,
+};
+
+const getFieldIcon = (label: string, bulletColor: string): React.ReactNode => {
+  const key = label.toLowerCase().trim();
+  const exact = FIELD_ICONS[key];
+  if (exact) return exact;
+  if (key.includes("wheeler") || key.includes(" rc")) return <DirectionsCarIcon sx={{ fontSize: 18 }} className="text-sky-600" />;
+  if (key.includes("rent")) return <HomeIcon sx={{ fontSize: 18 }} className="text-teal-600" />;
+  if (key.includes("interest")) return <PercentIcon sx={{ fontSize: 18 }} className="text-emerald-600" />;
+  if (key.includes("loan")) return <DescriptionIcon sx={{ fontSize: 18 }} className="text-blue-600" />;
+  if (key.includes("income")) return <PaymentsIcon sx={{ fontSize: 18 }} className="text-blue-600" />;
+  if (key.includes("certificate")) return <DescriptionIcon sx={{ fontSize: 18 }} className="text-brand-green-600" />;
+  if (key.includes("fund")) return <SavingsIcon sx={{ fontSize: 18 }} className="text-emerald-600" />;
+  if (key.includes("saving")) return <SavingsIcon sx={{ fontSize: 18 }} className="text-amber-600" />;
+  if (key.includes("business")) return <BusinessIcon sx={{ fontSize: 18 }} className="text-rose-600" />;
+  if (key.includes("salary")) return <AccountBalanceWalletIcon sx={{ fontSize: 18 }} className="text-amber-600" />;
+  if (key.includes("transport")) return <RestaurantIcon sx={{ fontSize: 18 }} className="text-amber-600" />;
+  return <DescriptionIcon sx={{ fontSize: 18 }} className={bulletColor.replace("bg-", "text-")} />;
+};
+
 export default function ReviewSubmit() {
   const navigate = useNavigate();
   const { assessmentData, completeAssessment } = useApp();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [declarationOneAccepted, setDeclarationOneAccepted] = useState(false);
   const [declarationTwoAccepted, setDeclarationTwoAccepted] = useState(false);
   const [expanded, setExpanded] = useState(false);
@@ -200,7 +256,7 @@ export default function ReviewSubmit() {
     {
       key: "personal",
       title: "Personal Information",
-      icon: <PersonIcon sx={{ fontSize: 22 }} />,
+      icon: <PersonIcon sx={{ fontSize: 26 }} />,
       iconColor: "bg-brand-green-50 text-brand-green-700",
       bulletColor: "bg-brand-green-500",
       editRoute: "/personal-information",
@@ -216,7 +272,7 @@ export default function ReviewSubmit() {
     {
       key: "employment",
       title: "Employment Details",
-      icon: <WorkIcon sx={{ fontSize: 22 }} />,
+      icon: <WorkIcon sx={{ fontSize: 26 }} />,
       iconColor: "bg-sky-50 text-sky-700",
       bulletColor: "bg-sky-500",
       editRoute: "/employment-details",
@@ -233,7 +289,7 @@ export default function ReviewSubmit() {
     {
       key: "income",
       title: "Income Sources",
-      icon: <AccountBalanceWalletIcon sx={{ fontSize: 22 }} />,
+      icon: <AccountBalanceWalletIcon sx={{ fontSize: 26 }} />,
       iconColor: "bg-purple-50 text-purple-700",
       bulletColor: "bg-purple-500",
       editRoute: "/income-details",
@@ -254,7 +310,7 @@ export default function ReviewSubmit() {
     {
       key: "expenses",
       title: "Monthly Expenses",
-      icon: <ShoppingCartIcon sx={{ fontSize: 22 }} />,
+      icon: <ShoppingCartIcon sx={{ fontSize: 26 }} />,
       iconColor: "bg-orange-50 text-orange-700",
       bulletColor: "bg-orange-500",
       editRoute: "/monthly-expenses",
@@ -272,9 +328,9 @@ export default function ReviewSubmit() {
     {
       key: "assets",
       title: "Assets",
-      icon: <SavingsIcon sx={{ fontSize: 22 }} />,
-      iconColor: "bg-brand-green-50 text-brand-green-700",
-      bulletColor: "bg-brand-green-500",
+      icon: <AccountBalanceIcon sx={{ fontSize: 26 }} />,
+      iconColor: "bg-teal-50 text-teal-700",
+      bulletColor: "bg-teal-500",
       editRoute: "/assets",
       items: [
         {
@@ -289,7 +345,7 @@ export default function ReviewSubmit() {
     {
       key: "liabilities",
       title: "Liabilities",
-      icon: <CreditCardIcon sx={{ fontSize: 22 }} />,
+      icon: <CreditCardIcon sx={{ fontSize: 26 }} />,
       iconColor: "bg-pink-50 text-pink-700",
       bulletColor: "bg-pink-500",
       editRoute: "/liabilities",
@@ -306,7 +362,7 @@ export default function ReviewSubmit() {
     {
       key: "savings",
       title: "Savings & Investments",
-      icon: <SavingsIcon sx={{ fontSize: 22 }} />,
+      icon: <SavingsIcon sx={{ fontSize: 26 }} />,
       iconColor: "bg-brand-green-50 text-brand-green-700",
       bulletColor: "bg-brand-green-500",
       editRoute: "/savings",
@@ -320,9 +376,9 @@ export default function ReviewSubmit() {
     {
       key: "insurance",
       title: "Insurance Details",
-      icon: <HealthAndSafetyIcon sx={{ fontSize: 22 }} />,
-      iconColor: "bg-purple-50 text-purple-700",
-      bulletColor: "bg-purple-500",
+      icon: <HealthAndSafetyIcon sx={{ fontSize: 26 }} />,
+      iconColor: "bg-rose-50 text-rose-700",
+      bulletColor: "bg-rose-500",
       editRoute: "/insurance",
       items: [
         { label: "Life Insurance", value: `${assessmentData.insurance?.lifeInsurance?.length || 0} Policies` },
@@ -333,7 +389,7 @@ export default function ReviewSubmit() {
     {
       key: "investment",
       title: "Investment Experience",
-      icon: <TrendingUpIcon sx={{ fontSize: 22 }} />,
+      icon: <TrendingUpIcon sx={{ fontSize: 26 }} />,
       iconColor: "bg-amber-50 text-amber-700",
       bulletColor: "bg-amber-500",
       editRoute: "/investment-experience",
@@ -346,9 +402,9 @@ export default function ReviewSubmit() {
     {
       key: "goals",
       title: "Financial Goals",
-      icon: <FlagIcon sx={{ fontSize: 22 }} />,
-      iconColor: "bg-emerald-50 text-emerald-700",
-      bulletColor: "bg-emerald-500",
+      icon: <FlagIcon sx={{ fontSize: 26 }} />,
+      iconColor: "bg-violet-50 text-violet-700",
+      bulletColor: "bg-violet-500",
       editRoute: "/financial-goals",
       items: [
         { label: "Selected Goals", value: `${assessmentData.goals?.selectedGoals?.length || 0} Goals` },
@@ -358,18 +414,18 @@ export default function ReviewSubmit() {
     {
       key: "documents",
       title: "Document Readiness",
-      icon: <DescriptionIcon sx={{ fontSize: 22 }} />,
-      iconColor: "bg-pink-50 text-pink-700",
-      bulletColor: "bg-pink-500",
+      icon: <DescriptionIcon sx={{ fontSize: 26 }} />,
+      iconColor: "bg-cyan-50 text-cyan-700",
+      bulletColor: "bg-cyan-500",
       editRoute: "/government-documents",
       items: getSelectedDocumentItems(),
     },
     {
       key: "checklist",
       title: "Review Checklist",
-      icon: <ChecklistIcon sx={{ fontSize: 22 }} />,
-      iconColor: "bg-sky-50 text-sky-700",
-      bulletColor: "bg-sky-500",
+      icon: <ChecklistIcon sx={{ fontSize: 26 }} />,
+      iconColor: "bg-indigo-50 text-indigo-700",
+      bulletColor: "bg-indigo-500",
       editRoute: "/review-submit",
       items: [
         { label: "All Steps Reviewed", value: "", check: true },
@@ -389,163 +445,56 @@ export default function ReviewSubmit() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50">
-      {/* ─── NAVBAR ─── */}
-      <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/95 backdrop-blur-md">
-        <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6 py-3 lg:px-10">
-          <Link to="/" className="flex items-center gap-3">
-            <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand-green-500 text-white">
-              <ExploreIcon fontSize="small" />
-            </span>
-            <span className="text-xl font-bold leading-tight text-navy-950">
-              SmartFin
-              <span className="block -mt-1 text-brand-green-600">Compass</span>
-            </span>
-          </Link>
+    <div className="assessment-page min-h-screen">
+      <style>{`
+        .assessment-page .label-icon { height: 28px !important; width: 28px !important; border-radius: 9px !important; font-size: 17px; }
+        .assessment-page .label-icon svg { font-size: 20px !important; }
+        .assessment-page main label.mb-2 { margin-bottom: 6px !important; }
+        .assessment-page .asmt-btn-next {
+          border-radius: 9999px !important;
+          background: linear-gradient(135deg, #128052 0%, #22b573 100%);
+          box-shadow: 0 6px 16px rgba(18, 128, 82, 0.3), 0 0 10px rgba(34, 181, 115, 0.18);
+          transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+        }
+        .assessment-page .asmt-btn-back {
+          border-radius: 9999px !important;
+          transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+        }
+        @media (prefers-reduced-motion: no-preference) {
+          .assessment-page .asmt-btn-next:hover {
+            background: linear-gradient(135deg, #16975f 0%, #27c77f 100%);
+            box-shadow: 0 10px 24px rgba(18, 128, 82, 0.42), 0 0 16px rgba(34, 181, 115, 0.34);
+            transform: translateY(-1px);
+          }
+          .assessment-page .asmt-btn-next:active { transform: translateY(0); }
+          .assessment-page .asmt-btn-back:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 20px rgba(2, 132, 199, 0.22);
+          }
+        }
+      `}</style>
+      <main className="relative z-10 mx-auto max-w-7xl px-6 py-6 lg:px-10">
+        {/* ─── TOP ROW: Assessment Journey Progress ─── */}
+        <AssessmentJourneyProgress
+          currentStep={12}
+          title="Review Your Information"
+          subtitle="Please review all the information you've provided before submitting your assessment."
+        />
 
-          <nav className="hidden items-center gap-9 lg:flex">
-            {NAV_LINKS.map((link, i) => (
-              <a
-                key={link.label}
-                href={link.href}
-                className={`group/nav relative text-[15px] font-semibold transition-colors duration-250 ${
-                  i === 0
-                    ? "text-navy-950"
-                    : "text-slate-700 hover:text-brand-green-600"
-                }`}
-              >
-                {link.label}
-                <span
-                  className={`absolute -bottom-2 left-0 h-0.5 rounded-full bg-brand-green-500 transition-all duration-300 ${
-                    i === 0 ? "w-full" : "w-0 group-hover/nav:w-full"
-                  }`}
-                />
-              </a>
-            ))}
-          </nav>
-
-          <div className="hidden items-center gap-4 lg:flex">
-            <button className="relative grid h-10 w-10 place-items-center rounded-full text-slate-600 transition-colors hover:bg-slate-100 hover:text-navy-950">
-              <NotificationsNoneIcon sx={{ fontSize: 22 }} />
-              <span className="absolute right-2 top-2 h-2.5 w-2.5 rounded-full border-2 border-white bg-brand-green-500" />
-            </button>
-            <div className="flex items-center gap-2">
-              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-navy-950 text-sm font-bold text-white">
-                VG
-              </span>
-              <KeyboardArrowDownIcon
-                sx={{ fontSize: 18 }}
-                className="text-slate-600"
-              />
-            </div>
-          </div>
-
-          <button
-            className="grid h-10 w-10 place-items-center rounded-lg text-navy-950 lg:hidden"
-            onClick={() => setMobileMenuOpen((v) => !v)}
-            aria-label="Toggle menu"
-          >
-            {mobileMenuOpen ? <CloseIcon /> : <MenuIcon />}
-          </button>
-        </div>
-
-        {mobileMenuOpen && (
-          <div className="border-t border-slate-200 bg-white px-6 py-4 lg:hidden">
-            <nav className="flex flex-col gap-4">
-              {NAV_LINKS.map((link) => (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  className="text-sm font-semibold text-slate-700 hover:text-brand-green-600"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  {link.label}
-                </a>
-              ))}
-            </nav>
-            <div className="mt-4 flex items-center gap-3">
-              <button className="relative grid h-10 w-10 place-items-center rounded-full text-slate-600">
-                <NotificationsNoneIcon sx={{ fontSize: 22 }} />
-              </button>
-              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-navy-950 text-sm font-bold text-white">
-                VG
-              </span>
-            </div>
-          </div>
-        )}
-      </header>
-
-      <main className="mx-auto max-w-7xl px-6 py-10 lg:px-10">
-        {/* ─── TOP ROW: Title + Assessment Progress ─── */}
-        <div className="mb-8 flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
-          <div className="max-w-xl">
-            <h1 className="text-3xl font-extrabold text-navy-950 sm:text-4xl">
-              Review Your Information
-            </h1>
-            <p className="mt-3 text-[15px] leading-relaxed text-slate-600 font-medium">
-              Please review all the information you've provided before submitting your assessment.
-            </p>
-          </div>
-
-          {/* Assessment Progress */}
-          <div className="w-full max-w-2xl rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-            <div className="mb-5 flex items-center justify-between">
-              <p className="text-sm font-bold text-navy-950">
-                Assessment Progress
-              </p>
-              <span className="rounded-full bg-brand-green-100 px-3 py-1 text-xs font-bold text-brand-green-700">
-                Step 12 of 12
-              </span>
-            </div>
-            <div className="relative">
-              <div className="absolute left-[20px] top-4 h-0.5 w-[calc(100%-40px)] bg-slate-200" />
-              <div className="absolute left-[20px] top-4 h-0.5 w-[calc(100%-40px)] bg-brand-green-500" />
-              <div className="flex items-start justify-between overflow-x-auto pb-2">
-                {PROGRESS_STEPS.map((step, i) => (
-                  <div
-                    key={step.label}
-                    className="flex shrink-0 flex-col items-center text-center px-1"
-                    style={{ minWidth: "48px" }}
-                  >
-                    <span
-                      className={`relative z-10 flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold transition-all ${
-                        step.completed
-                          ? "bg-brand-green-500 text-white shadow-sm"
-                          : step.active
-                          ? "bg-brand-green-500 text-white shadow-sm ring-4 ring-brand-green-100"
-                          : "border-2 border-slate-300 bg-white text-slate-500"
-                      }`}
-                    >
-                      {step.completed ? (
-                        <CheckCircleIcon sx={{ fontSize: 16 }} />
-                      ) : (
-                        i + 1
-                      )}
-                    </span>
-                    <p
-                      className={`mt-2 text-[10px] font-semibold leading-tight ${
-                        step.active
-                          ? "text-brand-green-700 font-bold"
-                          : step.completed
-                          ? "text-slate-700"
-                          : "text-slate-500"
-                      }`}
-                    >
-                      {step.label}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
+        {/* ─── White Review Content Panel (continuous light surface) ─── */}
+        <div className="rounded-3xl border border-slate-200/80 bg-white p-3.5 shadow-[0_6px_28px_rgba(13,37,73,0.10)] sm:p-5">
 
         {/* ─── Section Title + Expand All ─── */}
-        <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mb-3 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <p className="text-lg font-bold text-navy-950">
+            <div className="mb-1.5 flex items-center gap-2.5">
+              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-brand-green-100 text-brand-green-700">
+                <ChecklistIcon sx={{ fontSize: 24 }} />
+              </span>
+            <p className="asmt-section-title text-lg font-extrabold text-navy-950 sm:text-xl">
               Summary of Your Information
             </p>
+            </div>
             <p className="mt-1 text-sm font-medium text-slate-600">
               Here's a quick overview of the details you've provided.
             </p>
@@ -553,7 +502,7 @@ export default function ReviewSubmit() {
           <button
             type="button"
             onClick={() => setExpanded((v) => !v)}
-            className="flex h-10 items-center gap-2 self-start rounded-xl border-2 border-brand-green-600 bg-white px-4 text-sm font-bold text-brand-green-700 transition-all duration-250 hover:bg-brand-green-50 active:scale-[0.98]"
+            className="flex h-10 items-center gap-2 self-start rounded-full border-2 border-brand-green-600 bg-white px-4 text-sm font-bold text-brand-green-700 transition-all duration-250 hover:bg-brand-green-50 active:scale-[0.98]"
           >
             <ListIcon sx={{ fontSize: 18 }} />
             {expanded ? "Collapse All" : "Expand All"}
@@ -561,20 +510,20 @@ export default function ReviewSubmit() {
         </div>
 
         {/* ─── Summary Cards Grid ─── */}
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 items-start gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {summaryCards.map((card) => (
             <div
               key={card.key}
-              className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md transition-shadow"
+              className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm transition-shadow hover:shadow-md"
             >
-              <div className="mb-4 flex items-start justify-between">
+              <div className="mb-3 flex items-start justify-between">
                 <div className="flex items-center gap-3">
                   <span
-                    className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl ${card.iconColor}`}
+                    className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl ${card.iconColor}`}
                   >
                     {card.icon}
                   </span>
-                  <p className="text-sm font-bold text-navy-950">
+                  <p className="text-base font-bold text-navy-950">
                     {card.title}
                   </p>
                 </div>
@@ -587,29 +536,29 @@ export default function ReviewSubmit() {
                   Edit
                 </button>
               </div>
-              <ul className="space-y-2.5">
+              <ul className="space-y-2">
                 {card.items.map((item, idx) => (
                   <li
                     key={idx}
-                    className="flex items-center justify-between text-sm"
+                    className="flex items-center justify-between gap-3 text-sm"
                   >
-                    <div className="flex items-center gap-2">
-                      <span
-                        className={`h-2 w-2 shrink-0 rounded-full ${card.bulletColor}`}
-                      />
-                      <span className="text-slate-600 font-medium">{item.label}:</span>
-                    </div>
-                    <div className="flex items-center gap-1.5">
+                    <span className="flex min-w-0 items-center gap-2.5">
+                      <span className="flex h-[18px] w-[18px] shrink-0 items-center justify-center">
+                        {getFieldIcon(item.label, card.bulletColor)}
+                      </span>
+                      <span className="truncate text-slate-600 font-medium">{item.label}:</span>
+                    </span>
+                    <span className="flex items-center justify-end gap-1.5 text-right">
                       <span className="font-bold text-navy-950">
                         {item.value}
                       </span>
                       {item.check && (
                         <CheckCircleIcon
                           sx={{ fontSize: 16 }}
-                          className="text-brand-green-600"
+                          className="shrink-0 text-brand-green-600"
                         />
                       )}
-                    </div>
+                    </span>
                   </li>
                 ))}
               </ul>
@@ -618,7 +567,7 @@ export default function ReviewSubmit() {
         </div>
 
         {/* ─── Declaration Section ─── */}
-        <div className="mt-8 rounded-2xl border border-brand-green-300 bg-brand-green-50/60 p-7">
+        <div className="mt-4 rounded-2xl border border-brand-green-300 bg-brand-green-50/60 p-5 shadow-xs">
           <div className="flex items-start gap-4">
             <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-brand-green-100">
               <VerifiedUserIcon
@@ -640,12 +589,12 @@ export default function ReviewSubmit() {
                 >
                   {declarationOneAccepted ? (
                     <CheckBoxIcon
-                      sx={{ fontSize: 22 }}
+                      sx={{ fontSize: 26 }}
                       className="mt-0.5 shrink-0 text-brand-green-600"
                     />
                   ) : (
                     <CheckBoxOutlineBlankIcon
-                      sx={{ fontSize: 22 }}
+                      sx={{ fontSize: 26 }}
                       className="mt-0.5 shrink-0 text-slate-500"
                     />
                   )}
@@ -662,12 +611,12 @@ export default function ReviewSubmit() {
                 >
                   {declarationTwoAccepted ? (
                     <CheckBoxIcon
-                      sx={{ fontSize: 22 }}
+                      sx={{ fontSize: 26 }}
                       className="mt-0.5 shrink-0 text-brand-green-600"
                     />
                   ) : (
                     <CheckBoxOutlineBlankIcon
-                      sx={{ fontSize: 22 }}
+                      sx={{ fontSize: 26 }}
                       className="mt-0.5 shrink-0 text-slate-500"
                     />
                   )}
@@ -683,132 +632,44 @@ export default function ReviewSubmit() {
           </div>
         </div>
 
-        {/* ─── Action Buttons ─── */}
-        <div className="mt-8 flex flex-col items-center gap-4 sm:flex-row sm:justify-between">
-          <button
-            type="button"
-            onClick={() => navigate("/selected-documents")}
-            className="flex h-12 items-center gap-2 rounded-xl border-2 border-brand-green-600 bg-white px-6 text-sm font-bold text-brand-green-700 transition-all duration-250 hover:bg-brand-green-50 active:scale-[0.98]"
-          >
-            <ArrowBackIcon sx={{ fontSize: 18 }} />
-            Back
-          </button>
-          <button
-            type="button"
-            onClick={() => window.print()}
-            className="flex h-12 items-center gap-2 rounded-xl border-2 border-brand-green-600 bg-white px-6 text-sm font-bold text-brand-green-700 transition-all duration-250 hover:bg-brand-green-50 active:scale-[0.98]"
-          >
-            <DownloadIcon sx={{ fontSize: 18 }} />
-            Download Summary
-          </button>
-          <button
-            type="button"
-            onClick={handleSubmit}
-            className="flex h-12 items-center gap-2 rounded-xl bg-brand-green-500 px-8 text-[15px] font-bold text-white shadow-soft transition-all duration-250 hover:bg-brand-green-600 hover:shadow-md active:scale-[0.98]"
-          >
-            Submit Assessment
-            <ArrowForwardIcon sx={{ fontSize: 18 }} />
-          </button>
+        {/* ─── Bottom Navigation: Back | Download Summary | Submit + Security ─── */}
+        <div className="mt-4">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <button
+              type="button"
+              onClick={() => navigate("/selected-documents")}
+              className="asmt-btn-back flex h-12 w-full items-center justify-center gap-2 rounded-full px-6 text-sm font-bold sm:w-auto"
+            >
+              <ArrowBackIcon sx={{ fontSize: 20 }} />
+              Back
+            </button>
+            <button
+              type="button"
+              onClick={() => window.print()}
+              className="asmt-btn-back flex h-12 w-full items-center justify-center gap-2 rounded-full px-6 text-sm font-bold sm:w-auto"
+            >
+              <DownloadIcon sx={{ fontSize: 20 }} />
+              Download Summary
+            </button>
+            <button
+              type="button"
+              onClick={handleSubmit}
+              className="asmt-btn-next flex h-12 w-full items-center justify-center gap-2 rounded-full px-8 text-[15px] font-bold sm:w-auto"
+            >
+              Submit Assessment
+              <ArrowForwardIcon sx={{ fontSize: 20 }} />
+            </button>
+          </div>
+
+          {/* Security Message */}
+          <p className="mt-3 flex items-center justify-center gap-2 text-sm font-semibold text-slate-600">
+            <LockIcon sx={{ fontSize: 16 }} className="text-brand-green-600" />
+            Your information is secure and encrypted
+          </p>
         </div>
 
-        {/* Security Message */}
-        <p className="mt-5 flex items-center justify-center gap-2 text-sm font-semibold text-slate-600">
-          <LockIcon sx={{ fontSize: 16 }} className="text-brand-green-600" />
-          Your information is secure and encrypted
-        </p>
+        </div>
       </main>
-
-      {/* ─── FOOTER ─── */}
-      <footer className="bg-navy-950 pt-20 text-slate-300">
-        <div className="mx-auto max-w-7xl px-6 lg:px-10">
-          <div className="grid grid-cols-1 gap-12 pb-14 sm:grid-cols-2 lg:grid-cols-5">
-            <div className="lg:col-span-2">
-              <Link to="/" className="flex items-center gap-3">
-                <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand-green-500 text-white">
-                  <ExploreIcon fontSize="small" />
-                </span>
-                <span className="text-xl font-bold leading-tight text-white">
-                  SmartFin
-                  <span className="block -mt-1 text-brand-green-400">
-                    Compass
-                  </span>
-                </span>
-              </Link>
-              <p className="mt-5 max-w-xs text-sm font-normal leading-relaxed text-slate-300">
-                AI-powered financial wellness platform that helps you make
-                smarter financial decisions.
-              </p>
-              <div className="mt-6 flex gap-3.5">
-                {[FacebookIcon, LinkedInIcon, TwitterIcon, InstagramIcon].map(
-                  (Icon, i) => (
-                    <a
-                      key={i}
-                      href="#"
-                      className="grid h-10 w-10 place-items-center rounded-full bg-white/10 text-white transition-all duration-200 hover:scale-110 hover:bg-brand-green-500 hover:text-white"
-                    >
-                      <Icon sx={{ fontSize: 18 }} />
-                    </a>
-                  )
-                )}
-              </div>
-            </div>
-
-            {FOOTER_COLUMNS.map((col) => (
-              <div key={col.title}>
-                <p className="text-sm font-bold text-white">{col.title}</p>
-                <ul className="mt-5 space-y-3">
-                  {col.links.map((l) => (
-                    <li key={l.label}>
-                      <a
-                        href={l.href}
-                        className="text-sm font-normal text-slate-300 transition-colors duration-200 hover:text-brand-green-400"
-                      >
-                        {l.label}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-
-            <div>
-              <p className="text-sm font-bold text-white">Contact Us</p>
-              <ul className="mt-5 space-y-4 text-sm font-normal text-slate-300">
-                <li className="flex items-center gap-2.5">
-                  <EmailIcon sx={{ fontSize: 16 }} className="text-slate-300" />
-                  support@smartfincompass.com
-                </li>
-                <li className="flex items-center gap-2.5">
-                  <CallIcon sx={{ fontSize: 16 }} className="text-slate-300" />
-                  +91 98765 43210
-                </li>
-                <li className="flex items-center gap-2.5">
-                  <PlaceIcon sx={{ fontSize: 16 }} className="text-slate-300" />
-                  Bangalore, Karnataka, India
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          <div className="flex flex-col items-center justify-between gap-3 border-t border-white/10 py-7 text-xs font-normal text-slate-300 sm:flex-row">
-            <p>© 2025 SmartFin Compass. All rights reserved.</p>
-            <div className="flex gap-5">
-              <a
-                href="#"
-                className="transition-colors duration-200 hover:text-brand-green-400"
-              >
-                Privacy Policy
-              </a>
-              <a
-                href="#"
-                className="transition-colors duration-200 hover:text-brand-green-400"
-              >
-                Terms of Service
-              </a>
-            </div>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }

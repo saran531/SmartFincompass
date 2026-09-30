@@ -1,11 +1,6 @@
 import { useState, useMemo } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useApp } from "../../context/AppContext";
-import ExploreIcon from "@mui/icons-material/Explore";
-import MenuIcon from "@mui/icons-material/Menu";
-import CloseIcon from "@mui/icons-material/Close";
-import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
@@ -30,68 +25,7 @@ import PublicIcon from "@mui/icons-material/Public";
 import CakeIcon from "@mui/icons-material/Cake";
 import CheckIcon from "@mui/icons-material/Check";
 import CancelIcon from "@mui/icons-material/Cancel";
-import EmailIcon from "@mui/icons-material/Email";
-import CallIcon from "@mui/icons-material/Call";
-import PlaceIcon from "@mui/icons-material/Place";
-import FacebookIcon from "@mui/icons-material/Facebook";
-import TwitterIcon from "@mui/icons-material/Twitter";
-import LinkedInIcon from "@mui/icons-material/LinkedIn";
-import InstagramIcon from "@mui/icons-material/Instagram";
-
-const NAV_LINKS = [
-  { label: "Home", href: "/" },
-  { label: "Features", href: "/features" },
-  { label: "How It Works", href: "/how-it-works" },
-  { label: "About", href: "/about" },
-  { label: "Contact", href: "/contact" },
-];
-
-const FOOTER_COLUMNS = [
-  {
-    title: "Quick Links",
-    links: [
-      { label: "Home", href: "/" },
-      { label: "Features", href: "/features" },
-      { label: "How It Works", href: "/how-it-works" },
-      { label: "About", href: "/about" },
-      { label: "Contact", href: "/contact" },
-    ],
-  },
-  {
-    title: "Resources",
-    links: [
-      { label: "Blog", href: "/blog" },
-      { label: "Financial Guide", href: "/financial-guide" },
-      { label: "FAQs", href: "/contact" },
-      { label: "Privacy Policy", href: "/privacy" },
-      { label: "Terms of Service", href: "/terms" },
-    ],
-  },
-  {
-    title: "Company",
-    links: [
-      { label: "About Us", href: "/about" },
-      { label: "Careers", href: "/careers" },
-      { label: "Press", href: "/press" },
-      { label: "Partners", href: "/partners" },
-    ],
-  },
-];
-
-const PROGRESS_STEPS = [
-  { label: "Personal Info", completed: true },
-  { label: "Employment", completed: true },
-  { label: "Income", completed: true },
-  { label: "Expenses", completed: true },
-  { label: "Assets", completed: true },
-  { label: "Liabilities", completed: true },
-  { label: "Savings", completed: true },
-  { label: "Insurance", completed: true },
-  { label: "Investment", completed: true },
-  { label: "Goals", completed: true },
-  { label: "Documents", active: true },
-  { label: "Review", completed: false },
-];
+import AssessmentJourneyProgress from "../../components/AssessmentJourneyProgress";
 
 interface DocumentDef {
   key: string;
@@ -109,7 +43,7 @@ const GENERAL_DOCUMENTS: DocumentDef[] = [
     name: "Aadhaar",
     question: "Do you have an Aadhaar Card?",
     desc: "Proof of Identity & Address",
-    icon: <FingerprintIcon sx={{ fontSize: 22 }} />,
+    icon: <FingerprintIcon sx={{ fontSize: 26 }} />,
     iconColor: "bg-amber-50 text-amber-600",
   },
   {
@@ -117,7 +51,7 @@ const GENERAL_DOCUMENTS: DocumentDef[] = [
     name: "PAN",
     question: "Do you have a PAN Card?",
     desc: "Permanent Account Number",
-    icon: <CreditCardIcon sx={{ fontSize: 22 }} />,
+    icon: <CreditCardIcon sx={{ fontSize: 26 }} />,
     iconColor: "bg-sky-50 text-sky-600",
   },
   {
@@ -125,7 +59,7 @@ const GENERAL_DOCUMENTS: DocumentDef[] = [
     name: "Passport",
     question: "Do you have a Passport?",
     desc: "Identity for International Use",
-    icon: <MenuBookIcon sx={{ fontSize: 22 }} />,
+    icon: <MenuBookIcon sx={{ fontSize: 26 }} />,
     iconColor: "bg-purple-50 text-purple-600",
   },
   {
@@ -133,7 +67,7 @@ const GENERAL_DOCUMENTS: DocumentDef[] = [
     name: "Driving Licence",
     question: "Do you have a Driving Licence?",
     desc: "Proof to drive vehicles",
-    icon: <DriveEtaIcon sx={{ fontSize: 22 }} />,
+    icon: <DriveEtaIcon sx={{ fontSize: 26 }} />,
     iconColor: "bg-orange-50 text-orange-600",
   },
   {
@@ -141,7 +75,7 @@ const GENERAL_DOCUMENTS: DocumentDef[] = [
     name: "Voter ID",
     question: "Do you have a Voter ID?",
     desc: "Electoral Identity Card",
-    icon: <BadgeIcon sx={{ fontSize: 22 }} />,
+    icon: <BadgeIcon sx={{ fontSize: 26 }} />,
     iconColor: "bg-indigo-50 text-indigo-600",
   },
   {
@@ -149,7 +83,7 @@ const GENERAL_DOCUMENTS: DocumentDef[] = [
     name: "2 Wheeler Registration Certificate",
     question: "Do you have a 2 Wheeler Registration Certificate?",
     desc: "Two-wheeler registration proof",
-    icon: <TwoWheelerIcon sx={{ fontSize: 22 }} />,
+    icon: <TwoWheelerIcon sx={{ fontSize: 26 }} />,
     iconColor: "bg-teal-50 text-teal-600",
   },
   {
@@ -157,7 +91,7 @@ const GENERAL_DOCUMENTS: DocumentDef[] = [
     name: "4 Wheeler Registration Certificate",
     question: "Do you have a 4 Wheeler Registration Certificate?",
     desc: "Four-wheeler registration proof",
-    icon: <DirectionsCarIcon sx={{ fontSize: 22 }} />,
+    icon: <DirectionsCarIcon sx={{ fontSize: 26 }} />,
     iconColor: "bg-blue-50 text-blue-600",
   },
   {
@@ -165,7 +99,7 @@ const GENERAL_DOCUMENTS: DocumentDef[] = [
     name: "Insurance",
     question: "Do you have Insurance?",
     desc: "Life / Health / Term / Vehicle Insurance",
-    icon: <HealthAndSafetyIcon sx={{ fontSize: 22 }} />,
+    icon: <HealthAndSafetyIcon sx={{ fontSize: 26 }} />,
     iconColor: "bg-blue-50 text-blue-600",
   },
   {
@@ -173,7 +107,7 @@ const GENERAL_DOCUMENTS: DocumentDef[] = [
     name: "Marriage Certificate",
     question: "Do you have a Marriage Certificate?",
     desc: "Legal proof of marriage",
-    icon: <FamilyRestroomIcon sx={{ fontSize: 22 }} />,
+    icon: <FamilyRestroomIcon sx={{ fontSize: 26 }} />,
     iconColor: "bg-rose-50 text-rose-600",
   },
   {
@@ -181,7 +115,7 @@ const GENERAL_DOCUMENTS: DocumentDef[] = [
     name: "Community Certificate",
     question: "Do you have a Community Certificate?",
     desc: "Category / Caste / Community proof",
-    icon: <GroupsIcon sx={{ fontSize: 22 }} />,
+    icon: <GroupsIcon sx={{ fontSize: 26 }} />,
     iconColor: "bg-amber-50 text-amber-700",
   },
   {
@@ -189,7 +123,7 @@ const GENERAL_DOCUMENTS: DocumentDef[] = [
     name: "Birth Certificate",
     question: "Do you have a Birth Certificate?",
     desc: "Official proof of date of birth",
-    icon: <CakeIcon sx={{ fontSize: 22 }} />,
+    icon: <CakeIcon sx={{ fontSize: 26 }} />,
     iconColor: "bg-cyan-50 text-cyan-600",
   },
   {
@@ -197,7 +131,7 @@ const GENERAL_DOCUMENTS: DocumentDef[] = [
     name: "Ration Card",
     question: "Do you have a Ration Card?",
     desc: "Family identity & address card",
-    icon: <DescriptionIcon sx={{ fontSize: 22 }} />,
+    icon: <DescriptionIcon sx={{ fontSize: 26 }} />,
     iconColor: "bg-lime-50 text-lime-700",
   },
   {
@@ -205,7 +139,7 @@ const GENERAL_DOCUMENTS: DocumentDef[] = [
     name: "OCI Card",
     question: "Do you have an OCI Card?",
     desc: "Overseas Citizen of India card",
-    icon: <PublicIcon sx={{ fontSize: 22 }} />,
+    icon: <PublicIcon sx={{ fontSize: 26 }} />,
     iconColor: "bg-violet-50 text-violet-600",
   },
   {
@@ -213,7 +147,7 @@ const GENERAL_DOCUMENTS: DocumentDef[] = [
     name: "Property",
     question: "Do you have Property Ownership Documents?",
     desc: "Property ownership & deed documents",
-    icon: <HomeWorkIcon sx={{ fontSize: 22 }} />,
+    icon: <HomeWorkIcon sx={{ fontSize: 26 }} />,
     iconColor: "bg-emerald-50 text-emerald-600",
   },
   {
@@ -221,7 +155,7 @@ const GENERAL_DOCUMENTS: DocumentDef[] = [
     name: "Will",
     question: "Do you have a Will?",
     desc: "Last Will & Testament",
-    icon: <DescriptionIcon sx={{ fontSize: 22 }} />,
+    icon: <DescriptionIcon sx={{ fontSize: 26 }} />,
     iconColor: "bg-violet-50 text-violet-600",
   },
   {
@@ -229,7 +163,7 @@ const GENERAL_DOCUMENTS: DocumentDef[] = [
     name: "Nominee",
     question: "Do you have Nominee Details / Declarations?",
     desc: "Nominee Details / Declarations",
-    icon: <GroupsIcon sx={{ fontSize: 22 }} />,
+    icon: <GroupsIcon sx={{ fontSize: 26 }} />,
     iconColor: "bg-orange-50 text-orange-600",
   },
 ];
@@ -240,7 +174,7 @@ const EDUCATION_DOCUMENTS: DocumentDef[] = [
     name: "10th",
     question: "Do you have this document?",
     desc: "Secondary School Certificate (SSLC / 10th)",
-    icon: <SchoolIcon sx={{ fontSize: 22 }} />,
+    icon: <SchoolIcon sx={{ fontSize: 26 }} />,
     iconColor: "bg-sky-50 text-sky-600",
   },
   {
@@ -248,7 +182,7 @@ const EDUCATION_DOCUMENTS: DocumentDef[] = [
     name: "12th",
     question: "Do you have this document?",
     desc: "Higher Secondary Certificate (HSC / 12th)",
-    icon: <SchoolIcon sx={{ fontSize: 22 }} />,
+    icon: <SchoolIcon sx={{ fontSize: 26 }} />,
     iconColor: "bg-blue-50 text-blue-600",
   },
   {
@@ -256,7 +190,7 @@ const EDUCATION_DOCUMENTS: DocumentDef[] = [
     name: "Diploma",
     question: "Do you have this document?",
     desc: "Diploma Certificate",
-    icon: <SchoolIcon sx={{ fontSize: 22 }} />,
+    icon: <SchoolIcon sx={{ fontSize: 26 }} />,
     iconColor: "bg-indigo-50 text-indigo-600",
   },
   {
@@ -264,7 +198,7 @@ const EDUCATION_DOCUMENTS: DocumentDef[] = [
     name: "Bachelors",
     question: "Do you have this document?",
     desc: "Undergraduate Degree Certificate",
-    icon: <SchoolIcon sx={{ fontSize: 22 }} />,
+    icon: <SchoolIcon sx={{ fontSize: 26 }} />,
     iconColor: "bg-purple-50 text-purple-600",
   },
   {
@@ -272,7 +206,7 @@ const EDUCATION_DOCUMENTS: DocumentDef[] = [
     name: "Masters",
     question: "Do you have this document?",
     desc: "Postgraduate Degree Certificate",
-    icon: <SchoolIcon sx={{ fontSize: 22 }} />,
+    icon: <SchoolIcon sx={{ fontSize: 26 }} />,
     iconColor: "bg-violet-50 text-violet-600",
   },
   {
@@ -280,7 +214,7 @@ const EDUCATION_DOCUMENTS: DocumentDef[] = [
     name: "Courses",
     question: "Do you have this document?",
     desc: "Professional Course / Skill Certificates",
-    icon: <SchoolIcon sx={{ fontSize: 22 }} />,
+    icon: <SchoolIcon sx={{ fontSize: 26 }} />,
     iconColor: "bg-emerald-50 text-emerald-600",
   },
 ];
@@ -416,7 +350,6 @@ function ReadinessRing({ pct }: { pct: number }) {
 
 export default function GovernmentDocuments() {
   const navigate = useNavigate();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { assessmentData, updateAssessment } = useApp();
 
   const savedDocs = assessmentData.documents || {};
@@ -502,7 +435,7 @@ export default function GovernmentDocuments() {
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-3.5 min-w-0">
             <span
-              className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl ${doc.iconColor}`}
+              className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl sm:h-14 sm:w-14 ${doc.iconColor}`}
             >
               {doc.icon}
             </span>
@@ -544,7 +477,8 @@ export default function GovernmentDocuments() {
         {/* Insurance options expanded when Insurance = YES */}
         {isInsurance && answer === true && (
           <div className="mt-4 rounded-xl border border-brand-green-300 bg-brand-green-50/50 p-4">
-            <p className="text-xs font-bold text-navy-950 mb-2.5">
+            <p className="flex items-center gap-2 text-xs font-bold text-navy-950 mb-2.5">
+              <span className="label-icon"><HealthAndSafetyIcon sx={{ fontSize: 15 }} /></span>
               Insurance Type (Select all that apply)
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
@@ -582,169 +516,56 @@ export default function GovernmentDocuments() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50">
-      {/* ─── NAVBAR ─── */}
-      <header className="sticky top-0 z-50 border-b border-navy-950/5 bg-white/95 backdrop-blur-md">
-        <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6 py-3 lg:px-10">
-          <Link to="/" className="flex items-center gap-3">
-            <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand-green-500 text-white">
-              <ExploreIcon fontSize="small" />
-            </span>
-            <span className="text-xl font-bold leading-tight text-navy-950">
-              SmartFin
-              <span className="block -mt-1 text-brand-green-600">Compass</span>
-            </span>
-          </Link>
-
-          <nav className="hidden items-center gap-9 lg:flex">
-            {NAV_LINKS.map((link, i) => (
-              <a
-                key={link.label}
-                href={link.href}
-                className={`group/nav relative text-[15px] font-medium transition-colors duration-250 ${
-                  i === 0
-                    ? "text-navy-950"
-                    : "text-navy-900/70 hover:text-brand-green-600"
-                }`}
-              >
-                {link.label}
-                <span
-                  className={`absolute -bottom-2 left-0 h-0.5 rounded-full bg-brand-green-500 transition-all duration-300 ${
-                    i === 0 ? "w-full" : "w-0 group-hover/nav:w-full"
-                  }`}
-                />
-              </a>
-            ))}
-          </nav>
-
-          <div className="hidden items-center gap-4 lg:flex">
-            <button className="relative grid h-10 w-10 place-items-center rounded-full text-navy-900/60 transition-colors hover:bg-slate-100 hover:text-navy-950">
-              <NotificationsNoneIcon sx={{ fontSize: 22 }} />
-              <span className="absolute right-2 top-2 h-2.5 w-2.5 rounded-full border-2 border-white bg-brand-green-500" />
-            </button>
-            <div className="flex items-center gap-2">
-              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-navy-950 text-sm font-bold text-white">
-                VG
-              </span>
-              <KeyboardArrowDownIcon
-                sx={{ fontSize: 18 }}
-                className="text-navy-900/50"
-              />
-            </div>
-          </div>
-
-          <button
-            className="grid h-10 w-10 place-items-center rounded-lg text-navy-950 lg:hidden"
-            onClick={() => setMobileMenuOpen((v) => !v)}
-            aria-label="Toggle menu"
-          >
-            {mobileMenuOpen ? <CloseIcon /> : <MenuIcon />}
-          </button>
-        </div>
-
-        {mobileMenuOpen && (
-          <div className="border-t border-navy-950/5 bg-white px-6 py-4 lg:hidden">
-            <nav className="flex flex-col gap-4">
-              {NAV_LINKS.map((link) => (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  className="text-sm font-medium text-navy-900/80"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  {link.label}
-                </a>
-              ))}
-            </nav>
-            <div className="mt-4 flex items-center gap-3">
-              <button className="relative grid h-10 w-10 place-items-center rounded-full text-navy-900/60">
-                <NotificationsNoneIcon sx={{ fontSize: 22 }} />
-              </button>
-              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-navy-950 text-sm font-bold text-white">
-                VG
-              </span>
-            </div>
-          </div>
-        )}
-      </header>
-
-      <main className="mx-auto max-w-7xl px-6 py-10 lg:px-10">
-        {/* ─── TOP ROW: Title + Assessment Progress ─── */}
-        <div className="mb-8 flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
-          <div className="max-w-xl">
-            <h1 className="text-3xl font-extrabold text-navy-950 sm:text-4xl">
-              Financial Document Availability
-            </h1>
-            <p className="mt-3 text-[15px] font-medium leading-relaxed text-slate-700">
-              Select whether you possess each document to evaluate your financial readiness.
-            </p>
-          </div>
-
-          {/* Assessment Progress */}
-          <div className="w-full max-w-2xl rounded-2xl border border-slate-200 bg-white p-6 shadow-[0_2px_12px_rgba(13,37,73,0.06)]">
-            <div className="mb-5 flex items-center justify-between">
-              <p className="text-sm font-bold text-navy-950">
-                Assessment Progress
-              </p>
-              <span className="rounded-full bg-brand-green-100 px-3 py-1 text-xs font-bold text-brand-green-700">
-                Step 11 of 12
-              </span>
-            </div>
-            <div className="relative">
-              <div className="absolute left-[20px] top-4 h-0.5 w-[calc(100%-40px)] bg-slate-200" />
-              <div
-                className="absolute left-[20px] top-4 h-0.5 w-[calc(100%-40px)] bg-brand-green-500"
-                style={{ width: "91.66%" }}
-              />
-              <div className="flex items-start justify-between overflow-x-auto pb-2">
-                {PROGRESS_STEPS.map((step, i) => (
-                  <div
-                    key={step.label}
-                    className="flex shrink-0 flex-col items-center text-center px-1"
-                    style={{ minWidth: "48px" }}
-                  >
-                    <span
-                      className={`relative z-10 flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold transition-all ${
-                        step.completed
-                          ? "bg-brand-green-500 text-white shadow-sm"
-                          : step.active
-                          ? "bg-brand-green-500 text-white shadow-sm ring-4 ring-brand-green-100"
-                          : "border-2 border-slate-300 bg-white text-slate-500"
-                      }`}
-                    >
-                      {step.completed ? (
-                        <CheckCircleIcon sx={{ fontSize: 16 }} />
-                      ) : (
-                        i + 1
-                      )}
-                    </span>
-                    <p
-                      className={`mt-2 text-[10px] font-semibold leading-tight ${
-                        step.active
-                          ? "text-brand-green-700 font-bold"
-                          : step.completed
-                          ? "text-slate-700"
-                          : "text-slate-500"
-                      }`}
-                    >
-                      {step.label}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
+    <div className="assessment-page min-h-screen">
+      <style>{`
+        .assessment-page .label-icon { height: 28px !important; width: 28px !important; border-radius: 9px !important; font-size: 17px; }
+        .assessment-page .label-icon svg { font-size: 20px !important; }
+        .assessment-page main label.mb-2 { margin-bottom: 6px !important; }
+        .assessment-page .asmt-btn-next {
+          border-radius: 9999px !important;
+          background: linear-gradient(135deg, #128052 0%, #22b573 100%);
+          box-shadow: 0 6px 16px rgba(18, 128, 82, 0.3), 0 0 10px rgba(34, 181, 115, 0.18);
+          transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+        }
+        .assessment-page .asmt-btn-back {
+          border-radius: 9999px !important;
+          transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+        }
+        @media (prefers-reduced-motion: no-preference) {
+          .assessment-page .asmt-btn-next:hover {
+            background: linear-gradient(135deg, #16975f 0%, #27c77f 100%);
+            box-shadow: 0 10px 24px rgba(18, 128, 82, 0.42), 0 0 16px rgba(34, 181, 115, 0.34);
+            transform: translateY(-1px);
+          }
+          .assessment-page .asmt-btn-next:active { transform: translateY(0); }
+          .assessment-page .asmt-btn-back:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 20px rgba(2, 132, 199, 0.22);
+          }
+        }
+      `}</style>
+      <main className="relative z-10 mx-auto max-w-7xl px-6 py-6 lg:px-10">
+        {/* ─── TOP ROW: Assessment Journey Progress ─── */}
+        <AssessmentJourneyProgress
+          currentStep={11}
+          title="Financial Document Availability"
+          subtitle="Select whether you possess each document to evaluate your financial readiness."
+        />
 
         {/* ─── MAIN CONTENT: Two Columns ─── */}
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1fr_360px]">
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-[1fr_360px]">
           {/* LEFT — Document Checklist */}
-          <div className="rounded-2xl border border-slate-200 bg-white p-7 shadow-[0_2px_12px_rgba(13,37,73,0.06)] sm:p-8">
+          <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-[0_2px_12px_rgba(13,37,73,0.06)] sm:p-6">
             <div className="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 border-b border-slate-200 pb-4">
               <div>
-                <p className="text-base font-bold text-navy-950">
+                <div className="mb-1.5 flex items-center gap-2.5">
+                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-brand-green-100 text-brand-green-700">
+                    <DescriptionIcon sx={{ fontSize: 24 }} />
+                  </span>
+                <p className="asmt-section-title text-lg font-extrabold text-navy-950 sm:text-xl">
                   Document Checklist
                 </p>
+                </div>
                 <p className="mt-1 text-xs font-semibold text-slate-700">
                   Indicate Yes or No for each financial document.
                 </p>
@@ -760,13 +581,13 @@ export default function GovernmentDocuments() {
             </div>
 
             {/* Education Documents Section Header */}
-            <div className="mt-8 mb-4 border-t border-slate-200 pt-6">
-              <div className="flex items-center gap-2.5 mb-3">
-                <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-sky-100 text-sky-700 font-bold">
-                  <SchoolIcon sx={{ fontSize: 20 }} />
+            <div className="mt-6 mb-4 border-t border-slate-200 pt-6">
+              <div className="flex items-center gap-3 mb-3">
+                <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-sky-100 text-sky-700 font-bold">
+                  <SchoolIcon sx={{ fontSize: 24 }} />
                 </span>
                 <div>
-                  <h3 className="text-base font-bold text-navy-950">
+                  <h3 className="text-lg font-extrabold text-navy-950">
                     Education Documents
                   </h3>
                   <p className="text-xs font-semibold text-slate-700">
@@ -781,12 +602,12 @@ export default function GovernmentDocuments() {
             </div>
 
             {/* Document Readiness Card */}
-            <div className="mt-8 rounded-xl border border-brand-green-300 bg-brand-green-50/60 p-5">
+            <div className="mt-6 rounded-xl border border-brand-green-300 bg-brand-green-50/60 p-5 shadow-xs">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <span className="flex h-10 w-10 items-center justify-center rounded-full bg-brand-green-100">
+                  <span className="flex h-12 w-12 items-center justify-center rounded-full bg-brand-green-100">
                     <ShieldIcon
-                      sx={{ fontSize: 20 }}
+                      sx={{ fontSize: 24 }}
                       className="text-brand-green-700"
                     />
                   </span>
@@ -804,37 +625,38 @@ export default function GovernmentDocuments() {
             </div>
 
             {/* Buttons */}
-            <div className="mt-6 flex items-center justify-between">
+            <div className="mt-4 flex items-center justify-between">
               <button
                 type="button"
                 onClick={() => navigate("/financial-goals")}
-                className="flex h-12 items-center gap-2 rounded-xl border-2 border-brand-green-500 bg-white px-6 text-sm font-bold text-brand-green-600 transition-all duration-250 hover:bg-brand-green-50 active:scale-[0.98]"
+                className="asmt-btn-back flex h-12 items-center gap-2 rounded-full px-6 text-sm font-bold"
               >
-                <ArrowBackIcon sx={{ fontSize: 18 }} />
+                <ArrowBackIcon sx={{ fontSize: 20 }} />
                 Back
               </button>
               <button
                 type="button"
                 onClick={handleNext}
-                className="flex h-12 items-center gap-2 rounded-xl bg-brand-green-500 px-8 text-[15px] font-bold text-white shadow-soft transition-all duration-250 hover:bg-brand-green-600 hover:shadow-md active:scale-[0.98]"
+                className="asmt-btn-next flex h-12 items-center gap-2 rounded-full px-8 text-[15px] font-bold"
               >
                 Next
-                <ArrowForwardIcon sx={{ fontSize: 18 }} />
+                <ArrowForwardIcon sx={{ fontSize: 20 }} />
               </button>
             </div>
 
             {/* Security Message */}
-            <p className="mt-5 flex items-center justify-center gap-2 text-sm font-medium text-slate-700">
-              <LockIcon sx={{ fontSize: 16 }} className="text-brand-green-600" />
+            <p className="mt-3 flex items-center justify-center gap-2 text-sm font-medium text-slate-700">
+              <LockIcon sx={{ fontSize: 18 }} className="text-brand-green-600" />
               Your information is secure and encrypted
             </p>
           </div>
 
           {/* RIGHT — Sidebar */}
-          <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-3">
             {/* Card 1: Availability Status */}
-            <div className="rounded-2xl border border-slate-200 bg-white p-7 shadow-[0_2px_12px_rgba(13,37,73,0.06)]">
-              <h3 className="mb-5 text-base font-bold text-navy-950">
+            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-[0_2px_12px_rgba(13,37,73,0.06)]">
+              <h3 className="flex items-center gap-2.5 mb-5 text-base font-bold text-navy-950">
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white text-brand-green-600 shadow-sm ring-1 ring-brand-green-100/80"><DescriptionIcon sx={{ fontSize: 22 }} /></span>
                 Document Availability Status
               </h3>
 
@@ -896,7 +718,7 @@ export default function GovernmentDocuments() {
               {/* Summary Panel */}
               <div className="mt-5 flex items-start gap-3 rounded-xl bg-brand-green-50/80 p-4">
                 <CheckCircleIcon
-                  sx={{ fontSize: 22 }}
+                  sx={{ fontSize: 26 }}
                   className="mt-0.5 shrink-0 text-brand-green-600"
                 />
                 <div>
@@ -913,10 +735,10 @@ export default function GovernmentDocuments() {
             </div>
 
             {/* Card 2: Why Documents Matter? */}
-            <div className="rounded-2xl border border-brand-green-200/70 bg-brand-green-50/60 p-7">
+            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-[0_2px_12px_rgba(13,37,73,0.06)]">
               <div className="mb-3 flex items-center gap-2.5">
                 <span className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-green-100 text-brand-green-700">
-                  <VerifiedUserIcon sx={{ fontSize: 18 }} />
+                  <VerifiedUserIcon sx={{ fontSize: 22 }} />
                 </span>
                 <h3 className="text-base font-bold text-navy-950">
                   Why Documents Matter?
@@ -928,10 +750,10 @@ export default function GovernmentDocuments() {
             </div>
 
             {/* Card 3: Your Data is Safe */}
-            <div className="rounded-2xl border border-sky-200 bg-sky-50/70 p-7">
+            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-[0_2px_12px_rgba(13,37,73,0.06)]">
               <div className="mb-3 flex items-center gap-2.5">
                 <span className="flex h-9 w-9 items-center justify-center rounded-full bg-sky-100 text-sky-600">
-                  <LockIcon sx={{ fontSize: 18 }} />
+                  <LockIcon sx={{ fontSize: 22 }} />
                 </span>
                 <h3 className="text-base font-bold text-navy-950">
                   Your Data is Safe
@@ -943,10 +765,10 @@ export default function GovernmentDocuments() {
             </div>
 
             {/* Card 4: Tips */}
-            <div className="rounded-2xl border border-amber-200 bg-amber-50/70 p-7">
+            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-[0_2px_12px_rgba(13,37,73,0.06)]">
               <div className="mb-3 flex items-center gap-2.5">
                 <span className="flex h-9 w-9 items-center justify-center rounded-full bg-amber-100 text-amber-600">
-                  <LightbulbIcon sx={{ fontSize: 18 }} />
+                  <LightbulbIcon sx={{ fontSize: 22 }} />
                 </span>
                 <h3 className="text-base font-bold text-navy-950">Tips</h3>
               </div>
@@ -968,98 +790,6 @@ export default function GovernmentDocuments() {
           </div>
         </div>
       </main>
-
-      {/* ─── FOOTER ─── */}
-      <footer className="bg-navy-950 pt-20 text-slate-300">
-        <div className="mx-auto max-w-7xl px-6 lg:px-10">
-          <div className="grid grid-cols-1 gap-12 pb-14 sm:grid-cols-2 lg:grid-cols-5">
-            <div className="lg:col-span-2">
-              <Link to="/" className="flex items-center gap-3">
-                <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand-green-500 text-white">
-                  <ExploreIcon fontSize="small" />
-                </span>
-                <span className="text-xl font-bold leading-tight text-white">
-                  SmartFin
-                  <span className="block -mt-1 text-brand-green-400">
-                    Compass
-                  </span>
-                </span>
-              </Link>
-              <p className="mt-5 max-w-xs text-sm font-normal leading-relaxed text-slate-300">
-                AI-powered financial wellness platform that helps you make
-                smarter financial decisions.
-              </p>
-              <div className="mt-6 flex gap-3.5">
-                {[FacebookIcon, LinkedInIcon, TwitterIcon, InstagramIcon].map(
-                  (Icon, i) => (
-                    <a
-                      key={i}
-                      href="#"
-                      className="grid h-10 w-10 place-items-center rounded-full bg-white/10 text-white transition-all duration-200 hover:scale-110 hover:bg-brand-green-500 hover:text-white"
-                    >
-                      <Icon sx={{ fontSize: 18 }} />
-                    </a>
-                  )
-                )}
-              </div>
-            </div>
-
-            {FOOTER_COLUMNS.map((col) => (
-              <div key={col.title}>
-                <p className="text-sm font-bold text-white">{col.title}</p>
-                <ul className="mt-5 space-y-3">
-                  {col.links.map((l) => (
-                    <li key={l.label}>
-                      <a
-                        href={l.href}
-                        className="text-sm text-slate-300 transition-colors duration-200 hover:text-brand-green-400"
-                      >
-                        {l.label}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-
-            <div>
-              <p className="text-sm font-bold text-white">Contact Us</p>
-              <ul className="mt-5 space-y-4 text-sm text-slate-300">
-                <li className="flex items-center gap-2.5">
-                  <EmailIcon sx={{ fontSize: 16 }} />
-                  support@smartfincompass.com
-                </li>
-                <li className="flex items-center gap-2.5">
-                  <CallIcon sx={{ fontSize: 16 }} />
-                  +91 98765 43210
-                </li>
-                <li className="flex items-center gap-2.5">
-                  <PlaceIcon sx={{ fontSize: 16 }} />
-                  Bangalore, Karnataka, India
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          <div className="flex flex-col items-center justify-between gap-3 border-t border-white/10 py-7 text-xs text-slate-400 sm:flex-row">
-            <p>© 2025 SmartFin Compass. All rights reserved.</p>
-            <div className="flex gap-5">
-              <a
-                href="#"
-                className="transition-colors duration-200 hover:text-brand-green-400"
-              >
-                Privacy Policy
-              </a>
-              <a
-                href="#"
-                className="transition-colors duration-200 hover:text-brand-green-400"
-              >
-                Terms of Service
-              </a>
-            </div>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }

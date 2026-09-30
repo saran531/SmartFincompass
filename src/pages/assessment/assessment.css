@@ -1,0 +1,224 @@
+/* ============================================================
+   SmartFin Compass — Assessment Design System (scoped UI only)
+   Applied via `.assessment-page` root class on every page.
+   Purely presentational: no layout/spacing/content changes.
+   ============================================================ */
+
+/* ── Page-level continuous environment background ──
+   ONE background on the outermost page wrapper: sky gradient (fills the
+   artwork's transparent sky) + background.png artwork, viewport-anchored
+   so it continues behind journey, form, buttons and privacy section. */
+.assessment-page {
+  background-color: #dff0fd;
+  background-image:
+    linear-gradient(180deg, #bddbf9 0%, #d5eafc 38%, rgba(223, 240, 253, 0) 58%),
+    url("../../Assets/images/background.png");
+  background-size: cover, cover;
+  background-position: center top, center top;
+  background-repeat: no-repeat, no-repeat;
+  background-attachment: fixed, fixed;
+}
+
+@media (max-width: 1024px), (hover: none) {
+  .assessment-page {
+    background-attachment: scroll, scroll;
+  }
+}
+
+/* ── Premium white glass cards (main + sidebar) ── */
+.assessment-page [class*="rounded-2xl"][class*="bg-white"] {
+  border-radius: 20px;
+  background-color: rgba(255, 255, 255, 0.95);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  border-color: rgba(13, 37, 73, 0.08);
+  box-shadow:
+    0 2px 16px rgba(13, 37, 73, 0.06),
+    0 1px 3px rgba(13, 37, 73, 0.04);
+  transition: box-shadow 0.25s ease;
+}
+
+.assessment-page [class*="rounded-2xl"][class*="bg-white"]:hover {
+  box-shadow:
+    0 10px 30px rgba(13, 37, 73, 0.1),
+    0 2px 6px rgba(13, 37, 73, 0.05);
+}
+
+/* ── Tinted sidebar cards → white glass (keeps accent border; px-7 excludes full-width banners) ── */
+.assessment-page [class*="rounded-2xl"][class*="bg-brand-green-50/60"]:not([class*="px-7"]),
+.assessment-page [class*="rounded-2xl"][class*="bg-sky-50/70"]:not([class*="px-7"]) {
+  background-color: rgba(255, 255, 255, 0.95);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  box-shadow:
+    0 2px 16px rgba(13, 37, 73, 0.06),
+    0 1px 3px rgba(13, 37, 73, 0.04);
+}
+
+/* ── Section titles: navy extrabold + short green gradient accent bar ── */
+.asmt-section-title {
+  color: #0a1f3d;
+  font-weight: 800;
+}
+
+.asmt-section-title::after {
+  content: "";
+  display: block;
+  width: 52px;
+  height: 3.5px;
+  margin-top: 7px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #128052, #22b573);
+}
+
+/* ── Form labels ── */
+.assessment-page label {
+  color: #0a1f3d;
+}
+
+.assessment-page .label-icon {
+  display: inline-flex;
+  height: 24px;
+  width: 24px;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background-color: #eafbf3;
+  color: #128052;
+}
+
+.assessment-page .label-icon.pink {
+  background-color: #fdf2f8;
+  color: #ec4899;
+}
+
+.assessment-page .label-icon.indigo {
+  background-color: #eef2ff;
+  color: #6366f1;
+}
+
+.assessment-page .label-icon.sky {
+  background-color: #f0f9ff;
+  color: #0284c7;
+}
+
+/* ── Text fields: soft slate → green focus glow ── */
+.assessment-page input:not([type="checkbox"]):not([type="radio"]),
+.assessment-page select,
+.assessment-page textarea {
+  border-radius: 12px;
+  border-color: #cbd5e1;
+  background-color: #ffffff;
+  color: #0a1f3d;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.assessment-page input:not([type="checkbox"]):not([type="radio"]):hover:not(:focus),
+.assessment-page select:hover:not(:focus),
+.assessment-page textarea:hover:not(:focus) {
+  border-color: #94a3b8;
+}
+
+.assessment-page input:not([class*="border-red"]):focus,
+.assessment-page select:focus,
+.assessment-page textarea:focus {
+  border-color: #22b573;
+  box-shadow: 0 0 0 3px rgba(34, 181, 115, 0.16);
+  outline: none;
+}
+
+/* ── Buttons: shared base ── */
+.assessment-page .asmt-btn {
+  border-radius: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.25s ease,
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    filter 0.2s ease;
+}
+
+.assessment-page .asmt-btn:hover {
+  transform: translateY(-2px);
+}
+
+.assessment-page .asmt-btn:active {
+  transform: translateY(0) scale(0.98);
+  transition-duration: 0.08s;
+}
+
+.assessment-page .asmt-btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(34, 181, 115, 0.35);
+}
+
+/* ── Primary: Next / Submit ── */
+.assessment-page .asmt-btn-next {
+  background: linear-gradient(135deg, #128052 0%, #22b573 100%);
+  border: 0;
+  color: #ffffff;
+  box-shadow: 0 6px 16px rgba(18, 128, 82, 0.3);
+}
+
+.assessment-page .asmt-btn-next:hover {
+  background: linear-gradient(135deg, #0e6941 0%, #1da668 100%);
+  box-shadow: 0 12px 26px rgba(18, 128, 82, 0.4);
+}
+
+/* ── Secondary: Back / utility actions ── */
+.assessment-page .asmt-btn-back {
+  background-color: #ffffff;
+  border: 2px solid #7dd3fc;
+  color: #0284c7;
+}
+
+.assessment-page .asmt-btn-back:hover {
+  background-color: #f0f9ff;
+  border-color: #38bdf8;
+  box-shadow: 0 10px 22px rgba(2, 132, 199, 0.16);
+}
+
+.assessment-page .asmt-btn-back:focus-visible {
+  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.4);
+}
+
+/* ── Selectable option cards ── */
+.assessment-page .option-card-interactive {
+  border-radius: 14px;
+  background-color: #ffffff;
+}
+
+.assessment-page .option-card-interactive:hover {
+  border-color: #86efac;
+  box-shadow: 0 8px 18px rgba(13, 37, 73, 0.08);
+  transform: translateY(-2px);
+}
+
+.assessment-page .option-card-interactive.selected {
+  border-color: #128052;
+  box-shadow:
+    0 0 0 3px rgba(34, 181, 115, 0.18),
+    0 8px 18px rgba(13, 37, 73, 0.06);
+  transform: none;
+}
+
+/* ── Motion safety ── */
+@media (prefers-reduced-motion: reduce) {
+  .assessment-page .asmt-btn,
+  .assessment-page .option-card-interactive {
+    transition: none;
+  }
+
+  .assessment-page .asmt-btn:hover,
+  .assessment-page .option-card-interactive:hover {
+    transform: none;
+  }
+}

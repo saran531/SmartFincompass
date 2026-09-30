@@ -1,80 +1,22 @@
 import { useState, useMemo } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useApp } from "../../context/AppContext";
 import CurrencyInput from "./components/CurrencyInput";
-import ExploreIcon from "@mui/icons-material/Explore";
-import MenuIcon from "@mui/icons-material/Menu";
-import CloseIcon from "@mui/icons-material/Close";
-import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import LockIcon from "@mui/icons-material/Lock";
 import HealthAndSafetyIcon from "@mui/icons-material/HealthAndSafety";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import EventIcon from "@mui/icons-material/Event";
+import ElderlyIcon from "@mui/icons-material/Elderly";
 import BadgeIcon from "@mui/icons-material/Badge";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import ShieldIcon from "@mui/icons-material/Shield";
-import CallIcon from "@mui/icons-material/Call";
-import PlaceIcon from "@mui/icons-material/Place";
-import FacebookIcon from "@mui/icons-material/Facebook";
-import TwitterIcon from "@mui/icons-material/Twitter";
-import LinkedInIcon from "@mui/icons-material/LinkedIn";
-import InstagramIcon from "@mui/icons-material/Instagram";
-import EmailIcon from "@mui/icons-material/Email";
-
-const NAV_LINKS = [
-  { label: "Home", href: "/" },
-  { label: "Features", href: "/features" },
-  { label: "How It Works", href: "/how-it-works" },
-  { label: "About", href: "/about" },
-  { label: "Contact", href: "/contact" },
-];
-
-const FOOTER_COLUMNS = [
-  {
-    title: "Quick Links",
-    links: [
-      { label: "Home", href: "/" },
-      { label: "Features", href: "/features" },
-      { label: "How It Works", href: "/how-it-works" },
-      { label: "About", href: "/about" },
-      { label: "Contact", href: "/contact" },
-    ],
-  },
-  {
-    title: "Resources",
-    links: [
-      { label: "Blog", href: "/blog" },
-      { label: "Financial Guide", href: "/financial-guide" },
-      { label: "FAQs", href: "/contact" },
-      { label: "Privacy Policy", href: "/privacy" },
-      { label: "Terms of Service", href: "/terms" },
-    ],
-  },
-  {
-    title: "Company",
-    links: [
-      { label: "About Us", href: "/about" },
-      { label: "Careers", href: "/careers" },
-      { label: "Press", href: "/press" },
-      { label: "Partners", href: "/partners" },
-    ],
-  },
-];
-
-const PROGRESS_STEPS = [
-  { label: "Personal Info", completed: true },
-  { label: "Employment", completed: true },
-  { label: "Income Sources", completed: true },
-  { label: "Expenses", completed: true },
-  { label: "Assets", completed: true },
-  { label: "Savings", active: true },
-];
+import SavingsIcon from "@mui/icons-material/Savings";
+import AssessmentJourneyProgress from "../../components/AssessmentJourneyProgress";
 
 const SAVINGS_CATEGORIES = [
   {
@@ -83,6 +25,7 @@ const SAVINGS_CATEGORIES = [
     desc: "Funds kept aside for\nunexpected emergencies",
     icon: HealthAndSafetyIcon,
     color: "text-brand-green-600 bg-brand-green-50",
+    row: "border-emerald-100 bg-emerald-50/50 hover:bg-emerald-50/90",
     chartColor: "#22b573",
   },
   {
@@ -91,6 +34,7 @@ const SAVINGS_CATEGORIES = [
     desc: "Amount you save\nevery month",
     icon: AccountBalanceIcon,
     color: "text-sky-500 bg-sky-50",
+    row: "border-sky-100 bg-sky-50/50 hover:bg-sky-50/90",
     chartColor: "#3b82f6",
   },
   {
@@ -99,14 +43,16 @@ const SAVINGS_CATEGORIES = [
     desc: "Total value of all your\nrecurring deposits",
     icon: EventIcon,
     color: "text-violet-500 bg-violet-50",
+    row: "border-violet-100 bg-violet-50/50 hover:bg-violet-50/90",
     chartColor: "#8b5cf6",
   },
   {
     key: "ppf",
     label: "Public Provident Fund (PPF)",
     desc: "Total balance in your\nPPF accounts",
-    icon: AccountBalanceIcon,
+    icon: ElderlyIcon,
     color: "text-amber-500 bg-amber-50",
+    row: "border-amber-100 bg-amber-50/50 hover:bg-amber-50/90",
     chartColor: "#f59e0b",
   },
   {
@@ -115,6 +61,7 @@ const SAVINGS_CATEGORIES = [
     desc: "Total balance in your\nEPF accounts",
     icon: BadgeIcon,
     color: "text-teal-500 bg-teal-50",
+    row: "border-teal-100 bg-teal-50/50 hover:bg-teal-50/90",
     chartColor: "#14b8a6",
   },
   {
@@ -122,8 +69,9 @@ const SAVINGS_CATEGORIES = [
     label: "Other",
     desc: "Any other savings or\ninvestments",
     icon: MoreHorizIcon,
-    color: "text-slate-500 bg-slate-50",
-    chartColor: "#94a3b8",
+    color: "text-rose-500 bg-rose-50",
+    row: "border-rose-100 bg-rose-50/50 hover:bg-rose-50/90",
+    chartColor: "#f43f5e",
   },
 ];
 
@@ -133,7 +81,7 @@ const CHART_LEGEND = [
   { key: "recurringDeposit", label: "RD", color: "#8b5cf6" },
   { key: "ppf", label: "PPF", color: "#f59e0b" },
   { key: "epf", label: "EPF", color: "#14b8a6" },
-  { key: "other", label: "Other Savings", color: "#94a3b8" },
+  { key: "other", label: "Other Savings", color: "#f43f5e" },
 ];
 
 interface OtherSavingEntry {
@@ -209,10 +157,10 @@ function DonutChart({
         ))}
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <span className="text-lg font-bold text-navy-950">
+        <span className="text-xl font-black text-navy-950">
           ₹{total.toLocaleString("en-IN")}
         </span>
-        <span className="text-center text-xs text-navy-900/50">
+        <span className="text-center text-xs font-medium text-slate-500">
           Total Savings
         </span>
       </div>
@@ -223,7 +171,6 @@ function DonutChart({
 export default function Savings() {
   const navigate = useNavigate();
   const { assessmentData, updateAssessment } = useApp();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const savedSvg = assessmentData.savings || {};
   const [amounts, setAmounts] = useState<Record<string, string>>({
@@ -306,166 +253,55 @@ export default function Savings() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50">
-      {/* ─── NAVBAR ─── */}
-      <header className="sticky top-0 z-50 border-b border-navy-950/5 bg-white/95 backdrop-blur-md">
-        <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6 py-3 lg:px-10">
-          <Link to="/" className="flex items-center gap-3">
-            <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand-green-500 text-white">
-              <ExploreIcon fontSize="small" />
-            </span>
-            <span className="text-xl font-bold leading-tight text-navy-950">
-              SmartFin
-              <span className="block -mt-1 text-brand-green-600">Compass</span>
-            </span>
-          </Link>
-
-          <nav className="hidden items-center gap-9 lg:flex">
-            {NAV_LINKS.map((link, i) => (
-              <a
-                key={link.label}
-                href={link.href}
-                className={`group/nav relative text-[15px] font-medium transition-colors duration-250 ${
-                  i === 0
-                    ? "text-navy-950"
-                    : "text-navy-900/70 hover:text-brand-green-600"
-                }`}
-              >
-                {link.label}
-                <span
-                  className={`absolute -bottom-2 left-0 h-0.5 rounded-full bg-brand-green-500 transition-all duration-300 ${
-                    i === 0 ? "w-full" : "w-0 group-hover/nav:w-full"
-                  }`}
-                />
-              </a>
-            ))}
-          </nav>
-
-          <div className="hidden items-center gap-4 lg:flex">
-            <button className="relative grid h-10 w-10 place-items-center rounded-full text-navy-900/60 transition-colors hover:bg-slate-100 hover:text-navy-950">
-              <NotificationsNoneIcon sx={{ fontSize: 22 }} />
-              <span className="absolute right-2 top-2 h-2.5 w-2.5 rounded-full border-2 border-white bg-brand-green-500" />
-            </button>
-            <div className="flex items-center gap-2">
-              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-navy-950 text-sm font-bold text-white">
-                VG
-              </span>
-              <KeyboardArrowDownIcon
-                sx={{ fontSize: 18 }}
-                className="text-navy-900/50"
-              />
-            </div>
-          </div>
-
-          <button
-            className="grid h-10 w-10 place-items-center rounded-lg text-navy-950 lg:hidden"
-            onClick={() => setMobileMenuOpen((v) => !v)}
-            aria-label="Toggle menu"
-          >
-            {mobileMenuOpen ? <CloseIcon /> : <MenuIcon />}
-          </button>
-        </div>
-
-        {mobileMenuOpen && (
-          <div className="border-t border-navy-950/5 bg-white px-6 py-4 lg:hidden">
-            <nav className="flex flex-col gap-4">
-              {NAV_LINKS.map((link) => (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  className="text-sm font-medium text-navy-900/80"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  {link.label}
-                </a>
-              ))}
-            </nav>
-            <div className="mt-4 flex items-center gap-3">
-              <button className="relative grid h-10 w-10 place-items-center rounded-full text-navy-900/60">
-                <NotificationsNoneIcon sx={{ fontSize: 22 }} />
-              </button>
-              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-navy-950 text-sm font-bold text-white">
-                VG
-              </span>
-            </div>
-          </div>
-        )}
-      </header>
-
-      <main className="mx-auto max-w-7xl px-6 py-10 lg:px-10">
-        {/* ─── TOP ROW: Title + Assessment Progress ─── */}
-        <div className="mb-8 flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
-          <div className="max-w-xl">
-            <h1 className="text-3xl font-extrabold text-navy-950 sm:text-4xl">
-              Savings
-            </h1>
-            <p className="mt-3 text-[15px] font-medium leading-relaxed text-slate-700">
-              Share details of your savings and investments to understand your
-              financial preparedness.
-            </p>
-          </div>
-
-          {/* Assessment Progress */}
-          <div className="w-full max-w-lg rounded-2xl border border-slate-200 bg-white p-6 shadow-[0_2px_12px_rgba(13,37,73,0.06)]">
-            <div className="mb-5 flex items-center justify-between">
-              <p className="text-sm font-bold text-navy-950">
-                Assessment Progress
-              </p>
-              <span className="rounded-full bg-brand-green-100 px-3 py-1 text-xs font-bold text-brand-green-700">
-                Step 7 of 12
-              </span>
-            </div>
-            <div className="relative">
-              <div className="absolute left-[40px] top-5 h-0.5 w-[calc(100%-80px)] bg-slate-200" />
-              <div className="absolute left-[40px] top-5 h-0.5 w-[calc(100%-80px)] bg-brand-green-500" />
-              <div className="flex items-start justify-between">
-                {PROGRESS_STEPS.map((step, i) => (
-                  <div
-                    key={step.label}
-                    className="flex flex-col items-center text-center"
-                    style={{ width: `${100 / 6}%` }}
-                  >
-                    <span
-                      className={`relative z-10 flex h-10 w-10 items-center justify-center rounded-full text-sm font-bold transition-all ${
-                        step.completed
-                          ? "bg-brand-green-500 text-white shadow-[0_0_12px_rgba(34,181,115,0.25)]"
-                          : step.active
-                          ? "bg-brand-green-500 text-white shadow-[0_0_12px_rgba(34,181,115,0.25)]"
-                          : "border-2 border-slate-300 bg-white text-slate-600"
-                      }`}
-                    >
-                      {step.completed ? (
-                        <CheckCircleIcon sx={{ fontSize: 20 }} />
-                      ) : (
-                        i + 1
-                      )}
-                    </span>
-                    <p
-                      className={`mt-2.5 text-[11px] font-bold leading-tight ${
-                        step.active
-                          ? "text-brand-green-700"
-                          : step.completed
-                          ? "text-brand-green-700"
-                          : "text-slate-600"
-                      }`}
-                    >
-                      {step.label}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
+    <div className="assessment-page min-h-screen">
+      <style>{`
+        .assessment-page .label-icon { height: 28px !important; width: 28px !important; border-radius: 9px !important; font-size: 17px; }
+        .assessment-page .label-icon svg { font-size: 20px !important; }
+        .assessment-page main label.mb-2 { margin-bottom: 6px !important; }
+        .assessment-page .asmt-btn-next {
+          border-radius: 9999px !important;
+          background: linear-gradient(135deg, #128052 0%, #22b573 100%);
+          box-shadow: 0 6px 16px rgba(18, 128, 82, 0.3), 0 0 10px rgba(34, 181, 115, 0.18);
+          transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+        }
+        .assessment-page .asmt-btn-back {
+          border-radius: 9999px !important;
+          transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+        }
+        @media (prefers-reduced-motion: no-preference) {
+          .assessment-page .asmt-btn-next:hover {
+            background: linear-gradient(135deg, #16975f 0%, #27c77f 100%);
+            box-shadow: 0 10px 24px rgba(18, 128, 82, 0.42), 0 0 16px rgba(34, 181, 115, 0.34);
+            transform: translateY(-1px);
+          }
+          .assessment-page .asmt-btn-next:active { transform: translateY(0); }
+          .assessment-page .asmt-btn-back:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 20px rgba(2, 132, 199, 0.22);
+          }
+        }
+      `}</style>
+      <main className="relative z-10 mx-auto max-w-7xl px-6 py-6 lg:px-10">
+        {/* ─── TOP ROW: Assessment Journey Progress ─── */}
+        <AssessmentJourneyProgress
+          currentStep={7}
+          title="Savings"
+          subtitle="Share details of your savings and investments to understand your financial preparedness."
+        />
 
         {/* ─── MAIN CONTENT: Two Columns ─── */}
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1fr_360px]">
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-[1fr_360px]">
           {/* LEFT — Form Card */}
-          <div className="rounded-2xl border border-slate-200 bg-white p-7 shadow-[0_2px_12px_rgba(13,37,73,0.06)] sm:p-8">
+          <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-[0_2px_12px_rgba(13,37,73,0.06)] sm:p-6">
             <div className="mb-6">
-              <p className="text-base font-bold text-navy-950">
+              <div className="mb-1.5 flex items-center gap-2.5">
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-brand-green-100 text-brand-green-700">
+                  <SavingsIcon sx={{ fontSize: 24 }} />
+                </span>
+              <p className="asmt-section-title text-lg font-extrabold text-navy-950 sm:text-xl">
                 Add Your Savings Details
               </p>
+              </div>
               <p className="mt-1 text-sm font-medium text-slate-600">
                 Enter the current value of your savings and investments
               </p>
@@ -479,13 +315,13 @@ export default function Savings() {
                   return (
                     <div
                       key={cat.key}
-                      className="rounded-xl border border-slate-200/90 bg-white transition-colors hover:bg-slate-50/80"
+                      className={`rounded-xl border transition-colors ${cat.row}`}
                     >
-                      <div className="flex items-center gap-4 p-4">
+                      <div className="flex flex-wrap items-center gap-3 p-4 sm:gap-4">
                         <span
-                          className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl ${cat.color}`}
+                          className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl sm:h-14 sm:w-14 ${cat.color}`}
                         >
-                          <cat.icon sx={{ fontSize: 22 }} />
+                          <cat.icon sx={{ fontSize: 28 }} />
                         </span>
                         <div className="min-w-0 flex-1">
                           <p className="text-sm font-bold text-navy-950">
@@ -495,7 +331,8 @@ export default function Savings() {
                             {cat.desc}
                           </p>
                         </div>
-                        <div className="relative w-full max-w-[200px] shrink-0">
+                        <div className="ml-auto flex shrink-0 flex-col items-end gap-2 sm:flex-row sm:items-center sm:gap-3">
+                        <div className="relative w-[170px] shrink-0 sm:w-[200px]">
                           <span className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-base font-extrabold text-navy-950">
                             ₹
                           </span>
@@ -517,6 +354,14 @@ export default function Savings() {
                             .00
                           </span>
                         </div>
+                        <button
+                          type="button"
+                          onClick={addOtherSaving}
+                          className="flex shrink-0 items-center justify-center gap-1.5 rounded-xl border-2 border-dashed border-brand-green-400 px-3.5 py-2.5 text-sm font-bold text-brand-green-700 transition-all hover:-translate-y-0.5 hover:border-brand-green-500 hover:bg-brand-green-50 hover:shadow-sm sm:px-4"
+                        >
+                          + Add Other Saving
+                        </button>
+                        </div>
                       </div>
 
                       {otherSavings.length > 0 && (
@@ -524,11 +369,12 @@ export default function Savings() {
                           {otherSavings.map((entry) => (
                             <div
                               key={entry.id}
-                              className="flex items-end gap-3 rounded-xl border border-navy-950/10 bg-white p-3 sm:gap-4 sm:p-4"
+                              className="flex items-end gap-3 rounded-xl border border-navy-950/10 bg-white p-3 shadow-xs sm:gap-4 sm:p-4"
                             >
                               <div className="grid min-w-0 flex-1 grid-cols-1 gap-4 sm:grid-cols-2">
                                 <div>
-                                  <label className="mb-2 block text-sm sm:text-base font-bold text-navy-950">
+                                  <label className="mb-2 flex items-center gap-2 text-sm sm:text-base font-bold text-navy-950">
+                                    <span className="label-icon"><SavingsIcon sx={{ fontSize: 15 }} /></span>
                                     Savings Type
                                   </label>
                                   <input
@@ -556,24 +402,14 @@ export default function Savings() {
                                 type="button"
                                 onClick={() => removeOtherSaving(entry.id)}
                                 aria-label="Remove other savings"
-                                className="mb-1.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-slate-400 transition-colors hover:bg-red-50 hover:text-red-500"
+                                className="mb-1.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-red-100 bg-red-50 text-red-500 transition-colors hover:border-red-200 hover:bg-red-100 hover:text-red-600"
                               >
-                                <CloseIcon sx={{ fontSize: 18 }} />
+                                <DeleteOutlinedIcon sx={{ fontSize: 22 }} />
                               </button>
                             </div>
                           ))}
                         </div>
                       )}
-
-                      <div className="px-4 pb-4">
-                        <button
-                          type="button"
-                          onClick={addOtherSaving}
-                          className="flex items-center gap-2 rounded-lg border-2 border-dashed border-brand-green-300 px-4 py-2 text-sm font-semibold text-brand-green-700 transition-all hover:border-brand-green-500 hover:bg-brand-green-50"
-                        >
-                          + Add Other Saving
-                        </button>
-                      </div>
                     </div>
                   );
                 }
@@ -581,12 +417,12 @@ export default function Savings() {
                 return (
                   <div
                     key={cat.key}
-                    className="flex items-center gap-4 rounded-xl border border-slate-200/90 bg-white p-4 transition-colors hover:bg-slate-50/80"
+                    className={`flex flex-wrap items-center gap-3 rounded-xl border p-4 transition-colors sm:gap-4 ${cat.row}`}
                   >
                     <span
-                      className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl ${cat.color}`}
+                      className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl sm:h-14 sm:w-14 ${cat.color}`}
                     >
-                      <cat.icon sx={{ fontSize: 22 }} />
+                      <cat.icon sx={{ fontSize: 28 }} />
                     </span>
                     <div className="min-w-0 flex-1">
                       <p className="text-sm font-bold text-navy-950">
@@ -596,7 +432,7 @@ export default function Savings() {
                         {cat.desc}
                       </p>
                     </div>
-                    <div className="relative w-full max-w-[200px] shrink-0">
+                    <div className="relative ml-auto w-[170px] shrink-0 sm:w-[200px]">
                       <span className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-base font-extrabold text-navy-950">
                         ₹
                       </span>
@@ -618,10 +454,10 @@ export default function Savings() {
             </div>
 
             {/* Total Savings Value */}
-            <div className="mt-6 flex items-center justify-between rounded-xl border-2 border-brand-green-300 bg-brand-green-50/80 px-5 py-4">
+            <div className="mt-6 flex items-center justify-between rounded-xl border-2 border-brand-green-300 bg-brand-green-50/80 px-5 py-4 shadow-xs">
               <div className="flex items-center gap-3">
                 <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-green-100 text-brand-green-700">
-                  <AccountBalanceWalletIcon sx={{ fontSize: 20 }} />
+                  <AccountBalanceWalletIcon sx={{ fontSize: 22 }} />
                 </span>
                 <div>
                   <p className="text-sm font-bold text-navy-950">
@@ -642,13 +478,13 @@ export default function Savings() {
             </div>
 
             {/* Buttons */}
-            <div className="mt-8 flex items-center justify-between">
+            <div className="mt-4 flex items-center justify-between">
               <button
                 type="button"
                 onClick={() => navigate("/liabilities")}
-                className="flex h-12 items-center gap-2 rounded-xl border-2 border-brand-green-500 bg-white px-6 text-sm font-bold text-brand-green-600 transition-all duration-250 hover:bg-brand-green-50 active:scale-[0.98]"
+                className="asmt-btn-back flex h-12 items-center gap-2 rounded-full px-6 text-sm font-bold"
               >
-                <ArrowBackIcon sx={{ fontSize: 18 }} />
+                <ArrowBackIcon sx={{ fontSize: 20 }} />
                 Back
               </button>
               <button
@@ -668,25 +504,26 @@ export default function Savings() {
                   updateAssessment("savings", payload);
                   navigate("/insurance");
                 }}
-                className="flex h-12 items-center gap-2 rounded-xl bg-brand-green-500 px-8 text-[15px] font-bold text-white shadow-soft transition-all duration-250 hover:bg-brand-green-600 hover:shadow-md active:scale-[0.98]"
+                className="asmt-btn-next flex h-12 items-center gap-2 rounded-full px-8 text-[15px] font-bold"
               >
                 Next
-                <ArrowForwardIcon sx={{ fontSize: 18 }} />
+                <ArrowForwardIcon sx={{ fontSize: 20 }} />
               </button>
             </div>
 
             {/* Security Message */}
-            <p className="mt-5 flex items-center justify-center gap-2 text-sm font-medium text-slate-700">
-              <LockIcon sx={{ fontSize: 16 }} className="text-brand-green-600" />
+            <p className="mt-3 flex items-center justify-center gap-2 text-sm font-medium text-slate-700">
+              <LockIcon sx={{ fontSize: 18 }} className="text-brand-green-600" />
               Your information is secure and encrypted
             </p>
           </div>
 
           {/* RIGHT — Sidebar */}
-          <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-3">
             {/* Card 1: Savings Summary */}
-            <div className="rounded-2xl border border-brand-green-200/70 bg-brand-green-50/60 p-7">
-              <h3 className="mb-2 text-base font-bold text-navy-950">
+            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-[0_2px_12px_rgba(13,37,73,0.06)]">
+              <h3 className="flex items-center gap-2.5 mb-2 text-base font-bold text-navy-950">
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white text-brand-green-600 shadow-sm ring-1 ring-brand-green-100/80"><SavingsIcon sx={{ fontSize: 22 }} /></span>
                 Savings Summary
               </h3>
               <p className="mb-4 text-sm font-medium text-slate-700">
@@ -738,10 +575,10 @@ export default function Savings() {
             </div>
 
             {/* Card 2: Why Save Consistently? */}
-            <div className="rounded-2xl border border-brand-green-200/70 bg-brand-green-50/60 p-7">
+            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-[0_2px_12px_rgba(13,37,73,0.06)]">
               <div className="mb-3 flex items-center gap-2.5">
                 <span className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-green-100 text-brand-green-700">
-                  <TrendingUpIcon sx={{ fontSize: 18 }} />
+                  <TrendingUpIcon sx={{ fontSize: 22 }} />
                 </span>
                 <h3 className="text-base font-bold text-navy-950">
                   Why Save Consistently?
@@ -754,10 +591,10 @@ export default function Savings() {
             </div>
 
             {/* Card 3: 100% Secure */}
-            <div className="rounded-2xl border border-sky-200 bg-sky-50/70 p-7">
+            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-[0_2px_12px_rgba(13,37,73,0.06)]">
               <div className="mb-3 flex items-center gap-2.5">
                 <span className="flex h-9 w-9 items-center justify-center rounded-full bg-sky-100 text-sky-600">
-                  <ShieldIcon sx={{ fontSize: 18 }} />
+                  <ShieldIcon sx={{ fontSize: 22 }} />
                 </span>
                 <h3 className="text-base font-bold text-navy-950">
                   100% Secure
@@ -775,7 +612,7 @@ export default function Savings() {
 
       {/* ─── INVESTMENT RISK GUIDANCE ─── */}
       <section className="mx-auto max-w-7xl px-6 pb-16 lg:px-10">
-        <div className="rounded-2xl border border-slate-200 bg-white p-7 shadow-[0_2px_12px_rgba(13,37,73,0.06)] sm:p-8">
+        <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-[0_2px_12px_rgba(13,37,73,0.06)] sm:p-6">
           <div className="flex flex-col gap-6 sm:flex-row sm:items-start">
             <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-brand-green-50 text-brand-green-600">
               <TrendingUpIcon sx={{ fontSize: 22 }} />
@@ -796,98 +633,6 @@ export default function Savings() {
           </div>
         </div>
       </section>
-
-      {/* ─── FOOTER ─── */}
-      <footer className="bg-navy-950 pt-20 text-slate-300">
-        <div className="mx-auto max-w-7xl px-6 lg:px-10">
-          <div className="grid grid-cols-1 gap-12 pb-14 sm:grid-cols-2 lg:grid-cols-5">
-            <div className="lg:col-span-2">
-              <Link to="/" className="flex items-center gap-3">
-                <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand-green-500 text-white">
-                  <ExploreIcon fontSize="small" />
-                </span>
-                <span className="text-xl font-bold leading-tight text-white">
-                  SmartFin
-                  <span className="block -mt-1 text-brand-green-400">
-                    Compass
-                  </span>
-                </span>
-              </Link>
-              <p className="mt-5 max-w-xs text-sm font-normal leading-relaxed text-slate-300">
-                AI-powered financial wellness platform that helps you make
-                smarter financial decisions.
-              </p>
-              <div className="mt-6 flex gap-3.5">
-                {[FacebookIcon, LinkedInIcon, TwitterIcon, InstagramIcon].map(
-                  (Icon, i) => (
-                    <a
-                      key={i}
-                      href="#"
-                      className="grid h-10 w-10 place-items-center rounded-full bg-white/10 text-white transition-all duration-200 hover:scale-110 hover:bg-brand-green-500 hover:text-white"
-                    >
-                      <Icon sx={{ fontSize: 18 }} />
-                    </a>
-                  )
-                )}
-              </div>
-            </div>
-
-            {FOOTER_COLUMNS.map((col) => (
-              <div key={col.title}>
-                <p className="text-sm font-bold text-white">{col.title}</p>
-                <ul className="mt-5 space-y-3">
-                  {col.links.map((l) => (
-                    <li key={l.label}>
-                      <a
-                        href={l.href}
-                        className="text-sm text-slate-300 transition-colors duration-200 hover:text-brand-green-400"
-                      >
-                        {l.label}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-
-            <div>
-              <p className="text-sm font-bold text-white">Contact Us</p>
-              <ul className="mt-5 space-y-4 text-sm text-slate-300">
-                <li className="flex items-center gap-2.5">
-                  <EmailIcon sx={{ fontSize: 16 }} />
-                  support@smartfincompass.com
-                </li>
-                <li className="flex items-center gap-2.5">
-                  <CallIcon sx={{ fontSize: 16 }} />
-                  +91 98765 43210
-                </li>
-                <li className="flex items-center gap-2.5">
-                  <PlaceIcon sx={{ fontSize: 16 }} />
-                  Bangalore, Karnataka, India
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          <div className="flex flex-col items-center justify-between gap-3 border-t border-white/10 py-7 text-xs text-slate-400 sm:flex-row">
-            <p>© 2025 SmartFin Compass. All rights reserved.</p>
-            <div className="flex gap-5">
-              <a
-                href="#"
-                className="transition-colors duration-200 hover:text-brand-green-400"
-              >
-                Privacy Policy
-              </a>
-              <a
-                href="#"
-                className="transition-colors duration-200 hover:text-brand-green-400"
-              >
-                Terms of Service
-              </a>
-            </div>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }

@@ -1,12 +1,8 @@
-import { useState, useMemo } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useState, useMemo, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useApp } from "../../context/AppContext";
-import ExploreIcon from "@mui/icons-material/Explore";
-import MenuIcon from "@mui/icons-material/Menu";
-import CloseIcon from "@mui/icons-material/Close";
-import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import FamilyRestroomIcon from "@mui/icons-material/FamilyRestroom";
+import VerifiedUserIcon from "@mui/icons-material/VerifiedUser";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import LockIcon from "@mui/icons-material/Lock";
@@ -17,66 +13,11 @@ import HomeIcon from "@mui/icons-material/Home";
 import ShieldIcon from "@mui/icons-material/Shield";
 import PersonIcon from "@mui/icons-material/Person";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
-import CallIcon from "@mui/icons-material/Call";
-import PlaceIcon from "@mui/icons-material/Place";
-import FacebookIcon from "@mui/icons-material/Facebook";
-import TwitterIcon from "@mui/icons-material/Twitter";
-import LinkedInIcon from "@mui/icons-material/LinkedIn";
-import InstagramIcon from "@mui/icons-material/Instagram";
-import EmailIcon from "@mui/icons-material/Email";
 import AssessmentInput from "./components/AssessmentInput";
 import AssessmentSelect from "./components/AssessmentSelect";
 import AssessmentDatePicker from "./components/AssessmentDatePicker";
 import PhoneInput from "./components/PhoneInput";
-
-const NAV_LINKS = [
-  { label: "Home", href: "/" },
-  { label: "Features", href: "/features" },
-  { label: "How It Works", href: "/how-it-works" },
-  { label: "About", href: "/about" },
-  { label: "Contact", href: "/contact" },
-];
-
-const FOOTER_COLUMNS = [
-  {
-    title: "Quick Links",
-    links: [
-      { label: "Home", href: "/" },
-      { label: "Features", href: "/features" },
-      { label: "How It Works", href: "/how-it-works" },
-      { label: "About", href: "/about" },
-      { label: "Contact", href: "/contact" },
-    ],
-  },
-  {
-    title: "Resources",
-    links: [
-      { label: "Blog", href: "/blog" },
-      { label: "Financial Guide", href: "/financial-guide" },
-      { label: "FAQs", href: "/contact" },
-      { label: "Privacy Policy", href: "/privacy" },
-      { label: "Terms of Service", href: "/terms" },
-    ],
-  },
-  {
-    title: "Company",
-    links: [
-      { label: "About Us", href: "/about" },
-      { label: "Careers", href: "/careers" },
-      { label: "Press", href: "/press" },
-      { label: "Partners", href: "/partners" },
-    ],
-  },
-];
-
-const PROGRESS_STEPS = [
-  { label: "Personal Info", completed: true },
-  { label: "Employment", completed: true },
-  { label: "Income Sources", completed: true },
-  { label: "Expenses", completed: true },
-  { label: "Assets", completed: true },
-  { label: "Insurance", active: true },
-];
+import AssessmentJourneyProgress from "../../components/AssessmentJourneyProgress";
 
 const INSURANCE_ITEMS = [
   {
@@ -119,7 +60,6 @@ const RELATIONSHIPS = ["Spouse", "Parent", "Child", "Sibling", "Other"];
 export default function Insurance() {
   const navigate = useNavigate();
   const { assessmentData, updateAssessment } = useApp();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const ins = assessmentData.insurance || {};
   const [providers, setProviders] = useState<Record<string, string>>({});
@@ -130,6 +70,112 @@ export default function Insurance() {
   const [dob, setDob] = useState(ins.nomineeDob || "");
   const [contactNumber, setContactNumber] = useState(ins.nomineeContact || "");
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [countryDropUp, setCountryDropUp] = useState(false);
+  const [selectDropUp, setSelectDropUp] = useState(false);
+
+  useEffect(() => {
+    let raf = 0;
+
+    const decideFlip = (
+      rect: DOMRect,
+      menuH: number,
+      navTop: number,
+      vh: number,
+      nomineeTop: number | null
+    ): boolean => {
+      const nomineeGap =
+        nomineeTop !== null && nomineeTop > rect.bottom
+          ? nomineeTop
+          : Number.POSITIVE_INFINITY;
+      const spaceBelow = Math.min(navTop, vh, nomineeGap) - rect.bottom;
+      const spaceAbove = rect.top;
+      if (spaceBelow >= menuH) return false;
+      if (spaceAbove >= menuH) return true;
+      return spaceAbove > spaceBelow;
+    };
+
+    const getNomineeTop = (): number | null => {
+      const nominee = document.querySelector<HTMLElement>(".asmt-ins-nominee");
+      return nominee ? nominee.getBoundingClientRect().top : null;
+    };
+
+    const evaluate = () => {
+      if (raf) return;
+      raf = requestAnimationFrame(() => {
+        raf = 0;
+        const vh = window.innerHeight;
+        const nav = document.querySelector<HTMLElement>(".asmt-ins-nav");
+        const navTop = nav ? nav.getBoundingClientRect().top : vh;
+        const nomineeTop = getNomineeTop();
+
+        const cdTrigger = document.querySelector<HTMLElement>(
+          'button[aria-label="Select country code"]'
+        );
+        if (cdTrigger) {
+          const r = cdTrigger.getBoundingClientRect();
+          const MENU_H = 310;
+          setCountryDropUp(r.bottom + MENU_H > navTop || vh - r.bottom < MENU_H);
+        }
+
+        document
+          .querySelectorAll<HTMLElement>('[class*="max-h-60"]')
+          .forEach((menu) => {
+            const trig = menu.previousElementSibling;
+            if (!(trig instanceof HTMLElement)) return;
+            menu.style.maxHeight = "";
+            const rect = trig.getBoundingClientRect();
+            const menuH = (menu.offsetHeight || 240) + 6;
+            const nomineeGap =
+              nomineeTop !== null && nomineeTop > rect.bottom
+                ? nomineeTop
+                : Number.POSITIVE_INFINITY;
+            const spaceBelow = Math.min(navTop, vh, nomineeGap) - rect.bottom;
+            const spaceAbove = rect.top;
+            const up =
+              spaceBelow >= menuH
+                ? false
+                : spaceAbove >= menuH
+                  ? true
+                  : spaceAbove > spaceBelow;
+            setSelectDropUp(up);
+            if (Math.min(spaceAbove, spaceBelow) < menuH) {
+              menu.style.maxHeight =
+                Math.max(120, Math.max(spaceAbove, spaceBelow) - 12) + "px";
+            }
+          });
+      });
+    };
+
+    const onClickCapture = (e: Event) => {
+      const target = e.target instanceof Element ? e.target : null;
+      const btn = target ? target.closest("button") : null;
+      if (
+        btn &&
+        btn.parentElement &&
+        btn.parentElement.classList.contains("relative") &&
+        !btn.hasAttribute("aria-label")
+      ) {
+        const vh = window.innerHeight;
+        const nav = document.querySelector<HTMLElement>(".asmt-ins-nav");
+        const navTop = nav ? nav.getBoundingClientRect().top : vh;
+        setSelectDropUp(
+          decideFlip(btn.getBoundingClientRect(), 246, navTop, vh, getNomineeTop())
+        );
+      }
+      evaluate();
+    };
+
+    evaluate();
+    window.addEventListener("scroll", evaluate, true);
+    window.addEventListener("resize", evaluate);
+    document.addEventListener("click", onClickCapture, true);
+    return () => {
+      if (raf) cancelAnimationFrame(raf);
+      window.removeEventListener("scroll", evaluate, true);
+      window.removeEventListener("resize", evaluate);
+      document.removeEventListener("click", onClickCapture, true);
+    };
+  }, []);
 
   const numericAmounts = useMemo(
     () =>
@@ -162,176 +208,85 @@ export default function Insurance() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50">
-      {/* ─── NAVBAR ─── */}
-      <header className="sticky top-0 z-50 border-b border-navy-950/5 bg-white/95 backdrop-blur-md">
-        <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6 py-3 lg:px-10">
-          <Link to="/" className="flex items-center gap-3">
-            <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand-green-500 text-white">
-              <ExploreIcon fontSize="small" />
-            </span>
-            <span className="text-xl font-bold leading-tight text-navy-950">
-              SmartFin
-              <span className="block -mt-1 text-brand-green-600">Compass</span>
-            </span>
-          </Link>
-
-          <nav className="hidden items-center gap-9 lg:flex">
-            {NAV_LINKS.map((link, i) => (
-              <a
-                key={link.label}
-                href={link.href}
-                className={`group/nav relative text-[15px] font-medium transition-colors duration-250 ${
-                  i === 0
-                    ? "text-navy-950"
-                    : "text-navy-900/70 hover:text-brand-green-600"
-                }`}
-              >
-                {link.label}
-                <span
-                  className={`absolute -bottom-2 left-0 h-0.5 rounded-full bg-brand-green-500 transition-all duration-300 ${
-                    i === 0 ? "w-full" : "w-0 group-hover/nav:w-full"
-                  }`}
-                />
-              </a>
-            ))}
-          </nav>
-
-          <div className="hidden items-center gap-4 lg:flex">
-            <button className="relative grid h-10 w-10 place-items-center rounded-full text-navy-900/60 transition-colors hover:bg-slate-100 hover:text-navy-950">
-              <NotificationsNoneIcon sx={{ fontSize: 22 }} />
-              <span className="absolute right-2 top-2 h-2.5 w-2.5 rounded-full border-2 border-white bg-brand-green-500" />
-            </button>
-            <div className="flex items-center gap-2">
-              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-navy-950 text-sm font-bold text-white">
-                VG
-              </span>
-              <KeyboardArrowDownIcon
-                sx={{ fontSize: 18 }}
-                className="text-navy-900/50"
-              />
-            </div>
-          </div>
-
-          <button
-            className="grid h-10 w-10 place-items-center rounded-lg text-navy-950 lg:hidden"
-            onClick={() => setMobileMenuOpen((v) => !v)}
-            aria-label="Toggle menu"
-          >
-            {mobileMenuOpen ? <CloseIcon /> : <MenuIcon />}
-          </button>
-        </div>
-
-        {mobileMenuOpen && (
-          <div className="border-t border-navy-950/5 bg-white px-6 py-4 lg:hidden">
-            <nav className="flex flex-col gap-4">
-              {NAV_LINKS.map((link) => (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  className="text-sm font-medium text-navy-900/80"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  {link.label}
-                </a>
-              ))}
-            </nav>
-            <div className="mt-4 flex items-center gap-3">
-              <button className="relative grid h-10 w-10 place-items-center rounded-full text-navy-900/60">
-                <NotificationsNoneIcon sx={{ fontSize: 22 }} />
-              </button>
-              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-navy-950 text-sm font-bold text-white">
-                VG
-              </span>
-            </div>
-          </div>
-        )}
-      </header>
-
-      <main className="mx-auto max-w-7xl px-6 py-10 lg:px-10">
-        {/* ─── TOP ROW: Title + Assessment Progress ─── */}
-        <div className="mb-8 flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
-          <div className="max-w-xl">
-            <h1 className="text-3xl font-extrabold text-navy-950 sm:text-4xl">
-              Insurance Details
-            </h1>
-            <p className="mt-3 text-[15px] leading-relaxed text-navy-900/55">
-              Please enter details of your insurance policies and nominee information.
-            </p>
-          </div>
-
-          {/* Assessment Progress */}
-          <div className="w-full max-w-2xl rounded-2xl border border-navy-950/5 bg-white p-6 shadow-[0_2px_12px_rgba(13,37,73,0.04)]">
-            <div className="mb-5 flex items-center justify-between">
-              <p className="text-sm font-bold text-navy-950">
-                Assessment Progress
-              </p>
-              <span className="rounded-full bg-brand-green-50 px-3 py-1 text-xs font-semibold text-brand-green-600">
-                Step 8 of 12
-              </span>
-            </div>
-            <div className="relative">
-              <div className="absolute left-[28px] top-5 h-0.5 w-[calc(100%-56px)] bg-navy-950/8" />
-              <div
-                className="absolute left-[28px] top-5 h-0.5 bg-brand-green-500 transition-all duration-300"
-                style={{ width: `${(7 / 11) * 100}%` }}
-              />
-              <div className="flex items-start justify-between">
-                {PROGRESS_STEPS.map((step, i) => (
-                  <div
-                    key={step.label}
-                    className="flex flex-col items-center text-center"
-                    style={{ width: `${100 / PROGRESS_STEPS.length}%` }}
-                  >
-                    <span
-                      className={`relative z-10 flex h-9 w-9 items-center justify-center rounded-full text-xs font-bold transition-all ${
-                        step.completed
-                          ? "bg-brand-green-500 text-white shadow-[0_0_10px_rgba(34,181,115,0.25)]"
-                          : step.active
-                          ? "bg-brand-green-500 text-white shadow-[0_0_10px_rgba(34,181,115,0.25)] ring-4 ring-brand-green-500/20"
-                          : "border-2 border-navy-950/10 bg-white text-navy-900/40"
-                      }`}
-                    >
-                      {step.completed ? (
-                        <CheckCircleIcon sx={{ fontSize: 18 }} />
-                      ) : (
-                        i + 1
-                      )}
-                    </span>
-                    <p
-                      className={`mt-2 text-[10px] font-semibold leading-tight ${
-                        step.active
-                          ? "text-brand-green-600"
-                          : step.completed
-                          ? "text-navy-900/60"
-                          : "text-navy-900/45"
-                      }`}
-                    >
-                      {step.label}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
+    <div className={`assessment-page min-h-screen${countryDropUp ? " ins-cd-up" : ""}${selectDropUp ? " ins-sel-up" : ""}`}>
+      <style>{`
+        .assessment-page .label-icon { height: 28px !important; width: 28px !important; border-radius: 9px !important; font-size: 17px; }
+        .assessment-page .label-icon svg { font-size: 20px !important; }
+        .assessment-page main label.mb-2 { margin-bottom: 6px !important; }
+        .assessment-page .asmt-btn-next {
+          border-radius: 9999px !important;
+          background: linear-gradient(135deg, #128052 0%, #22b573 100%);
+          box-shadow: 0 6px 16px rgba(18, 128, 82, 0.3), 0 0 10px rgba(34, 181, 115, 0.18);
+          transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+        }
+        .assessment-page .asmt-btn-back {
+          border-radius: 9999px !important;
+          transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+        }
+        @media (prefers-reduced-motion: no-preference) {
+          .assessment-page .asmt-btn-next:hover {
+            background: linear-gradient(135deg, #16975f 0%, #27c77f 100%);
+            box-shadow: 0 10px 24px rgba(18, 128, 82, 0.42), 0 0 16px rgba(34, 181, 115, 0.34);
+            transform: translateY(-1px);
+          }
+          .assessment-page .asmt-btn-next:active { transform: translateY(0); }
+          .assessment-page .asmt-btn-back:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 20px rgba(2, 132, 199, 0.22);
+          }
+        }
+        /* ── Country code dropdown: position, stacking, overflow fixes ── */
+        .assessment-page [class*="top-full"] {
+          z-index: 1000 !important;
+          width: 300px !important;
+          max-width: calc(100vw - 32px);
+          overflow-x: hidden;
+        }
+        .assessment-page [class*="top-full"] [class*="overflow-y-auto"] {
+          overflow-x: hidden !important;
+        }
+        .assessment-page.ins-cd-up [class*="top-full"] {
+          top: auto !important;
+          bottom: calc(100% + 6px) !important;
+          margin-top: 0 !important;
+        }
+        /* ── Select dropdowns (Relationship etc.): position, stacking, overflow fixes ── */
+        .assessment-page [class*="max-h-60"] {
+          z-index: 1000 !important;
+          overflow-x: hidden !important;
+        }
+        .assessment-page.ins-sel-up [class*="max-h-60"] {
+          top: auto !important;
+          bottom: calc(100% + 6px) !important;
+          margin-top: 0 !important;
+        }
+      `}</style>
+      <main className="relative z-10 mx-auto max-w-7xl px-6 py-6 lg:px-10">
+        {/* ─── TOP ROW: Assessment Journey Progress ─── */}
+        <AssessmentJourneyProgress
+          currentStep={8}
+          title="Insurance Details"
+          subtitle="Please enter details of your insurance policies and nominee information."
+        />
 
         {/* ─── MAIN CONTENT: Grid ─── */}
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
           {/* Left Column: Forms */}
-          <div className="space-y-6 lg:col-span-2">
+          <div className="lg:col-span-2">
             {/* Insurance Policies Section */}
-            <div className="rounded-2xl border border-navy-950/5 bg-white p-7 shadow-[0_2px_12px_rgba(13,37,73,0.04)]">
-              <div className="mb-6 flex items-center justify-between">
+            <div className="rounded-2xl border border-navy-950/5 bg-white p-6 shadow-[0_2px_12px_rgba(13,37,73,0.04)]">
+              <div className="mb-5 flex items-center justify-between gap-4">
                 <div>
-                  <h2 className="text-lg font-bold text-navy-950">
+                  <h2 className="asmt-section-title text-lg font-extrabold text-navy-950 sm:text-xl">
                     Insurance Policies
                   </h2>
-                  <p className="mt-1 text-xs text-navy-900/50">
+                  <p className="mt-1 text-sm font-medium text-slate-600">
                     Select your current active policies and values
                   </p>
                 </div>
-                <ShieldIcon className="text-brand-green-500" />
+                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-brand-green-50 text-brand-green-600">
+                  <ShieldIcon sx={{ fontSize: 26 }} />
+                </span>
               </div>
 
               <div className="space-y-4">
@@ -349,17 +304,17 @@ export default function Insurance() {
                       }`}
                     >
                       <div className="flex items-center justify-between gap-4">
-                        <div className="flex items-center gap-3">
+                        <div className="flex items-center gap-3 sm:gap-4">
                           <span
-                            className={`flex h-10 w-10 items-center justify-center rounded-lg ${item.color}`}
+                            className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl sm:h-14 sm:w-14 ${item.color}`}
                           >
-                            <IconComp fontSize="small" />
+                            <IconComp sx={{ fontSize: 28 }} />
                           </span>
                           <div>
                             <p className="text-sm font-bold text-navy-950">
                               {item.label}
                             </p>
-                            <p className="text-xs text-navy-900/50">
+                            <p className="text-xs text-slate-600">
                               {item.desc}
                             </p>
                           </div>
@@ -369,6 +324,7 @@ export default function Insurance() {
                       <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
                         <AssessmentSelect
                           label="Provider"
+                          icon={<VerifiedUserIcon sx={{ fontSize: 16 }} />}
                           value={providers[item.key] || ""}
                           onChange={(val) =>
                             setProviders((prev) => ({
@@ -395,27 +351,30 @@ export default function Insurance() {
             </div>
 
             {/* Nominee Details Section */}
-            <div className="rounded-2xl border border-navy-950/5 bg-white p-7 shadow-[0_2px_12px_rgba(13,37,73,0.04)]">
-              <div className="mb-4 flex items-center justify-between">
+            <div className="asmt-ins-nominee mt-5 rounded-2xl border border-navy-950/5 bg-white p-6 shadow-[0_2px_12px_rgba(13,37,73,0.04)]">
+              <div className="mb-4 flex items-center justify-between gap-4">
                 <div>
-                  <h2 className="text-lg font-bold text-navy-950">
+                  <h2 className="asmt-section-title text-lg font-extrabold text-navy-950 sm:text-xl">
                     Nominee Details
                   </h2>
-                  <p className="mt-1 text-xs text-navy-900/50">
+                  <p className="mt-1 text-sm font-medium text-slate-600">
                     Primary nominee details for insurance coverage
                   </p>
                 </div>
-                <PersonIcon className="text-brand-green-500" />
+                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-violet-50 text-violet-600">
+                  <PersonIcon sx={{ fontSize: 26 }} />
+                </span>
               </div>
 
               <div className="mt-4 rounded-xl border border-slate-200 bg-slate-50/60 p-5">
                 <div className="flex items-start gap-4">
-                  <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-sky-100 text-sky-600">
-                    <PersonIcon sx={{ fontSize: 22 }} />
+                  <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-sky-100 text-sky-600">
+                    <PersonIcon sx={{ fontSize: 26 }} />
                   </span>
                   <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2">
                     <AssessmentInput
                       label="Nominee Name"
+                      icon={<PersonIcon sx={{ fontSize: 16 }} />}
                       value={nomineeName}
                       onChange={(v) => {
                         setNomineeName(v);
@@ -427,6 +386,7 @@ export default function Insurance() {
                     />
                     <AssessmentSelect
                       label="Relationship"
+                      icon={<FamilyRestroomIcon sx={{ fontSize: 16 }} />}
                       value={relationship}
                       onChange={(v) => setRelationship(v)}
                       options={RELATIONSHIPS}
@@ -463,16 +423,20 @@ export default function Insurance() {
               </div>
             </div>
             
-            {/* Buttons */}
-            <div className="mt-8 flex items-center justify-between">
+            {/* ─── Bottom Navigation: ONE continuous background container ─── */}
+            <div className="asmt-ins-nav flex flex-wrap items-center justify-between gap-x-4 gap-y-3 rounded-2xl border bg-white/95 px-5 py-3 shadow-[0_2px_12px_rgba(13,37,73,0.06)] backdrop-blur">
               <button
                 type="button"
                 onClick={() => navigate("/savings")}
-                className="flex h-12 items-center gap-2 rounded-xl border-2 border-brand-green-500 bg-white px-6 text-sm font-bold text-brand-green-600 transition-all duration-250 hover:bg-brand-green-50 active:scale-[0.98]"
+                className="asmt-btn-back order-2 flex h-11 shrink-0 items-center gap-2 rounded-full px-6 text-sm font-bold shadow-sm sm:order-1"
               >
-                <ArrowBackIcon sx={{ fontSize: 18 }} />
+                <ArrowBackIcon sx={{ fontSize: 20 }} />
                 Back
               </button>
+              <p className="order-1 flex w-full items-center justify-center gap-2 text-sm font-medium text-slate-700 sm:order-2 sm:w-auto">
+                <LockIcon sx={{ fontSize: 16 }} className="text-brand-green-600" />
+                Your information is secure and encrypted
+              </p>
               <button
                 type="button"
                 onClick={() => {
@@ -480,25 +444,20 @@ export default function Insurance() {
                   updateAssessment("insurance", { nomineeName, nomineeRelationship: relationship, nomineeDob: dob, nomineeContact: contactNumber });
                   navigate("/investment-experience");
                 }}
-                className="flex h-12 items-center gap-2 rounded-xl bg-brand-green-500 px-8 text-[15px] font-bold text-white shadow-soft transition-all duration-250 hover:bg-brand-green-600 hover:shadow-md active:scale-[0.98]"
+                className="asmt-btn-next order-3 flex h-11 shrink-0 items-center gap-2 rounded-full px-8 text-[15px] font-bold"
               >
                 Next
-                <ArrowForwardIcon sx={{ fontSize: 18 }} />
+                <ArrowForwardIcon sx={{ fontSize: 20 }} />
               </button>
             </div>
-
-            {/* Security Message */}
-            <p className="mt-5 flex items-center justify-center gap-2 text-sm font-medium text-slate-700">
-              <LockIcon sx={{ fontSize: 16 }} className="text-brand-green-600" />
-              Your information is secure and encrypted
-            </p>
           </div>
 
           {/* RIGHT — Sidebar */}
-          <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-4">
             {/* Card 1: Insurance Summary */}
-            <div className="rounded-2xl border border-slate-200 bg-white p-7 shadow-[0_2px_12px_rgba(13,37,73,0.06)]">
-              <h3 className="mb-2 text-base font-bold text-navy-950">
+            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-[0_2px_12px_rgba(13,37,73,0.06)]">
+              <h3 className="flex items-center gap-2.5 mb-2 text-base font-bold text-navy-950">
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white text-brand-green-600 shadow-sm ring-1 ring-brand-green-100/80"><HealthAndSafetyIcon sx={{ fontSize: 22 }} /></span>
                 Insurance Summary
               </h3>
               <p className="mb-4 text-sm font-medium text-slate-700">
@@ -551,9 +510,9 @@ export default function Insurance() {
                     >
                       <div className="flex items-center gap-2.5">
                         <span
-                          className={`flex h-6 w-6 items-center justify-center rounded-md ${item.color}`}
+                          className={`flex h-7 w-7 items-center justify-center rounded-md ${item.color}`}
                         >
-                          <item.icon sx={{ fontSize: 14 }} />
+                          <item.icon sx={{ fontSize: 16 }} />
                         </span>
                         <span className="font-medium text-slate-700">{item.label}</span>
                       </div>
@@ -582,10 +541,10 @@ export default function Insurance() {
             </div>
 
             {/* Card 2: Why Insurance Matters? */}
-            <div className="rounded-2xl border border-brand-green-200/70 bg-brand-green-50/60 p-7">
+            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-[0_2px_12px_rgba(13,37,73,0.06)]">
               <div className="mb-3 flex items-center gap-2.5">
                 <span className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-green-100 text-brand-green-700">
-                  <TrendingUpIcon sx={{ fontSize: 18 }} />
+                  <TrendingUpIcon sx={{ fontSize: 22 }} />
                 </span>
                 <h3 className="text-base font-bold text-navy-950">
                   Why Insurance Matters?
@@ -598,10 +557,10 @@ export default function Insurance() {
             </div>
 
             {/* Card 3: 100% Secure */}
-            <div className="rounded-2xl border border-sky-200 bg-sky-50/70 p-7">
+            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-[0_2px_12px_rgba(13,37,73,0.06)]">
               <div className="mb-3 flex items-center gap-2.5">
                 <span className="flex h-9 w-9 items-center justify-center rounded-full bg-sky-100 text-sky-600">
-                  <ShieldIcon sx={{ fontSize: 18 }} />
+                  <ShieldIcon sx={{ fontSize: 22 }} />
                 </span>
                 <h3 className="text-base font-bold text-navy-950">
                   100% Secure
@@ -616,98 +575,6 @@ export default function Insurance() {
           </div>
         </div>
       </main>
-
-      {/* ─── FOOTER ─── */}
-      <footer className="bg-navy-950 pt-20 text-slate-300">
-        <div className="mx-auto max-w-7xl px-6 lg:px-10">
-          <div className="grid grid-cols-1 gap-12 pb-14 sm:grid-cols-2 lg:grid-cols-5">
-            <div className="lg:col-span-2">
-              <Link to="/" className="flex items-center gap-3">
-                <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand-green-500 text-white">
-                  <ExploreIcon fontSize="small" />
-                </span>
-                <span className="text-xl font-bold leading-tight text-white">
-                  SmartFin
-                  <span className="block -mt-1 text-brand-green-400">
-                    Compass
-                  </span>
-                </span>
-              </Link>
-              <p className="mt-5 max-w-xs text-sm font-normal leading-relaxed text-slate-300">
-                AI-powered financial wellness platform that helps you make
-                smarter financial decisions.
-              </p>
-              <div className="mt-6 flex gap-3.5">
-                {[FacebookIcon, LinkedInIcon, TwitterIcon, InstagramIcon].map(
-                  (Icon, i) => (
-                    <a
-                      key={i}
-                      href="#"
-                      className="grid h-10 w-10 place-items-center rounded-full bg-white/10 text-white transition-all duration-200 hover:scale-110 hover:bg-brand-green-500 hover:text-white"
-                    >
-                      <Icon sx={{ fontSize: 18 }} />
-                    </a>
-                  )
-                )}
-              </div>
-            </div>
-
-            {FOOTER_COLUMNS.map((col) => (
-              <div key={col.title}>
-                <p className="text-sm font-bold text-white">{col.title}</p>
-                <ul className="mt-5 space-y-3">
-                  {col.links.map((l) => (
-                    <li key={l.label}>
-                      <a
-                        href={l.href}
-                        className="text-sm text-slate-300 transition-colors duration-200 hover:text-brand-green-400"
-                      >
-                        {l.label}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-
-            <div>
-              <p className="text-sm font-bold text-white">Contact Us</p>
-              <ul className="mt-5 space-y-4 text-sm text-slate-300">
-                <li className="flex items-center gap-2.5">
-                  <EmailIcon sx={{ fontSize: 16 }} />
-                  support@smartfincompass.com
-                </li>
-                <li className="flex items-center gap-2.5">
-                  <CallIcon sx={{ fontSize: 16 }} />
-                  +91 98765 43210
-                </li>
-                <li className="flex items-center gap-2.5">
-                  <PlaceIcon sx={{ fontSize: 16 }} />
-                  Bangalore, Karnataka, India
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          <div className="flex flex-col items-center justify-between gap-3 border-t border-white/10 py-7 text-xs text-slate-400 sm:flex-row">
-            <p>© 2025 SmartFin Compass. All rights reserved.</p>
-            <div className="flex gap-5">
-              <a
-                href="#"
-                className="transition-colors duration-200 hover:text-brand-green-400"
-              >
-                Privacy Policy
-              </a>
-              <a
-                href="#"
-                className="transition-colors duration-200 hover:text-brand-green-400"
-              >
-                Terms of Service
-              </a>
-            </div>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }

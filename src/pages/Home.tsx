@@ -1,8 +1,6 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Link } from "react-router-dom";
 import ExploreIcon from "@mui/icons-material/Explore";
-import MenuIcon from "@mui/icons-material/Menu";
-import CloseIcon from "@mui/icons-material/Close";
 import PlayCircleIcon from "@mui/icons-material/PlayCircleOutlined";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import StarIcon from "@mui/icons-material/Star";
@@ -25,10 +23,6 @@ import EmailIcon from "@mui/icons-material/Email";
 import CallIcon from "@mui/icons-material/Call";
 import PlaceIcon from "@mui/icons-material/Place";
 import SendIcon from "@mui/icons-material/Send";
-import FacebookIcon from "@mui/icons-material/Facebook";
-import TwitterIcon from "@mui/icons-material/Twitter";
-import LinkedInIcon from "@mui/icons-material/LinkedIn";
-import InstagramIcon from "@mui/icons-material/Instagram";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import BarChartIcon from "@mui/icons-material/BarChart";
@@ -46,9 +40,6 @@ import {
 // ─── Original SmartFin Compass Illustration Assets ───
 import HeroBackdrop from "../components/illustrations/HeroBackdrop";
 import RupeeCoins from "../components/illustrations/RupeeCoins";
-import LeafSprig from "../components/illustrations/LeafSprig";
-import FaqIllustration from "../components/illustrations/FaqIllustration";
-import FooterDecoration from "../components/illustrations/FooterDecoration";
 
 // ─── Provided background / decoration assets ───
 import heroBgLeft from "../Assets/images/hero-bg-left.svg";
@@ -57,14 +48,26 @@ import newsletterBg from "../Assets/images/newsletter-bg.svg";
 import rocketImg from "../Assets/images/Rocket.png";
 import growthChartImg from "../Assets/images/growthchart.png";
 import contactImg from "../Assets/images/contactimage.png";
+import lightImg from "../Assets/images/light.png";
+import yourGoalsImg from "../Assets/images/yourgoals.png";
+import builtAroundImg from "../Assets/images/BuiltAround.png";
+import yourImg from "../Assets/images/your.png";
+import faqQaImg from "../Assets/images/QA.png";
+import paperRocketImg from "../Assets/images/PaperRocket.png";
+import leafImg from "../Assets/images/Leaf.png";
 
-const NAV_LINKS = [
-  { label: "Home", href: "/" },
-  { label: "Features", href: "/features" },
-  { label: "How It Works", href: "/how-it-works" },
-  { label: "About", href: "/about" },
-  { label: "Contact", href: "/contact" },
-];
+// ─── Decorative corner leaf ───
+function Leaf({ className }: { className?: string }) {
+  return (
+    <img
+      src={leafImg}
+      alt=""
+      aria-hidden="true"
+      draggable={false}
+      className={`pointer-events-none select-none ${className ?? ""}`}
+    />
+  );
+}
 
 const SCORE_BREAKDOWN = [
   { label: "Income Stability", value: 85 },
@@ -77,25 +80,25 @@ const SCORE_BREAKDOWN = [
 const ROADMAP = [
   {
     icon: SavingsIcon,
-    color: "text-sky-400 bg-sky-500/10",
+    color: "text-sky-600 bg-sky-500/10",
     title: "Build Emergency Fund",
     time: "0-3 Months",
   },
   {
     icon: CreditCardOffIcon,
-    color: "text-rose-400 bg-rose-500/10",
+    color: "text-rose-600 bg-rose-500/10",
     title: "Clear High-Interest Debt",
     time: "3-6 Months",
   },
   {
     icon: TrendingUpIcon,
-    color: "text-brand-green-400 bg-brand-green-500/10",
+    color: "text-brand-green-600 bg-brand-green-500/10",
     title: "Invest for Growth",
     time: "6-12 Months",
   },
   {
     icon: AccountBalanceIcon,
-    color: "text-violet-400 bg-violet-500/10",
+    color: "text-violet-600 bg-violet-500/10",
     title: "Wealth Building",
     time: "12+ Months",
   },
@@ -265,40 +268,6 @@ const FAQS = [
   },
 ];
 
-const FOOTER_COLUMNS = [
-  {
-    title: "Quick Links",
-    links: [
-      { label: "Home", href: "/" },
-      { label: "Features", href: "/features" },
-      { label: "How It Works", href: "/how-it-works" },
-      { label: "About", href: "/about" },
-      { label: "Contact", href: "/contact" },
-      { label: "Know Your Risk", href: "/know-your-risk" },
-    ],
-  },
-  {
-    title: "Resources",
-    links: [
-      { label: "Blog", href: "/blog" },
-      { label: "Financial Guide", href: "/financial-guide" },
-      { label: "FAQs", href: "/contact" },
-      { label: "Privacy Policy", href: "/privacy" },
-      { label: "Terms of Service", href: "/terms" },
-    ],
-  },
-  {
-    title: "Company",
-    links: [
-      { label: "About Us", href: "/about" },
-      { label: "Careers", href: "/careers" },
-      { label: "Press", href: "/press" },
-      { label: "Partners", href: "/partners" },
-      { label: "Contact Us", href: "/contact" },
-    ],
-  },
-];
-
 /* ─── Scroll reveal wrapper (fade/slide into view) ─── */
 function Reveal({
   children,
@@ -365,7 +334,7 @@ function GlassBubble({
   );
 }
 
-function ScoreGauge({ score }: { score: number }) {
+function ScoreGauge({ score, showGood = true }: { score: number; showGood?: boolean }) {
   const radius = 70;
   const circumference = Math.PI * radius;
   const progress = (score / 100) * circumference;
@@ -376,7 +345,7 @@ function ScoreGauge({ score }: { score: number }) {
         <path
           d="M 20 100 A 70 70 0 0 1 160 100"
           fill="none"
-          stroke="rgba(255,255,255,0.15)"
+          stroke="rgba(15,23,42,0.10)"
           strokeWidth="14"
           strokeLinecap="round"
         />
@@ -397,8 +366,11 @@ function ScoreGauge({ score }: { score: number }) {
         </defs>
       </svg>
       <div className="absolute bottom-1 flex flex-col items-center">
-        <span className="text-5xl font-extrabold text-white tracking-tight">{score}</span>
-        <span className="mt-0.5 text-xs font-bold text-brand-green-400 uppercase tracking-wider">
+        <span className="text-5xl font-extrabold text-navy-950 tracking-tight">{score}</span>
+        <span
+          className="mt-0.5 text-xs font-bold text-brand-green-600 uppercase tracking-wider transition-opacity duration-500"
+          style={{ opacity: showGood ? 1 : 0 }}
+        >
           Good
         </span>
       </div>
@@ -406,14 +378,103 @@ function ScoreGauge({ score }: { score: number }) {
   );
 }
 
+/* ─── Hero card count-up animation ─── */
+function useCountUp(
+  target: number,
+  active: boolean,
+  duration = 1400,
+  delay = 0,
+  instant = false
+) {
+  const [value, setValue] = useState(() => (instant ? target : 0));
+
+  useEffect(() => {
+    if (instant || !active) return;
+    let raf = 0;
+    const timer = window.setTimeout(() => {
+      const start = performance.now();
+      const tick = (now: number) => {
+        const p = Math.min(1, (now - start) / duration);
+        const eased = 1 - Math.pow(1 - p, 3);
+        setValue(Math.round(eased * target));
+        if (p < 1) raf = requestAnimationFrame(tick);
+      };
+      raf = requestAnimationFrame(tick);
+    }, delay);
+    return () => {
+      window.clearTimeout(timer);
+      cancelAnimationFrame(raf);
+    };
+  }, [target, active, duration, delay, instant]);
+
+  return value;
+}
+
+/* ─── Score breakdown row: counting number + filling bar ─── */
+function BreakdownBar({
+  label,
+  value,
+  delay,
+  active,
+  instant,
+}: {
+  label: string;
+  value: number;
+  delay: number;
+  active: boolean;
+  instant: boolean;
+}) {
+  const current = useCountUp(value, active, 1100, delay, instant);
+
+  return (
+    <div>
+      <div className="mb-1 flex items-center justify-between text-xs font-medium text-slate-600">
+        <span>{label}</span>
+        <span className="font-bold text-navy-950">{current}</span>
+      </div>
+      <div className="h-2 w-full overflow-hidden rounded-full bg-slate-200">
+        <div
+          className="h-full rounded-full bg-gradient-to-r from-amber-400 to-brand-green-400"
+          style={{ width: `${current}%` }}
+        />
+      </div>
+    </div>
+  );
+}
+
 export default function Home() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [testimonialActive, setTestimonialActive] = useState(0);
   const [faqOpenIndex, setFaqOpenIndex] = useState(0);
   const [activeFeature, setActiveFeature] = useState<number | null>(null);
   const [activeBenefit, setActiveBenefit] = useState<number | null>(null);
   const [activeTestimonial, setActiveTestimonial] = useState<number | null>(null);
   const [activeRoadmap, setActiveRoadmap] = useState<number | null>(null);
+
+  /* ─── Hero card entrance + data animation timeline ─── */
+  const [prefersReducedMotion] = useState(
+    () =>
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  );
+  const [cardEntered, setCardEntered] = useState(prefersReducedMotion);
+  const [dataStarted, setDataStarted] = useState(prefersReducedMotion);
+
+  useEffect(() => {
+    if (prefersReducedMotion) return;
+    let secondFrame = 0;
+    const firstFrame = requestAnimationFrame(() => {
+      secondFrame = requestAnimationFrame(() => setCardEntered(true));
+    });
+    const dataFallback = window.setTimeout(() => setDataStarted(true), 1800);
+    return () => {
+      cancelAnimationFrame(firstFrame);
+      cancelAnimationFrame(secondFrame);
+      window.clearTimeout(dataFallback);
+    };
+  }, [prefersReducedMotion]);
+
+  const heroScore = useCountUp(78, dataStarted, 1400, 0, prefersReducedMotion);
+  const showGood = heroScore >= 70;
 
   const handlePrevTestimonial = () => {
     setTestimonialActive((prev) => (prev === 0 ? TESTIMONIALS.length - 1 : prev - 1));
@@ -425,126 +486,6 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-slate-50 font-sans text-navy-950 selection:bg-brand-green-500 selection:text-white overflow-x-hidden w-full max-w-full">
-      {/* ─── NAVBAR ─── */}
-      <header className="sticky top-0 z-50 bg-white/70 backdrop-blur-xl">
-        <div className="mx-auto max-w-7xl px-3 py-3 sm:px-6 lg:px-8">
-          <div className="flex h-14 items-center justify-between gap-4 rounded-2xl border border-slate-200/70 bg-white/95 px-4 shadow-[0_16px_44px_-22px_rgba(13,37,73,0.45)] sm:h-16 sm:px-6">
-            <Link to="/" className="flex items-center gap-3 group">
-              <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-[#22b573] to-[#0e6941] text-white shadow-md shadow-brand-green-500/30 group-hover:scale-105 transition-transform duration-300 sm:h-11 sm:w-11">
-                <ExploreIcon fontSize="small" />
-              </span>
-              <span className="text-lg font-bold leading-tight text-navy-950 sm:text-xl">
-                SmartFin
-                <span className="block -mt-1 text-brand-green-600">Compass</span>
-              </span>
-            </Link>
-
-            <nav className="hidden items-center gap-9 lg:flex">
-              {NAV_LINKS.map((link, i) =>
-                link.href.startsWith("/") && !link.href.startsWith("/#") ? (
-                  <Link
-                    key={link.label}
-                    to={link.href}
-                    className={`group/nav relative text-[15px] font-semibold transition-colors duration-250 ${
-                      i === 0 ? "text-brand-green-600" : "text-navy-900/70 hover:text-brand-green-600"
-                    }`}
-                  >
-                    {link.label}
-                    <span
-                      className={`absolute -bottom-2 left-0 h-0.5 rounded-full bg-brand-green-500 transition-all duration-300 ${
-                        i === 0 ? "w-full" : "w-0 group-hover/nav:w-full"
-                      }`}
-                    />
-                  </Link>
-                ) : (
-                  <a
-                    key={link.label}
-                    href={link.href}
-                    className={`group/nav relative text-[15px] font-semibold transition-colors duration-250 ${
-                      i === 0 ? "text-brand-green-600" : "text-navy-900/70 hover:text-brand-green-600"
-                    }`}
-                  >
-                    {link.label}
-                    <span
-                      className={`absolute -bottom-2 left-0 h-0.5 rounded-full bg-brand-green-500 transition-all duration-300 ${
-                        i === 0 ? "w-full" : "w-0 group-hover/nav:w-full"
-                      }`}
-                    />
-                  </a>
-                )
-              )}
-            </nav>
-
-            <div className="hidden items-center gap-4 lg:flex">
-              <Link
-                to="/login"
-                className="rounded-xl px-4 py-2.5 text-sm font-semibold text-navy-900/80 transition-all duration-250 hover:text-brand-green-600 active:scale-95"
-              >
-                Login
-              </Link>
-              <Link
-                to="/login"
-                className="rounded-xl bg-gradient-to-r from-[#189a63] to-[#22b573] px-6 py-2.5 text-sm font-semibold text-white shadow-md shadow-brand-green-500/30 transition-all duration-250 hover:shadow-lg hover:brightness-110 active:scale-95"
-              >
-                Get Started
-              </Link>
-            </div>
-
-            <button
-              className="grid h-10 w-10 place-items-center rounded-xl border border-slate-200 text-navy-950 lg:hidden hover:bg-slate-50"
-              onClick={() => setMobileMenuOpen((v) => !v)}
-              aria-label="Toggle menu"
-            >
-              {mobileMenuOpen ? <CloseIcon /> : <MenuIcon />}
-            </button>
-          </div>
-        </div>
-
-        {mobileMenuOpen && (
-          <div className="border-t border-slate-100 bg-white px-6 py-5 lg:hidden animate-fade-in">
-            <nav className="flex flex-col gap-4">
-              {NAV_LINKS.map((link) =>
-                link.href.startsWith("/") && !link.href.startsWith("/#") ? (
-                  <Link
-                    key={link.label}
-                    to={link.href}
-                    className="text-base font-semibold text-navy-900/80 transition-colors hover:text-brand-green-600"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    {link.label}
-                  </Link>
-                ) : (
-                  <a
-                    key={link.label}
-                    href={link.href}
-                    className="text-base font-semibold text-navy-900/80 transition-colors hover:text-brand-green-600"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    {link.label}
-                  </a>
-                )
-              )}
-            </nav>
-            <div className="mt-6 flex flex-col gap-3">
-              <Link
-                to="/login"
-                className="w-full rounded-xl border border-slate-200 px-5 py-3 text-center text-sm font-semibold text-navy-950"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Login
-              </Link>
-              <Link
-                to="/login"
-                className="w-full rounded-xl bg-[#189a63] px-5 py-3 text-center text-sm font-semibold text-white shadow-md shadow-brand-green-500/20"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Get Started
-              </Link>
-            </div>
-          </div>
-        )}
-      </header>
-
       <main>
         {/* ─── HERO ─── */}
         <section
@@ -662,10 +603,30 @@ export default function Home() {
               {/* Dashboard Ambient Glow Backdrop */}
               <div className="pointer-events-none absolute -inset-3 rounded-[34px] bg-gradient-to-r from-cyan-500/25 via-brand-green-500/25 to-blue-500/25 blur-2xl opacity-70 z-0" />
 
-              {/* Main Dark Dashboard Glass Card */}
-              <div className="relative z-10 rounded-[28px] border border-white/15 bg-gradient-to-b from-[#0e274a]/95 to-[#081a33]/95 p-6 shadow-[0_45px_90px_-35px_rgba(0,0,0,0.9)] backdrop-blur-xl ring-1 ring-white/5 sm:p-8">
-                <div className="flex items-center justify-between border-b border-white/10 pb-4">
-                  <p className="text-lg font-bold text-white">
+              {/* Main Premium White Dashboard Card (3D rotate-in entrance) */}
+              <div
+                className="relative z-10 rounded-[28px] border border-slate-200/80 bg-white p-6 shadow-[0_45px_90px_-35px_rgba(0,0,0,0.9)] ring-1 ring-black/5 sm:p-8"
+                style={{
+                  transform: cardEntered
+                    ? "perspective(1200px) rotateX(0deg) rotateY(0deg) translateY(0px) scale(1)"
+                    : "perspective(1200px) rotateX(7deg) rotateY(-16deg) translateY(26px) scale(0.95)",
+                  opacity: cardEntered ? 1 : 0.25,
+                  transition: prefersReducedMotion
+                    ? "none"
+                    : "transform 1000ms cubic-bezier(0.22, 1, 0.36, 1), opacity 900ms ease-out",
+                }}
+                onTransitionEnd={(e) => {
+                  if (
+                    !prefersReducedMotion &&
+                    e.target === e.currentTarget &&
+                    e.propertyName === "transform"
+                  ) {
+                    setDataStarted(true);
+                  }
+                }}
+              >
+                <div className="flex items-center justify-between border-b border-slate-200 pb-4">
+                  <p className="text-lg font-bold text-navy-950">
                     Your Financial Health Score
                   </p>
                   <AutoAwesomeIcon
@@ -675,43 +636,37 @@ export default function Home() {
                 </div>
 
                 <div className="mt-6 grid gap-6 sm:grid-cols-2">
-                  <div className="flex flex-col items-center justify-center rounded-2xl border border-white/10 bg-white/5 py-4 px-2">
-                    <ScoreGauge score={78} />
-                    <span className="mt-1 text-xs font-semibold text-slate-300">
+                  <div className="flex flex-col items-center justify-center rounded-2xl border border-slate-200 bg-slate-50 py-4 px-2">
+                    <ScoreGauge score={heroScore} showGood={showGood} />
+                    <span className="mt-1 text-xs font-semibold text-slate-500">
                       Keep it up!
                     </span>
                   </div>
 
                   <div>
-                    <p className="mb-3 text-[11px] font-bold uppercase tracking-wider text-slate-400">
+                    <p className="mb-3 text-[11px] font-bold uppercase tracking-wider text-slate-500">
                       Score Breakdown
                     </p>
                     <div className="space-y-2.5">
-                      {SCORE_BREAKDOWN.map((item) => (
-                        <div key={item.label}>
-                          <div className="mb-1 flex items-center justify-between text-xs font-medium text-slate-300">
-                            <span>{item.label}</span>
-                            <span className="font-bold text-white">
-                              {item.value}
-                            </span>
-                          </div>
-                          <div className="h-2 w-full overflow-hidden rounded-full bg-white/10">
-                            <div
-                              className="h-full rounded-full bg-gradient-to-r from-amber-400 to-brand-green-400"
-                              style={{ width: `${item.value}%` }}
-                            />
-                          </div>
-                        </div>
+                      {SCORE_BREAKDOWN.map((item, i) => (
+                        <BreakdownBar
+                          key={item.label}
+                          label={item.label}
+                          value={item.value}
+                          delay={i * 130}
+                          active={dataStarted}
+                          instant={prefersReducedMotion}
+                        />
                       ))}
                     </div>
                   </div>
                 </div>
 
-                <div className="mt-6 border-t border-white/10 pt-5">
-                  <p className="mb-1 text-[11px] font-bold uppercase tracking-wider text-slate-400">
+                <div className="mt-6 border-t border-slate-200 pt-5">
+                  <p className="mb-1 text-[11px] font-bold uppercase tracking-wider text-slate-500">
                     Your Personalized Roadmap
                   </p>
-                  <p className="mb-3 text-xs font-semibold text-slate-300">
+                  <p className="mb-3 text-xs font-semibold text-slate-600">
                     Recommended Actions
                   </p>
                   <div className="grid grid-cols-2 gap-2.5">
@@ -723,8 +678,8 @@ export default function Home() {
                           onClick={() => setActiveRoadmap(isActive ? null : i)}
                           className={`group/roadmap text-left rounded-xl border p-2.5 transition-all duration-300 cursor-pointer ${
                             isActive
-                              ? "border-brand-green-400 bg-brand-green-500/20 shadow-[0_2px_12px_rgba(34,181,115,0.25)]"
-                              : "border-white/10 bg-white/5 hover:border-brand-green-400/50 hover:bg-white/10"
+                              ? "border-brand-green-500 bg-brand-green-50 shadow-[0_2px_12px_rgba(34,181,115,0.25)]"
+                              : "border-slate-200 bg-slate-50 hover:border-brand-green-400 hover:bg-brand-green-50/60"
                           }`}
                         >
                           <div className="flex items-start gap-2">
@@ -740,14 +695,14 @@ export default function Home() {
                             <div className="min-w-0">
                               <p
                                 className={`text-xs font-bold leading-tight transition-colors duration-300 ${
-                                  isActive ? "text-[#00E676]" : "text-white"
+                                  isActive ? "text-brand-green-600" : "text-navy-950"
                                 }`}
                               >
                                 {item.title}
                               </p>
                               <p
                                 className={`mt-0.5 text-[11px] font-medium transition-colors duration-300 ${
-                                  isActive ? "text-brand-green-300/90" : "text-slate-400"
+                                  isActive ? "text-brand-green-500" : "text-slate-500"
                                 }`}
                               >
                                 {item.time}
@@ -760,20 +715,20 @@ export default function Home() {
                   </div>
                 </div>
 
-                <div className="mt-6 flex items-center justify-between border-t border-white/10 pt-5">
+                <div className="mt-6 flex items-center justify-between border-t border-slate-200 pt-5">
                   <div>
-                    <p className="text-xs font-medium text-slate-400">
+                    <p className="text-xs font-medium text-slate-500">
                       Potential Wealth in 5 Years
                     </p>
-                    <p className="text-lg sm:text-xl font-extrabold text-[#00E676]">
+                    <p className="text-lg sm:text-xl font-extrabold text-brand-green-500">
                       ₹28,75,000
                     </p>
                   </div>
                   <div className="text-right">
-                    <p className="text-xs font-medium text-slate-400">
+                    <p className="text-xs font-medium text-slate-500">
                       Monthly Savings Potential
                     </p>
-                    <p className="text-lg sm:text-xl font-extrabold text-[#00E676]">
+                    <p className="text-lg sm:text-xl font-extrabold text-brand-green-500">
                       ₹12,500
                     </p>
                   </div>
@@ -797,8 +752,24 @@ export default function Home() {
           <div className="pointer-events-none absolute bottom-0 right-10 h-80 w-80 rounded-full bg-brand-green-500/5 blur-[120px] z-0" />
 
           {/* Floating leaf decorations */}
-          <LeafSprig className="pointer-events-none absolute left-1 top-14 hidden w-20 -rotate-12 opacity-80 lg:block xl:w-28" />
-          <LeafSprig className="pointer-events-none absolute right-1 top-14 hidden w-20 rotate-12 scale-x-[-1] opacity-80 lg:block xl:w-28" />
+          <Leaf className="absolute left-2 top-40 z-0 hidden w-20 -rotate-12 opacity-80 lg:block xl:w-28" />
+          <Leaf className="absolute right-2 top-40 z-0 hidden w-20 rotate-12 scale-x-[-1] opacity-80 lg:block xl:w-28" />
+
+          {/* Corner illustrations (desktop) */}
+          <img
+            src={yourGoalsImg}
+            alt=""
+            aria-hidden="true"
+            draggable={false}
+            className="pointer-events-none absolute left-3 top-6 z-0 hidden w-20 select-none animate-float drop-shadow lg:block xl:w-28"
+          />
+          <img
+            src={lightImg}
+            alt=""
+            aria-hidden="true"
+            draggable={false}
+            className="pointer-events-none absolute right-3 top-6 z-0 hidden w-24 select-none animate-float drop-shadow lg:block xl:w-32"
+          />
 
           <div className="relative z-10 mx-auto max-w-7xl px-6 lg:px-10">
             <div className="mx-auto max-w-2xl text-center">
@@ -808,6 +779,24 @@ export default function Home() {
               <h2 className="mt-3 text-3xl font-extrabold text-navy-950 tracking-tight sm:text-4xl lg:text-5xl">
                 Everything You Need for Financial Wellness
               </h2>
+            </div>
+
+            {/* Corner illustrations (mobile) */}
+            <div className="mt-8 flex justify-center gap-8 lg:hidden">
+              <img
+                src={yourGoalsImg}
+                alt=""
+                aria-hidden="true"
+                draggable={false}
+                className="w-24 select-none animate-float drop-shadow"
+              />
+              <img
+                src={lightImg}
+                alt=""
+                aria-hidden="true"
+                draggable={false}
+                className="w-28 select-none animate-float drop-shadow"
+              />
             </div>
 
             <div className="mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-5">
@@ -938,8 +927,17 @@ export default function Home() {
           <div className="pointer-events-none absolute right-1/4 bottom-0 h-96 w-96 rounded-full bg-cyan-500/5 blur-[130px] z-0" />
 
           {/* Floating leaf decorations */}
-          <LeafSprig className="pointer-events-none absolute left-1 bottom-16 hidden w-20 -rotate-6 opacity-70 lg:block xl:w-24" />
-          <LeafSprig className="pointer-events-none absolute right-1 bottom-16 hidden w-20 rotate-6 scale-x-[-1] opacity-70 lg:block xl:w-24" />
+          <Leaf className="absolute left-1 bottom-16 z-0 hidden w-20 -rotate-6 opacity-70 lg:block xl:w-24" />
+          <Leaf className="absolute right-1 bottom-16 z-0 hidden w-20 rotate-6 scale-x-[-1] opacity-70 lg:block xl:w-24" />
+
+          {/* Corner illustration (desktop) */}
+          <img
+            src={builtAroundImg}
+            alt=""
+            aria-hidden="true"
+            draggable={false}
+            className="pointer-events-none absolute left-3 top-10 z-0 hidden w-28 select-none animate-float drop-shadow lg:block xl:w-36"
+          />
 
           <div className="relative z-10 mx-auto max-w-7xl px-6 lg:px-10">
             <div className="mx-auto max-w-2xl text-center">
@@ -949,6 +947,15 @@ export default function Home() {
               <h2 className="mt-3 text-3xl font-extrabold tracking-tight text-navy-950 sm:text-4xl lg:text-5xl">
                 Why Choose SmartFin Compass?
               </h2>
+
+              {/* Corner illustration (mobile) */}
+              <img
+                src={builtAroundImg}
+                alt=""
+                aria-hidden="true"
+                draggable={false}
+                className="mx-auto mt-6 block w-40 select-none animate-float drop-shadow sm:w-48 lg:hidden"
+              />
             </div>
 
             <div className="mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-5">
@@ -1005,6 +1012,15 @@ export default function Home() {
           <div className="pointer-events-none absolute left-1/4 top-10 h-80 w-80 rounded-full bg-cyan-500/10 blur-[120px] z-0" />
           <div className="pointer-events-none absolute bottom-10 right-1/4 h-80 w-80 rounded-full bg-[#00E676]/10 blur-[120px] z-0" />
 
+          {/* Corner illustration (desktop) */}
+          <img
+            src={yourImg}
+            alt=""
+            aria-hidden="true"
+            draggable={false}
+            className="pointer-events-none absolute left-3 top-8 z-0 hidden w-24 select-none animate-float drop-shadow lg:block xl:w-32"
+          />
+
           <div className="relative z-10 mx-auto max-w-7xl px-6 lg:px-10">
             <div className="mx-auto max-w-2xl text-center">
               <span className="inline-block rounded-full border border-brand-green-500/25 bg-brand-green-500/10 px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-[#00E676]">
@@ -1013,6 +1029,15 @@ export default function Home() {
               <h2 className="mt-4 text-3xl font-extrabold tracking-tight text-white sm:text-4xl lg:text-5xl">
                 What Our Users Say
               </h2>
+
+              {/* Corner illustration (mobile) */}
+              <img
+                src={yourImg}
+                alt=""
+                aria-hidden="true"
+                draggable={false}
+                className="mx-auto mt-6 block w-32 select-none animate-float drop-shadow sm:w-40 lg:hidden"
+              />
             </div>
 
             <div className="relative mt-14 grid grid-cols-1 items-stretch gap-8 md:grid-cols-3">
@@ -1146,11 +1171,23 @@ export default function Home() {
                 </h2>
 
                 {/* FAQ illustration — mobile (above list) */}
-                <FaqIllustration className="mx-auto mt-6 block w-36 lg:hidden" />
+                <img
+                  src={faqQaImg}
+                  alt=""
+                  aria-hidden="true"
+                  draggable={false}
+                  className="mx-auto mt-6 block w-36 select-none drop-shadow-md lg:hidden"
+                />
 
                 <div className="mt-8 flex items-start gap-6">
                   {/* FAQ illustration — desktop (left of list) */}
-                  <FaqIllustration className="mt-4 hidden w-28 shrink-0 animate-float lg:block xl:w-44" />
+                  <img
+                    src={faqQaImg}
+                    alt=""
+                    aria-hidden="true"
+                    draggable={false}
+                    className="mt-4 hidden w-28 shrink-0 select-none animate-float drop-shadow-xl lg:block xl:w-44"
+                  />
 
                   <div className="min-w-0 flex-1 space-y-3.5">
                     {FAQS.map((f, i) => {
@@ -1298,10 +1335,17 @@ export default function Home() {
               <div className="pointer-events-none absolute inset-0 bg-tech-grid-dark opacity-25" />
               <div className="pointer-events-none absolute -left-10 -top-16 h-56 w-56 rounded-full bg-cyan-500/20 blur-[70px]" />
               <div className="pointer-events-none absolute -bottom-20 right-10 h-56 w-56 rounded-full bg-brand-green-500/20 blur-[70px]" />
-              <LeafSprig className="pointer-events-none absolute -bottom-8 -left-6 hidden w-28 rotate-12 opacity-90 md:block" />
+              <Leaf className="-bottom-8 -left-6 hidden w-28 rotate-12 opacity-90 md:block" />
 
               <div className="relative z-10 flex flex-col items-center justify-between gap-8 lg:flex-row">
                 <div className="flex items-center gap-5">
+                  <img
+                    src={paperRocketImg}
+                    alt=""
+                    aria-hidden="true"
+                    draggable={false}
+                    className="hidden w-16 shrink-0 select-none animate-float drop-shadow-lg sm:block lg:w-20"
+                  />
                   <span className="grid h-14 w-14 shrink-0 place-items-center rounded-full bg-gradient-to-br from-[#189a63] to-[#22b573] text-white shadow-lg shadow-brand-green-500/40">
                     <SendIcon sx={{ fontSize: 24 }} />
                   </span>
@@ -1334,116 +1378,19 @@ export default function Home() {
                 </form>
               </div>
             </div>
+
+            {/* Paper rocket (mobile) */}
+            <img
+              src={paperRocketImg}
+              alt=""
+              aria-hidden="true"
+              draggable={false}
+              className="mx-auto mt-8 block w-28 select-none animate-float drop-shadow-lg sm:hidden"
+            />
           </div>
         </section>
       </main>
 
-      {/* ─── FOOTER ─── */}
-      <footer className="relative overflow-hidden border-t border-brand-green-500/20 bg-[#050f1f] pt-16 text-slate-300/80">
-        {/* Top accent line + glow */}
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-brand-green-400/60 to-transparent" />
-        <div className="pointer-events-none absolute inset-0 bg-tech-grid-dark opacity-15 z-0" />
-        <div className="pointer-events-none absolute -top-20 left-1/4 h-64 w-64 rounded-full bg-cyan-500/10 blur-[110px] z-0" />
-
-        {/* Decorative fintech graphic (leaves, coins, wave) */}
-        <FooterDecoration className="pointer-events-none absolute bottom-12 right-0 z-0 hidden w-56 opacity-70 md:block lg:w-72" />
-
-        <div className="relative z-10 mx-auto max-w-7xl px-6 lg:px-10">
-          <div className="grid grid-cols-1 gap-12 pb-14 sm:grid-cols-2 lg:grid-cols-5">
-            <div className="lg:col-span-2">
-              <Link to="/" className="group flex items-center gap-3">
-                <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-[#22b573] to-[#0e6941] text-white shadow-md shadow-brand-green-500/20 transition-transform group-hover:scale-105">
-                  <ExploreIcon fontSize="small" />
-                </span>
-                <span className="text-xl font-bold leading-tight text-white">
-                  SmartFin
-                  <span className="block -mt-1 text-[#00E676]">Compass</span>
-                </span>
-              </Link>
-              <p className="mt-5 max-w-xs text-sm leading-relaxed text-slate-300">
-                Your AI-powered financial companion for a secure and prosperous
-                future.
-              </p>
-              <div className="mt-6 flex gap-3.5">
-                {[FacebookIcon, TwitterIcon, LinkedInIcon, InstagramIcon].map(
-                  (Icon, i) => (
-                    <a
-                      key={i}
-                      href="#"
-                      className="grid h-10 w-10 place-items-center rounded-full border border-white/10 bg-white/10 text-white transition-all duration-250 hover:scale-110 hover:border-[#189a63] hover:bg-[#189a63]"
-                    >
-                      <Icon sx={{ fontSize: 18 }} />
-                    </a>
-                  )
-                )}
-              </div>
-            </div>
-
-            {FOOTER_COLUMNS.map((col) => (
-              <div key={col.title}>
-                <p className="text-base font-bold text-white">{col.title}</p>
-                <ul className="mt-5 space-y-3">
-                  {col.links.map((l) => (
-                    <li key={l.label}>
-                      {l.href.startsWith("/") && !l.href.startsWith("/#") ? (
-                        <Link
-                          to={l.href}
-                          className="text-sm transition-colors duration-250 hover:text-[#00E676]"
-                        >
-                          {l.label}
-                        </Link>
-                      ) : (
-                        <a
-                          href={l.href}
-                          className="text-sm transition-colors duration-250 hover:text-[#00E676]"
-                        >
-                          {l.label}
-                        </a>
-                      )}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-
-            <div className="lg:col-span-2">
-              <p className="text-base font-bold text-white">Contact Info</p>
-              <ul className="mt-5 space-y-4 text-sm">
-                <li className="flex items-center gap-2.5">
-                  <EmailIcon sx={{ fontSize: 16 }} className="text-[#00E676]" />
-                  <span className="break-all">support@smartfincompass.com</span>
-                </li>
-                <li className="flex items-center gap-2.5">
-                  <CallIcon sx={{ fontSize: 16 }} className="text-[#00E676]" />
-                  +91 98765 43210
-                </li>
-                <li className="flex items-center gap-2.5">
-                  <PlaceIcon sx={{ fontSize: 16 }} className="text-[#00E676]" />
-                  Bangalore, Karnataka, India
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          <div className="flex flex-col items-center justify-between gap-3 border-t border-white/10 py-7 text-xs text-slate-400 sm:flex-row">
-            <p>© 2025 SmartFin Compass. All rights reserved.</p>
-            <div className="flex gap-5">
-              <a
-                href="#"
-                className="transition-colors duration-250 hover:text-[#00E676]"
-              >
-                Privacy Policy
-              </a>
-              <a
-                href="#"
-                className="transition-colors duration-250 hover:text-[#00E676]"
-              >
-                Terms of Service
-              </a>
-            </div>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }

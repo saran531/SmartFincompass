@@ -1,5 +1,6 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useApp } from "./context/AppContext";
+import PublicLayout from "./components/PublicLayout";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Features from "./pages/Features";
@@ -39,14 +40,19 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
+      {/* Public marketing layout — shared Header + Footer */}
+      <Route element={<PublicLayout />}>
+        <Route path="/" element={<Home />} />
+        <Route path="/features" element={<Features />} />
+        <Route path="/how-it-works" element={<HowItWorks />} />
+        <Route path="/pricing" element={<Pricing />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/know-your-risk" element={<KnowYourRisk />} />
+      </Route>
+
+      {/* Application pages — no public Header/Footer */}
       <Route path="/login" element={<Login />} />
-      <Route path="/features" element={<Features />} />
-      <Route path="/how-it-works" element={<HowItWorks />} />
-      <Route path="/pricing" element={<Pricing />} />
-      <Route path="/about" element={<About />} />
-      <Route path="/contact" element={<Contact />} />
-      <Route path="/know-your-risk" element={<KnowYourRisk />} />
       <Route path="/create-account" element={<CreateAccount />} />
       <Route path="/otp-verification" element={<OtpVerification />} />
 

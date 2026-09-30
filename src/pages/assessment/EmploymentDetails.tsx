@@ -1,11 +1,20 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useApp } from "../../context/AppContext";
-import ExploreIcon from "@mui/icons-material/Explore";
-import MenuIcon from "@mui/icons-material/Menu";
-import CloseIcon from "@mui/icons-material/Close";
-import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import AssignmentIndIcon from "@mui/icons-material/AssignmentInd";
+import FactoryIcon from "@mui/icons-material/Factory";
+import GroupAddIcon from "@mui/icons-material/GroupAdd";
+import GroupsIcon from "@mui/icons-material/Groups";
+import HandymanIcon from "@mui/icons-material/Handyman";
+import HistoryIcon from "@mui/icons-material/History";
+import HubIcon from "@mui/icons-material/Hub";
+import LaptopMacIcon from "@mui/icons-material/LaptopMac";
+import MiscellaneousServicesIcon from "@mui/icons-material/MiscellaneousServices";
+import StorefrontIcon from "@mui/icons-material/Storefront";
+import TimelineIcon from "@mui/icons-material/Timeline";
+import TodayIcon from "@mui/icons-material/Today";
+import WorkHistoryIcon from "@mui/icons-material/WorkHistory";
+import WorkspacePremiumIcon from "@mui/icons-material/WorkspacePremium";
 import PersonIcon from "@mui/icons-material/Person";
 import WorkIcon from "@mui/icons-material/Work";
 import BusinessCenterIcon from "@mui/icons-material/BusinessCenter";
@@ -13,78 +22,32 @@ import ComputerIcon from "@mui/icons-material/Computer";
 import BusinessIcon from "@mui/icons-material/Business";
 import SchoolIcon from "@mui/icons-material/School";
 import LockIcon from "@mui/icons-material/Lock";
+import BadgeIcon from "@mui/icons-material/Badge";
+import LightbulbIcon from "@mui/icons-material/Lightbulb";
+import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import AssessmentIcon from "@mui/icons-material/Assessment";
 import HeadsetIcon from "@mui/icons-material/Headset";
-import AutoGraphIcon from "@mui/icons-material/AutoGraph";
-import CallIcon from "@mui/icons-material/Call";
-import PlaceIcon from "@mui/icons-material/Place";
-import FacebookIcon from "@mui/icons-material/Facebook";
-import TwitterIcon from "@mui/icons-material/Twitter";
-import LinkedInIcon from "@mui/icons-material/LinkedIn";
-import InstagramIcon from "@mui/icons-material/Instagram";
-import EmailIcon from "@mui/icons-material/Email";
 import AssessmentInput from "./components/AssessmentInput";
 import AssessmentSelect from "./components/AssessmentSelect";
 import CurrencyInput from "./components/CurrencyInput";
 import PhoneInput from "./components/PhoneInput";
-
-const NAV_LINKS = [
-  { label: "Home", href: "/" },
-  { label: "Features", href: "/features" },
-  { label: "How It Works", href: "/how-it-works" },
-  { label: "About", href: "/about" },
-  { label: "Contact", href: "/contact" },
-];
-
-const FOOTER_COLUMNS = [
-  {
-    title: "Quick Links",
-    links: [
-      { label: "Home", href: "/" },
-      { label: "Features", href: "/features" },
-      { label: "How It Works", href: "/how-it-works" },
-      { label: "About", href: "/about" },
-      { label: "Contact", href: "/contact" },
-    ],
-  },
-  {
-    title: "Resources",
-    links: [
-      { label: "Blog", href: "/blog" },
-      { label: "Financial Guide", href: "/financial-guide" },
-      { label: "FAQs", href: "/contact" },
-      { label: "Privacy Policy", href: "/privacy" },
-      { label: "Terms of Service", href: "/terms" },
-    ],
-  },
-  {
-    title: "Company",
-    links: [
-      { label: "About Us", href: "/about" },
-      { label: "Careers", href: "/careers" },
-      { label: "Press", href: "/press" },
-      { label: "Partners", href: "/partners" },
-    ],
-  },
-];
-
-const PROGRESS_STEPS = [
-  { label: "Personal Info", completed: true },
-  { label: "Employment", active: true },
-  { label: "Income Sources", completed: false },
-  { label: "Review & Insights", completed: false },
-];
+import AssessmentJourneyProgress from "../../components/AssessmentJourneyProgress";
+import salariedImg from "../../Assets/images/salaried.png";
+import selfEmployedImg from "../../Assets/images/selfemployed.png";
+import businessOwnerImg from "../../Assets/images/Businessowner.png";
+import freelancerImg from "../../Assets/images/freelauncer.png";
+import studentImg from "../../Assets/images/studennt.png";
 
 const EMPLOYMENT_TYPES = [
-  { label: "Salaried", icon: WorkIcon, color: "bg-sky-50 text-sky-600 border border-sky-100" },
-  { label: "Self Employed", icon: PersonIcon, color: "bg-violet-50 text-violet-600 border border-violet-100" },
-  { label: "Business Owner", icon: BusinessIcon, color: "bg-amber-50 text-amber-700 border border-amber-100" },
-  { label: "Freelancer", icon: ComputerIcon, color: "bg-sky-50 text-sky-600 border border-sky-100" },
-  { label: "Student", icon: SchoolIcon, color: "bg-emerald-50 text-emerald-600 border border-emerald-100" },
+  { label: "Salaried", img: salariedImg },
+  { label: "Self Employed", img: selfEmployedImg },
+  { label: "Business Owner", img: businessOwnerImg },
+  { label: "Freelancer", img: freelancerImg },
+  { label: "Student", img: studentImg },
 ];
 
 const WHAT_YOU_GET = [
@@ -95,14 +58,14 @@ const WHAT_YOU_GET = [
     desc: "Based on your income profile",
   },
   {
-    icon: AutoGraphIcon,
-    color: "text-sky-600 bg-sky-50 border border-sky-100",
+    icon: AutoAwesomeIcon,
+    color: "text-violet-600 bg-violet-50 border border-violet-100",
     title: "Personalized Recommendations",
     desc: "Tailored to your career stage",
   },
   {
     icon: TrendingUpIcon,
-    color: "text-brand-green-600 bg-brand-green-50 border border-brand-green-100",
+    color: "text-amber-700 bg-amber-50 border border-amber-100",
     title: "Better Planning",
     desc: "Plan your finances with confidence",
   },
@@ -118,7 +81,6 @@ const PLATFORM_OPTIONS = ["Upwork", "Fiverr", "Freelancer.com", "Toptal", "Linke
 export default function EmploymentDetails() {
   const navigate = useNavigate();
   const { assessmentData, updateAssessment } = useApp();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const emp = assessmentData.employment || {};
   const [employmentType, setEmploymentType] = useState(emp.employmentType || "Salaried");
@@ -226,168 +188,73 @@ export default function EmploymentDetails() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50">
-      {/* ─── NAVBAR ─── */}
-      <header className="sticky top-0 z-50 border-b border-slate-200/80 bg-white/95 backdrop-blur-md">
-        <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6 py-3 lg:px-10">
-          <Link to="/" className="flex items-center gap-3">
-            <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand-green-500 text-white shadow-sm">
-              <ExploreIcon fontSize="small" />
-            </span>
-            <span className="text-xl font-bold leading-tight text-navy-950">
-              SmartFin
-              <span className="block -mt-1 text-brand-green-600">Compass</span>
-            </span>
-          </Link>
-
-          <nav className="hidden items-center gap-9 lg:flex">
-            {NAV_LINKS.map((link, i) => (
-              <a
-                key={link.label}
-                href={link.href}
-                className={`group/nav relative text-[15px] font-semibold transition-colors duration-250 ${
-                  i === 0
-                    ? "text-navy-950 font-bold"
-                    : "text-slate-700 hover:text-brand-green-600"
-                }`}
-              >
-                {link.label}
-                <span
-                  className={`absolute -bottom-2 left-0 h-0.5 rounded-full bg-brand-green-500 transition-all duration-300 ${
-                    i === 0 ? "w-full" : "w-0 group-hover/nav:w-full"
-                  }`}
-                />
-              </a>
-            ))}
-          </nav>
-
-          <div className="hidden items-center gap-4 lg:flex">
-            <button className="relative grid h-10 w-10 place-items-center rounded-full text-slate-700 transition-colors hover:bg-slate-100 hover:text-navy-950">
-              <NotificationsNoneIcon sx={{ fontSize: 22 }} />
-              <span className="absolute right-2 top-2 h-2.5 w-2.5 rounded-full border-2 border-white bg-brand-green-500" />
-            </button>
-            <div className="flex items-center gap-2 cursor-pointer">
-              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-navy-950 text-sm font-bold text-white shadow-sm">
-                VG
-              </span>
-              <KeyboardArrowDownIcon
-                sx={{ fontSize: 18 }}
-                className="text-slate-700 font-bold"
-              />
-            </div>
-          </div>
-
-          <button
-            className="grid h-10 w-10 place-items-center rounded-lg text-navy-950 lg:hidden"
-            onClick={() => setMobileMenuOpen((v) => !v)}
-            aria-label="Toggle menu"
-          >
-            {mobileMenuOpen ? <CloseIcon /> : <MenuIcon />}
-          </button>
-        </div>
-
-        {mobileMenuOpen && (
-          <div className="border-t border-slate-200 bg-white px-6 py-4 lg:hidden">
-            <nav className="flex flex-col gap-4">
-              {NAV_LINKS.map((link) => (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  className="text-sm font-semibold text-slate-800"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  {link.label}
-                </a>
-              ))}
-            </nav>
-            <div className="mt-4 flex items-center gap-3">
-              <button className="relative grid h-10 w-10 place-items-center rounded-full text-slate-700">
-                <NotificationsNoneIcon sx={{ fontSize: 22 }} />
-              </button>
-              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-navy-950 text-sm font-bold text-white">
-                VG
-              </span>
-            </div>
-          </div>
-        )}
-      </header>
-
-      <main className="mx-auto max-w-7xl px-6 py-10 lg:px-10">
-        {/* ─── TOP ROW: Title + Assessment Progress ─── */}
-        <div className="mb-8 flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
-          <div className="max-w-xl">
-            <h1 className="text-3xl font-extrabold text-navy-950 sm:text-4xl tracking-tight">
-              Employment Details
-            </h1>
-            <p className="mt-3 text-base sm:text-lg leading-relaxed font-medium text-slate-700">
-              Tell us about your employment to help us analyze your income
-              stability and financial profile.
-            </p>
-          </div>
-
-          {/* Assessment Progress */}
-          <div className="w-full max-w-lg rounded-2xl border border-slate-200/90 bg-white p-6 shadow-sm">
-            <div className="mb-5 flex items-center justify-between">
-              <p className="text-base font-extrabold text-navy-950">
-                Assessment Progress
-              </p>
-              <span className="rounded-full bg-brand-green-100/90 px-3.5 py-1 text-xs font-extrabold text-brand-green-800 border border-brand-green-200">
-                Step 2 of 4
-              </span>
-            </div>
-            <div className="relative">
-              {/* Connector lines */}
-              <div className="absolute left-[40px] top-5 h-0.5 w-[calc(100%-80px)] bg-slate-200" />
-              <div className="absolute left-[40px] top-5 h-0.5 w-[calc(33.33%-20px)] bg-brand-green-500" />
-              <div className="flex items-start justify-between">
-                {PROGRESS_STEPS.map((step, i) => (
-                  <div
-                    key={step.label}
-                    className="flex flex-col items-center text-center"
-                    style={{ width: "25%" }}
-                  >
-                    <span
-                      className={`relative z-10 flex h-10 w-10 items-center justify-center rounded-full text-sm font-bold transition-all ${
-                        step.completed || step.active
-                          ? "bg-brand-green-500 text-white shadow-[0_0_14px_rgba(34,181,115,0.3)]"
-                          : "border-2 border-slate-300 bg-white text-slate-500 font-bold"
-                      }`}
-                    >
-                      {step.completed ? (
-                        <CheckCircleIcon sx={{ fontSize: 20 }} />
-                      ) : (
-                        i + 1
-                      )}
-                    </span>
-                    <p
-                      className={`mt-2.5 text-xs sm:text-sm font-extrabold ${
-                        step.active || step.completed
-                          ? "text-brand-green-700"
-                          : "text-slate-600"
-                      }`}
-                    >
-                      {step.label}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
+    <div className="assessment-page min-h-screen">
+      <style>{`
+        .assessment-page .label-icon { height: 28px !important; width: 28px !important; border-radius: 9px !important; font-size: 17px; }
+        .assessment-page .label-icon svg { font-size: 20px !important; }
+        .assessment-page main label.mb-2 { margin-bottom: 6px !important; }
+        .ed-sec-head .label-icon { width: 32px !important; height: 32px !important; border-radius: 10px !important; }
+        .ed-sec-head .label-icon svg { font-size: 24px !important; }
+        .ed-emp .label-icon, .ed-prof .label-icon, .ed-bname .label-icon, .ed-bemp .label-icon, .ed-stu-part .label-icon { background-color: #eff6ff !important; color: #2563eb !important; }
+        .ed-job .label-icon, .ed-fserv .label-icon { background-color: #f0f9ff !important; color: #0284c7 !important; }
+        .ed-exp .label-icon, .ed-syear .label-icon, .ed-byrs .label-icon, .ed-fyrs .label-icon, .ed-salary .label-icon, .ed-fcli .label-icon, .ed-sec-sal .label-icon { background-color: #eafbf3 !important; color: #128052 !important; }
+        .ed-ind .label-icon, .ed-bind .label-icon, .ed-extra .label-icon { background-color: #fff7ed !important; color: #ea580c !important; }
+        .ed-nat .label-icon, .ed-btype .label-icon, .ed-sstab .label-icon, .ed-fprof .label-icon, .ed-fplat .label-icon, .ed-stu-edu .label-icon, .ed-sec-self .label-icon { background-color: #f5f3ff !important; color: #7c3aed !important; }
+        .ed-sbiz .label-icon, .ed-turn .label-icon, .ed-fstab .label-icon, .ed-sec-biz .label-icon { background-color: #fffbeb !important; color: #d97706 !important; }
+        .ed-sec-free .label-icon { background-color: #ecfeff !important; color: #0891b2 !important; }
+        .assessment-page .asmt-btn-next {
+          border-radius: 9999px !important;
+          background: linear-gradient(135deg, #128052 0%, #22b573 100%);
+          box-shadow: 0 6px 16px rgba(18, 128, 82, 0.3), 0 0 10px rgba(34, 181, 115, 0.18);
+          transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+        }
+        .assessment-page .asmt-btn-back {
+          border-radius: 9999px !important;
+          transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+        }
+        @media (prefers-reduced-motion: no-preference) {
+          .assessment-page .asmt-btn-next:hover {
+            background: linear-gradient(135deg, #16975f 0%, #27c77f 100%);
+            box-shadow: 0 10px 24px rgba(18, 128, 82, 0.42), 0 0 16px rgba(34, 181, 115, 0.34);
+            transform: translateY(-1px);
+          }
+          .assessment-page .asmt-btn-next:active { transform: translateY(0); }
+          .assessment-page .asmt-btn-back:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 20px rgba(2, 132, 199, 0.22);
+          }
+          .assessment-page .option-card-interactive:hover {
+            box-shadow: 0 10px 22px rgba(13, 37, 73, 0.12);
+            transform: translateY(-2px);
+          }
+        }
+      `}</style>
+      <main className="relative z-10 mx-auto max-w-7xl px-6 py-6 lg:px-10">
+        {/* ─── TOP ROW: Assessment Journey Progress ─── */}
+        <AssessmentJourneyProgress
+          currentStep={2}
+          title="Employment Details"
+          subtitle="Tell us about your employment to help us analyze your income stability and financial profile."
+        />
 
         {/* ─── MAIN CONTENT: Two Columns ─── */}
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1fr_360px]">
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-[1fr_360px]">
           {/* LEFT — Form Card */}
-          <div className="rounded-2xl border border-slate-200/90 bg-white p-7 shadow-sm sm:p-8">
+          <div className="rounded-2xl border border-slate-200/90 bg-white p-6 shadow-sm sm:p-6">
             {/* Employment Type */}
             <div>
-              <p className="text-lg sm:text-xl font-extrabold text-navy-950">
+              <div className="mb-1.5 flex items-center gap-2.5">
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-brand-green-100 text-brand-green-700">
+                  <WorkIcon sx={{ fontSize: 24 }} />
+                </span>
+              <p className="asmt-section-title text-lg sm:text-xl font-extrabold text-navy-950">
                 Employment Type
               </p>
+              </div>
               <p className="mt-1 text-sm font-medium text-slate-600">
                 Select the type of your employment
               </p>
-              <div className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-4">
+              <div className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3 xl:grid-cols-5">
                 {EMPLOYMENT_TYPES.map((opt) => (
                   <button
                     key={opt.label}
@@ -404,10 +271,8 @@ export default function EmploymentDetails() {
                         <CheckCircleIcon sx={{ fontSize: 18 }} />
                       </span>
                     )}
-                    <span
-                      className={`flex h-12 w-12 items-center justify-center rounded-xl ${opt.color}`}
-                    >
-                      <opt.icon sx={{ fontSize: 24 }} />
+                    <span className="flex h-[72px] w-[72px] shrink-0 items-center justify-center">
+                      <img src={opt.img} alt="" className="h-full w-full object-contain" />
                     </span>
                     <span className="text-sm sm:text-base font-bold text-navy-950">
                       {opt.label}
@@ -420,9 +285,10 @@ export default function EmploymentDetails() {
             {/* ── EMPLOYMENT TYPE SPECIFIC FIELDS ── */}
             {employmentType === "Salaried" && (
               <div className="mt-8 space-y-5">
-                <p className="text-lg font-extrabold text-navy-950">Salaried Employment Details</p>
+                <p className="ed-sec-head ed-sec-sal flex items-center gap-2 text-lg font-extrabold text-navy-950"><span className="label-icon"><WorkIcon sx={{ fontSize: 24 }} /></span>Salaried Employment Details</p>
                 <AssessmentInput
                   label="Employer / Company Name"
+                  className="ed-emp"
                   value={employerName}
                   onChange={(v) => {
                     setEmployerName(v);
@@ -430,12 +296,13 @@ export default function EmploymentDetails() {
                   }}
                   mode="all"
                   placeholder="Enter employer or company name"
-                  icon={<BusinessCenterIcon sx={{ fontSize: 20 }} />}
+                  icon={<BusinessIcon sx={{ fontSize: 20 }} />}
                   error={errors.employerName}
                 />
                 <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
                   <AssessmentInput
                     label="Job Title / Designation"
+                    className="ed-job"
                     value={occupation}
                     onChange={(v) => {
                       setOccupation(v);
@@ -443,11 +310,13 @@ export default function EmploymentDetails() {
                     }}
                     mode="all"
                     placeholder="e.g. Software Engineer"
-                    icon={<PersonIcon sx={{ fontSize: 20 }} />}
+                    icon={<BadgeIcon sx={{ fontSize: 20 }} />}
                     error={errors.occupation}
                   />
                   <AssessmentSelect
                     label="Industry"
+                    className="ed-ind"
+                    icon={<FactoryIcon sx={{ fontSize: 20 }} />}
                     value={industry}
                     onChange={(v) => setIndustry(v)}
                     options={INDUSTRY_OPTIONS}
@@ -459,6 +328,8 @@ export default function EmploymentDetails() {
                 <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
                   <AssessmentSelect
                     label="Years of Experience"
+                    className="ed-exp"
+                    icon={<WorkHistoryIcon sx={{ fontSize: 20 }} />}
                     value={experience}
                     onChange={(v) => setExperience(v)}
                     options={YEARS_OPTIONS}
@@ -466,6 +337,8 @@ export default function EmploymentDetails() {
                   />
                   <AssessmentSelect
                     label="Employment Type / Nature"
+                    className="ed-nat"
+                    icon={<AssignmentIndIcon sx={{ fontSize: 20 }} />}
                     value={employmentNature}
                     onChange={(v) => setEmploymentNature(v)}
                     options={NATURE_OPTIONS}
@@ -485,12 +358,14 @@ export default function EmploymentDetails() {
                 <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
                   <CurrencyInput
                     label="Monthly Salary (In-hand)"
+                    className="ed-salary"
                     value={monthlySalary}
                     onChange={(v) => setMonthlySalary(v)}
                     placeholder="Enter monthly take-home salary"
                   />
                   <CurrencyInput
                     label="Additional Income (Optional)"
+                    className="ed-extra"
                     value={additionalIncome}
                     onChange={(v) => setAdditionalIncome(v)}
                     placeholder="Enter additional monthly income"
@@ -501,9 +376,10 @@ export default function EmploymentDetails() {
 
             {employmentType === "Self Employed" && (
               <div className="mt-8 space-y-5">
-                <p className="text-lg font-extrabold text-navy-950">Self Employment Details</p>
+                <p className="ed-sec-head ed-sec-self flex items-center gap-2 text-lg font-extrabold text-navy-950"><span className="label-icon"><HandymanIcon sx={{ fontSize: 24 }} /></span>Self Employment Details</p>
                 <AssessmentInput
                   label="Profession / Service"
+                  className="ed-prof"
                   value={profession}
                   onChange={(v) => {
                     setProfession(v);
@@ -516,6 +392,7 @@ export default function EmploymentDetails() {
                 />
                 <AssessmentInput
                   label="Business / Practice Name"
+                  className="ed-sbiz"
                   value={employerName}
                   onChange={(v) => setEmployerName(v)}
                   mode="all"
@@ -535,6 +412,8 @@ export default function EmploymentDetails() {
                 <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
                   <AssessmentSelect
                     label="Years Self Employed"
+                    className="ed-syear"
+                    icon={<HistoryIcon sx={{ fontSize: 20 }} />}
                     value={yearsSelfEmployed}
                     onChange={(v) => setYearsSelfEmployed(v)}
                     options={YEARS_OPTIONS}
@@ -542,6 +421,8 @@ export default function EmploymentDetails() {
                   />
                   <AssessmentSelect
                     label="Income Stability"
+                    className="ed-sstab"
+                    icon={<TrendingUpIcon sx={{ fontSize: 20 }} />}
                     value={incomeStability}
                     onChange={(v) => setIncomeStability(v)}
                     options={STABILITY_OPTIONS}
@@ -550,6 +431,7 @@ export default function EmploymentDetails() {
                 </div>
                 <CurrencyInput
                   label="Average Monthly Income"
+                  className="ed-salary"
                   value={monthlySalary}
                   onChange={(v) => setMonthlySalary(v)}
                   placeholder="Enter average monthly income"
@@ -559,9 +441,10 @@ export default function EmploymentDetails() {
 
             {employmentType === "Business Owner" && (
               <div className="mt-8 space-y-5">
-                <p className="text-lg font-extrabold text-navy-950">Business Owner Details</p>
+                <p className="ed-sec-head ed-sec-biz flex items-center gap-2 text-lg font-extrabold text-navy-950"><span className="label-icon"><BusinessCenterIcon sx={{ fontSize: 24 }} /></span>Business Owner Details</p>
                 <AssessmentInput
                   label="Business Name"
+                  className="ed-bname"
                   value={employerName}
                   onChange={(v) => {
                     setEmployerName(v);
@@ -575,6 +458,8 @@ export default function EmploymentDetails() {
                 <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
                   <AssessmentSelect
                     label="Business Type"
+                    className="ed-btype"
+                    icon={<BusinessCenterIcon sx={{ fontSize: 20 }} />}
                     value={businessType}
                     onChange={(v) => setBusinessType(v)}
                     options={BUSINESS_TYPE_OPTIONS}
@@ -584,6 +469,8 @@ export default function EmploymentDetails() {
                   />
                   <AssessmentSelect
                     label="Industry"
+                    className="ed-bind"
+                    icon={<StorefrontIcon sx={{ fontSize: 20 }} />}
                     value={industry}
                     onChange={(v) => setIndustry(v)}
                     options={INDUSTRY_OPTIONS}
@@ -595,6 +482,8 @@ export default function EmploymentDetails() {
                 <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
                   <AssessmentSelect
                     label="Years in Business"
+                    className="ed-byrs"
+                    icon={<TimelineIcon sx={{ fontSize: 20 }} />}
                     value={yearsInBusiness}
                     onChange={(v) => setYearsInBusiness(v)}
                     options={YEARS_OPTIONS}
@@ -602,6 +491,8 @@ export default function EmploymentDetails() {
                   />
                   <AssessmentInput
                     label="Number of Employees"
+                    className="ed-bemp"
+                    icon={<GroupsIcon sx={{ fontSize: 20 }} />}
                     value={numEmployees}
                     onChange={(v) => setNumEmployees(v)}
                     mode="number-only"
@@ -622,12 +513,14 @@ export default function EmploymentDetails() {
                 <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
                   <CurrencyInput
                     label="Annual Turnover"
+                    className="ed-turn"
                     value={annualTurnover}
                     onChange={(v) => setAnnualTurnover(v)}
                     placeholder="Enter annual turnover"
                   />
                   <CurrencyInput
                     label="Average Monthly Personal Income"
+                    className="ed-salary"
                     value={personalIncome}
                     onChange={(v) => setPersonalIncome(v)}
                     placeholder="Enter monthly personal income"
@@ -638,9 +531,10 @@ export default function EmploymentDetails() {
 
             {employmentType === "Freelancer" && (
               <div className="mt-8 space-y-5">
-                <p className="text-lg font-extrabold text-navy-950">Freelancer Details</p>
+                <p className="ed-sec-head ed-sec-free flex items-center gap-2 text-lg font-extrabold text-navy-950"><span className="label-icon"><LaptopMacIcon sx={{ fontSize: 24 }} /></span>Freelancer Details</p>
                 <AssessmentInput
                   label="Primary Freelance Profession"
+                  className="ed-fprof"
                   value={freelanceProfession}
                   onChange={(v) => {
                     setFreelanceProfession(v);
@@ -654,6 +548,8 @@ export default function EmploymentDetails() {
                 <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
                   <AssessmentSelect
                     label="Years Freelancing"
+                    className="ed-fyrs"
+                    icon={<TodayIcon sx={{ fontSize: 20 }} />}
                     value={yearsFreelancing}
                     onChange={(v) => setYearsFreelancing(v)}
                     options={YEARS_OPTIONS}
@@ -661,6 +557,8 @@ export default function EmploymentDetails() {
                   />
                   <AssessmentSelect
                     label="Income Stability"
+                    className="ed-fstab"
+                    icon={<TrendingUpIcon sx={{ fontSize: 20 }} />}
                     value={incomeStability}
                     onChange={(v) => setIncomeStability(v)}
                     options={STABILITY_OPTIONS}
@@ -669,6 +567,8 @@ export default function EmploymentDetails() {
                 </div>
                 <AssessmentInput
                   label="Main Services Offered"
+                  className="ed-fserv"
+                  icon={<MiscellaneousServicesIcon sx={{ fontSize: 20 }} />}
                   value={mainServices}
                   onChange={(v) => setMainServices(v)}
                   mode="all"
@@ -677,6 +577,8 @@ export default function EmploymentDetails() {
                 <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
                   <AssessmentInput
                     label="Number of Active Clients"
+                    className="ed-fcli"
+                    icon={<GroupAddIcon sx={{ fontSize: 20 }} />}
                     value={activeClients}
                     onChange={(v) => setActiveClients(v)}
                     mode="number-only"
@@ -696,6 +598,8 @@ export default function EmploymentDetails() {
                 </div>
                 <AssessmentSelect
                   label="Main Platform / Client Source"
+                  className="ed-fplat"
+                  icon={<HubIcon sx={{ fontSize: 20 }} />}
                   value={mainPlatform}
                   onChange={(v) => setMainPlatform(v)}
                   options={PLATFORM_OPTIONS}
@@ -705,6 +609,7 @@ export default function EmploymentDetails() {
                 />
                 <CurrencyInput
                   label="Average Monthly Income"
+                  className="ed-salary"
                   value={monthlySalary}
                   onChange={(v) => setMonthlySalary(v)}
                   placeholder="Enter average monthly income"
@@ -716,7 +621,7 @@ export default function EmploymentDetails() {
               <div className="mt-5 rounded-xl border border-emerald-200 bg-emerald-50/50 p-5">
                 <div className="flex items-center gap-3 mb-4">
                   <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-100 text-emerald-600">
-                    <SchoolIcon sx={{ fontSize: 22 }} />
+                    <SchoolIcon sx={{ fontSize: 24 }} />
                   </span>
                   <div>
                     <p className="text-sm font-bold text-navy-950">Student Details</p>
@@ -725,7 +630,7 @@ export default function EmploymentDetails() {
                 </div>
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   <div>
-                    <label className="mb-1.5 block text-xs font-semibold text-navy-950">Education Qualification</label>
+                    <label className="mb-1.5 flex items-center gap-2 text-xs font-semibold text-navy-950"><span className="label-icon ed-stu-edu"><SchoolIcon sx={{ fontSize: 20 }} /></span>Education Qualification</label>
                     <input
                       type="text"
                       value={educationQualification}
@@ -735,7 +640,7 @@ export default function EmploymentDetails() {
                     />
                   </div>
                   <div>
-                    <label className="mb-1.5 block text-xs font-semibold text-navy-950">Involved in any part time job?</label>
+                    <label className="mb-1.5 flex items-center gap-2 text-xs font-semibold text-navy-950"><span className="label-icon ed-stu-part"><WorkIcon sx={{ fontSize: 20 }} /></span>Involved in any part time job?</label>
                     <div className="flex gap-3">
                       {["Yes", "No"].map((opt) => (
                         <button
@@ -758,11 +663,11 @@ export default function EmploymentDetails() {
             )}
 
             {/* Bottom Buttons */}
-            <div className="mt-8 flex items-center justify-between">
+            <div className="mt-4 flex items-center justify-between">
               <button
                 type="button"
                 onClick={() => navigate("/personal-information")}
-                className="flex h-12 items-center gap-2 rounded-xl border-2 border-slate-300 bg-white px-6 text-sm sm:text-base font-bold text-navy-950 transition-all duration-250 hover:border-slate-400 hover:bg-slate-50 active:scale-[0.98]"
+                className="asmt-btn-back flex h-12 items-center gap-2 rounded-full px-6 text-sm sm:text-base font-bold"
               >
                 <ArrowBackIcon sx={{ fontSize: 20 }} />
                 Back
@@ -770,7 +675,7 @@ export default function EmploymentDetails() {
               <button
                 type="button"
                 onClick={handleSubmitNext}
-                className="flex h-12 items-center gap-2 rounded-xl bg-brand-green-500 px-8 text-sm sm:text-base font-bold text-white shadow-md transition-all duration-250 hover:bg-brand-green-600 hover:shadow-lg active:scale-[0.98]"
+                className="asmt-btn-next flex h-12 items-center gap-2 rounded-full px-8 text-sm sm:text-base font-bold"
               >
                 Next
                 <ArrowForwardIcon sx={{ fontSize: 20 }} />
@@ -778,16 +683,16 @@ export default function EmploymentDetails() {
             </div>
 
             {/* Security Message */}
-            <p className="mt-5 flex items-center justify-center gap-2 text-xs sm:text-sm font-semibold text-slate-700">
+            <p className="mt-3 flex items-center justify-center gap-2 text-xs sm:text-sm font-semibold text-slate-700">
               <LockIcon sx={{ fontSize: 18 }} className="text-brand-green-600" />
               Your information is secure and encrypted
             </p>
           </div>
 
           {/* RIGHT — Sidebar */}
-          <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-3">
             {/* Card 1: Why We Need This */}
-            <div className="rounded-2xl border border-slate-200/90 bg-white p-7 shadow-sm">
+            <div className="rounded-2xl border border-slate-200/90 bg-white p-6 shadow-sm">
               {/* Illustration */}
               <div className="relative mb-5 flex items-center justify-center overflow-hidden rounded-xl bg-gradient-to-br from-sky-50 to-brand-green-50/70 px-4 py-8 border border-slate-100">
                 <div className="relative">
@@ -805,7 +710,8 @@ export default function EmploymentDetails() {
                 </span>
               </div>
 
-              <h3 className="text-center text-base sm:text-lg font-extrabold text-navy-950">
+              <h3 className="flex items-center justify-center gap-2 text-base sm:text-lg font-extrabold text-navy-950">
+                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-violet-50 text-violet-600 ring-1 ring-violet-100"><LightbulbIcon sx={{ fontSize: 18 }} /></span>
                 Why We Need This
               </h3>
               <p className="mt-2 text-center text-sm font-medium leading-relaxed text-slate-600">
@@ -815,8 +721,9 @@ export default function EmploymentDetails() {
             </div>
 
             {/* Card 2: What You'll Get */}
-            <div className="rounded-2xl border border-brand-green-200/80 bg-brand-green-50/50 p-7 shadow-xs">
-              <h3 className="mb-5 text-base sm:text-lg font-extrabold text-navy-950">
+            <div className="rounded-2xl border border-brand-green-200/80 bg-brand-green-50/50 p-6 shadow-xs">
+              <h3 className="flex items-center gap-2.5 mb-5 text-base sm:text-lg font-extrabold text-navy-950">
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white text-brand-green-600 shadow-sm ring-1 ring-brand-green-100/80"><WorkspacePremiumIcon sx={{ fontSize: 22 }} /></span>
                 What You'll Get
               </h3>
               <div className="space-y-5">
@@ -825,7 +732,7 @@ export default function EmploymentDetails() {
                     <span
                       className={`mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${item.color}`}
                     >
-                      <item.icon sx={{ fontSize: 20 }} />
+                      <item.icon sx={{ fontSize: 24 }} />
                     </span>
                     <div>
                       <p className="text-sm sm:text-base font-extrabold text-navy-950">
@@ -841,10 +748,10 @@ export default function EmploymentDetails() {
             </div>
 
             {/* Card 3: Need Help? */}
-            <div className="rounded-2xl border border-slate-200/90 bg-white p-7 shadow-sm">
+            <div className="rounded-2xl border border-slate-200/90 bg-white p-6 shadow-sm">
               <div className="mb-3 flex items-center gap-2.5">
                 <span className="flex h-9 w-9 items-center justify-center rounded-full bg-sky-100 text-sky-600 border border-sky-200">
-                  <HeadsetIcon sx={{ fontSize: 18 }} />
+                  <HeadsetIcon sx={{ fontSize: 22 }} />
                 </span>
                 <h3 className="text-base sm:text-lg font-extrabold text-navy-950">
                   Need Help?
@@ -864,98 +771,6 @@ export default function EmploymentDetails() {
           </div>
         </div>
       </main>
-
-      {/* ─── FOOTER ─── */}
-      <footer className="bg-navy-950 pt-20 text-slate-300">
-        <div className="mx-auto max-w-7xl px-6 lg:px-10">
-          <div className="grid grid-cols-1 gap-12 pb-14 sm:grid-cols-2 lg:grid-cols-5">
-            <div className="lg:col-span-2">
-              <Link to="/" className="flex items-center gap-3">
-                <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand-green-500 text-white">
-                  <ExploreIcon fontSize="small" />
-                </span>
-                <span className="text-xl font-bold leading-tight text-white">
-                  SmartFin
-                  <span className="block -mt-1 text-brand-green-400">
-                    Compass
-                  </span>
-                </span>
-              </Link>
-              <p className="mt-5 max-w-xs text-sm font-medium leading-relaxed text-slate-300">
-                AI-powered financial wellness platform that helps you make
-                smarter financial decisions.
-              </p>
-              <div className="mt-6 flex gap-3.5">
-                {[FacebookIcon, LinkedInIcon, TwitterIcon, InstagramIcon].map(
-                  (Icon, i) => (
-                    <a
-                      key={i}
-                      href="#"
-                      className="grid h-10 w-10 place-items-center rounded-full bg-white/10 text-white transition-all duration-200 hover:scale-110 hover:bg-brand-green-500 hover:text-white"
-                    >
-                      <Icon sx={{ fontSize: 18 }} />
-                    </a>
-                  )
-                )}
-              </div>
-            </div>
-
-            {FOOTER_COLUMNS.map((col) => (
-              <div key={col.title}>
-                <p className="text-sm font-bold text-white uppercase tracking-wider">{col.title}</p>
-                <ul className="mt-5 space-y-3">
-                  {col.links.map((l) => (
-                    <li key={l.label}>
-                      <a
-                        href={l.href}
-                        className="text-sm font-medium text-slate-300 transition-colors duration-200 hover:text-brand-green-400"
-                      >
-                        {l.label}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-
-            <div>
-              <p className="text-sm font-bold text-white uppercase tracking-wider">Contact Us</p>
-              <ul className="mt-5 space-y-4 text-sm font-medium text-slate-300">
-                <li className="flex items-center gap-2.5">
-                  <EmailIcon className="text-brand-green-400" sx={{ fontSize: 16 }} />
-                  support@smartfincompass.com
-                </li>
-                <li className="flex items-center gap-2.5">
-                  <CallIcon className="text-brand-green-400" sx={{ fontSize: 16 }} />
-                  +91 98765 43210
-                </li>
-                <li className="flex items-center gap-2.5">
-                  <PlaceIcon className="text-brand-green-400" sx={{ fontSize: 16 }} />
-                  Bangalore, Karnataka, India
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          <div className="flex flex-col items-center justify-between gap-3 border-t border-white/10 py-7 text-xs font-medium text-slate-400 sm:flex-row">
-            <p>© 2025 SmartFin Compass. All rights reserved.</p>
-            <div className="flex gap-5">
-              <a
-                href="#"
-                className="transition-colors duration-200 hover:text-brand-green-400"
-              >
-                Privacy Policy
-              </a>
-              <a
-                href="#"
-                className="transition-colors duration-200 hover:text-brand-green-400"
-              >
-                Terms of Service
-              </a>
-            </div>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }

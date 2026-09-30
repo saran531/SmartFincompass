@@ -51,7 +51,10 @@ export default function AssessmentDatePicker({
 
   return (
     <div className={className}>
-      <label className="mb-2 block text-sm sm:text-base font-bold text-navy-950">
+      <label className="mb-2 flex items-center gap-2 text-sm sm:text-base font-bold text-navy-950">
+        <span className="label-icon">
+          {icon ?? <CalendarTodayIcon sx={{ fontSize: 15 }} />}
+        </span>
         {label}
       </label>
       <div className="relative cursor-pointer" onClick={handleClick}>

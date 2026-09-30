@@ -2,8 +2,6 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useApp } from "../context/AppContext";
 import ExploreIcon from "@mui/icons-material/Explore";
-import MenuIcon from "@mui/icons-material/Menu";
-import CloseIcon from "@mui/icons-material/Close";
 import EmailIcon from "@mui/icons-material/Email";
 import LockIcon from "@mui/icons-material/Lock";
 import VisibilityIcon from "@mui/icons-material/Visibility";
@@ -16,21 +14,9 @@ import GroupsIcon from "@mui/icons-material/Groups";
 import AutoGraphIcon from "@mui/icons-material/AutoGraph";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import SendIcon from "@mui/icons-material/Send";
-import CallIcon from "@mui/icons-material/Call";
-import PlaceIcon from "@mui/icons-material/Place";
-import FacebookIcon from "@mui/icons-material/Facebook";
-import TwitterIcon from "@mui/icons-material/Twitter";
-import LinkedInIcon from "@mui/icons-material/LinkedIn";
-import InstagramIcon from "@mui/icons-material/Instagram";
 import loginImage from "../Assets/images/Login.png";
-
-const NAV_LINKS = [
-  { label: "Home", href: "/" },
-  { label: "Features", href: "/features" },
-  { label: "How It Works", href: "/how-it-works" },
-  { label: "About", href: "/about" },
-  { label: "Contact", href: "/contact" },
-];
+import paperRocketImg from "../Assets/images/PaperRocket.png";
+import contactImage from "../Assets/images/contactimage.png";
 
 const BENEFITS = [
   {
@@ -41,13 +27,13 @@ const BENEFITS = [
   },
   {
     icon: ShieldIcon,
-    color: "text-brand-green-600 bg-brand-green-50",
+    color: "text-blue-600 bg-blue-50",
     title: "Secure & Private",
     desc: "Your data is encrypted and protected with bank-level security.",
   },
   {
     icon: MapIcon,
-    color: "text-brand-green-600 bg-brand-green-50",
+    color: "text-purple-600 bg-purple-50",
     title: "Personalized Roadmap",
     desc: "Continue where you left off and achieve your financial goals.",
   },
@@ -62,61 +48,27 @@ const TRUST_ITEMS = [
   },
   {
     icon: GroupsIcon,
-    color: "text-navy-700 bg-navy-950/5",
+    color: "text-blue-600 bg-blue-50",
     title: "10,000+ Users",
     desc: "Trust SmartFin Compass",
   },
   {
     icon: AutoGraphIcon,
-    color: "text-brand-green-600 bg-brand-green-50",
+    color: "text-purple-600 bg-purple-50",
     title: "AI-Powered Platform",
     desc: "Smart insights for you",
   },
   {
     icon: TrendingUpIcon,
-    color: "text-brand-green-600 bg-brand-green-50",
+    color: "text-orange-600 bg-orange-50",
     title: "Financial Freedom",
     desc: "Achieve your goals",
-  },
-];
-
-const FOOTER_COLUMNS = [
-  {
-    title: "Quick Links",
-    links: [
-      { label: "Home", href: "/" },
-      { label: "Features", href: "/features" },
-      { label: "How It Works", href: "/how-it-works" },
-      { label: "About Us", href: "/about" },
-      { label: "Contact", href: "/contact" },
-      { label: "Know Your Risk", href: "/know-your-risk" },
-    ],
-  },
-  {
-    title: "Resources",
-    links: [
-      { label: "Blog", href: "/blog" },
-      { label: "Financial Guide", href: "/financial-guide" },
-      { label: "FAQs", href: "/contact" },
-      { label: "Privacy Policy", href: "/privacy" },
-      { label: "Terms of Service", href: "/terms" },
-    ],
-  },
-  {
-    title: "Company",
-    links: [
-      { label: "About Us", href: "/about" },
-      { label: "Careers", href: "/careers" },
-      { label: "Press", href: "/press" },
-      { label: "Partners", href: "/partners" },
-    ],
   },
 ];
 
 export default function Login() {
   const navigate = useNavigate();
   const { login } = useApp();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -152,97 +104,34 @@ export default function Login() {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* ─── NAVBAR ─── */}
-      <header className="sticky top-0 z-50 border-b border-navy-950/5 bg-white/95 backdrop-blur-md">
-        <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6 py-3 lg:px-10">
-          <Link to="/" className="flex items-center gap-3">
-            <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand-green-500 text-white">
-              <ExploreIcon fontSize="small" />
-            </span>
-            <span className="text-xl font-bold leading-tight text-navy-950">
-              SmartFin
-              <span className="block -mt-1 text-brand-green-600">Compass</span>
-            </span>
-          </Link>
-
-          <nav className="hidden items-center gap-9 lg:flex">
-            {NAV_LINKS.map((link, i) => (
-              <a
-                key={link.label}
-                href={link.href}
-                className={`group/nav relative text-[15px] font-medium transition-colors duration-250 ${
-                  i === 0 ? "text-navy-950" : "text-navy-900/70 hover:text-brand-green-600"
-                }`}
-              >
-                {link.label}
-                <span className={`absolute -bottom-2 left-0 h-0.5 rounded-full bg-brand-green-500 transition-all duration-300 ${
-                  i === 0 ? "w-full" : "w-0 group-hover/nav:w-full"
-                }`} />
-              </a>
-            ))}
-          </nav>
-
-          <div className="hidden items-center gap-4 lg:flex">
-            <Link
-              to="/login"
-              className="rounded-lg border border-brand-green-500 bg-brand-green-50 px-6 py-2.5 text-sm font-semibold text-brand-green-700 transition-all duration-250"
-            >
-              Login
-            </Link>
-            <Link
-              to="/create-account"
-              className="rounded-lg bg-brand-green-500 px-6 py-2.5 text-sm font-semibold text-white shadow-soft transition-all duration-250 hover:bg-brand-green-600 hover:shadow-md active:scale-[0.98]"
-            >
-              Get Started
-            </Link>
-          </div>
-
-          <button
-            className="grid h-10 w-10 place-items-center rounded-lg text-navy-950 lg:hidden"
-            onClick={() => setMobileMenuOpen((v) => !v)}
-            aria-label="Toggle menu"
-          >
-            {mobileMenuOpen ? <CloseIcon /> : <MenuIcon />}
-          </button>
-        </div>
-
-        {mobileMenuOpen && (
-          <div className="border-t border-navy-950/5 bg-white px-6 py-4 lg:hidden">
-            <nav className="flex flex-col gap-4">
-              {NAV_LINKS.map((link) => (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  className="text-sm font-medium text-navy-900/80"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  {link.label}
-                </a>
-              ))}
-            </nav>
-            <div className="mt-4 flex flex-col gap-3">
-              <Link
-                to="/login"
-                className="w-full rounded-lg border border-brand-green-500 bg-brand-green-50 px-5 py-2.5 text-center text-sm font-semibold text-brand-green-700"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Login
-              </Link>
-              <Link
-                to="/create-account"
-                className="w-full rounded-lg bg-brand-green-500 px-5 py-2.5 text-center text-sm font-semibold text-white"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Get Started
-              </Link>
-            </div>
-          </div>
-        )}
-      </header>
-
       {/* ─── MAIN CONTENT ─── */}
       <main>
-        <section className="mx-auto max-w-7xl px-6 py-16 lg:px-10">
+        {/* ─── HERO ─── */}
+        <section className="relative overflow-hidden bg-gradient-to-br from-cyan-50/80 via-white to-brand-green-50/50">
+          {/* Decorative background layer */}
+          <div aria-hidden="true" className="pointer-events-none absolute inset-0">
+            <div className="absolute -left-24 -top-24 h-80 w-80 rounded-full bg-cyan-200/40 blur-3xl" />
+            <div className="absolute -right-24 top-1/3 h-96 w-96 rounded-full bg-brand-green-200/40 blur-3xl" />
+            <div className="absolute bottom-10 left-1/4 h-72 w-72 rounded-full bg-emerald-100/70 blur-3xl" />
+            <div className="absolute -left-16 top-8 h-72 w-72 rounded-full border border-cyan-300/40" />
+            <div className="absolute -left-4 top-28 h-40 w-40 rounded-full border border-brand-green-300/30" />
+            <div className="absolute right-12 top-12 h-56 w-56 rounded-full border border-cyan-200/50" />
+            <div className="absolute right-40 top-56 h-24 w-24 rounded-full border border-brand-green-200/60" />
+            <div
+              className="absolute right-20 top-24 h-24 w-36 opacity-50"
+              style={{
+                backgroundImage:
+                  "radial-gradient(circle, rgba(13,37,73,0.18) 1.5px, transparent 1.5px)",
+                backgroundSize: "14px 14px",
+              }}
+            />
+            <div className="absolute left-1/3 top-6 h-2.5 w-2.5 rounded-full bg-cyan-300/80" />
+            <div className="absolute right-1/4 top-44 h-3 w-3 rounded-full bg-brand-green-300/80" />
+            <div className="absolute left-12 top-2/3 h-2 w-2 rounded-full bg-sky-300/70" />
+            <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-white via-white/60 to-transparent" />
+          </div>
+
+          <div className="relative mx-auto max-w-7xl px-6 py-16 sm:py-20 lg:px-10">
           <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:items-start lg:gap-16">
             {/* LEFT SIDE — Welcome + Benefits + Illustration */}
             <div className="flex flex-col">
@@ -289,18 +178,33 @@ export default function Login() {
 
             {/* RIGHT SIDE — Login Card */}
             <div className="flex justify-center lg:justify-end">
-              <div className="w-full max-w-[440px] rounded-3xl border border-navy-950/5 bg-white p-8 shadow-[0_8px_40px_rgba(13,37,73,0.08)] sm:p-10">
+              <div className="login-card relative w-full max-w-[440px] rounded-3xl border border-white/10 bg-[#0d2747] p-8 shadow-[0_24px_60px_-18px_rgba(2,12,32,0.55)] sm:p-10 [background-image:radial-gradient(140%_90%_at_90%_-10%,rgba(16,185,129,0.14),transparent_55%),radial-gradient(120%_80%_at_-10%_110%,rgba(16,185,129,0.08),transparent_60%),radial-gradient(100%_60%_at_0%_0%,rgba(255,255,255,0.07),transparent_50%),linear-gradient(165deg,#10325c_0%,#0d2747_55%,#0a1e3a_100%)]">
+                <style>{`
+                  .login-card input::placeholder { color: rgb(148, 163, 184) !important; }
+                  .login-card input[type="checkbox"]:checked {
+                    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='none' stroke='%23fff' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round' d='M3.8 8.4l2.9 2.9 5.5-5.6'/%3E%3C/svg%3E");
+                    background-size: 100% 100%;
+                    background-repeat: no-repeat;
+                  }
+                `}</style>
+                {/* Decorative paper rocket above the card corner */}
+                <img
+                  src={paperRocketImg}
+                  alt=""
+                  aria-hidden="true"
+                  className="pointer-events-none absolute -right-3 -top-10 z-10 w-20 select-none drop-shadow-xl sm:-right-5 sm:-top-12 sm:w-24 lg:-right-6 lg:-top-14 lg:w-28"
+                />
                 {/* Logo */}
                 <div className="flex justify-center">
-                  <span className="flex h-16 w-16 items-center justify-center rounded-2xl bg-brand-green-50 text-brand-green-600">
+                  <span className="flex h-16 w-16 items-center justify-center rounded-2xl bg-white/10 text-brand-green-400">
                     <ExploreIcon sx={{ fontSize: 32 }} />
                   </span>
                 </div>
 
-                <h2 className="mt-6 text-center text-2xl font-extrabold text-navy-950 sm:text-3xl">
+                <h2 className="mt-6 text-center text-2xl font-extrabold text-white sm:text-3xl">
                   Login
                 </h2>
-                <p className="mt-2 text-center text-sm sm:text-base text-navy-900/70">
+                <p className="mt-2 text-center text-sm sm:text-base text-slate-300">
                   Enter your credentials to access your account
                 </p>
 
@@ -310,11 +214,11 @@ export default function Login() {
                 >
                   {/* Email */}
                   <div>
-                    <label className="mb-2 block text-sm sm:text-base font-semibold text-navy-950">
+                    <label className="mb-2 block text-sm sm:text-base font-semibold text-white">
                       Email Address
                     </label>
                     <div className="relative">
-                      <span className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4 text-navy-900/40">
+                      <span className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4 text-slate-400">
                         <EmailIcon sx={{ fontSize: 20 }} />
                       </span>
                       <input
@@ -322,18 +226,18 @@ export default function Login() {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="Enter your email address"
-                        className="h-12 w-full rounded-xl border border-navy-950/10 bg-white pl-12 pr-4 text-sm sm:text-base text-navy-950 placeholder:text-navy-900/35 transition-all duration-250 hover:border-navy-950/20 focus:border-brand-green-500 focus:outline-none focus:ring-2 focus:ring-brand-green-500/20"
+                        className="h-12 w-full rounded-xl border border-white/15 bg-white/[0.07] pl-12 pr-4 text-sm sm:text-base text-white placeholder:text-slate-400 transition-all duration-250 hover:border-white/30 focus:border-brand-green-400 focus:outline-none focus:ring-2 focus:ring-brand-green-400/30"
                       />
                     </div>
                   </div>
 
                   {/* Password */}
                   <div>
-                    <label className="mb-2 block text-sm sm:text-base font-semibold text-navy-950">
+                    <label className="mb-2 block text-sm sm:text-base font-semibold text-white">
                       Password
                     </label>
                     <div className="relative">
-                      <span className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4 text-navy-900/40">
+                      <span className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4 text-slate-400">
                         <LockIcon sx={{ fontSize: 20 }} />
                       </span>
                       <input
@@ -341,12 +245,12 @@ export default function Login() {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         placeholder="Enter your password"
-                        className="h-12 w-full rounded-xl border border-navy-950/10 bg-white px-12 pr-12 text-sm sm:text-base text-navy-950 placeholder:text-navy-900/35 transition-all duration-250 hover:border-navy-950/20 focus:border-brand-green-500 focus:outline-none focus:ring-2 focus:ring-brand-green-500/20"
+                        className="h-12 w-full rounded-xl border border-white/15 bg-white/[0.07] px-12 pr-12 text-sm sm:text-base text-white placeholder:text-slate-400 transition-all duration-250 hover:border-white/30 focus:border-brand-green-400 focus:outline-none focus:ring-2 focus:ring-brand-green-400/30"
                       />
                       <button
                         type="button"
                         onClick={() => setShowPassword((v) => !v)}
-                        className="absolute inset-y-0 right-0 flex items-center pr-4 text-navy-900/40 transition-colors hover:text-navy-900/70"
+                        className="absolute inset-y-0 right-0 flex items-center pr-4 text-slate-400 transition-colors hover:text-white"
                         aria-label={showPassword ? "Hide password" : "Show password"}
                       >
                         {showPassword ? (
@@ -365,15 +269,15 @@ export default function Login() {
                         type="checkbox"
                         checked={rememberMe}
                         onChange={(e) => setRememberMe(e.target.checked)}
-                        className="h-4 w-4 rounded border-navy-950/20 text-brand-green-500 focus:ring-brand-green-500/20"
+                        className="h-4 w-4 rounded border border-white/40 bg-white/5 appearance-none checked:border-brand-green-500 checked:bg-brand-green-500 focus:ring-brand-green-400/40"
                       />
-                      <span className="text-sm sm:text-base text-navy-900/70 font-medium">
+                      <span className="text-sm sm:text-base text-slate-300 font-medium">
                         Remember Me
                       </span>
                     </label>
                     <a
                       href="#"
-                      className="text-sm sm:text-base font-semibold text-brand-green-600 transition-colors hover:text-brand-green-700"
+                      className="text-sm sm:text-base font-semibold text-brand-green-400 transition-colors hover:text-brand-green-100"
                     >
                       Forgot Password?
                     </a>
@@ -381,7 +285,7 @@ export default function Login() {
 
                   {/* Error Message */}
                   {error && (
-                    <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm sm:text-base text-red-600">
+                    <div className="rounded-xl border border-red-400/30 bg-red-500/10 px-4 py-3 text-sm sm:text-base text-red-300">
                       {error}
                     </div>
                   )}
@@ -398,11 +302,11 @@ export default function Login() {
 
                 {/* OR Divider */}
                 <div className="my-6 flex items-center gap-4">
-                  <div className="h-px flex-1 bg-navy-950/10" />
-                  <span className="text-xs sm:text-sm font-semibold text-navy-900/50">
+                  <div className="h-px flex-1 bg-white/15" />
+                  <span className="text-xs sm:text-sm font-semibold text-slate-400">
                     or
                   </span>
-                  <div className="h-px flex-1 bg-navy-950/10" />
+                  <div className="h-px flex-1 bg-white/15" />
                 </div>
 
                 {/* Google Button */}
@@ -432,11 +336,11 @@ export default function Login() {
                 </button>
 
                 {/* Create Account */}
-                <p className="mt-7 text-center text-sm sm:text-base text-navy-900/70">
+                <p className="mt-7 text-center text-sm sm:text-base text-slate-300">
                   Don't have an account?{" "}
                   <Link
                     to="/create-account"
-                    className="font-semibold text-brand-green-600 transition-colors hover:text-brand-green-700"
+                    className="font-semibold text-brand-green-400 transition-colors hover:text-brand-green-100"
                   >
                     Create Account
                   </Link>
@@ -444,11 +348,12 @@ export default function Login() {
               </div>
             </div>
           </div>
+          </div>
         </section>
 
         {/* ─── TRUST BAR ─── */}
         <section className="mx-auto max-w-7xl px-6 pb-20 lg:px-10">
-          <div className="grid grid-cols-1 gap-0 rounded-2xl border border-navy-950/5 bg-white shadow-[0_4px_24px_rgba(13,37,73,0.06)] sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid grid-cols-1 gap-0 rounded-2xl border border-navy-950/5 bg-white shadow-[0_10px_40px_-12px_rgba(13,37,73,0.12)] sm:grid-cols-2 lg:grid-cols-4">
             {TRUST_ITEMS.map((item, i) => (
               <div
                 key={item.title}
@@ -476,8 +381,8 @@ export default function Login() {
       </main>
 
       {/* ─── NEWSLETTER ─── */}
-      <section className="bg-brand-green-600">
-        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-8 px-6 py-14 sm:flex-row lg:px-10">
+      <section className="relative overflow-hidden bg-gradient-to-r from-brand-green-600 via-brand-green-600 to-brand-green-700">
+        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-8 px-6 py-14 sm:flex-row lg:px-10 xl:pr-56">
           <div className="flex items-center gap-5">
             <span className="grid h-14 w-14 shrink-0 place-items-center rounded-full bg-white text-brand-green-600">
               <SendIcon sx={{ fontSize: 24 }} />
@@ -509,99 +414,21 @@ export default function Login() {
             </button>
           </form>
         </div>
+        {/* Decorative newsletter illustration — stacked below on small screens */}
+        <img
+          src={contactImage}
+          alt=""
+          aria-hidden="true"
+          className="mx-auto -mt-2 mb-10 w-44 select-none object-contain sm:w-52 xl:hidden"
+        />
+        {/* Decorative newsletter illustration — right side on large screens */}
+        <img
+          src={contactImage}
+          alt=""
+          aria-hidden="true"
+          className="pointer-events-none absolute bottom-1 right-6 hidden h-[calc(100%-24px)] w-auto select-none drop-shadow-xl 2xl:right-10 xl:block"
+        />
       </section>
-
-      {/* ─── FOOTER ─── */}
-      <footer className="bg-navy-950 pt-20 text-white/70">
-        <div className="mx-auto max-w-7xl px-6 lg:px-10">
-          <div className="grid grid-cols-1 gap-12 pb-14 sm:grid-cols-2 lg:grid-cols-5">
-            <div className="lg:col-span-2">
-              <Link to="/" className="flex items-center gap-3">
-                <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand-green-500 text-white">
-                  <ExploreIcon fontSize="small" />
-                </span>
-                <span className="text-xl font-bold leading-tight text-white">
-                  SmartFin
-                  <span className="block -mt-1 text-brand-green-400">
-                    Compass
-                  </span>
-                </span>
-              </Link>
-              <p className="mt-5 max-w-xs text-sm leading-relaxed">
-                AI-powered financial wellness platform that helps you make
-                smarter financial decisions.
-              </p>
-              <div className="mt-6 flex gap-3.5">
-                {[FacebookIcon, LinkedInIcon, TwitterIcon, InstagramIcon].map(
-                  (Icon, i) => (
-                    <a
-                      key={i}
-                      href="#"
-                      className="grid h-10 w-10 place-items-center rounded-full bg-white/10 transition-all duration-200 hover:scale-110 hover:bg-brand-green-500 hover:text-white"
-                    >
-                      <Icon sx={{ fontSize: 18 }} />
-                    </a>
-                  )
-                )}
-              </div>
-            </div>
-
-            {FOOTER_COLUMNS.map((col) => (
-              <div key={col.title}>
-                <p className="text-sm font-bold text-white">{col.title}</p>
-                <ul className="mt-5 space-y-3">
-                  {col.links.map((l) => (
-                    <li key={l.label}>
-                      <a
-                        href={l.href}
-                        className="text-sm transition-colors duration-200 hover:text-brand-green-400"
-                      >
-                        {l.label}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-
-            <div>
-              <p className="text-sm font-bold text-white">Contact Us</p>
-              <ul className="mt-5 space-y-4 text-sm">
-                <li className="flex items-center gap-2.5">
-                  <EmailIcon sx={{ fontSize: 16 }} />
-                  support@smartfincompass.com
-                </li>
-                <li className="flex items-center gap-2.5">
-                  <CallIcon sx={{ fontSize: 16 }} />
-                  +91 98765 43210
-                </li>
-                <li className="flex items-center gap-2.5">
-                  <PlaceIcon sx={{ fontSize: 16 }} />
-                  Bangalore, Karnataka, India
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          <div className="flex flex-col items-center justify-between gap-3 border-t border-white/10 py-7 text-xs sm:flex-row">
-            <p>© 2025 SmartFin Compass. All rights reserved.</p>
-            <div className="flex gap-5">
-              <a
-                href="#"
-                className="transition-colors duration-200 hover:text-brand-green-400"
-              >
-                Privacy Policy
-              </a>
-              <a
-                href="#"
-                className="transition-colors duration-200 hover:text-brand-green-400"
-              >
-                Terms of Service
-              </a>
-            </div>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }

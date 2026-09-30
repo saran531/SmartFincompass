@@ -1,8 +1,4 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
-import ExploreIcon from "@mui/icons-material/Explore";
-import MenuIcon from "@mui/icons-material/Menu";
-import CloseIcon from "@mui/icons-material/Close";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import PersonIcon from "@mui/icons-material/Person";
 import DescriptionIcon from "@mui/icons-material/Description";
@@ -21,13 +17,6 @@ import VerifiedUserIcon from "@mui/icons-material/VerifiedUser";
 import LockIcon from "@mui/icons-material/Lock";
 import PrivacyTipIcon from "@mui/icons-material/PrivacyTip";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import EmailIcon from "@mui/icons-material/Email";
-import CallIcon from "@mui/icons-material/Call";
-import PlaceIcon from "@mui/icons-material/Place";
-import FacebookIcon from "@mui/icons-material/Facebook";
-import TwitterIcon from "@mui/icons-material/Twitter";
-import LinkedInIcon from "@mui/icons-material/LinkedIn";
-import InstagramIcon from "@mui/icons-material/Instagram";
 import RocketLaunchIcon from "@mui/icons-material/RocketLaunch";
 import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
@@ -58,13 +47,6 @@ import builtAroundImg from "../Assets/images/BuiltAround.png";
 import yourImg from "../Assets/images/your.png";
 import financialFutureImg from "../Assets/images/FinancialFuture.png";
 
-const NAV_LINKS = [
-  { label: "Home", href: "/" },
-  { label: "Features", href: "/features" },
-  { label: "How It Works", href: "/how-it-works" },
-  { label: "About", href: "/about" },
-  { label: "Contact", href: "/contact" },
-];
 
 const JOURNEY_STEPS = [
   {
@@ -139,132 +121,11 @@ const DIFFERENTIATORS = [
   { icon: RocketLaunchIcon, color: "text-rose-500 bg-rose-50", title: "Actionable", desc: "Get practical next steps instead of confusing financial jargon." },
 ];
 
-const FOOTER_COLUMNS = [
-  {
-    title: "Quick Links",
-    links: [
-      { label: "Home", href: "/" },
-      { label: "Features", href: "/features" },
-      { label: "How It Works", href: "/how-it-works" },
-      { label: "About", href: "/about" },
-      { label: "Contact", href: "/contact" },
-      { label: "Know Your Risk", href: "/know-your-risk" },
-    ],
-  },
-  {
-    title: "Resources",
-    links: [
-      { label: "Blog", href: "/blog" },
-      { label: "Financial Guide", href: "/financial-guide" },
-      { label: "FAQs", href: "/contact" },
-      { label: "Privacy Policy", href: "/privacy" },
-      { label: "Terms of Service", href: "/terms" },
-    ],
-  },
-  {
-    title: "Company",
-    links: [
-      { label: "About Us", href: "/about" },
-      { label: "Careers", href: "/careers" },
-      { label: "Press", href: "/press" },
-      { label: "Partners", href: "/partners" },
-      { label: "Contact Us", href: "/contact" },
-    ],
-  },
-];
 
 export default function HowItWorks() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
     <div className="min-h-screen bg-white">
-      {/* ─── NAVBAR ─── */}
-      <header className="sticky top-0 z-50 border-b border-navy-950/5 bg-white/95 backdrop-blur-md">
-        <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6 py-3 lg:px-10">
-          <Link to="/" className="flex items-center gap-3">
-            <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand-green-500 text-white">
-              <ExploreIcon fontSize="small" />
-            </span>
-            <span className="text-xl font-bold leading-tight text-navy-950">
-              SmartFin
-              <span className="block -mt-1 text-brand-green-600">Compass</span>
-            </span>
-          </Link>
-
-          <nav className="hidden items-center gap-9 lg:flex">
-            {NAV_LINKS.map((link) => (
-              <Link
-                key={link.label}
-                to={link.href}
-                className={`group/nav relative text-[15px] font-medium transition-colors duration-250 ${
-                  link.label === "How It Works" ? "text-navy-950" : "text-navy-900/70 hover:text-brand-green-600"
-                }`}
-              >
-                {link.label}
-                <span className={`absolute -bottom-2 left-0 h-0.5 rounded-full bg-brand-green-500 transition-all duration-300 ${
-                  link.label === "How It Works" ? "w-full" : "w-0 group-hover/nav:w-full"
-                }`} />
-              </Link>
-            ))}
-          </nav>
-
-          <div className="hidden items-center gap-4 lg:flex">
-            <Link
-              to="/login"
-              className="rounded-lg border border-navy-950/15 px-6 py-2.5 text-sm font-semibold text-navy-950 transition-all duration-250 hover:border-brand-green-500 hover:text-brand-green-600 active:scale-[0.98]"
-            >
-              Login
-            </Link>
-            <Link
-              to="/login"
-              className="rounded-lg bg-brand-green-500 px-6 py-2.5 text-sm font-semibold text-white shadow-soft transition-all duration-250 hover:bg-brand-green-600 hover:shadow-md active:scale-[0.98]"
-            >
-              Get Started
-            </Link>
-          </div>
-
-          <button
-            className="grid h-10 w-10 place-items-center rounded-lg text-navy-950 lg:hidden"
-            onClick={() => setMobileMenuOpen((v) => !v)}
-            aria-label="Toggle menu"
-          >
-            {mobileMenuOpen ? <CloseIcon /> : <MenuIcon />}
-          </button>
-        </div>
-
-        {mobileMenuOpen && (
-          <div className="border-t border-navy-950/5 bg-white px-6 py-4 lg:hidden">
-            <nav className="flex flex-col gap-4">
-              {NAV_LINKS.map((link) => (
-                <Link
-                  key={link.label}
-                  to={link.href}
-                  className="text-sm font-medium text-navy-900/80"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  {link.label}
-                </Link>
-              ))}
-            </nav>
-            <div className="mt-4 flex flex-col gap-3">
-              <Link
-                to="/login"
-                className="w-full rounded-lg border border-navy-950/15 px-5 py-2.5 text-center text-sm font-semibold text-navy-950"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Login
-              </Link>
-              <Link
-                to="/login"
-                className="w-full rounded-lg bg-brand-green-500 px-5 py-2.5 text-center text-sm font-semibold text-white"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Get Started
-              </Link>
-            </div>
-          </div>
-        )}
-      </header>
 
       <main>
         {/* ─── HERO ─── */}
@@ -272,7 +133,7 @@ export default function HowItWorks() {
           {/* Premium fintech backdrop */}
           <HeroBackdrop />
 
-          <div className="relative z-10 mx-auto grid max-w-7xl gap-14 px-6 py-20 lg:grid-cols-2 lg:items-center lg:gap-10 lg:px-10 lg:py-28">
+          <div className="relative z-10 mx-auto grid max-w-7xl gap-14 px-6 py-20 lg:grid-cols-2 lg:items-center lg:gap-10 lg:px-10 lg:py-24">
             <div className="relative z-10 animate-fade-in-up">
               <p className="text-xs sm:text-sm font-bold uppercase tracking-wider text-brand-green-400">
                 How It Works
@@ -304,22 +165,22 @@ export default function HowItWorks() {
             </div>
 
             {/* Hero Visual — Financial Clarity illustration + Journey Flow */}
-            <div className="relative flex flex-col items-center gap-8 animate-fade-in-up delay-200 lg:grid lg:grid-cols-[1fr_0.95fr] lg:items-center lg:gap-6">
-              {/* Main hero illustration — right side of the hero */}
+            <div className="relative flex flex-col items-center gap-8 animate-fade-in-up delay-200 lg:block lg:h-[500px] lg:gap-0 xl:h-[560px]">
+              {/* Main hero illustration — beside/behind the journey panel */}
               <img
                 src={financialClarityImg}
                 alt="SmartFin Compass - Your journey to financial clarity"
                 draggable={false}
-                className="pointer-events-none relative z-0 mx-auto block w-full max-w-[300px] select-none object-contain sm:max-w-sm lg:order-2 lg:mx-0 lg:-ml-5 lg:w-[calc(100%+1.25rem)] lg:max-w-none"
+                className="pointer-events-none relative z-0 mx-auto block w-full max-w-[300px] select-none object-contain sm:max-w-sm lg:absolute lg:-right-10 lg:top-1/2 lg:mx-0 lg:w-[240px] lg:max-w-none lg:-translate-y-1/2 min-[1440px]:-right-24 min-[1440px]:w-[300px]"
               />
 
               {/* Journey Flow Panel */}
-              <div className="relative z-10 w-full rounded-3xl border border-white/10 bg-navy-900/90 p-7 shadow-2xl backdrop-blur-xl sm:p-8 lg:order-1">
-                <p className="mb-6 text-base sm:text-lg font-bold text-white">
+              <div className="relative z-10 w-full max-w-[420px] rounded-3xl border border-white/15 bg-navy-900/90 p-6 shadow-2xl backdrop-blur-xl sm:p-7 lg:absolute lg:-left-4 lg:top-1/2 lg:mx-0 lg:w-[330px] lg:max-w-none lg:-translate-y-1/2 xl:w-[360px]">
+                <p className="mb-5 text-base sm:text-lg font-bold text-white lg:text-base xl:text-lg">
                   Your SmartFin Compass Journey
                 </p>
 
-                <div className="relative flex flex-col gap-2">
+                <div className="relative flex flex-col gap-1.5">
                   {/* Vertical connector line passing behind icons */}
                   <div className="absolute left-[36px] top-6 bottom-6 w-0.5 -translate-x-1/2 bg-white/10" />
 
@@ -333,7 +194,7 @@ export default function HowItWorks() {
                   ].map((item) => (
                     <div
                       key={item.label}
-                      className="group relative grid grid-cols-[48px_1fr_20px] items-center gap-4 rounded-2xl px-3 py-2.5 transition-all duration-200 hover:bg-white/10 hover:translate-x-1"
+                      className="group relative grid grid-cols-[48px_1fr_20px] items-center gap-2.5 rounded-2xl px-3 py-1.5 transition-all duration-200 hover:bg-white/10 hover:translate-x-1"
                     >
                       {/* Fixed-width Icon Container */}
                       <div className={`relative z-10 flex h-12 w-12 items-center justify-center rounded-xl transition-transform duration-200 group-hover:scale-105 ${item.color}`}>
@@ -342,7 +203,7 @@ export default function HowItWorks() {
 
                       {/* Consistently Aligned Text Label */}
                       <div className="min-w-0">
-                        <p className="text-sm sm:text-base font-semibold text-white transition-colors duration-200 group-hover:text-brand-green-400">
+                        <p className="text-sm sm:text-base font-semibold text-white transition-colors duration-200 group-hover:text-brand-green-400 lg:text-sm xl:text-base">
                           {item.label}
                         </p>
                       </div>
@@ -407,7 +268,7 @@ export default function HowItWorks() {
               {JOURNEY_STEPS.map((s) => (
                 <div
                   key={s.step}
-                  className="group card-hover-effect relative rounded-3xl border border-navy-950/10 bg-white p-7 shadow-[0_10px_40px_-26px_rgba(13,37,73,0.5)] transition-all duration-300 hover:-translate-y-2 hover:border-brand-green-100 hover:shadow-[0_28px_60px_-28px_rgba(13,37,73,0.4)]"
+                  className="group card-hover-effect relative rounded-3xl border border-navy-950/15 bg-white p-7 shadow-[0_16px_38px_-18px_rgba(13,37,73,0.35)] transition-all duration-300 hover:-translate-y-2 hover:border-brand-green-500/40 hover:shadow-[0_26px_54px_-20px_rgba(13,37,73,0.4)]"
                 >
                   <div className="mb-5 flex items-center gap-3">
                     <span className={`flex h-14 w-14 items-center justify-center rounded-2xl ring-4 transition-transform duration-300 group-hover:scale-110 lg:h-16 lg:w-16 ${s.ringColor} ${s.color}`}>
@@ -484,7 +345,7 @@ export default function HowItWorks() {
                       </div>
 
                       {/* Content card */}
-                      <div className="card-hover-effect flex-1 rounded-2xl border border-white/10 bg-navy-900/90 p-5 shadow-xl transition-all duration-300 group-hover:border-brand-green-400/50 sm:p-6">
+                      <div className="card-hover-effect flex-1 rounded-2xl border border-white/15 bg-navy-900/90 p-5 shadow-[0_18px_40px_-24px_rgba(0,0,0,0.85),inset_0_1px_0_0_rgba(255,255,255,0.07)] transition-all duration-300 group-hover:border-brand-green-400/60 sm:p-6">
                         <div className="flex items-start gap-4">
                           <span className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl transition-transform duration-300 group-hover:scale-105 ${s.color}`}>
                             <s.icon sx={{ fontSize: 24 }} />
@@ -549,7 +410,7 @@ export default function HowItWorks() {
                 {AI_CARDS.map((c) => (
                   <div
                     key={c.title}
-                    className="group card-hover-effect rounded-3xl border border-navy-950/10 bg-white p-7 shadow-[0_10px_40px_-26px_rgba(13,37,73,0.5)] transition-all duration-300 hover:-translate-y-2 hover:border-brand-green-100 hover:shadow-[0_28px_60px_-28px_rgba(13,37,73,0.4)]"
+                    className="group card-hover-effect rounded-3xl border border-navy-950/15 bg-white p-7 shadow-[0_16px_38px_-18px_rgba(13,37,73,0.35)] transition-all duration-300 hover:-translate-y-2 hover:border-brand-green-500/40 hover:shadow-[0_26px_54px_-20px_rgba(13,37,73,0.4)]"
                   >
                     <span className={`mb-5 inline-flex h-14 w-14 items-center justify-center rounded-2xl transition-transform duration-300 group-hover:scale-110 lg:h-16 lg:w-16 ${c.color}`}>
                       <c.icon sx={{ fontSize: 30 }} />
@@ -611,7 +472,7 @@ export default function HowItWorks() {
                   {ROADMAP_CARDS.map((r) => (
                     <div
                       key={r.title}
-                      className="rounded-2xl border border-white/10 bg-white/5 p-5 transition-all duration-300 hover:-translate-y-1 hover:border-brand-green-400/50 hover:bg-white/10"
+                      className="rounded-2xl border border-white/15 bg-white/[0.07] p-5 shadow-[0_14px_30px_-18px_rgba(0,0,0,0.7)] transition-all duration-300 hover:-translate-y-1 hover:border-brand-green-400/60 hover:bg-white/[0.12] hover:shadow-[0_20px_40px_-20px_rgba(0,0,0,0.8)]"
                     >
                       <div className="flex items-start gap-3">
                         <span className={`inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl ${r.color}`}>
@@ -665,7 +526,7 @@ export default function HowItWorks() {
               {DIFFERENTIATORS.map((d) => (
                 <div
                   key={d.title}
-                  className="group card-hover-effect rounded-3xl border border-navy-950/10 bg-white p-7 shadow-[0_10px_40px_-26px_rgba(13,37,73,0.5)] transition-all duration-300 hover:-translate-y-2 hover:border-brand-green-100 hover:shadow-[0_28px_60px_-28px_rgba(13,37,73,0.4)]"
+                  className="group card-hover-effect rounded-3xl border border-navy-950/15 bg-white p-7 shadow-[0_16px_38px_-18px_rgba(13,37,73,0.35)] transition-all duration-300 hover:-translate-y-2 hover:border-brand-green-500/40 hover:shadow-[0_26px_54px_-20px_rgba(13,37,73,0.4)]"
                 >
                   <span className={`mb-5 inline-flex h-14 w-14 items-center justify-center rounded-2xl transition-transform duration-300 group-hover:scale-110 lg:h-16 lg:w-16 ${d.color}`}>
                     <d.icon sx={{ fontSize: 30 }} />
@@ -724,21 +585,21 @@ export default function HowItWorks() {
               </div>
 
               <div className="relative z-10 mt-12 grid grid-cols-1 gap-6 sm:grid-cols-3">
-                <div className="rounded-2xl border border-white/10 bg-white/5 p-6 text-center transition-all duration-300 hover:border-brand-green-400/40">
+                <div className="rounded-2xl border border-white/15 bg-white/[0.07] p-6 text-center shadow-[0_14px_30px_-18px_rgba(0,0,0,0.75)] transition-all duration-300 hover:-translate-y-1 hover:border-brand-green-400/50 hover:bg-white/[0.1] hover:shadow-[0_20px_44px_-22px_rgba(0,0,0,0.85)]">
                   <VerifiedUserIcon sx={{ fontSize: 32, color: "#22b573" }} />
                   <p className="mt-4 text-base font-bold text-white">100% Secure & Private</p>
                   <p className="mt-2 text-sm sm:text-base leading-relaxed text-slate-300">
                     Your information is protected and never shared unnecessarily.
                   </p>
                 </div>
-                <div className="rounded-2xl border border-white/10 bg-white/5 p-6 text-center transition-all duration-300 hover:border-brand-green-400/40">
+                <div className="rounded-2xl border border-white/15 bg-white/[0.07] p-6 text-center shadow-[0_14px_30px_-18px_rgba(0,0,0,0.75)] transition-all duration-300 hover:-translate-y-1 hover:border-brand-green-400/50 hover:bg-white/[0.1] hover:shadow-[0_20px_44px_-22px_rgba(0,0,0,0.85)]">
                   <LockIcon sx={{ fontSize: 32, color: "#22b573" }} />
                   <p className="mt-4 text-base font-bold text-white">Bank-Level Security</p>
                   <p className="mt-2 text-sm sm:text-base leading-relaxed text-slate-300">
                     Your sensitive financial information is handled using strong security practices.
                   </p>
                 </div>
-                <div className="rounded-2xl border border-white/10 bg-white/5 p-6 text-center transition-all duration-300 hover:border-brand-green-400/40">
+                <div className="rounded-2xl border border-white/15 bg-white/[0.07] p-6 text-center shadow-[0_14px_30px_-18px_rgba(0,0,0,0.75)] transition-all duration-300 hover:-translate-y-1 hover:border-brand-green-400/50 hover:bg-white/[0.1] hover:shadow-[0_20px_44px_-22px_rgba(0,0,0,0.85)]">
                   <PrivacyTipIcon sx={{ fontSize: 32, color: "#22b573" }} />
                   <p className="mt-4 text-base font-bold text-white">Your Data, Your Control</p>
                   <p className="mt-2 text-sm sm:text-base leading-relaxed text-slate-300">
@@ -818,105 +679,6 @@ export default function HowItWorks() {
         </section>
       </main>
 
-      {/* ─── FOOTER ─── */}
-      <footer className="bg-navy-950 pt-20 text-white/75">
-        <div className="mx-auto max-w-7xl px-6 lg:px-10">
-          <div className="grid grid-cols-1 gap-12 pb-14 sm:grid-cols-2 lg:grid-cols-5">
-            <div className="lg:col-span-2">
-              <Link to="/" className="flex items-center gap-3">
-                <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand-green-500 text-white">
-                  <ExploreIcon fontSize="small" />
-                </span>
-                <span className="text-xl font-bold leading-tight text-white">
-                  SmartFin
-                  <span className="block -mt-1 text-brand-green-400">
-                    Compass
-                  </span>
-                </span>
-              </Link>
-              <p className="mt-5 max-w-xs text-sm sm:text-base leading-relaxed">
-                AI-powered financial wellness platform that helps you make smarter financial decisions.
-              </p>
-              <div className="mt-6 flex gap-3.5">
-                {[FacebookIcon, TwitterIcon, LinkedInIcon, InstagramIcon].map(
-                  (Icon, i) => (
-                    <a
-                      key={i}
-                      href="#"
-                      className="grid h-10 w-10 place-items-center rounded-full bg-white/10 transition-all duration-200 hover:scale-110 hover:bg-brand-green-500 hover:text-white"
-                    >
-                      <Icon sx={{ fontSize: 18 }} />
-                    </a>
-                  )
-                )}
-              </div>
-            </div>
-
-            {FOOTER_COLUMNS.map((col) => (
-              <div key={col.title}>
-                <p className="text-base font-bold text-white">{col.title}</p>
-                <ul className="mt-5 space-y-3">
-                  {col.links.map((l) => (
-                    <li key={l.label}>
-                      {l.href.startsWith("/") ? (
-                        <Link
-                          to={l.href}
-                          className="text-sm sm:text-base transition-colors duration-200 hover:text-brand-green-400"
-                        >
-                          {l.label}
-                        </Link>
-                      ) : (
-                        <a
-                          href={l.href}
-                          className="text-sm sm:text-base transition-colors duration-200 hover:text-brand-green-400"
-                        >
-                          {l.label}
-                        </a>
-                      )}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-
-            <div>
-              <p className="text-base font-bold text-white">Contact Info</p>
-              <ul className="mt-5 space-y-4 text-sm sm:text-base">
-                <li className="flex items-center gap-2.5">
-                  <EmailIcon sx={{ fontSize: 16 }} />
-                  support@smartfincompass.com
-                </li>
-                <li className="flex items-center gap-2.5">
-                  <CallIcon sx={{ fontSize: 16 }} />
-                  +91 98765 43210
-                </li>
-                <li className="flex items-center gap-2.5">
-                  <PlaceIcon sx={{ fontSize: 16 }} />
-                  Bangalore, Karnataka, India
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          <div className="flex flex-col items-center justify-between gap-3 border-t border-white/10 py-7 text-xs sm:text-sm text-white/60 sm:flex-row">
-            <p>&copy; 2025 SmartFin Compass. All rights reserved.</p>
-            <div className="flex gap-5">
-              <a
-                href="#"
-                className="transition-colors duration-200 hover:text-brand-green-400"
-              >
-                Privacy Policy
-              </a>
-              <a
-                href="#"
-                className="transition-colors duration-200 hover:text-brand-green-400"
-              >
-                Terms of Service
-              </a>
-            </div>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }

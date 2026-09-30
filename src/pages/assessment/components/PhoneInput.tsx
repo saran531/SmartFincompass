@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect, type ClipboardEvent } from "react";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import CallIcon from "@mui/icons-material/Call";
 import SearchIcon from "@mui/icons-material/Search";
 import ValidationMessage from "./ValidationMessage";
 
@@ -155,7 +156,10 @@ export default function PhoneInput({
   return (
     <div className={className}>
       {label && (
-        <label className="mb-2 block text-sm sm:text-base font-bold text-navy-950">
+        <label className="mb-2 flex items-center gap-2 text-sm sm:text-base font-bold text-navy-950">
+          <span className="label-icon sky">
+            <CallIcon sx={{ fontSize: 15 }} />
+          </span>
           {label}
         </label>
       )}
