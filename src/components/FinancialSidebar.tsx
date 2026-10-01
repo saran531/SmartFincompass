@@ -29,44 +29,53 @@ const SIDEBAR_ITEMS = [
   },
 ];
 
-export default function FinancialSidebar() {
+export function FinancialSidebarContent({ onNavigate }: { onNavigate?: () => void }) {
   const location = useLocation();
   const navigate = useNavigate();
   const { logout } = useApp();
 
   return (
-    <aside className="hidden w-64 shrink-0 pr-8 lg:block">
-      <div className="sticky top-28">
-        <nav className="space-y-1">
-          {SIDEBAR_ITEMS.map((item) => {
-            const isActive = location.pathname === item.href;
-            return (
-              <Link
-                key={item.label}
-                to={item.href}
-                className={`flex items-center gap-3 rounded-xl px-4 py-3 text-sm sm:text-base cursor-pointer transition-all duration-200 ${
-                  isActive
-                    ? "bg-brand-green-50 font-semibold text-brand-green-700 shadow-2xs"
-                    : "font-medium text-navy-900/60 hover:bg-brand-green-50/70 hover:text-brand-green-700 hover:translate-x-1.5 active:scale-[0.98]"
-                }`}
-              >
-                {item.icon}
-                {item.label}
-              </Link>
-            );
-          })}
-        </nav>
+    <>
+      <nav className="space-y-1.5">
+        {SIDEBAR_ITEMS.map((item) => {
+          const isActive = location.pathname === item.href;
+          return (
+            <Link
+              key={item.label}
+              to={item.href}
+              onClick={onNavigate}
+              className={`flex items-center gap-3 rounded-2xl px-4 py-3.5 text-sm font-semibold transition-all duration-200 sm:text-base ${
+                isActive
+                  ? "bg-gradient-to-r from-[#189a63] to-[#22b573] text-white shadow-[0_10px_22px_-8px_rgba(24,154,99,0.65)]"
+                  : "text-white/70 hover:translate-x-1 hover:bg-white/10 hover:text-white"
+              }`}
+            >
+              {item.icon}
+              {item.label}
+            </Link>
+          );
+        })}
+      </nav>
 
-        <button
-          onClick={() => {
-            logout();
-            navigate("/login");
-          }}
-          className="mt-6 flex w-full cursor-pointer items-center gap-3 rounded-xl border border-navy-950/15 px-4 py-3 text-sm font-semibold text-navy-950 transition-all duration-250 hover:border-red-400 hover:text-red-500 sm:text-base"
-        >
-          <LogoutIcon sx={{ fontSize: 20 }} />
-          Logout
-        </button>
+      <button
+        onClick={() => {
+          logout();
+          navigate("/login");
+        }}
+        className="mt-5 flex w-full cursor-pointer items-center gap-3 rounded-2xl border border-white/15 bg-white/5 px-4 py-3.5 text-sm font-bold text-white transition-all duration-250 hover:border-red-400/60 hover:bg-red-500/15 hover:text-red-300 sm:text-base"
+      >
+        <LogoutIcon sx={{ fontSize: 20 }} />
+        Logout
+      </button>
+    </>
+  );
+}
+
+export default function FinancialSidebar() {
+  return (
+    <aside className="hidden w-[260px] shrink-0 lg:block">
+      <div className="sticky top-28 rounded-3xl bg-[#0D2742] p-5 shadow-[0_24px_60px_-28px_rgba(13,39,66,0.6)] ring-1 ring-white/5">
+        <FinancialSidebarContent />
       </div>
     </aside>
   );

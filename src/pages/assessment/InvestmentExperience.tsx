@@ -21,6 +21,7 @@ import WorkspacePremiumIcon from "@mui/icons-material/WorkspacePremium";
 import ScheduleIcon from "@mui/icons-material/Schedule";
 import TimelineIcon from "@mui/icons-material/Timeline";
 import AssessmentJourneyProgress from "../../components/AssessmentJourneyProgress";
+import AssessmentHeader from "../../components/AssessmentHeader";
 
 const RISK_OPTIONS = [
   {
@@ -194,6 +195,7 @@ export default function InvestmentExperience() {
           }
         }
       `}</style>
+      <AssessmentHeader />
       <main className="relative z-10 mx-auto max-w-7xl px-6 py-6 lg:px-10">
         {/* ─── TOP ROW: Assessment Journey Progress ─── */}
         <AssessmentJourneyProgress
@@ -227,18 +229,18 @@ export default function InvestmentExperience() {
                   <TrendingUpIcon sx={{ fontSize: 28 }} />
                 </span>
                 <div>
-                  <p className="text-sm font-bold text-navy-950">How much investment risk can you take?</p>
+                  <p className="text-lg font-bold text-navy-950">How much investment risk can you take?</p>
                   <p className="mt-1 text-xs font-medium leading-relaxed text-slate-600">
                     A simple starting point is the <span className="font-bold text-navy-950">100 − Age Rule</span>:
                   </p>
                   <div className="mt-2 inline-flex items-center gap-2 rounded-lg bg-white px-4 py-2 shadow-sm border border-brand-green-100">
                     <span className="text-xs font-semibold text-slate-600">100 − {userAge > 0 ? userAge : "Your Age"}</span>
-                    <span className="text-xs font-bold text-navy-950">=</span>
+                    <span className="text-base font-bold text-navy-950">=</span>
                     <span className="text-xs font-bold text-brand-green-700">{suggestedEquity > 0 ? `${suggestedEquity}%` : "—"}</span>
                     <span className="text-xs font-semibold text-slate-600">Suggested % in Equity</span>
                   </div>
                   {userAge > 0 && (
-                    <p className="mt-2 text-[11px] font-medium text-slate-500">
+                    <p className="mt-2 text-[13px] font-medium text-slate-500">
                       Based on your age of {userAge} years. This is a general guideline, not financial advice.
                     </p>
                   )}
@@ -254,10 +256,10 @@ export default function InvestmentExperience() {
                 </span>
                 <div>
                   <div className="flex items-center gap-2">
-                    <span className="flex h-6 w-6 items-center justify-center rounded-full bg-brand-green-500 text-[11px] font-bold text-white">
+                    <span className="flex h-6 w-6 items-center justify-center rounded-full bg-brand-green-500 text-xs font-bold text-white">
                       1
                     </span>
-                    <p className="text-sm font-bold text-navy-950">
+                    <p className="text-lg font-bold text-navy-950">
                       Risk Appetite
                     </p>
                   </div>
@@ -283,10 +285,10 @@ export default function InvestmentExperience() {
                     >
                       <opt.icon sx={{ fontSize: 24 }} />
                     </span>
-                    <span className="text-xs font-bold text-navy-950">
+                    <span className="text-base font-bold text-navy-950">
                       {opt.label}
                     </span>
-                    <span className="text-[11px] font-bold text-slate-600">
+                    <span className="text-sm font-bold text-slate-600">
                       {opt.sub}
                     </span>
                     <span
@@ -313,10 +315,10 @@ export default function InvestmentExperience() {
                 </span>
                 <div>
                   <div className="flex items-center gap-2">
-                    <span className="flex h-6 w-6 items-center justify-center rounded-full bg-brand-green-500 text-[11px] font-bold text-white">
+                    <span className="flex h-6 w-6 items-center justify-center rounded-full bg-brand-green-500 text-xs font-bold text-white">
                       2
                     </span>
-                    <p className="text-sm font-bold text-navy-950">
+                    <p className="text-lg font-bold text-navy-950">
                       Investment Knowledge
                     </p>
                   </div>
@@ -342,10 +344,10 @@ export default function InvestmentExperience() {
                     >
                       <opt.icon sx={{ fontSize: 24 }} />
                     </span>
-                    <span className="text-xs font-bold text-navy-950">
+                    <span className="text-base font-bold text-navy-950">
                       {opt.label}
                     </span>
-                    <span className="text-[11px] font-bold text-slate-600">
+                    <span className="text-sm font-bold text-slate-600">
                       {opt.sub}
                     </span>
                     <span
@@ -372,10 +374,10 @@ export default function InvestmentExperience() {
                 </span>
                 <div>
                   <div className="flex items-center gap-2">
-                    <span className="flex h-6 w-6 items-center justify-center rounded-full bg-brand-green-500 text-[11px] font-bold text-white">
+                    <span className="flex h-6 w-6 items-center justify-center rounded-full bg-brand-green-500 text-xs font-bold text-white">
                       3
                     </span>
-                    <p className="text-sm font-bold text-navy-950">
+                    <p className="text-lg font-bold text-navy-950">
                       Investment Duration
                     </p>
                   </div>
@@ -401,10 +403,10 @@ export default function InvestmentExperience() {
                     >
                       <opt.icon sx={{ fontSize: 24 }} />
                     </span>
-                    <span className="text-xs font-bold text-navy-950">
+                    <span className="text-base font-bold text-navy-950">
                       {opt.label}
                     </span>
-                    <span className="text-[11px] font-bold text-slate-600">
+                    <span className="text-sm font-bold text-slate-600">
                       {opt.sub}
                     </span>
                     <span
@@ -431,10 +433,10 @@ export default function InvestmentExperience() {
                 </span>
                 <div>
                   <div className="flex items-center gap-2">
-                    <span className="flex h-6 w-6 items-center justify-center rounded-full bg-brand-green-500 text-[11px] font-bold text-white">
+                    <span className="flex h-6 w-6 items-center justify-center rounded-full bg-brand-green-500 text-xs font-bold text-white">
                       4
                     </span>
-                    <p className="text-sm font-bold text-navy-950">
+                    <p className="text-lg font-bold text-navy-950">
                       Current Investments
                     </p>
                     <span className="text-xs font-bold text-slate-600">
@@ -474,7 +476,7 @@ export default function InvestmentExperience() {
                           />
                         )}
                       </span>
-                      <span className="text-xs font-bold text-navy-950">
+                      <span className="text-base font-bold text-navy-950">
                         {opt}
                       </span>
                     </button>

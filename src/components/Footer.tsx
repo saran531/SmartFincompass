@@ -1,5 +1,4 @@
 import { Link, useLocation } from "react-router-dom";
-import ExploreIcon from "@mui/icons-material/Explore";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
@@ -7,12 +6,12 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 import EmailIcon from "@mui/icons-material/Email";
 import CallIcon from "@mui/icons-material/Call";
 import PlaceIcon from "@mui/icons-material/Place";
+import BrandLockup from "./BrandLockup";
 
 const QUICK_LINKS = [
   { label: "Home", href: "/" },
   { label: "Features", href: "/features" },
   { label: "How It Works", href: "/how-it-works" },
-  { label: "Pricing", href: "/pricing" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
 ];
@@ -58,14 +57,12 @@ export default function Footer() {
         <div className="grid grid-cols-1 gap-10 pb-12 sm:grid-cols-2 lg:grid-cols-12 lg:gap-8">
           {/* Brand */}
           <div className="lg:col-span-4">
-            <Link to="/" className="group inline-flex items-center gap-2.5">
-              <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-green-500 text-white shadow-md shadow-brand-green-500/30 transition-transform duration-300 group-hover:scale-105">
-                <ExploreIcon fontSize="small" />
-              </span>
-              <span className="text-xl font-bold leading-tight text-white">
-                SmartFin
-                <span className="block -mt-1 text-[#00E676]">Compass</span>
-              </span>
+            <Link
+              to="/"
+              className="inline-flex rounded-2xl bg-white px-5 py-4 shadow-[0_16px_40px_-24px_rgba(0,0,0,0.6)] transition-transform duration-300 hover:scale-[1.02]"
+            >
+              {/* Footer only: logo ABOVE text image */}
+              <BrandLockup orientation="vertical" />
             </Link>
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-slate-300/85 sm:text-base">
               Your AI-powered financial companion for a secure and prosperous

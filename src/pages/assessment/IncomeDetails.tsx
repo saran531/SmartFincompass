@@ -16,6 +16,7 @@ import ReceiptIcon from "@mui/icons-material/Receipt";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import ShieldIcon from "@mui/icons-material/Shield";
 import AssessmentJourneyProgress from "../../components/AssessmentJourneyProgress";
+import AssessmentHeader from "../../components/AssessmentHeader";
 
 const INCOME_SOURCES = [
   {
@@ -271,6 +272,7 @@ export default function IncomeDetails() {
           }
         }
       `}</style>
+      <AssessmentHeader />
       <main className="relative z-10 mx-auto max-w-7xl px-6 py-6 lg:px-10">
         {/* ─── TOP ROW: Assessment Journey Progress ─── */}
         <AssessmentJourneyProgress

@@ -26,6 +26,7 @@ import CheckIcon from "@mui/icons-material/Check";
 import FolderSpecialIcon from "@mui/icons-material/FolderSpecial";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import AssessmentJourneyProgress from "../../components/AssessmentJourneyProgress";
+import AssessmentHeader from "../../components/AssessmentHeader";
 
 interface DocMeta {
   key: string;
@@ -299,6 +300,7 @@ export default function SelectedDocuments() {
           }
         }
       `}</style>
+      <AssessmentHeader />
       <main className="relative z-10 mx-auto max-w-7xl px-6 py-6 lg:px-10">
         {/* ─── TOP ROW: Assessment Journey Progress ─── */}
         <AssessmentJourneyProgress
@@ -391,7 +393,7 @@ export default function SelectedDocuments() {
                                   <p className="text-sm font-bold text-navy-950 truncate">
                                     {doc.name}
                                   </p>
-                                  <p className="text-[11px] font-medium text-slate-700">
+                                  <p className="text-[13px] font-medium text-slate-700">
                                     {doc.desc}
                                   </p>
                                 </div>
@@ -404,7 +406,7 @@ export default function SelectedDocuments() {
                             {/* Sub-types for Insurance if Insurance = YES */}
                             {isInsurance && (
                               <div className="mt-3 border-t border-brand-green-200/60 pt-2.5">
-                                <p className="text-[11px] font-bold text-navy-950 mb-1.5">
+                                <p className="text-[13px] font-bold text-navy-950 mb-1.5">
                                   Selected Insurance Types:
                                 </p>
                                 {insuranceTypes.length > 0 ? (
@@ -412,7 +414,7 @@ export default function SelectedDocuments() {
                                     {insuranceTypes.map((type) => (
                                       <span
                                         key={type}
-                                        className="inline-flex items-center gap-1 rounded-lg bg-brand-green-500 px-2.5 py-1 text-[11px] font-bold text-white shadow-xs"
+                                        className="inline-flex items-center gap-1 rounded-lg bg-brand-green-500 px-2.5 py-1 text-[13px] font-bold text-white shadow-xs"
                                       >
                                         <CheckIcon sx={{ fontSize: 12 }} />
                                         {type}
@@ -420,7 +422,7 @@ export default function SelectedDocuments() {
                                     ))}
                                   </div>
                                 ) : (
-                                  <span className="inline-flex items-center gap-1 rounded-lg bg-brand-green-100 px-2.5 py-1 text-[11px] font-bold text-brand-green-800">
+                                  <span className="inline-flex items-center gap-1 rounded-lg bg-brand-green-100 px-2.5 py-1 text-[13px] font-bold text-brand-green-800">
                                     <CheckIcon sx={{ fontSize: 12 }} />
                                     General Insurance
                                   </span>

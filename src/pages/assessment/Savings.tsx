@@ -17,6 +17,7 @@ import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import ShieldIcon from "@mui/icons-material/Shield";
 import SavingsIcon from "@mui/icons-material/Savings";
 import AssessmentJourneyProgress from "../../components/AssessmentJourneyProgress";
+import AssessmentHeader from "../../components/AssessmentHeader";
 
 const SAVINGS_CATEGORIES = [
   {
@@ -281,6 +282,7 @@ export default function Savings() {
           }
         }
       `}</style>
+      <AssessmentHeader />
       <main className="relative z-10 mx-auto max-w-7xl px-6 py-6 lg:px-10">
         {/* ─── TOP ROW: Assessment Journey Progress ─── */}
         <AssessmentJourneyProgress
@@ -324,7 +326,7 @@ export default function Savings() {
                           <cat.icon sx={{ fontSize: 28 }} />
                         </span>
                         <div className="min-w-0 flex-1">
-                          <p className="text-sm font-bold text-navy-950">
+                          <p className="text-base font-bold text-navy-950">
                             {cat.label}
                           </p>
                           <p className="mt-0.5 whitespace-pre-line text-xs font-medium text-slate-600">
@@ -425,7 +427,7 @@ export default function Savings() {
                       <cat.icon sx={{ fontSize: 28 }} />
                     </span>
                     <div className="min-w-0 flex-1">
-                      <p className="text-sm font-bold text-navy-950">
+                      <p className="text-base font-bold text-navy-950">
                         {cat.label}
                       </p>
                       <p className="mt-0.5 whitespace-pre-line text-xs font-medium text-slate-600">
@@ -460,7 +462,7 @@ export default function Savings() {
                   <AccountBalanceWalletIcon sx={{ fontSize: 22 }} />
                 </span>
                 <div>
-                  <p className="text-sm font-bold text-navy-950">
+                  <p className="text-base font-bold text-navy-950">
                     Total Savings Value
                   </p>
                   <p className="text-xs font-medium text-slate-700">

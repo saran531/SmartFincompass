@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import ExploreIcon from "@mui/icons-material/Explore";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
+import BrandLockup from "./BrandLockup";
 
 const NAV_LINKS = [
   { label: "Home", href: "/" },
@@ -18,16 +18,10 @@ export default function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-navy-950/10 bg-white/95 shadow-[0_10px_30px_-22px_rgba(10,31,61,0.45)] backdrop-blur-md">
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-6 lg:px-10">
-        {/* Logo */}
-        <Link to="/" className="group flex shrink-0 items-center gap-2.5">
-          <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-green-500 text-white shadow-sm shadow-brand-green-500/30 transition-transform duration-300 group-hover:scale-105">
-            <ExploreIcon fontSize="small" />
-          </span>
-          <span className="text-lg font-bold leading-tight text-navy-950">
-            SmartFin
-            <span className="block -mt-1 text-brand-green-600">Compass</span>
-          </span>
+      <div className="mx-auto flex h-[76px] max-w-7xl items-center justify-between gap-4 px-6 sm:h-[90px] lg:px-10">
+        {/* Logo + brand text image */}
+        <Link to="/" className="group flex shrink-0 items-center">
+          <BrandLockup />
         </Link>
 
         {/* Desktop nav */}
@@ -39,10 +33,10 @@ export default function Navbar() {
                 key={link.label}
                 to={link.href}
                 aria-current={isActive ? "page" : undefined}
-                className={`group/nav relative rounded-lg px-3 py-2 text-[15px] font-semibold transition-all duration-250 ${
+                className={`group/nav relative rounded-lg px-3 py-2 text-base font-semibold transition-all duration-250 ${
                   isActive
                     ? "text-brand-green-600"
-                    : "text-navy-900/75 hover:bg-brand-green-50 hover:text-brand-green-600"
+                    : "text-[#111827] hover:bg-brand-green-50 hover:text-brand-green-600"
                 }`}
               >
                 {link.label}
@@ -62,13 +56,13 @@ export default function Navbar() {
         <div className="hidden items-center gap-3 lg:flex">
           <Link
             to="/login"
-            className="btn-hover-effect cursor-pointer rounded-lg border border-navy-950/15 bg-white px-4 py-2 text-sm font-semibold text-navy-950 transition-all duration-250 hover:border-brand-green-500 hover:text-brand-green-600 hover:shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-green-500/20 active:scale-[0.98]"
+            className="btn-hover-effect cursor-pointer rounded-[10px] border border-[#CBD5E1] bg-white px-5 py-2.5 text-sm font-semibold text-[#111827] transition-all duration-250 hover:border-[#94A3B8] hover:bg-[#F8FAFC] hover:shadow-[0_2px_8px_rgba(15,23,42,0.08)] focus:outline-none focus:ring-2 focus:ring-brand-green-500/20 active:scale-[0.98]"
           >
             Login
           </Link>
           <Link
             to="/login"
-            className="btn-hover-effect cursor-pointer rounded-lg bg-gradient-to-r from-[#189a63] to-[#22b573] px-5 py-2 text-sm font-semibold text-white shadow-[0_8px_18px_-8px_rgba(24,154,99,0.75)] transition-all duration-250 hover:brightness-110 hover:shadow-[0_10px_22px_-8px_rgba(24,154,99,0.85)] focus:outline-none focus:ring-2 focus:ring-brand-green-500/25 active:scale-[0.98]"
+            className="btn-hover-effect cursor-pointer rounded-lg bg-gradient-to-r from-[#189a63] to-[#22b573] px-6 py-2.5 text-[15px] font-bold text-white shadow-[0_8px_18px_-8px_rgba(24,154,99,0.75)] transition-all duration-250 hover:-translate-y-0.5 hover:brightness-95 hover:shadow-[0_12px_26px_-8px_rgba(24,154,99,0.9)] focus:outline-none focus:ring-2 focus:ring-brand-green-500/25 active:scale-[0.98]"
           >
             Get Started
           </Link>
@@ -95,10 +89,10 @@ export default function Navbar() {
                 <Link
                   key={link.label}
                   to={link.href}
-                  className={`relative rounded-lg px-3 py-2.5 text-[15px] font-semibold transition-all duration-250 ${
+                  className={`relative rounded-lg px-3 py-2.5 text-base font-semibold transition-all duration-250 ${
                     isActive
                       ? "bg-brand-green-50 text-brand-green-600"
-                      : "text-navy-900/80 hover:bg-brand-green-50 hover:text-brand-green-600"
+                      : "text-[#111827] hover:bg-brand-green-50 hover:text-brand-green-600"
                   }`}
                   onClick={() => setOpen(false)}
                 >
@@ -113,14 +107,14 @@ export default function Navbar() {
           <div className="mt-4 flex flex-col gap-3 border-t border-navy-950/10 pt-4">
             <Link
               to="/login"
-              className="btn-hover-effect w-full rounded-lg border border-navy-950/15 bg-white px-5 py-2.5 text-center text-sm font-semibold text-navy-950 transition-all duration-250 hover:border-brand-green-500 hover:text-brand-green-600 active:scale-[0.98]"
+              className="btn-hover-effect w-full rounded-[10px] border border-[#CBD5E1] bg-white px-5 py-2.5 text-center text-sm font-semibold text-[#111827] transition-all duration-250 hover:border-[#94A3B8] hover:bg-[#F8FAFC] hover:shadow-[0_2px_8px_rgba(15,23,42,0.08)] active:scale-[0.98]"
               onClick={() => setOpen(false)}
             >
               Login
             </Link>
             <Link
               to="/login"
-              className="btn-hover-effect w-full rounded-lg bg-gradient-to-r from-[#189a63] to-[#22b573] px-5 py-2.5 text-center text-sm font-semibold text-white shadow-[0_8px_18px_-8px_rgba(24,154,99,0.75)] transition-all duration-250 hover:brightness-110 active:scale-[0.98]"
+              className="btn-hover-effect w-full rounded-lg bg-gradient-to-r from-[#189a63] to-[#22b573] px-5 py-2.5 text-center text-[15px] font-bold text-white shadow-[0_8px_18px_-8px_rgba(24,154,99,0.75)] transition-all duration-250 hover:brightness-95 active:scale-[0.98]"
               onClick={() => setOpen(false)}
             >
               Get Started

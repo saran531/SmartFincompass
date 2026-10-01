@@ -41,6 +41,7 @@ import selfEmployedImg from "../../Assets/images/selfemployed.png";
 import businessOwnerImg from "../../Assets/images/Businessowner.png";
 import freelancerImg from "../../Assets/images/freelauncer.png";
 import studentImg from "../../Assets/images/studennt.png";
+import AssessmentHeader from "../../components/AssessmentHeader";
 
 const EMPLOYMENT_TYPES = [
   { label: "Salaried", img: salariedImg },
@@ -229,6 +230,7 @@ export default function EmploymentDetails() {
           }
         }
       `}</style>
+      <AssessmentHeader />
       <main className="relative z-10 mx-auto max-w-7xl px-6 py-6 lg:px-10">
         {/* ─── TOP ROW: Assessment Journey Progress ─── */}
         <AssessmentJourneyProgress
@@ -624,7 +626,7 @@ export default function EmploymentDetails() {
                     <SchoolIcon sx={{ fontSize: 24 }} />
                   </span>
                   <div>
-                    <p className="text-sm font-bold text-navy-950">Student Details</p>
+                    <p className="text-base font-bold text-navy-950">Student Details</p>
                     <p className="text-xs text-slate-600">Tell us about your education</p>
                   </div>
                 </div>

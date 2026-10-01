@@ -516,7 +516,7 @@ export default function AssessmentJourneyProgress({
 
             const circleCls =
               state === "active"
-                ? "h-10 w-10 border-[3px] border-white bg-gradient-to-br from-emerald-400 to-brand-green-600 text-white text-[13px] font-extrabold shadow-[0_0_20px_rgba(34,181,115,0.6)] journey-pulse"
+                ? "h-10 w-10 border-[3px] border-white bg-gradient-to-br from-emerald-400 to-brand-green-600 text-white text-[14px] font-extrabold shadow-[0_0_20px_rgba(34,181,115,0.6)] journey-pulse"
                 : state === "completed"
                 ? "h-8 w-8 border-2 border-white bg-brand-green-500 text-white text-xs font-extrabold shadow-[0_0_14px_rgba(34,181,115,0.45)]"
                 : "h-8 w-8 border-2 border-sky-300/80 bg-white text-navy-950 text-xs font-bold shadow-sm";
@@ -564,7 +564,7 @@ export default function AssessmentJourneyProgress({
                   >
                     <Icon sx={{ fontSize: 14 }} />
                   </span>
-                  <p className={`text-[9.5px] leading-[1.15] ${labelCls}`}>{step.label}</p>
+                  <p className={`text-[12px] leading-[1.15] ${labelCls}`}>{step.label}</p>
                 </div>
               </div>
             );

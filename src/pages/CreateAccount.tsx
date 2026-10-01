@@ -16,6 +16,7 @@ import SendIcon from "@mui/icons-material/Send";
 import createAccountImage from "../Assets/images/CreateAccount.png";
 import leafImg from "../Assets/images/Leaf.png";
 import contactImage from "../Assets/images/contactimage.png";
+import { useApp } from "../context/AppContext";
 
 const BENEFITS = [
   {
@@ -53,6 +54,7 @@ function Leaf({ className = "" }: { className?: string }) {
 
 export default function CreateAccount() {
   const navigate = useNavigate();
+  const { saveAccountName } = useApp();
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -109,6 +111,7 @@ export default function CreateAccount() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (validate()) {
+      saveAccountName(fullName.trim());
       navigate("/otp-verification");
     }
   };

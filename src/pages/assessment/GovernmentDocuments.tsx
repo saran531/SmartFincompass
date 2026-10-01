@@ -26,6 +26,7 @@ import CakeIcon from "@mui/icons-material/Cake";
 import CheckIcon from "@mui/icons-material/Check";
 import CancelIcon from "@mui/icons-material/Cancel";
 import AssessmentJourneyProgress from "../../components/AssessmentJourneyProgress";
+import AssessmentHeader from "../../components/AssessmentHeader";
 
 interface DocumentDef {
   key: string;
@@ -306,7 +307,7 @@ function AvailabilityStatusDonut({
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
         <span className="text-2xl font-extrabold text-navy-950">{available}</span>
-        <span className="text-[11px] font-bold text-slate-500">Available</span>
+        <span className="text-[13px] font-bold text-slate-500">Available</span>
       </div>
     </div>
   );
@@ -442,7 +443,7 @@ export default function GovernmentDocuments() {
             <div className="min-w-0">
               <p className="text-sm font-bold text-navy-950 truncate">{doc.name}</p>
               <p className="text-xs font-semibold text-slate-700">{doc.question}</p>
-              <p className="text-[11px] font-medium text-slate-600 mt-0.5">{doc.desc}</p>
+              <p className="text-[13px] font-medium text-slate-600 mt-0.5">{doc.desc}</p>
             </div>
           </div>
 
@@ -544,6 +545,7 @@ export default function GovernmentDocuments() {
           }
         }
       `}</style>
+      <AssessmentHeader />
       <main className="relative z-10 mx-auto max-w-7xl px-6 py-6 lg:px-10">
         {/* ─── TOP ROW: Assessment Journey Progress ─── */}
         <AssessmentJourneyProgress
@@ -612,7 +614,7 @@ export default function GovernmentDocuments() {
                     />
                   </span>
                   <div>
-                    <p className="text-sm font-bold text-navy-950">
+                    <p className="text-base font-bold text-navy-950">
                       Your Document Readiness
                     </p>
                     <p className="text-xs font-medium text-slate-700">

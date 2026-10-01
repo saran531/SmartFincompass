@@ -24,6 +24,7 @@ import AssessmentSelect from "./components/AssessmentSelect";
 import AssessmentDatePicker from "./components/AssessmentDatePicker";
 import PhoneInput from "./components/PhoneInput";
 import AssessmentJourneyProgress from "../../components/AssessmentJourneyProgress";
+import AssessmentHeader from "../../components/AssessmentHeader";
 
 const GENDER_OPTIONS = [
   { label: "Male", icon: ManIcon, tone: "bg-sky-50 text-sky-600" },
@@ -147,6 +148,7 @@ export default function PersonalInformation() {
         }
         .assessment-page .asmt-btn-next:active { transform: translateY(0); }
       `}</style>
+      <AssessmentHeader />
       <main className="relative z-10 mx-auto max-w-7xl px-6 py-6 lg:px-10">
         {/* ─── TOP ROW: Assessment Journey Progress ─── */}
         <AssessmentJourneyProgress

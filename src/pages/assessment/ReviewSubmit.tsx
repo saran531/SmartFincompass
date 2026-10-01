@@ -62,6 +62,7 @@ import FactCheckIcon from "@mui/icons-material/FactCheck";
 import VerifiedIcon from "@mui/icons-material/Verified";
 import LightbulbIcon from "@mui/icons-material/Lightbulb";
 import AssessmentJourneyProgress from "../../components/AssessmentJourneyProgress";
+import AssessmentHeader from "../../components/AssessmentHeader";
 
 interface SummaryCard {
   key: string;
@@ -460,6 +461,16 @@ export default function ReviewSubmit() {
           border-radius: 9999px !important;
           transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
         }
+        .assessment-page .asmt-btn-next:disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+          transform: none;
+          box-shadow: none;
+        }
+        .assessment-page .asmt-btn-next:disabled:hover {
+          transform: none;
+          box-shadow: none;
+        }
         @media (prefers-reduced-motion: no-preference) {
           .assessment-page .asmt-btn-next:hover {
             background: linear-gradient(135deg, #16975f 0%, #27c77f 100%);
@@ -473,6 +484,7 @@ export default function ReviewSubmit() {
           }
         }
       `}</style>
+      <AssessmentHeader />
       <main className="relative z-10 mx-auto max-w-7xl px-6 py-6 lg:px-10">
         {/* ─── TOP ROW: Assessment Journey Progress ─── */}
         <AssessmentJourneyProgress
@@ -654,6 +666,7 @@ export default function ReviewSubmit() {
             <button
               type="button"
               onClick={handleSubmit}
+              disabled={!declarationOneAccepted || !declarationTwoAccepted}
               className="asmt-btn-next flex h-12 w-full items-center justify-center gap-2 rounded-full px-8 text-[15px] font-bold sm:w-auto"
             >
               Submit Assessment

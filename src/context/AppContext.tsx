@@ -4,6 +4,7 @@ import { createContext, useContext, useState, useCallback, useEffect, type React
 interface AuthState {
   isAuthenticated: boolean;
   email: string;
+  fullName?: string;
 }
 
 // ─── Assessment Types ───
@@ -178,6 +179,7 @@ interface AppContextType {
   auth: AuthState;
   login: (email: string, password: string) => { success: boolean; error?: string };
   logout: () => void;
+  saveAccountName: (fullName: string) => void;
   isAssessmentCompleted: boolean;
   completeAssessment: () => void;
   resetAssessment: () => void;
@@ -379,14 +381,18 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const login = useCallback((email: string, password: string) => {
     const res = validateDemoCredentials(email, password);
     if (res.success && res.email) {
-      setAuth({ isAuthenticated: true, email: res.email });
+      setAuth((prev) => ({ ...prev, isAuthenticated: true, email: res.email }));
       return { success: true };
     }
     return { success: false, error: res.error || "Invalid email or password." };
   }, []);
 
   const logout = useCallback(() => {
-    setAuth({ isAuthenticated: false, email: "" });
+    setAuth((prev) => ({ isAuthenticated: false, email: "", fullName: prev.fullName }));
+  }, []);
+
+  const saveAccountName = useCallback((fullName: string) => {
+    setAuth((prev) => ({ ...prev, fullName }));
   }, []);
 
   const completeAssessment = useCallback(() => {
@@ -416,6 +422,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
         auth,
         login,
         logout,
+        saveAccountName,
         isAssessmentCompleted,
         completeAssessment,
         resetAssessment,

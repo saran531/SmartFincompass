@@ -222,3 +222,96 @@
     transform: none;
   }
 }
+
+/* ============================================================
+   TYPOGRAPHY SYSTEM — readable, professional scale
+   Scoped to every assessment page (.assessment-page root).
+   Purely presentational: font sizes only, no layout/content
+   changes. Desktop targets first, then tablet/mobile ladders.
+   Unlayered rules intentionally override Tailwind utilities.
+   ============================================================ */
+
+/* Helper / caption / progress text: 12px → 14px */
+.assessment-page [class*="text-xs"] {
+  font-size: 0.875rem;
+}
+
+/* Field labels, values, descriptions, buttons: 14px → 15px */
+.assessment-page [class*="text-sm"] {
+  font-size: 0.9375rem;
+}
+
+/* Body, card titles, group titles: 16px → 17px */
+.assessment-page [class*="text-base"] {
+  font-size: 1.0625rem;
+}
+
+/* Section / question headings: 18px → 20px */
+.assessment-page [class*="text-lg"] {
+  font-size: 1.25rem;
+}
+
+/* Section titles: 20px → 22px */
+.assessment-page [class*="text-xl"] {
+  font-size: 1.375rem;
+}
+
+/* Stat / highlight numbers: 24px → 26px */
+.assessment-page [class*="text-2xl"] {
+  font-size: 1.625rem;
+}
+
+/* Tablet: slightly reduced, still readable */
+@media (max-width: 1023px) {
+  .assessment-page [class*="text-lg"] {
+    font-size: 1.1875rem; /* 19px */
+  }
+  .assessment-page [class*="text-xl"] {
+    font-size: 1.3125rem; /* 21px */
+  }
+  .assessment-page [class*="text-2xl"] {
+    font-size: 1.5rem; /* 24px */
+  }
+}
+
+/* Mobile: compact but never tiny */
+@media (max-width: 639px) {
+  .assessment-page [class*="text-base"] {
+    font-size: 1rem; /* 16px */
+  }
+  .assessment-page [class*="text-lg"] {
+    font-size: 1.125rem; /* 18px */
+  }
+  .assessment-page [class*="text-xl"] {
+    font-size: 1.1875rem; /* 19px */
+  }
+  .assessment-page [class*="text-2xl"] {
+    font-size: 1.375rem; /* 22px */
+  }
+}
+
+/* Form inputs, selects, textareas: consistent 16px (values + placeholders) */
+.assessment-page input:not([type="checkbox"]):not([type="radio"]),
+.assessment-page select[class],
+.assessment-page textarea[class] {
+  font-size: 1rem;
+}
+
+.assessment-page input::placeholder,
+.assessment-page textarea::placeholder {
+  font-size: 0.9375rem;
+}
+
+/* Form labels: readable size (weight comes from existing font-bold/semibold) */
+.assessment-page label[class] {
+  font-size: 0.9375rem; /* 15px */
+}
+
+/* Buttons: readable nav/utility text (shape unchanged) */
+.assessment-page .asmt-btn {
+  font-size: 0.9375rem; /* 15px */
+}
+
+.assessment-page button[class*="text-xs"] {
+  font-size: 0.9375rem; /* 15px — e.g. Edit / small pill buttons */
+}

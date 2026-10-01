@@ -19,6 +19,7 @@ import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import ShieldIcon from "@mui/icons-material/Shield";
 import AssessmentJourneyProgress from "../../components/AssessmentJourneyProgress";
+import AssessmentHeader from "../../components/AssessmentHeader";
 
 const ASSET_CATEGORIES = [
   {
@@ -383,6 +384,7 @@ export default function Assets() {
           }
         }
       `}</style>
+      <AssessmentHeader />
       <main className="relative z-10 mx-auto max-w-7xl px-6 py-6 lg:px-10">
         {/* ─── TOP ROW: Assessment Journey Progress ─── */}
         <AssessmentJourneyProgress
@@ -426,7 +428,7 @@ export default function Assets() {
                         <cat.icon sx={{ fontSize: 28 }} />
                       </span>
                       <div className="min-w-0 flex-1">
-                        <p className="text-sm font-bold text-navy-950">
+                        <p className="text-base font-bold text-navy-950">
                           {cat.label}
                         </p>
                         <p className="mt-0.5 whitespace-pre-line text-xs font-medium text-slate-600">
@@ -471,7 +473,7 @@ export default function Assets() {
                         <cat.icon sx={{ fontSize: 28 }} />
                       </span>
                       <div className="min-w-0 flex-1">
-                        <p className="text-sm font-bold text-navy-950">
+                        <p className="text-base font-bold text-navy-950">
                           {cat.label}
                         </p>
                         <p className="mt-0.5 whitespace-pre-line text-xs font-medium text-slate-600">
@@ -636,7 +638,7 @@ export default function Assets() {
                   <AccountBalanceWalletIcon sx={{ fontSize: 22 }} />
                 </span>
                 <div>
-                  <p className="text-sm font-bold text-navy-950">
+                  <p className="text-base font-bold text-navy-950">
                     Total Assets Value
                   </p>
                   <p className="text-xs font-medium text-slate-700">

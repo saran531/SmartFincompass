@@ -13,6 +13,7 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import VerifiedUserIcon from "@mui/icons-material/VerifiedUser";
 import welcomeImage from "../Assets/images/Welcomescreen.png";
 import builtAroundImg from "../Assets/images/BuiltAround.png";
+import AssessmentHeader from "../components/AssessmentHeader";
 
 const ASSESSMENT_STEPS = [
   {
@@ -75,6 +76,7 @@ const FEATURES = [
 export default function WelcomeScreen() {
   return (
     <div className="relative min-h-screen overflow-x-hidden bg-[linear-gradient(180deg,#ffffff_0%,#f4fbff_25%,#eefbf5_55%,#ffffff_80%,#f5fcff_100%)]">
+      <AssessmentHeader />
       {/* ─── Premium fintech page background ─── */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
         {/* Extremely subtle navy-blue wash across the page */}

@@ -80,25 +80,25 @@ const SCORE_BREAKDOWN = [
 const ROADMAP = [
   {
     icon: SavingsIcon,
-    color: "text-sky-600 bg-sky-500/10",
+    color: "text-sky-400 bg-sky-500/10",
     title: "Build Emergency Fund",
     time: "0-3 Months",
   },
   {
     icon: CreditCardOffIcon,
-    color: "text-rose-600 bg-rose-500/10",
+    color: "text-rose-400 bg-rose-500/10",
     title: "Clear High-Interest Debt",
     time: "3-6 Months",
   },
   {
     icon: TrendingUpIcon,
-    color: "text-brand-green-600 bg-brand-green-500/10",
+    color: "text-brand-green-400 bg-brand-green-500/10",
     title: "Invest for Growth",
     time: "6-12 Months",
   },
   {
     icon: AccountBalanceIcon,
-    color: "text-violet-600 bg-violet-500/10",
+    color: "text-violet-400 bg-violet-500/10",
     title: "Wealth Building",
     time: "12+ Months",
   },
@@ -345,7 +345,7 @@ function ScoreGauge({ score, showGood = true }: { score: number; showGood?: bool
         <path
           d="M 20 100 A 70 70 0 0 1 160 100"
           fill="none"
-          stroke="rgba(15,23,42,0.10)"
+          stroke="rgba(255,255,255,0.14)"
           strokeWidth="14"
           strokeLinecap="round"
         />
@@ -366,9 +366,9 @@ function ScoreGauge({ score, showGood = true }: { score: number; showGood?: bool
         </defs>
       </svg>
       <div className="absolute bottom-1 flex flex-col items-center">
-        <span className="text-5xl font-extrabold text-navy-950 tracking-tight">{score}</span>
+        <span className="text-5xl font-extrabold text-white tracking-tight">{score}</span>
         <span
-          className="mt-0.5 text-xs font-bold text-brand-green-600 uppercase tracking-wider transition-opacity duration-500"
+          className="mt-0.5 text-xs font-bold text-brand-green-400 uppercase tracking-wider transition-opacity duration-500"
           style={{ opacity: showGood ? 1 : 0 }}
         >
           Good
@@ -603,17 +603,19 @@ export default function Home() {
               {/* Dashboard Ambient Glow Backdrop */}
               <div className="pointer-events-none absolute -inset-3 rounded-[34px] bg-gradient-to-r from-cyan-500/25 via-brand-green-500/25 to-blue-500/25 blur-2xl opacity-70 z-0" />
 
-              {/* Main Premium White Dashboard Card (3D rotate-in entrance) */}
+              {/* Main Premium White Dashboard Card (one-time 360° entrance spin) */}
               <div
                 className="relative z-10 rounded-[28px] border border-slate-200/80 bg-white p-6 shadow-[0_45px_90px_-35px_rgba(0,0,0,0.9)] ring-1 ring-black/5 sm:p-8"
                 style={{
                   transform: cardEntered
                     ? "perspective(1200px) rotateX(0deg) rotateY(0deg) translateY(0px) scale(1)"
-                    : "perspective(1200px) rotateX(7deg) rotateY(-16deg) translateY(26px) scale(0.95)",
+                    : "perspective(1200px) rotateX(0deg) rotateY(-360deg) translateY(0px) scale(1)",
                   opacity: cardEntered ? 1 : 0.25,
+                  transformStyle: "preserve-3d",
+                  backfaceVisibility: "visible",
                   transition: prefersReducedMotion
                     ? "none"
-                    : "transform 1000ms cubic-bezier(0.22, 1, 0.36, 1), opacity 900ms ease-out",
+                    : "transform 1800ms cubic-bezier(0.65, 0, 0.35, 1), opacity 900ms ease-out",
                 }}
                 onTransitionEnd={(e) => {
                   if (
@@ -636,9 +638,9 @@ export default function Home() {
                 </div>
 
                 <div className="mt-6 grid gap-6 sm:grid-cols-2">
-                  <div className="flex flex-col items-center justify-center rounded-2xl border border-slate-200 bg-slate-50 py-4 px-2">
+                  <div className="flex flex-col items-center justify-center rounded-2xl border border-white/10 bg-[#0D2742] py-4 px-2">
                     <ScoreGauge score={heroScore} showGood={showGood} />
-                    <span className="mt-1 text-xs font-semibold text-slate-500">
+                    <span className="mt-1 text-xs font-semibold text-white/60">
                       Keep it up!
                     </span>
                   </div>
@@ -678,8 +680,8 @@ export default function Home() {
                           onClick={() => setActiveRoadmap(isActive ? null : i)}
                           className={`group/roadmap text-left rounded-xl border p-2.5 transition-all duration-300 cursor-pointer ${
                             isActive
-                              ? "border-brand-green-500 bg-brand-green-50 shadow-[0_2px_12px_rgba(34,181,115,0.25)]"
-                              : "border-slate-200 bg-slate-50 hover:border-brand-green-400 hover:bg-brand-green-50/60"
+                              ? "border-brand-green-500 bg-[#0D2742] shadow-[0_2px_12px_rgba(34,181,115,0.25)]"
+                              : "border-white/10 bg-[#0D2742] hover:border-brand-green-400 hover:bg-[#0F3151]"
                           }`}
                         >
                           <div className="flex items-start gap-2">
@@ -695,14 +697,14 @@ export default function Home() {
                             <div className="min-w-0">
                               <p
                                 className={`text-xs font-bold leading-tight transition-colors duration-300 ${
-                                  isActive ? "text-brand-green-600" : "text-navy-950"
+                                  isActive ? "text-brand-green-400" : "text-white"
                                 }`}
                               >
                                 {item.title}
                               </p>
                               <p
                                 className={`mt-0.5 text-[11px] font-medium transition-colors duration-300 ${
-                                  isActive ? "text-brand-green-500" : "text-slate-500"
+                                  isActive ? "text-brand-green-500" : "text-white/60"
                                 }`}
                               >
                                 {item.time}

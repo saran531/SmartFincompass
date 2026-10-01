@@ -18,6 +18,7 @@ import AssessmentSelect from "./components/AssessmentSelect";
 import AssessmentDatePicker from "./components/AssessmentDatePicker";
 import PhoneInput from "./components/PhoneInput";
 import AssessmentJourneyProgress from "../../components/AssessmentJourneyProgress";
+import AssessmentHeader from "../../components/AssessmentHeader";
 
 const INSURANCE_ITEMS = [
   {
@@ -261,6 +262,7 @@ export default function Insurance() {
           margin-top: 0 !important;
         }
       `}</style>
+      <AssessmentHeader />
       <main className="relative z-10 mx-auto max-w-7xl px-6 py-6 lg:px-10">
         {/* ─── TOP ROW: Assessment Journey Progress ─── */}
         <AssessmentJourneyProgress
@@ -311,7 +313,7 @@ export default function Insurance() {
                             <IconComp sx={{ fontSize: 28 }} />
                           </span>
                           <div>
-                            <p className="text-sm font-bold text-navy-950">
+                            <p className="text-base font-bold text-navy-950">
                               {item.label}
                             </p>
                             <p className="text-xs text-slate-600">
@@ -531,7 +533,7 @@ export default function Insurance() {
 
               {/* Total */}
               <div className="mt-4 flex items-center justify-between border-t border-slate-200 pt-4">
-                <span className="text-sm font-bold text-navy-950">
+                <span className="text-base font-bold text-navy-950">
                   Total Coverage
                 </span>
                 <span className="text-lg font-black text-brand-green-700">
